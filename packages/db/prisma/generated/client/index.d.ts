@@ -65,11 +65,23 @@ export namespace $Enums {
 
 export type UserPermissionRole = (typeof UserPermissionRole)[keyof typeof UserPermissionRole]
 
+
+export const LogTypes: {
+  MANUAL: 'MANUAL',
+  OPENAI: 'OPENAI'
+};
+
+export type LogTypes = (typeof LogTypes)[keyof typeof LogTypes]
+
 }
 
 export type UserPermissionRole = $Enums.UserPermissionRole
 
 export const UserPermissionRole: typeof $Enums.UserPermissionRole
+
+export type LogTypes = $Enums.LogTypes
+
+export const LogTypes: typeof $Enums.LogTypes
 
 /**
  * ##  Prisma Client ʲˢ
@@ -7381,6 +7393,7 @@ export namespace Prisma {
     envId: string | null
     parentLogId: string | null
     name: string | null
+    type: $Enums.LogTypes | null
     model: string | null
     startTime: Date | null
     endTime: Date | null
@@ -7401,6 +7414,7 @@ export namespace Prisma {
     envId: string | null
     parentLogId: string | null
     name: string | null
+    type: $Enums.LogTypes | null
     model: string | null
     startTime: Date | null
     endTime: Date | null
@@ -7423,6 +7437,7 @@ export namespace Prisma {
     name: number
     input: number
     output: number
+    type: number
     model: number
     extra: number
     startTime: number
@@ -7466,6 +7481,7 @@ export namespace Prisma {
     envId?: true
     parentLogId?: true
     name?: true
+    type?: true
     model?: true
     startTime?: true
     endTime?: true
@@ -7486,6 +7502,7 @@ export namespace Prisma {
     envId?: true
     parentLogId?: true
     name?: true
+    type?: true
     model?: true
     startTime?: true
     endTime?: true
@@ -7508,6 +7525,7 @@ export namespace Prisma {
     name?: true
     input?: true
     output?: true
+    type?: true
     model?: true
     extra?: true
     startTime?: true
@@ -7618,6 +7636,7 @@ export namespace Prisma {
     name: string
     input: JsonValue
     output: JsonValue
+    type: $Enums.LogTypes
     model: string | null
     extra: JsonValue | null
     startTime: Date | null
@@ -7660,6 +7679,7 @@ export namespace Prisma {
     name?: boolean
     input?: boolean
     output?: boolean
+    type?: boolean
     model?: boolean
     extra?: boolean
     startTime?: boolean
@@ -7685,6 +7705,7 @@ export namespace Prisma {
     name?: boolean
     input?: boolean
     output?: boolean
+    type?: boolean
     model?: boolean
     extra?: boolean
     startTime?: boolean
@@ -7720,6 +7741,7 @@ export namespace Prisma {
       name: string
       input: Prisma.JsonValue
       output: Prisma.JsonValue
+      type: $Enums.LogTypes
       model: string | null
       extra: Prisma.JsonValue | null
       startTime: Date | null
@@ -8137,6 +8159,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Log", 'String'>
     readonly input: FieldRef<"Log", 'Json'>
     readonly output: FieldRef<"Log", 'Json'>
+    readonly type: FieldRef<"Log", 'LogTypes'>
     readonly model: FieldRef<"Log", 'String'>
     readonly extra: FieldRef<"Log", 'Json'>
     readonly startTime: FieldRef<"Log", 'DateTime'>
@@ -8496,6 +8519,7 @@ export namespace Prisma {
     inputCost: number | null
     outputCost: number | null
     totalCost: number | null
+    duration: number | null
   }
 
   export type TraceSumAggregateOutputType = {
@@ -8505,6 +8529,7 @@ export namespace Prisma {
     inputCost: number | null
     outputCost: number | null
     totalCost: number | null
+    duration: number | null
   }
 
   export type TraceMinAggregateOutputType = {
@@ -8517,6 +8542,9 @@ export namespace Prisma {
     inputCost: number | null
     outputCost: number | null
     totalCost: number | null
+    startTime: Date | null
+    endTime: Date | null
+    duration: number | null
     userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8532,6 +8560,9 @@ export namespace Prisma {
     inputCost: number | null
     outputCost: number | null
     totalCost: number | null
+    startTime: Date | null
+    endTime: Date | null
+    duration: number | null
     userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -8547,6 +8578,9 @@ export namespace Prisma {
     inputCost: number
     outputCost: number
     totalCost: number
+    startTime: number
+    endTime: number
+    duration: number
     userId: number
     tags: number
     extra: number
@@ -8563,6 +8597,7 @@ export namespace Prisma {
     inputCost?: true
     outputCost?: true
     totalCost?: true
+    duration?: true
   }
 
   export type TraceSumAggregateInputType = {
@@ -8572,6 +8607,7 @@ export namespace Prisma {
     inputCost?: true
     outputCost?: true
     totalCost?: true
+    duration?: true
   }
 
   export type TraceMinAggregateInputType = {
@@ -8584,6 +8620,9 @@ export namespace Prisma {
     inputCost?: true
     outputCost?: true
     totalCost?: true
+    startTime?: true
+    endTime?: true
+    duration?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -8599,6 +8638,9 @@ export namespace Prisma {
     inputCost?: true
     outputCost?: true
     totalCost?: true
+    startTime?: true
+    endTime?: true
+    duration?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -8614,6 +8656,9 @@ export namespace Prisma {
     inputCost?: true
     outputCost?: true
     totalCost?: true
+    startTime?: true
+    endTime?: true
+    duration?: true
     userId?: true
     tags?: true
     extra?: true
@@ -8718,6 +8763,9 @@ export namespace Prisma {
     inputCost: number
     outputCost: number
     totalCost: number
+    startTime: Date
+    endTime: Date
+    duration: number
     userId: string | null
     tags: string[]
     extra: JsonValue | null
@@ -8754,6 +8802,9 @@ export namespace Prisma {
     inputCost?: boolean
     outputCost?: boolean
     totalCost?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    duration?: boolean
     userId?: boolean
     tags?: boolean
     extra?: boolean
@@ -8773,6 +8824,9 @@ export namespace Prisma {
     inputCost?: boolean
     outputCost?: boolean
     totalCost?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    duration?: boolean
     userId?: boolean
     tags?: boolean
     extra?: boolean
@@ -8801,6 +8855,9 @@ export namespace Prisma {
       inputCost: number
       outputCost: number
       totalCost: number
+      startTime: Date
+      endTime: Date
+      duration: number
       userId: string | null
       tags: string[]
       extra: Prisma.JsonValue | null
@@ -9210,6 +9267,9 @@ export namespace Prisma {
     readonly inputCost: FieldRef<"Trace", 'Float'>
     readonly outputCost: FieldRef<"Trace", 'Float'>
     readonly totalCost: FieldRef<"Trace", 'Float'>
+    readonly startTime: FieldRef<"Trace", 'DateTime'>
+    readonly endTime: FieldRef<"Trace", 'DateTime'>
+    readonly duration: FieldRef<"Trace", 'Float'>
     readonly userId: FieldRef<"Trace", 'String'>
     readonly tags: FieldRef<"Trace", 'String[]'>
     readonly extra: FieldRef<"Trace", 'Json'>
@@ -9656,6 +9716,7 @@ export namespace Prisma {
     name: 'name',
     input: 'input',
     output: 'output',
+    type: 'type',
     model: 'model',
     extra: 'extra',
     startTime: 'startTime',
@@ -9684,6 +9745,9 @@ export namespace Prisma {
     inputCost: 'inputCost',
     outputCost: 'outputCost',
     totalCost: 'totalCost',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    duration: 'duration',
     userId: 'userId',
     tags: 'tags',
     extra: 'extra',
@@ -9800,6 +9864,20 @@ export namespace Prisma {
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'LogTypes'
+   */
+  export type EnumLogTypesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogTypes'>
+    
+
+
+  /**
+   * Reference to a field of type 'LogTypes[]'
+   */
+  export type ListEnumLogTypesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LogTypes[]'>
     
 
 
@@ -10216,6 +10294,7 @@ export namespace Prisma {
     name?: StringFilter<"Log"> | string
     input?: JsonFilter<"Log">
     output?: JsonFilter<"Log">
+    type?: EnumLogTypesFilter<"Log"> | $Enums.LogTypes
     model?: StringNullableFilter<"Log"> | string | null
     extra?: JsonNullableFilter<"Log">
     startTime?: DateTimeNullableFilter<"Log"> | Date | string | null
@@ -10241,6 +10320,7 @@ export namespace Prisma {
     name?: SortOrder
     input?: SortOrder
     output?: SortOrder
+    type?: SortOrder
     model?: SortOrderInput | SortOrder
     extra?: SortOrderInput | SortOrder
     startTime?: SortOrderInput | SortOrder
@@ -10269,6 +10349,7 @@ export namespace Prisma {
     name?: StringFilter<"Log"> | string
     input?: JsonFilter<"Log">
     output?: JsonFilter<"Log">
+    type?: EnumLogTypesFilter<"Log"> | $Enums.LogTypes
     model?: StringNullableFilter<"Log"> | string | null
     extra?: JsonNullableFilter<"Log">
     startTime?: DateTimeNullableFilter<"Log"> | Date | string | null
@@ -10294,6 +10375,7 @@ export namespace Prisma {
     name?: SortOrder
     input?: SortOrder
     output?: SortOrder
+    type?: SortOrder
     model?: SortOrderInput | SortOrder
     extra?: SortOrderInput | SortOrder
     startTime?: SortOrderInput | SortOrder
@@ -10325,6 +10407,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Log"> | string
     input?: JsonWithAggregatesFilter<"Log">
     output?: JsonWithAggregatesFilter<"Log">
+    type?: EnumLogTypesWithAggregatesFilter<"Log"> | $Enums.LogTypes
     model?: StringNullableWithAggregatesFilter<"Log"> | string | null
     extra?: JsonNullableWithAggregatesFilter<"Log">
     startTime?: DateTimeNullableWithAggregatesFilter<"Log"> | Date | string | null
@@ -10353,6 +10436,9 @@ export namespace Prisma {
     inputCost?: FloatFilter<"Trace"> | number
     outputCost?: FloatFilter<"Trace"> | number
     totalCost?: FloatFilter<"Trace"> | number
+    startTime?: DateTimeFilter<"Trace"> | Date | string
+    endTime?: DateTimeFilter<"Trace"> | Date | string
+    duration?: FloatFilter<"Trace"> | number
     userId?: StringNullableFilter<"Trace"> | string | null
     tags?: StringNullableListFilter<"Trace">
     extra?: JsonNullableFilter<"Trace">
@@ -10371,6 +10457,9 @@ export namespace Prisma {
     inputCost?: SortOrder
     outputCost?: SortOrder
     totalCost?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    duration?: SortOrder
     userId?: SortOrderInput | SortOrder
     tags?: SortOrder
     extra?: SortOrderInput | SortOrder
@@ -10392,6 +10481,9 @@ export namespace Prisma {
     inputCost?: FloatFilter<"Trace"> | number
     outputCost?: FloatFilter<"Trace"> | number
     totalCost?: FloatFilter<"Trace"> | number
+    startTime?: DateTimeFilter<"Trace"> | Date | string
+    endTime?: DateTimeFilter<"Trace"> | Date | string
+    duration?: FloatFilter<"Trace"> | number
     userId?: StringNullableFilter<"Trace"> | string | null
     tags?: StringNullableListFilter<"Trace">
     extra?: JsonNullableFilter<"Trace">
@@ -10410,6 +10502,9 @@ export namespace Prisma {
     inputCost?: SortOrder
     outputCost?: SortOrder
     totalCost?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    duration?: SortOrder
     userId?: SortOrderInput | SortOrder
     tags?: SortOrder
     extra?: SortOrderInput | SortOrder
@@ -10435,6 +10530,9 @@ export namespace Prisma {
     inputCost?: FloatWithAggregatesFilter<"Trace"> | number
     outputCost?: FloatWithAggregatesFilter<"Trace"> | number
     totalCost?: FloatWithAggregatesFilter<"Trace"> | number
+    startTime?: DateTimeWithAggregatesFilter<"Trace"> | Date | string
+    endTime?: DateTimeWithAggregatesFilter<"Trace"> | Date | string
+    duration?: FloatWithAggregatesFilter<"Trace"> | number
     userId?: StringNullableWithAggregatesFilter<"Trace"> | string | null
     tags?: StringNullableListFilter<"Trace">
     extra?: JsonNullableWithAggregatesFilter<"Trace">
@@ -10838,6 +10936,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -10863,6 +10962,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -10884,6 +10984,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10909,6 +11010,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10932,6 +11034,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -10953,6 +11056,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10976,6 +11080,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11001,6 +11106,9 @@ export namespace Prisma {
     inputCost: number
     outputCost: number
     totalCost: number
+    startTime: Date | string
+    endTime: Date | string
+    duration: number
     userId?: string | null
     tags?: TraceCreatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -11019,6 +11127,9 @@ export namespace Prisma {
     inputCost: number
     outputCost: number
     totalCost: number
+    startTime: Date | string
+    endTime: Date | string
+    duration: number
     userId?: string | null
     tags?: TraceCreatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -11037,6 +11148,9 @@ export namespace Prisma {
     inputCost?: FloatFieldUpdateOperationsInput | number
     outputCost?: FloatFieldUpdateOperationsInput | number
     totalCost?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: FloatFieldUpdateOperationsInput | number
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TraceUpdatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -11055,6 +11169,9 @@ export namespace Prisma {
     inputCost?: FloatFieldUpdateOperationsInput | number
     outputCost?: FloatFieldUpdateOperationsInput | number
     totalCost?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: FloatFieldUpdateOperationsInput | number
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TraceUpdatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -11073,6 +11190,9 @@ export namespace Prisma {
     inputCost: number
     outputCost: number
     totalCost: number
+    startTime: Date | string
+    endTime: Date | string
+    duration: number
     userId?: string | null
     tags?: TraceCreatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -11090,6 +11210,9 @@ export namespace Prisma {
     inputCost?: FloatFieldUpdateOperationsInput | number
     outputCost?: FloatFieldUpdateOperationsInput | number
     totalCost?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: FloatFieldUpdateOperationsInput | number
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TraceUpdatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -11107,6 +11230,9 @@ export namespace Prisma {
     inputCost?: FloatFieldUpdateOperationsInput | number
     outputCost?: FloatFieldUpdateOperationsInput | number
     totalCost?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: FloatFieldUpdateOperationsInput | number
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TraceUpdatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -11467,6 +11593,13 @@ export namespace Prisma {
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
+
+  export type EnumLogTypesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogTypes | EnumLogTypesFieldRefInput<$PrismaModel>
+    in?: $Enums.LogTypes[] | ListEnumLogTypesFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogTypes[] | ListEnumLogTypesFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogTypesFilter<$PrismaModel> | $Enums.LogTypes
+  }
   export type JsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
         Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -11541,6 +11674,7 @@ export namespace Prisma {
     name?: SortOrder
     input?: SortOrder
     output?: SortOrder
+    type?: SortOrder
     model?: SortOrder
     extra?: SortOrder
     startTime?: SortOrder
@@ -11572,6 +11706,7 @@ export namespace Prisma {
     envId?: SortOrder
     parentLogId?: SortOrder
     name?: SortOrder
+    type?: SortOrder
     model?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
@@ -11592,6 +11727,7 @@ export namespace Prisma {
     envId?: SortOrder
     parentLogId?: SortOrder
     name?: SortOrder
+    type?: SortOrder
     model?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
@@ -11657,6 +11793,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
+  }
+
+  export type EnumLogTypesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogTypes | EnumLogTypesFieldRefInput<$PrismaModel>
+    in?: $Enums.LogTypes[] | ListEnumLogTypesFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogTypes[] | ListEnumLogTypesFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogTypesWithAggregatesFilter<$PrismaModel> | $Enums.LogTypes
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLogTypesFilter<$PrismaModel>
+    _max?: NestedEnumLogTypesFilter<$PrismaModel>
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -11770,6 +11916,9 @@ export namespace Prisma {
     inputCost?: SortOrder
     outputCost?: SortOrder
     totalCost?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    duration?: SortOrder
     userId?: SortOrder
     tags?: SortOrder
     extra?: SortOrder
@@ -11784,6 +11933,7 @@ export namespace Prisma {
     inputCost?: SortOrder
     outputCost?: SortOrder
     totalCost?: SortOrder
+    duration?: SortOrder
   }
 
   export type TraceMaxOrderByAggregateInput = {
@@ -11796,6 +11946,9 @@ export namespace Prisma {
     inputCost?: SortOrder
     outputCost?: SortOrder
     totalCost?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    duration?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11811,6 +11964,9 @@ export namespace Prisma {
     inputCost?: SortOrder
     outputCost?: SortOrder
     totalCost?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    duration?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11823,6 +11979,7 @@ export namespace Prisma {
     inputCost?: SortOrder
     outputCost?: SortOrder
     totalCost?: SortOrder
+    duration?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -12201,6 +12358,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type EnumLogTypesFieldUpdateOperationsInput = {
+    set?: $Enums.LogTypes
+  }
+
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
@@ -12415,6 +12576,13 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedEnumLogTypesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogTypes | EnumLogTypesFieldRefInput<$PrismaModel>
+    in?: $Enums.LogTypes[] | ListEnumLogTypesFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogTypes[] | ListEnumLogTypesFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogTypesFilter<$PrismaModel> | $Enums.LogTypes
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -12485,6 +12653,16 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumLogTypesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.LogTypes | EnumLogTypesFieldRefInput<$PrismaModel>
+    in?: $Enums.LogTypes[] | ListEnumLogTypesFieldRefInput<$PrismaModel>
+    notIn?: $Enums.LogTypes[] | ListEnumLogTypesFieldRefInput<$PrismaModel>
+    not?: NestedEnumLogTypesWithAggregatesFilter<$PrismaModel> | $Enums.LogTypes
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumLogTypesFilter<$PrismaModel>
+    _max?: NestedEnumLogTypesFilter<$PrismaModel>
   }
   export type NestedJsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -12835,6 +13013,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -12858,6 +13037,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -12962,6 +13142,7 @@ export namespace Prisma {
     name?: StringFilter<"Log"> | string
     input?: JsonFilter<"Log">
     output?: JsonFilter<"Log">
+    type?: EnumLogTypesFilter<"Log"> | $Enums.LogTypes
     model?: StringNullableFilter<"Log"> | string | null
     extra?: JsonNullableFilter<"Log">
     startTime?: DateTimeNullableFilter<"Log"> | Date | string | null
@@ -13239,6 +13420,9 @@ export namespace Prisma {
     inputCost: number
     outputCost: number
     totalCost: number
+    startTime: Date | string
+    endTime: Date | string
+    duration: number
     userId?: string | null
     tags?: TraceCreatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -13256,6 +13440,9 @@ export namespace Prisma {
     inputCost: number
     outputCost: number
     totalCost: number
+    startTime: Date | string
+    endTime: Date | string
+    duration: number
     userId?: string | null
     tags?: TraceCreatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -13318,6 +13505,9 @@ export namespace Prisma {
     inputCost?: FloatFieldUpdateOperationsInput | number
     outputCost?: FloatFieldUpdateOperationsInput | number
     totalCost?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: FloatFieldUpdateOperationsInput | number
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TraceUpdatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -13335,6 +13525,9 @@ export namespace Prisma {
     inputCost?: FloatFieldUpdateOperationsInput | number
     outputCost?: FloatFieldUpdateOperationsInput | number
     totalCost?: FloatFieldUpdateOperationsInput | number
+    startTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    endTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    duration?: FloatFieldUpdateOperationsInput | number
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     tags?: TraceUpdatetagsInput | string[]
     extra?: NullableJsonNullValueInput | InputJsonValue
@@ -13348,6 +13541,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -13371,6 +13565,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -13513,6 +13708,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -13534,6 +13730,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13557,6 +13754,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13579,6 +13777,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13633,6 +13832,7 @@ export namespace Prisma {
     name: string
     input: JsonNullValueInput | InputJsonValue
     output: JsonNullValueInput | InputJsonValue
+    type: $Enums.LogTypes
     model?: string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: Date | string | null
@@ -13654,6 +13854,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13677,6 +13878,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13699,6 +13901,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     input?: JsonNullValueInput | InputJsonValue
     output?: JsonNullValueInput | InputJsonValue
+    type?: EnumLogTypesFieldUpdateOperationsInput | $Enums.LogTypes
     model?: NullableStringFieldUpdateOperationsInput | string | null
     extra?: NullableJsonNullValueInput | InputJsonValue
     startTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

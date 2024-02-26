@@ -1,5 +1,15 @@
 # @montelo/cli
 
+## 1.1.39
+
+### Patch Changes
+
+- y
+- Updated dependencies
+  - @montelo/config@1.1.39
+  - @montelo/fizz@1.1.39
+  - @montelo/promptfile@1.1.39
+
 ## 1.1.38
 
 ### Patch Changes

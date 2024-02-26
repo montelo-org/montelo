@@ -1,7 +1,7 @@
 import { EnvironmentDto, FullMembershipDto, ProjectWithEnvironmentsDto } from "@montelo/browser-client";
 import { Delete, MoreHorizontal } from "lucide-react";
 import _ from "lodash";
-import { Link, useNavigate } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 import { useState } from "react";
 import { Routes } from "../../routes";
 import { sortEnvironmentsByName } from "../../utils/sortEnvironmentsByName";
@@ -17,7 +17,6 @@ type HomePageCardProps = {
 }
 export const HomePageCard = ({ membership }: HomePageCardProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const navigate = useNavigate();
   const projects = membership.team.projects;
   const teamName = membership.team.name;
   const role = membership.role;

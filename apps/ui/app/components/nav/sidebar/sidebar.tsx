@@ -35,7 +35,7 @@ const SidebarItems: SidebarItem[] = [
     icon: <LayoutDashboard size={20} />,
   },
   {
-    name: "Logs",
+    name: "Traces & Logs",
     href: Routes.app.project.env.traces,
     icon: <GanttChart size={20} />,
   },
@@ -58,14 +58,14 @@ const SidebarItems: SidebarItem[] = [
 
 const BottomSidebarItems = [
   {
-    name: "Support",
-    href: Routes.external.support,
-    icon: <HeartHandshake size={20} />,
-  },
-  {
     name: "Documentation",
     href: Routes.external.documentation,
     icon: <BookOpenText size={20} />,
+  },
+  {
+    name: "Support",
+    href: Routes.external.support,
+    icon: <HeartHandshake size={20} />,
   },
 ];
 

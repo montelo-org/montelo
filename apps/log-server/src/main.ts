@@ -1,7 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
-import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from "@nestjs/swagger";
-import { SwaggerTheme, SwaggerThemeName } from "swagger-themes";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 import { AppModule } from "./app.module";
 import { HttpExceptionFilter } from "./common/filters/exception.filter";
@@ -26,20 +25,15 @@ async function bootstrap() {
       .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
-    const theme = new SwaggerTheme("v3");
-    const themeName: SwaggerThemeName = "dark";
-    const options: SwaggerCustomOptions = {
-      explorer: true,
-      customCss: theme.getBuffer(themeName),
-    };
-    // SwaggerUI gets set to /docs
-    SwaggerModule.setup("docs", app, document, options);
+    SwaggerModule.setup("docs", app, document);
   }
 
   if (process.env.NODE_ENV === "development") {
     await app.listen(process.env.PORT!);
   } else {
-    await app.listen(process.env.PORT!, "0.0.0.0");
+    const hostname = "0.0.0.0";
+    await app.listen(process.env.PORT!, hostname);
+    console.log(`Prod app listening to ${process.env.PORT!} on ${hostname}`);
   }
 
   // graceful shutdown func

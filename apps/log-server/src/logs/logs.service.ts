@@ -9,6 +9,7 @@ import { DatabaseService } from "../database";
 import { LogInput, TraceInput } from "./dto/create-log.input";
 import { TraceWithLogs } from "./types";
 
+
 @Injectable()
 export class LogsService {
   private logger = new Logger(LogsService.name);
@@ -50,12 +51,15 @@ export class LogsService {
     const logNameWithoutPath = this.getLogNameWithoutPath(log.name, dbTrace);
 
     // define the base TRACE
+    const traceDates = this.getTraceDates(dbTrace, log);
     const baseCreateTrace: Prisma.TraceCreateWithoutLogsInput = {
       ...traceMetrics,
+      ...traceDates,
       envId,
       id: trace?.id,
       name: trace?.name || "",
     };
+
     const traceArg: Prisma.TraceCreateNestedOneWithoutLogsInput = trace
       ? {
           connectOrCreate: {
@@ -93,7 +97,7 @@ export class LogsService {
       where: {
         id: createdLog.traceId,
       },
-      data: traceMetrics,
+      data: { ...traceMetrics, ...traceDates },
     });
     this.logger.log(`Updated trace with id ${createdLog.traceId}`);
   }
@@ -121,13 +125,33 @@ export class LogsService {
 
     const traceMetrics = this.costulatorService.getTraceMetrics(dbTrace);
 
+    function truncateToSignificantDigits(num: number, significantDigits: number): number {
+      // Convert to string using toPrecision which keeps significant digits
+      const numString = num.toPrecision(significantDigits);
+
+      // Convert back to number to remove trailing zeros
+      const truncatedNum = Number(numString);
+
+      // Handle the edge case where toPrecision might round up the number,
+      // which could add an extra digit making it not equal to the original number.
+      // If that happens, remove the last digit.
+      if (truncatedNum.toString().length > num.toString().length) {
+        return parseFloat(truncatedNum.toString().slice(0, -1));
+      }
+
+      return truncatedNum;
+    }
+
     return {
       inputTokens: traceMetrics.inputTokens + (logTokens.inputTokens || 0),
       outputTokens: traceMetrics.outputTokens + (logTokens.outputTokens || 0),
       totalTokens: traceMetrics.totalTokens + (logTokens.totalTokens || 0),
-      inputCost: traceMetrics.inputCost + (logCost.inputCost || 0),
-      outputCost: traceMetrics.outputCost + (logCost.outputCost || 0),
-      totalCost: traceMetrics.totalCost + (logCost.totalCost || 0),
+      inputCost: truncateToSignificantDigits(traceMetrics.inputCost + (logCost.inputCost || 0), 5),
+      outputCost: truncateToSignificantDigits(
+        traceMetrics.outputCost + (logCost.outputCost || 0),
+        5,
+      ),
+      totalCost: truncateToSignificantDigits(traceMetrics.totalCost + (logCost.totalCost || 0), 5),
     };
   }
 
@@ -163,6 +187,32 @@ export class LogsService {
     }
 
     return parentLog.id;
+  }
+
+  private getTraceDates(
+    trace: TraceWithLogs | null,
+    log: LogInput,
+  ): {
+    startTime: string;
+    endTime: string;
+    duration: number;
+  } {
+    const now = new Date().toISOString();
+    // If log.endTime is not provided, use the current time.
+    const endTime = log.endTime || now;
+    // If trace is not null, use its startTime; otherwise, use log.startTime or the current time.
+    const startTime = trace?.startTime.toISOString() || log.startTime || now;
+
+    // Ensure dates are in proper order for duration calculation (endTime - startTime).
+    const durationMs = new Date(endTime).getTime() - new Date(startTime).getTime();
+    // Round the duration to the nearest hundredth of a second.
+    const duration = parseFloat((durationMs / 1000).toFixed(2));
+
+    return {
+      startTime,
+      endTime,
+      duration: Math.max(0, duration),
+    };
   }
 
   private getLogNameWithoutPath(name: string, dbTrace: TraceWithLogs | null): string {

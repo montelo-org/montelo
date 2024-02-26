@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFetcher, useLocation, useNavigate } from "@remix-run/react";
+import { useFetcher, useNavigate } from "@remix-run/react";
 import { ApiKeyWithEnvDto, EnvironmentDto } from "@montelo/browser-client";
 import { Check, ChevronsUpDown, KeyRound } from "lucide-react";
 import { sortEnvironmentsByName } from "../../../utils/sortEnvironmentsByName";
@@ -25,16 +25,14 @@ type EnvSelectorProps = {
 export const EnvSelector = ({ environments, pathEnv }: EnvSelectorProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedEnvName, setSelectedEnvName] = useState<string>(pathEnv.name);
-  const { pathname } = useLocation();
   const fetcher = useFetcher<ApiKeyWithEnvDto[]>();
   const navigate = useNavigate();
 
   const sortedEnvironments = sortEnvironmentsByName(environments);
-  const currentPath = pathname.split("/").at(-1);
 
   const handleMenuItemClick = (env: EnvironmentDto) => {
     setSelectedEnvName(env.name);
-    const path = `/project/${env.projectId}/env/${env.id}/${currentPath}`;
+    const path = `/project/${env.projectId}/env/${env.id}/dashboard`;
     navigate(path);
   };
 

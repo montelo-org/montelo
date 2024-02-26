@@ -1,3 +1,4 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from "./LogsApi";
+export * from './HealthApi';
+export * from './LogsApi';

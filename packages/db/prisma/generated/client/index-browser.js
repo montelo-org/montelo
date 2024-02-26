@@ -168,6 +168,7 @@ exports.Prisma.LogScalarFieldEnum = {
   name: 'name',
   input: 'input',
   output: 'output',
+  type: 'type',
   model: 'model',
   extra: 'extra',
   startTime: 'startTime',
@@ -193,6 +194,9 @@ exports.Prisma.TraceScalarFieldEnum = {
   inputCost: 'inputCost',
   outputCost: 'outputCost',
   totalCost: 'totalCost',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  duration: 'duration',
   userId: 'userId',
   tags: 'tags',
   extra: 'extra',
@@ -232,6 +236,11 @@ exports.Prisma.NullsOrder = {
 exports.UserPermissionRole = exports.$Enums.UserPermissionRole = {
   ADMIN: 'ADMIN',
   MEMBER: 'MEMBER'
+};
+
+exports.LogTypes = exports.$Enums.LogTypes = {
+  MANUAL: 'MANUAL',
+  OPENAI: 'OPENAI'
 };
 
 exports.Prisma.ModelName = {

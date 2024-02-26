@@ -54,6 +54,12 @@ export interface LogDto {
      * @type {string}
      * @memberof LogDto
      */
+    type: LogDtoTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof LogDto
+     */
     model: string | null;
     /**
      * 
@@ -135,6 +141,17 @@ export interface LogDto {
     createdAt: string;
 }
 
+
+/**
+ * @export
+ */
+export const LogDtoTypeEnum = {
+    Manual: 'MANUAL',
+    Openai: 'OPENAI'
+} as const;
+export type LogDtoTypeEnum = typeof LogDtoTypeEnum[keyof typeof LogDtoTypeEnum];
+
+
 /**
  * Check if a given object implements the LogDto interface.
  */
@@ -145,6 +162,7 @@ export function instanceOfLogDto(value: object): boolean {
     isInstance = isInstance && "envId" in value;
     isInstance = isInstance && "parentLogId" in value;
     isInstance = isInstance && "name" in value;
+    isInstance = isInstance && "type" in value;
     isInstance = isInstance && "model" in value;
     isInstance = isInstance && "input" in value;
     isInstance = isInstance && "output" in value;
@@ -178,6 +196,7 @@ export function LogDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): Lo
         'envId': json['envId'],
         'parentLogId': json['parentLogId'],
         'name': json['name'],
+        'type': json['type'],
         'model': json['model'],
         'input': json['input'],
         'output': json['output'],
@@ -209,6 +228,7 @@ export function LogDtoToJSON(value?: LogDto | null): any {
         'envId': value.envId,
         'parentLogId': value.parentLogId,
         'name': value.name,
+        'type': value.type,
         'model': value.model,
         'input': value.input,
         'output': value.output,

@@ -85,6 +85,24 @@ export interface TraceWithLogsDto {
      * @type {string}
      * @memberof TraceWithLogsDto
      */
+    startTime: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TraceWithLogsDto
+     */
+    endTime: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TraceWithLogsDto
+     */
+    duration: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TraceWithLogsDto
+     */
     userId: string | null;
     /**
      * 
@@ -120,6 +138,9 @@ export function instanceOfTraceWithLogsDto(value: object): boolean {
     isInstance = isInstance && "inputCost" in value;
     isInstance = isInstance && "outputCost" in value;
     isInstance = isInstance && "totalCost" in value;
+    isInstance = isInstance && "startTime" in value;
+    isInstance = isInstance && "endTime" in value;
+    isInstance = isInstance && "duration" in value;
     isInstance = isInstance && "userId" in value;
     isInstance = isInstance && "tags" in value;
     isInstance = isInstance && "extra" in value;
@@ -147,6 +168,9 @@ export function TraceWithLogsDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'inputCost': json['inputCost'],
         'outputCost': json['outputCost'],
         'totalCost': json['totalCost'],
+        'startTime': json['startTime'],
+        'endTime': json['endTime'],
+        'duration': json['duration'],
         'userId': json['userId'],
         'tags': json['tags'],
         'extra': json['extra'],
@@ -172,6 +196,9 @@ export function TraceWithLogsDtoToJSON(value?: TraceWithLogsDto | null): any {
         'inputCost': value.inputCost,
         'outputCost': value.outputCost,
         'totalCost': value.totalCost,
+        'startTime': value.startTime,
+        'endTime': value.endTime,
+        'duration': value.duration,
         'userId': value.userId,
         'tags': value.tags,
         'extra': value.extra,

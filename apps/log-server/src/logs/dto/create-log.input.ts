@@ -1,10 +1,14 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { LogTypes } from "@montelo/db";
 
 export class LogInput {
   @ApiProperty({
     example: "Agent X",
   })
   name: string;
+
+  @ApiProperty({ enum: LogTypes })
+  type: LogTypes;
 
   @ApiProperty({
     type: String,

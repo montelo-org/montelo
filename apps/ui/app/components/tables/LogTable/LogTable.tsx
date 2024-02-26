@@ -59,16 +59,16 @@ export const columns: ColumnDef<LogDto>[] = [
     header: "Timestamp",
     cell: ({ row }) => {
       const date: string | undefined = row.getValue("startTime") || row.original.createdAt;
-      return (<div>{date && dayjs(date).format("D/M HH:mm:ss")}</div>);
+      return (<div>{date && dayjs(date).format("h:mm:ssa - D/M/YY")}</div>);
     },
   },
   {
     accessorKey: "traceId",
     header: "Trace",
     cell: ({ row }) => {
+      const params = useParams();
       const traceId: string = row.getValue("traceId");
       const { short, color } = idShortener(traceId);
-      const params = useParams();
 
       return (
         <div>
@@ -98,11 +98,11 @@ export const columns: ColumnDef<LogDto>[] = [
     accessorKey: "id",
     header: "Log",
     cell: ({ row }) => {
+      const params = useParams();
       const name = row.original.name.substring(0, 15);
       const traceId: string = row.getValue("traceId");
       const logId: string = row.getValue("id");
       const { short } = idShortener(logId);
-      const params = useParams();
 
       return (
         <div>
@@ -253,6 +253,11 @@ export function LogTable({ logs }: LogTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    initialState: {
+      pagination: {
+        pageSize: 15,
+      },
+    },
     state: {
       sorting,
       columnFilters,
@@ -287,9 +292,7 @@ export function LogTable({ logs }: LogTableProps) {
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={column.toggleVisibility}
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>

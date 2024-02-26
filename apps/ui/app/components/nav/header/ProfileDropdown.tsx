@@ -53,10 +53,10 @@ export const ProfileDropdown = ({ user }: ProfileDropwdownProps) => {
           className={"text-sm text-muted-foreground font-light pt-0"}>{userEmail}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <UserRound size={20} />&nbsp;
-            Profile
-          </DropdownMenuItem>
+          {/*<DropdownMenuItem>*/}
+          {/*  <UserRound size={20} />&nbsp;*/}
+          {/*  Profile*/}
+          {/*</DropdownMenuItem>*/}
           <DropdownMenuGroup>
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>

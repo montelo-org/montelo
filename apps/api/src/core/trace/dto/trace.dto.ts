@@ -35,6 +35,15 @@ export class TraceDto {
   totalCost: number;
 
   @ApiProperty()
+  startTime: string;
+
+  @ApiProperty()
+  endTime: string;
+
+  @ApiProperty()
+  duration: number;
+
+  @ApiProperty()
   userId: string | null;
 
   @ApiProperty()
@@ -44,6 +53,12 @@ export class TraceDto {
   extra: any;
 
   static fromTrace(trace: Trace): TraceDto {
-    return omit(trace, ["createdAt", "updatedAt"]);
+    const baseTrace = omit(trace, ["createdAt", "updatedAt"]);
+
+    return {
+      ...baseTrace,
+      startTime: trace.startTime.toISOString(),
+      endTime: trace.endTime.toISOString(),
+    };
   }
 }

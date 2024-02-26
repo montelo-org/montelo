@@ -15,7 +15,6 @@ export class AuthService {
    * @returns the envId for the given apiKey.
    */
   async validateApiKey(apiKey: string): Promise<string> {
-    console.log("validating: ", apiKey);
     const [publicWithPrefix, privatePart] = apiKey.split("_");
 
     const dbApiKey = await this.db.apiKey.findUniqueOrThrow({
@@ -24,10 +23,7 @@ export class AuthService {
       },
     });
 
-    console.log("dbApiKey: ", dbApiKey);
-
     const isValid = await this.hashingService.verify(privatePart, dbApiKey.private);
-    console.log("isValid: ", isValid);
     if (!isValid) {
       throw new UnauthorizedException();
     }

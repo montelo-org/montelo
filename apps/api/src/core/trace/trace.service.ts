@@ -16,7 +16,7 @@ export class TraceService {
       include: {
         logs: {
           orderBy: {
-            startTime: "desc",
+            createdAt: "asc",
           },
         },
       },

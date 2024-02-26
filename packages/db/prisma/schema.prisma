@@ -6,13 +6,18 @@ datasource db {
 generator client {
   provider      = "prisma-client-js"
   output        = "./generated/client"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-3.0.x"]
 }
 
 // Enums
 enum UserPermissionRole {
   ADMIN
   MEMBER
+}
+
+enum LogTypes {
+  MANUAL
+  OPENAI
 }
 
 // Models
@@ -155,6 +160,7 @@ model Log {
   name         String
   input        Json
   output       Json
+  type         LogTypes
   model        String?
   extra        Json?
   startTime    DateTime? @map("start_time")
@@ -189,14 +195,15 @@ model Trace {
   name  String
 
   // sum for each log of the trace
-  inputTokens  Int   @map("input_tokens")
-  outputTokens Int   @map("output_tokens")
-  totalTokens  Int   @map("total_tokens")
-  inputCost    Float @map("input_cost")
-  outputCost   Float @map("output_cost")
-  totalCost    Float @map("total_cost")
-
-  // TODO add durations
+  inputTokens  Int      @map("input_tokens")
+  outputTokens Int      @map("output_tokens")
+  totalTokens  Int      @map("total_tokens")
+  inputCost    Float    @map("input_cost")
+  outputCost   Float    @map("output_cost")
+  totalCost    Float    @map("total_cost")
+  startTime    DateTime @map("start_time")
+  endTime      DateTime @map("end_time")
+  duration     Float
 
   userId String?  @map("user_id")
   tags   String[] @default([])

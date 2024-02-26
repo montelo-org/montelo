@@ -9,8 +9,15 @@ const chat = async (): Promise<void> => {
   const message = "Queen sized inflatable mattress";
 
   const trace = montelo.startTrace({ name: "MyTrace" });
+  trace.log({
+    name: "Manual log",
+    input: {},
+    output: {},
+  })
 
   // some vector db work
+  const chunks: Array<string> = [];
+  console.log("starting call")
   const writerCompletion = await trace.openai.chat.completions.create({
     name: "Writer",
     model: "gpt-3.5-turbo-0125",
@@ -25,11 +32,18 @@ const chat = async (): Promise<void> => {
         content: message,
       },
     ],
+    stream: true,
   });
-  const writerContent = writerCompletion.choices[0].message.content;
+  // const writerContent = writerCompletion.choices[0].message.content;
+  for await (const chunk of writerCompletion) {
+    const content = chunk.choices[0].delta.content;
+    chunks.push(content);
+  }
+  const writerContent = chunks.join("");
+  console.log("writerContent: ", writerContent);
 
   // chat
-  await trace.openai.chat.completions.create({
+  const reviewerCompletion = await trace.openai.chat.completions.create({
     name: "Writer / Reviewer",
     model: "gpt-3.5-turbo-0125",
     messages: [
@@ -45,6 +59,8 @@ const chat = async (): Promise<void> => {
     ],
     // tools: AllFunctions,
   });
+
+  console.log("reviewerCompletion: ", reviewerCompletion);
 };
 
 void chat();

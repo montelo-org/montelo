@@ -1,9 +1,10 @@
-import { ArrowUpRightFromSquare, CircleSlash, DollarSign, GanttChart, Target, Timer } from "lucide-react";
+import { CircleSlash, DollarSign, GanttChart, Target, Timer } from "lucide-react";
 import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AnalyticsControllerGetForDashboardDateSelectionEnum, LogDto } from "@montelo/browser-client";
 import { Await, Link, useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
-import { Suspense } from "react";
+import * as React from "react";
+import { FC, Suspense } from "react";
 import numbro from "numbro";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
 import { DashboardLoader } from "../../types/DashboardLoader.types";
@@ -13,6 +14,8 @@ import { AnalyticsCard } from "./cards/AnalyticsCard";
 import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
 import { ScrollArea } from "../../components/ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
+import { Badge } from "../../components/ui/badge";
+import { idShortener } from "../../components/tables/LogTable/idShortener";
 
 
 export const DashboardPage = () => {
@@ -21,23 +24,28 @@ export const DashboardPage = () => {
   const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
   const selectedValue = searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
 
-  const RecentLog = ({ log }: { log: LogDto }) => {
+  const RecentLog: FC<{ log: LogDto }> = ({ log }) => {
+    const { short: shortTraceId, color } = idShortener(log.traceId);
+    const { short: shortLogId } = idShortener(log.id);
+
     return (
       <TableRow>
-        <TableCell className={"cursor-pointer"}>
+        <TableCell>{dayjs(log.startTime || log.createdAt).format("h:mm:ssa")}</TableCell>
+        <TableCell>
           <Link to={Routes.app.project.env.traceId({
             projectId: params.projectId!,
             envId: params.envId!,
+            traceId: log.traceId,
             logId: log.id,
-          })} prefetch={"intent"}>
-            <ArrowUpRightFromSquare size={16} />
+          })}>
+            <Badge variant={color}>
+              {shortTraceId} / {shortLogId}
+            </Badge>
           </Link>
         </TableCell>
-        <TableCell>{dayjs(log.startTime).format("H:mm:ss")}</TableCell>
-        <TableCell>{log.model}</TableCell>
-        <TableCell>{log.duration}s</TableCell>
-        {/*TODO once we have totalCost, add that here*/}
-        <TableCell>0</TableCell>
+        <TableCell>{log.name}</TableCell>
+        <TableCell>{log.duration ? `${log.duration}s` : "—"}</TableCell>
+        <TableCell>{log.totalCost ? `$${log.totalCost}` : "—"}</TableCell>
       </TableRow>
     );
   };
@@ -89,10 +97,7 @@ export const DashboardPage = () => {
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
               {(analytics) =>
-                <BaseContent title={numbro(analytics.cost).formatCurrency({
-                  mantissa: 2,
-                  thousandSeparated: true,
-                })} sub={analytics.costChange} />}
+                <BaseContent title={`$ ${analytics.cost}`} sub={analytics.costChange} />}
             </Await>
           </Suspense>
         </AnalyticsCard>
@@ -130,9 +135,9 @@ export const DashboardPage = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead></TableHead>
                   <TableHead>Timestamp</TableHead>
-                  <TableHead>Model</TableHead>
+                  <TableHead>Trace ID / Log ID</TableHead>
+                  <TableHead>Log Name</TableHead>
                   <TableHead>Latency</TableHead>
                   <TableHead>Total Cost</TableHead>
                 </TableRow>
@@ -155,6 +160,7 @@ export const DashboardPage = () => {
           }>
             <Await resolve={costHistory}>
               {(costHistory) => {
+                console.log(costHistory);
                 if (!costHistory.costHistory.length) {
                   return (<div className={"flex h-full justify-center items-center border rounded-lg"}>
                     <Alert className={"flex flex-row w-1/3 p-4 justify-start items-center gap-4"}>
@@ -188,6 +194,7 @@ export const DashboardPage = () => {
                       <YAxis
                         stroke={"hsl(var(--border))"}
                         tick={{ fill: "hsl(var(--muted-foreground))" }}
+                        tickFormatter={(value) => `$ ${value}`}
                       />
                       <Tooltip
                         contentStyle={{
@@ -195,10 +202,7 @@ export const DashboardPage = () => {
                           borderRadius: "8px",
                           borderColor: "hsl(var(--border))",
                         }}
-                        formatter={(value) => [numbro(value).formatCurrency({
-                          mantissa: 2,
-                          thousandSeparated: true,
-                        }), "Total Cost"]}
+                        formatter={(value) => [`$ ${value}`, "Total Cost"]}
                         labelFormatter={(date) => dayjs(date).format("MMM D YYYY H:mm:ss")}
                         cursor={{ stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 }}
                       />

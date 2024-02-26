@@ -8,8 +8,21 @@ import { LogsModule } from "./logs/logs.module";
 
 @Module({
   imports: [
-    BullModule.forRoot({
-      redis: process.env.REDIS_URL,
+    BullModule.forRootAsync({
+      useFactory: async () => {
+        const credentials = {
+          username: process.env.REDIS_USER,
+          password: process.env.REDIS_PASSWORD,
+          host: process.env.REDIS_HOSTNAME,
+          port: +process.env.REDIS_PORT!,
+        };
+        return {
+          redis: {
+            ...credentials,
+            family: 6,
+          },
+        };
+      },
     }),
     HealthModule,
     AuthModule,

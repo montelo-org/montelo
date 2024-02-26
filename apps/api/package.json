@@ -1,6 +1,6 @@
 {
-  "name": "api",
-  "version": "1.1.38",
+  "name": "@montelo/api",
+  "version": "1.1.39",
   "description": "",
   "author": "",
   "private": true,
@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "sleep 3 && nest start",
+    "start": "nest start",
     "dev": "dotenv -e .env.development -- nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -21,11 +21,12 @@
     "prisma:generate": "npm run generate -w @montelo/db",
     "db:migrate:reset": "dotenv -e .env.development -- npm run db:migrate:reset -w @montelo/db",
     "db:migrate:dev": "dotenv -e .env.development -- npm run db:migrate:dev -w @montelo/db",
+    "db:migrate:prod": "npm run db:migrate:deploy -w @montelo/db",
     "db:seed": "dotenv -e .env.development -- npm run db:seed -w @montelo/db",
     "generate:client": "openapi-generator-cli generate -i http://localhost:3001/docs-json -g typescript-fetch -o ../../packages/browser-client/src && npm run build -w @montelo/browser-client"
   },
   "dependencies": {
-    "@montelo/db": "1.1.38",
+    "@montelo/db": "1.1.39",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.1.1",
@@ -45,10 +46,10 @@
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "swagger-themes": "^1.2.30",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.2",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.3.1",
