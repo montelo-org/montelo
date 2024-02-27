@@ -12,6 +12,7 @@ apis/index.ts
 index.ts
 models/ApiKeyWithEnvDto.ts
 models/AuthUserDto.ts
+models/ChangesDto.ts
 models/CostHistory.ts
 models/CostHistoryDto.ts
 models/CreateProjectInput.ts
@@ -27,6 +28,7 @@ models/HealthControllerCheck503Response.ts
 models/LogDto.ts
 models/LoginDto.ts
 models/LoginUserInput.ts
+models/MaxDto.ts
 models/ProjectDto.ts
 models/ProjectWithEnvironmentsDto.ts
 models/RegisterUserInput.ts

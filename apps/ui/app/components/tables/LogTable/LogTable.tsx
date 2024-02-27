@@ -80,7 +80,7 @@ export const columns: ColumnDef<LogDto>[] = [
                   envId: params.envId!,
                   traceId,
                 })}>
-                  <Badge variant={color}>
+                  <Badge style={{ backgroundColor: color }}>
                     {short}
                   </Badge>
                 </Link>

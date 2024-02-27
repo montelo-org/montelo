@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './ApiKeyWithEnvDto';
 export * from './AuthUserDto';
+export * from './ChangesDto';
 export * from './CostHistory';
 export * from './CostHistoryDto';
 export * from './CreateProjectInput';
@@ -17,6 +18,7 @@ export * from './HealthControllerCheck503Response';
 export * from './LogDto';
 export * from './LoginDto';
 export * from './LoginUserInput';
+export * from './MaxDto';
 export * from './ProjectDto';
 export * from './ProjectWithEnvironmentsDto';
 export * from './RegisterUserInput';

@@ -11,16 +11,13 @@ export class CostulatorService {
   constructor(@Inject("LLM_PROVIDERS") private providers: LLMProvider[]) {}
 
   getLogCost(params: LogCostInput): LogCostOutput {
-    this.logger.log(`Getting cost for ${params.model}`);
     const provider = this.providers.find((provider) =>
       provider.supportedModels().includes(params.model),
     );
     if (!provider) {
       return { inputCost: 0, outputCost: 0, totalCost: 0 };
     }
-    this.logger.log(`Found provider ${provider.toString()}`);
     const result = provider.calculateLogCost(params);
-    this.logger.log(`Result: ${JSON.stringify(result)}`);
     return {
       inputCost: this.roundToSmallestDecimal(result.inputCost),
       outputCost: this.roundToSmallestDecimal(result.outputCost),

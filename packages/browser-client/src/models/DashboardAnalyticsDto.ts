@@ -13,6 +13,19 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ChangesDto } from './ChangesDto';
+import {
+    ChangesDtoFromJSON,
+    ChangesDtoFromJSONTyped,
+    ChangesDtoToJSON,
+} from './ChangesDto';
+import type { MaxDto } from './MaxDto';
+import {
+    MaxDtoFromJSON,
+    MaxDtoFromJSONTyped,
+    MaxDtoToJSON,
+} from './MaxDto';
+
 /**
  * 
  * @export
@@ -30,31 +43,25 @@ export interface DashboardAnalyticsDto {
      * @type {string}
      * @memberof DashboardAnalyticsDto
      */
-    costChange: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DashboardAnalyticsDto
-     */
     averageLatency: string;
     /**
      * 
      * @type {string}
      * @memberof DashboardAnalyticsDto
      */
-    averageLatencyChange: string;
+    traces: string;
     /**
      * 
-     * @type {string}
+     * @type {MaxDto}
      * @memberof DashboardAnalyticsDto
      */
-    logCount: string;
+    max: MaxDto;
     /**
      * 
-     * @type {string}
+     * @type {ChangesDto}
      * @memberof DashboardAnalyticsDto
      */
-    logCountChange: string;
+    changes: ChangesDto;
 }
 
 /**
@@ -63,11 +70,10 @@ export interface DashboardAnalyticsDto {
 export function instanceOfDashboardAnalyticsDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "cost" in value;
-    isInstance = isInstance && "costChange" in value;
     isInstance = isInstance && "averageLatency" in value;
-    isInstance = isInstance && "averageLatencyChange" in value;
-    isInstance = isInstance && "logCount" in value;
-    isInstance = isInstance && "logCountChange" in value;
+    isInstance = isInstance && "traces" in value;
+    isInstance = isInstance && "max" in value;
+    isInstance = isInstance && "changes" in value;
 
     return isInstance;
 }
@@ -83,11 +89,10 @@ export function DashboardAnalyticsDtoFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'cost': json['cost'],
-        'costChange': json['costChange'],
         'averageLatency': json['averageLatency'],
-        'averageLatencyChange': json['averageLatencyChange'],
-        'logCount': json['logCount'],
-        'logCountChange': json['logCountChange'],
+        'traces': json['traces'],
+        'max': MaxDtoFromJSON(json['max']),
+        'changes': ChangesDtoFromJSON(json['changes']),
     };
 }
 
@@ -101,11 +106,10 @@ export function DashboardAnalyticsDtoToJSON(value?: DashboardAnalyticsDto | null
     return {
         
         'cost': value.cost,
-        'costChange': value.costChange,
         'averageLatency': value.averageLatency,
-        'averageLatencyChange': value.averageLatencyChange,
-        'logCount': value.logCount,
-        'logCountChange': value.logCountChange,
+        'traces': value.traces,
+        'max': MaxDtoToJSON(value.max),
+        'changes': ChangesDtoToJSON(value.changes),
     };
 }
 

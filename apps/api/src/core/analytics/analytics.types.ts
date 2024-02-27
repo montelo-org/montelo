@@ -17,9 +17,15 @@ export type GetDashboardAnalyticsParams = {
 
 export type DashboardAnalytics = {
   cost: string;
-  costChange: string;
   averageLatency: string;
-  averageLatencyChange: string;
-  logCount: string;
-  logCountChange: string;
+  traces: string;
+  max: {
+    cost: string;
+    latency: string;
+  },
+  changes: {
+    cost: string;
+    latency: string;
+    traces: string;
+  };
 };

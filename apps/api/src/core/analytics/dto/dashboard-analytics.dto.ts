@@ -1,6 +1,30 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
+class MaxDto {
+  @ApiProperty()
+  @IsString()
+  cost: string;
+
+  @ApiProperty()
+  @IsString()
+  latency: string;
+}
+
+class ChangesDto {
+  @ApiProperty()
+  @IsString()
+  cost: string;
+
+  @ApiProperty()
+  @IsString()
+  latency: string;
+
+  @ApiProperty()
+  @IsString()
+  traces: string;
+}
+
 export class DashboardAnalyticsDto {
   @ApiProperty()
   @IsString()
@@ -8,21 +32,15 @@ export class DashboardAnalyticsDto {
 
   @ApiProperty()
   @IsString()
-  costChange: string;
-
-  @ApiProperty()
-  @IsString()
   averageLatency: string;
 
   @ApiProperty()
   @IsString()
-  averageLatencyChange: string;
+  traces: string;
 
-  @ApiProperty()
-  @IsString()
-  logCount: string;
+  @ApiProperty({ type: MaxDto })
+  max: MaxDto;
 
-  @ApiProperty()
-  @IsString()
-  logCountChange: string;
+  @ApiProperty({ type: ChangesDto })
+  changes: ChangesDto;
 }

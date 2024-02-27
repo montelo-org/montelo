@@ -2,15 +2,19 @@ import { Skeleton } from "../../../components/ui/skeleton";
 
 type BaseCardProps = {
   title?: string;
-  sub?: string;
+  content?: string;
+  percent?: string;
 }
-export const BaseContent = ({ title, sub }: BaseCardProps) => (
+export const BaseContent = ({ title, content, percent }: BaseCardProps) => (
   <div className={"flex flex-col"}>
-    <h1 className={"text-2xl font-bold"}>
-      {title}
-    </h1>
+    <div className={"flex flex-row gap-4"}>
+      <h1 className={"text-2xl font-bold"}>
+        {title}
+      </h1>
+      <p className={"text-base text-muted-foreground self-end"}>{percent ? `${percent}%` : ""}</p>
+    </div>
     <p className={"text-base text-muted-foreground"}>
-      {sub}
+      {content}
     </p>
   </div>
 );

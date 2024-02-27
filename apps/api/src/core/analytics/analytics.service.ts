@@ -11,6 +11,7 @@ import {
   GetDashboardAnalyticsParams,
 } from "./analytics.types";
 
+
 @Injectable()
 export class AnalyticsService {
   constructor(private db: DatabaseService) {}
@@ -49,7 +50,7 @@ export class AnalyticsService {
     // Construct the query using string concatenation for the interval
     const queryString = `
         SELECT DATE_TRUNC('${interval}', start_time) AS "intervalStart",
-               SUM(total_cost)::numeric    AS "totalCost"
+               SUM(total_cost) ::numeric    AS "totalCost"
         FROM "log"
         WHERE env_id = $1
           AND start_time >= $2::timestamp
@@ -67,7 +68,7 @@ export class AnalyticsService {
   }: GetDashboardAnalyticsParams): Promise<DashboardAnalytics> {
     const now = dayjs();
 
-    const dateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter<"Log">> = {
+    const dateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter<"Trace">> = {
       [DateSelection.ThirtyMinutes]: {
         gte: now.subtract(30, "minute").toISOString(),
       },
@@ -89,7 +90,7 @@ export class AnalyticsService {
       [DateSelection.AllTime]: {},
     };
 
-    const prevDateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter<"Log">> = {
+    const prevDateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter<"Trace">> = {
       [DateSelection.ThirtyMinutes]: {
         gte: now.subtract(60, "minute").toISOString(),
         lt: now.subtract(30, "minute").toISOString(),
@@ -117,30 +118,36 @@ export class AnalyticsService {
       [DateSelection.AllTime]: {},
     };
 
-    const baseAggregation: Prisma.LogAggregateArgs = {
+    const currAggregationPromise = this.db.trace.aggregate({
+      where: {
+        envId,
+        startTime: dateSelectionMap[dateSelection],
+      },
+      _count: true,
+      _avg: {
+        duration: true,
+      },
+      _max: {
+        duration: true,
+        totalCost: true,
+      },
+      _sum: {
+        totalCost: true,
+      },
+    });
+
+    const prevAggregationPromise = this.db.trace.aggregate({
+      where: {
+        envId,
+        startTime: prevDateSelectionMap[dateSelection],
+      },
+      _count: true,
       _avg: {
         duration: true,
       },
       _sum: {
         totalCost: true,
       },
-      _count: true,
-    };
-
-    const currAggregationPromise = this.db.log.aggregate({
-      where: {
-        envId,
-        startTime: dateSelectionMap[dateSelection],
-      },
-      ...baseAggregation,
-    });
-
-    const prevAggregationPromise = this.db.log.aggregate({
-      where: {
-        envId,
-        startTime: prevDateSelectionMap[dateSelection],
-      },
-      ...baseAggregation,
     });
 
     const [currAggregation, prevAggregation] = await Promise.all([
@@ -152,16 +159,26 @@ export class AnalyticsService {
     const prevTotalCost = prevAggregation._sum?.totalCost ?? 0;
     const currAvgDuration = currAggregation._avg?.duration ?? 0;
     const prevAvgDuration = prevAggregation._avg?.duration ?? 0;
-    const currLogCount = (currAggregation._count as number) ?? 0;
-    const prevLogCount = (prevAggregation._count as number) ?? 0;
+    const currTraceCount = currAggregation._count ?? 0;
+    const prevTraceCount = prevAggregation._count ?? 0;
+    const maxCost = currAggregation._max?.totalCost ?? 0;
+    const maxLatency = currAggregation._max?.duration ?? 0;
+
+    const round = (num: number): string => (num < 0.01 ? num.toFixed(4) : num.toFixed(2));
 
     return {
-      cost: currTotalCost.toString(),
-      costChange: this.calculateChange(currTotalCost, prevTotalCost),
+      cost: round(currTotalCost),
       averageLatency: currAvgDuration.toFixed(2),
-      averageLatencyChange: this.calculateChange(currAvgDuration, prevAvgDuration),
-      logCount: currLogCount.toString(),
-      logCountChange: this.calculateChange(currLogCount, prevLogCount),
+      traces: currTraceCount.toString(),
+      max: {
+        cost: round(maxCost),
+        latency: maxLatency.toFixed(2),
+      },
+      changes: {
+        cost: this.calculateChange(currTotalCost, prevTotalCost),
+        latency: this.calculateChange(currAvgDuration, prevAvgDuration),
+        traces: this.calculateChange(currTraceCount, prevTraceCount),
+      },
     };
   }
 

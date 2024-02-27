@@ -1,21 +1,35 @@
-import { BadgeColors } from "../../ui/badge";
 
-export const idShortener = (id: string): { short: string; color: BadgeColors } => {
+export const idShortener = (id: string): { short: string; color: string } => {
   const short = id.substring(id.length - 4);
 
-  // Improved hash function
-  let hash = 0;
-  for (let i = 0; i < id.length / 2; i++) {
-    hash = hash * 31 + id.charCodeAt(i);
-    hash &= hash; // Keep it to 32-bit integer
-  }
+  const lastLetterAscii = id.charCodeAt(id.length - 1);
+  const colors: string[] = [
+    "#E54D2E",
+    "#E5484D",
+    "#E54666",
+    "#E93D82",
+    "#D6409F",
+    "#AB4ABA",
+    "#8E4EC6",
+    "#6E56CF",
+    "#5B5BD6",
+    "#3E63DD",
+    "#0090FF",
+    "#00A2C7",
+    "#00A2C7",
+    "#12A594",
+    "#30A46C",
+    "#46A758",
+    "#F76B15",
+    "#FFC53D",
+    "#FFE629",
+    "#BDEE63",
+    "#86EAD4",
+    "#7CE2FE",
+  ];
 
-  // Ensuring we deal with positive hash values
-  hash = Math.abs(hash);
-
-  const colors: BadgeColors[] = ["purple", "blue", "orange", "green", "red", "yellow"];
-  const colorIndex = hash % colors.length;
-  const color = colors[colorIndex];
+  const adjustedAsciiIndex = lastLetterAscii % colors.length;
+  const color = colors[adjustedAsciiIndex];
 
   return {
     short,

@@ -1,4 +1,4 @@
-import { CircleSlash, DollarSign, GanttChart, Target, Timer } from "lucide-react";
+import { AlertCircle, CircleSlash, DollarSign, GanttChart, Target, Timer } from "lucide-react";
 import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AnalyticsControllerGetForDashboardDateSelectionEnum, LogDto } from "@montelo/browser-client";
 import { Await, Link, useLoaderData, useParams, useSearchParams } from "@remix-run/react";
@@ -38,7 +38,7 @@ export const DashboardPage = () => {
             traceId: log.traceId,
             logId: log.id,
           })}>
-            <Badge variant={color}>
+            <Badge style={{ backgroundColor: color }}>
               {shortTraceId} / {shortLogId}
             </Badge>
           </Link>
@@ -97,31 +97,31 @@ export const DashboardPage = () => {
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
               {(analytics) =>
-                <BaseContent title={`$ ${analytics.cost}`} sub={analytics.costChange} />}
+                <BaseContent title={`$ ${analytics.cost}`} content={`Max ➯ $ ${analytics.max.cost}`} percent={analytics.changes.cost} />}
             </Await>
           </Suspense>
         </AnalyticsCard>
         <AnalyticsCard title={"Latency"} icon={Timer}>
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
-              {(analytics) => <BaseContent title={`${analytics.averageLatency}s avg`}
-                                           sub={analytics.averageLatencyChange} />}
+              {(analytics) => <BaseContent title={`${analytics.averageLatency}s avg`} content={`Max ➯ ${analytics.max.latency}s`}
+                                           percent={analytics.changes.latency} />}
             </Await>
           </Suspense>
         </AnalyticsCard>
-        <AnalyticsCard title={"Logs"} icon={GanttChart}>
+        <AnalyticsCard title={"Traces"} icon={GanttChart}>
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
-              {(analytics) => <BaseContent title={numbro(analytics.logCount).format({
+              {(analytics) => <BaseContent title={numbro(analytics.traces).format({
                 thousandSeparated: true,
-              })} sub={analytics.logCountChange} />}
+              })} percent={analytics.changes.traces} />}
             </Await>
           </Suspense>
         </AnalyticsCard>
-        <AnalyticsCard title={"Scores"} icon={Target}>
+        <AnalyticsCard title={"Prompts & Tools"} icon={AlertCircle}>
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
-              {(analytics) => <BaseContent title={"1 hallucination"} sub={"See here"} />}
+              {(analytics) => <BaseContent title={"Coming soon!"} />}
             </Await>
           </Suspense>
         </AnalyticsCard>
@@ -160,7 +160,6 @@ export const DashboardPage = () => {
           }>
             <Await resolve={costHistory}>
               {(costHistory) => {
-                console.log(costHistory);
                 if (!costHistory.costHistory.length) {
                   return (<div className={"flex h-full justify-center items-center border rounded-lg"}>
                     <Alert className={"flex flex-row w-1/3 p-4 justify-start items-center gap-4"}>
