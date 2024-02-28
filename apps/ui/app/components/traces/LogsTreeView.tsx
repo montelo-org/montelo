@@ -27,6 +27,8 @@ const LogTreeNode: FC<{
     onSelect(log.id);
   };
 
+  const moveRightBy = (depth + 1) * 16;
+
   return (
     <div
       className={`
@@ -34,9 +36,11 @@ const LogTreeNode: FC<{
       hover:bg-secondary 
       dark:hover:bg-secondary/25
       cursor-pointer
-      ${depth ? `pl-${4 + ((depth + 1) * 2)}` : ""}
       ${isNodeSelected ? "bg-secondary dark:bg-secondary/25" : ""} 
       `}
+      style={{
+        paddingLeft: depth ? `${moveRightBy}px` : "",
+      }}
       onClick={handleClick}
     >
       <div className="flex items-center gap-2">
@@ -51,8 +55,10 @@ const LogTreeNode: FC<{
 };
 
 export const LogsTreeView: FC<Props> = ({ logs, selectedId, handleSelect }) => {
+  console.log("Logs: ", logs);
   // build the tree of logs
   const treeLogs = buildTree(logs);
+  console.log("treeLogs: ", treeLogs);
 
   // offset calculations
   const containerRef = useRef<HTMLDivElement>(null);

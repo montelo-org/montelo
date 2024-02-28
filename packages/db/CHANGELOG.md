@@ -1,5 +1,17 @@
 # @montelo/db
 
+## 1.1.41
+
+### Patch Changes
+
+- y
+
+## 1.1.40
+
+### Patch Changes
+
+- y
+
 ## 1.1.39
 
 ### Patch Changes

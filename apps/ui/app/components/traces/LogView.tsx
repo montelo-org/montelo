@@ -70,12 +70,19 @@ export const LogView: FC<Props> = ({ log }) => {
       </div>
       <div className={"flex flex-row gap-4 mb-4"}>
         <AnalyticsContainer numCols={4}>
+          <SingleContainer className={"bg-background rounded-l-xl"}>
+            <div className={"flex flex-col"}>
+              <AnalyticsTitle className={"mb-2"}>General</AnalyticsTitle>
+              <AnalyticsMinorStat>Model ➯ {log.model}</AnalyticsMinorStat>
+            </div>
+          </SingleContainer>
+
           <SingleContainer>
             <StatsContainer>
               <AnalyticsTitle>Cost</AnalyticsTitle>
-              <AnalyticsMajorStat>{log.totalCost ? `$ ${log.totalCost}` : "—"}</AnalyticsMajorStat>
-              <AnalyticsMinorStat>Input ➯ {log.inputCost ? `$ ${log.inputCost}` : "—"}</AnalyticsMinorStat>
-              <AnalyticsMinorStat>Output ➯ {log.outputCost ? `$ ${log.outputCost}` : "—"}</AnalyticsMinorStat>
+              <AnalyticsMajorStat>{log.totalCost ? `$${log.totalCost}` : "—"}</AnalyticsMajorStat>
+              <AnalyticsMinorStat>Input ➯ {log.inputCost ? `$${log.inputCost}` : "—"}</AnalyticsMinorStat>
+              <AnalyticsMinorStat>Output ➯ {log.outputCost ? `$${log.outputCost}` : "—"}</AnalyticsMinorStat>
             </StatsContainer>
           </SingleContainer>
 
@@ -97,19 +104,11 @@ export const LogView: FC<Props> = ({ log }) => {
               <AnalyticsMinorStat>End ➯ {log.endTime ? formatDate(log.endTime) : "—"}</AnalyticsMinorStat>
             </StatsContainer>
           </SingleContainer>
-
-          <SingleContainer className={"bg-background rounded-r-xl"}>
-            <div className={"flex flex-col"}>
-              <AnalyticsTitle className={"mb-2"}>Extra</AnalyticsTitle>
-              {log.extra ? Object.entries(log.extra).map(([key, value]) =>
-                <AnalyticsMinorStat key={key}>{key} ➯ {value.toString()}</AnalyticsMinorStat>,
-              ) : <AnalyticsMinorStat>None provided</AnalyticsMinorStat>}
-            </div>
-          </SingleContainer>
         </AnalyticsContainer>
       </div>
       <CodeBlock title={"Input"} value={JSON.stringify(log.input, undefined, 2)} />
       <CodeBlock title={"Output"} value={JSON.stringify(log.output, undefined, 2)} />
+      <CodeBlock title={"Extra"} value={JSON.stringify(log.extra || {}, undefined, 2)} />
     </div>
   );
 };

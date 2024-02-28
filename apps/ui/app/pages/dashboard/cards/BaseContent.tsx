@@ -1,21 +1,22 @@
 import { Skeleton } from "../../../components/ui/skeleton";
+import { FC } from "react";
 
 type BaseCardProps = {
   title?: string;
-  content?: string;
+  content?: FC;
   percent?: string;
 }
-export const BaseContent = ({ title, content, percent }: BaseCardProps) => (
+export const BaseContent = ({ title, content: Content, percent }: BaseCardProps) => (
   <div className={"flex flex-col"}>
-    <div className={"flex flex-row gap-4"}>
+    <div className={"flex flex-row gap-2"}>
       <h1 className={"text-2xl font-bold"}>
         {title}
       </h1>
-      <p className={"text-base text-muted-foreground self-end"}>{percent ? `${percent}%` : ""}</p>
+      <p className={"text-base text-muted-foreground self-end"}>{percent ? `${percent}` : ""}</p>
     </div>
-    <p className={"text-base text-muted-foreground"}>
-      {content}
-    </p>
+    <div className={"mt-1"}>
+      {Content && <Content />}
+    </div>
   </div>
 );
 

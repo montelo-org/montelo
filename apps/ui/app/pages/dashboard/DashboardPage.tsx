@@ -1,4 +1,4 @@
-import { AlertCircle, CircleSlash, DollarSign, GanttChart, Target, Timer } from "lucide-react";
+import { AlertCircle, CircleSlash, DollarSign, GanttChart, Timer } from "lucide-react";
 import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AnalyticsControllerGetForDashboardDateSelectionEnum, LogDto } from "@montelo/browser-client";
 import { Await, Link, useLoaderData, useParams, useSearchParams } from "@remix-run/react";
@@ -25,7 +25,7 @@ export const DashboardPage = () => {
   const selectedValue = searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
 
   const RecentLog: FC<{ log: LogDto }> = ({ log }) => {
-    const { short: shortTraceId, color } = idShortener(log.traceId);
+    const { short: shortTraceId, variant } = idShortener(log.traceId);
     const { short: shortLogId } = idShortener(log.id);
 
     return (
@@ -38,7 +38,7 @@ export const DashboardPage = () => {
             traceId: log.traceId,
             logId: log.id,
           })}>
-            <Badge style={{ backgroundColor: color }}>
+            <Badge variant={variant}>
               {shortTraceId} / {shortLogId}
             </Badge>
           </Link>
@@ -53,9 +53,9 @@ export const DashboardPage = () => {
   const formatXDates = (tickItem: string): string => {
     const date = dayjs(tickItem);
     const formatMap: Record<AnalyticsControllerGetForDashboardDateSelectionEnum, string> = {
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins]: date.format("H:mm"),
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._1Hr]: date.format("H:mm"),
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._24Hrs]: date.format("H:mm"),
+      [AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins]: date.format("h:mm"),
+      [AnalyticsControllerGetForDashboardDateSelectionEnum._1Hr]: date.format("h:mm"),
+      [AnalyticsControllerGetForDashboardDateSelectionEnum._24Hrs]: date.format("h:mm"),
       [AnalyticsControllerGetForDashboardDateSelectionEnum._7Days]: date.format("MMM D"),
       [AnalyticsControllerGetForDashboardDateSelectionEnum._1Month]: date.format("MMM D"),
       [AnalyticsControllerGetForDashboardDateSelectionEnum._3Months]: date.format("MMM D"),
@@ -97,15 +97,25 @@ export const DashboardPage = () => {
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
               {(analytics) =>
-                <BaseContent title={`$ ${analytics.cost}`} content={`Max ➯ $ ${analytics.max.cost}`} percent={analytics.changes.cost} />}
+                <BaseContent
+                  title={`$${numbro(analytics.cost).format({ thousandSeparated: true })}`}
+                  content={() => <Badge variant={"orange"}>{`Max $${analytics.max.cost}`}</Badge>}
+                  percent={analytics.changes.cost}
+                />
+              }
             </Await>
           </Suspense>
         </AnalyticsCard>
         <AnalyticsCard title={"Latency"} icon={Timer}>
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
-              {(analytics) => <BaseContent title={`${analytics.averageLatency}s avg`} content={`Max ➯ ${analytics.max.latency}s`}
-                                           percent={analytics.changes.latency} />}
+              {(analytics) =>
+                <BaseContent
+                  title={`${analytics.averageLatency}s avg`}
+                  content={() => <Badge variant={"orange"}>{`Max ${analytics.max.latency}s`}</Badge>}
+                  percent={analytics.changes.latency}
+                />
+              }
             </Await>
           </Suspense>
         </AnalyticsCard>
@@ -121,7 +131,7 @@ export const DashboardPage = () => {
         <AnalyticsCard title={"Prompts & Tools"} icon={AlertCircle}>
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
-              {(analytics) => <BaseContent title={"Coming soon!"} />}
+              {(analytics) => <BaseContent title={"Coming soon"} />}
             </Await>
           </Suspense>
         </AnalyticsCard>
@@ -136,10 +146,10 @@ export const DashboardPage = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Timestamp</TableHead>
-                  <TableHead>Trace ID / Log ID</TableHead>
+                  <TableHead>Trace / Log </TableHead>
                   <TableHead>Log Name</TableHead>
                   <TableHead>Latency</TableHead>
-                  <TableHead>Total Cost</TableHead>
+                  <TableHead>Cost</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -160,6 +170,7 @@ export const DashboardPage = () => {
           }>
             <Await resolve={costHistory}>
               {(costHistory) => {
+                console.log(costHistory);
                 if (!costHistory.costHistory.length) {
                   return (<div className={"flex h-full justify-center items-center border rounded-lg"}>
                     <Alert className={"flex flex-row w-1/3 p-4 justify-start items-center gap-4"}>
@@ -193,7 +204,7 @@ export const DashboardPage = () => {
                       <YAxis
                         stroke={"hsl(var(--border))"}
                         tick={{ fill: "hsl(var(--muted-foreground))" }}
-                        tickFormatter={(value) => `$ ${value}`}
+                        tickFormatter={(value) => `$${value}`}
                       />
                       <Tooltip
                         contentStyle={{
@@ -201,7 +212,7 @@ export const DashboardPage = () => {
                           borderRadius: "8px",
                           borderColor: "hsl(var(--border))",
                         }}
-                        formatter={(value) => [`$ ${value}`, "Total Cost"]}
+                        formatter={(value) => [`$${value}`, "Total Cost"]}
                         labelFormatter={(date) => dayjs(date).format("MMM D YYYY H:mm:ss")}
                         cursor={{ stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 }}
                       />

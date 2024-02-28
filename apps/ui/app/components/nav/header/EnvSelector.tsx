@@ -41,11 +41,11 @@ export const EnvSelector = ({ environments, pathEnv }: EnvSelectorProps) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild className={`w-44`}>
+        <DropdownMenuTrigger asChild className={"w-full"}>
           <Button variant="outline"
-                  className={`${pathEnv.name === "Production" ? "border-orange-600 border-2" : ""} justify-between`}>
+                  className={`text-muted-foreground ${pathEnv.name === "Production" ? "border-orange-600 border-2" : ""} justify-between`}>
             {selectedEnvName}
-            <ChevronsUpDown size={20} />
+            <ChevronsUpDown size={16} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-44">

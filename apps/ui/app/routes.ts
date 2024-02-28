@@ -51,7 +51,7 @@ const PATH_ACTIONS = {
 // external pages
 const PATH_EXTERNAL = {
   documentation: "https://docs.montelo.ai",
-  support: "https://discord.gg/DfnXRGtFhP",
+  discord: "https://discord.gg/DfnXRGtFhP",
 };
 
 // routes object to use in files

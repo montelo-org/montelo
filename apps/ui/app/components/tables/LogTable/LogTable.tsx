@@ -68,7 +68,7 @@ export const columns: ColumnDef<LogDto>[] = [
     cell: ({ row }) => {
       const params = useParams();
       const traceId: string = row.getValue("traceId");
-      const { short, color } = idShortener(traceId);
+      const { short, variant } = idShortener(traceId);
 
       return (
         <div>
@@ -80,7 +80,7 @@ export const columns: ColumnDef<LogDto>[] = [
                   envId: params.envId!,
                   traceId,
                 })}>
-                  <Badge style={{ backgroundColor: color }}>
+                  <Badge variant={variant}>
                     {short}
                   </Badge>
                 </Link>

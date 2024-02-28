@@ -1,7 +1,7 @@
 import { Theme, useTheme } from "remix-themes";
 import { useFetcher } from "@remix-run/react";
 import { MouseEventHandler } from "react";
-import { Check, LogOut, Palette, UserRound } from "lucide-react";
+import { Check, LogOut, Palette } from "lucide-react";
 import { AuthUserDto } from "@montelo/browser-client";
 import { Routes } from "../../../routes";
 import {
@@ -17,7 +17,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "../../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { sha256 } from "js-sha256";
 
 type ProfileDropwdownProps = {
   user: AuthUserDto;
@@ -28,7 +29,6 @@ export const ProfileDropdown = ({ user }: ProfileDropwdownProps) => {
   const fetcher = useFetcher();
   const isDarkMode = theme === Theme.DARK;
 
-  const userInitials = `${user.firstName.charAt(0).toUpperCase()}${user.lastName.charAt(0).toUpperCase()}`;
   const userFullName = `${user.firstName} ${user.lastName}`;
   const userEmail = user.email;
 
@@ -40,11 +40,17 @@ export const ProfileDropdown = ({ user }: ProfileDropwdownProps) => {
     });
   };
 
+  function getGravatarURL(email: string) {
+    const address = email.trim().toLowerCase();
+    const hash = sha256(address);
+    return `https://www.gravatar.com/avatar/${hash}?d=robohash`;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={"focus:outline-none"}>
-        <Avatar>
-          <AvatarFallback>{userInitials}</AvatarFallback>
+        <Avatar className={"bg-secondary h-6 w-6"}>
+          <AvatarImage src={getGravatarURL(user.email)} alt={"User image"} />
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

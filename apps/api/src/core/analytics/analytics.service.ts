@@ -50,7 +50,7 @@ export class AnalyticsService {
     // Construct the query using string concatenation for the interval
     const queryString = `
         SELECT DATE_TRUNC('${interval}', start_time) AS "intervalStart",
-               SUM(total_cost) ::numeric    AS "totalCost"
+               SUM(total_cost)    AS "totalCost"
         FROM "log"
         WHERE env_id = $1
           AND start_time >= $2::timestamp

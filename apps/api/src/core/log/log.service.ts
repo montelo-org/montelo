@@ -15,7 +15,7 @@ export class LogService {
       },
       orderBy: [
         {
-          createdAt: "desc",
+          startTime: "desc",
         },
       ],
       take: options?.take || 50,
