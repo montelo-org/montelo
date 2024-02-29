@@ -58,19 +58,6 @@ const SidebarItems: SidebarItem[] = [
   },
 ];
 
-const BottomSidebarItems: BottomSidebarItem[] = [
-  {
-    name: "Docs",
-    href: Routes.external.documentation,
-    icon: <BookOpen size={16} className={"group-hover:text-foreground text-muted-foreground"} />,
-  },
-  {
-    name: "Help",
-    href: Routes.external.discord,
-    icon: <HelpCircle size={16} className={"group-hover:text-foreground text-muted-foreground"} />,
-  },
-];
-
 export const Sidebar = () => {
   const { user, project, environment } = useLoaderData<EnvLayoutLoader>();
   const { pathname } = useLocation();
@@ -121,20 +108,6 @@ export const Sidebar = () => {
     );
   });
 
-  const BottomItemsComponent = () => BottomSidebarItems.map((item) => (
-    <li key={item.name} className={"group hover:bg-muted/50 rounded"}>
-      <Link
-        to={item.href}
-        target={"_blank"}
-        prefetch={"intent"}
-        className={"flex items-center py-1"}
-      >
-        <div className="flex justify-center w-8">{item.icon}</div>
-        <span className="ml-1 whitespace-nowrap text-muted-foreground">{item.name}</span>
-      </Link>
-    </li>
-  ));
-
   return (
     <aside className="w-52 h-screen fixed left-0 top-0 flex flex-col border-r-[1px]" aria-label="Sidebar">
       <div className={"flex flex-col p-4 gap-4 mb-2"}>
@@ -151,7 +124,7 @@ export const Sidebar = () => {
             </Link>
             <p className={"text-sm text-muted-foreground"}>/ {project.team.name}</p>
           </div>
-          <ProfileDropdown user={user} />
+          <ProfileDropdown user={user} small={true} />
         </div>
         <div className={"flex flex-col gap-1"}>
           <p className={"text-sm text-muted-foreground"}>{project.name}</p>
@@ -163,10 +136,17 @@ export const Sidebar = () => {
           <SidebarItemsComponent />
         </ul>
       </div>
-      <div className="mt-auto p-4">
-        <ul className="space-y-1">
-          <BottomItemsComponent />
-        </ul>
+      <div className="flex flex-row justify-between p-4">
+        <div className={"group hover:bg-muted/50 rounded"}>
+          <Link to={Routes.external.discord} target={"_blank"} prefetch={"intent"}>
+            <HelpCircle size={16} className={"group-hover:text-foreground text-muted-foreground"} />
+          </Link>
+        </div>
+        <div className={"group hover:bg-muted/50 rounded"}>
+          <Link to={Routes.external.documentation} target={"_blank"} prefetch={"intent"}>
+            <BookOpen size={16} className={"group-hover:text-foreground text-muted-foreground"} />
+          </Link>
+        </div>
       </div>
     </aside>
   );

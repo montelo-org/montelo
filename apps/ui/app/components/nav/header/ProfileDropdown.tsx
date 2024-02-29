@@ -17,14 +17,15 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Avatar, AvatarImage } from "../../ui/avatar";
 import { sha256 } from "js-sha256";
 
 type ProfileDropwdownProps = {
   user: AuthUserDto;
+  small?: boolean;
 }
 
-export const ProfileDropdown = ({ user }: ProfileDropwdownProps) => {
+export const ProfileDropdown = ({ user, small }: ProfileDropwdownProps) => {
   const [theme, setTheme] = useTheme();
   const fetcher = useFetcher();
   const isDarkMode = theme === Theme.DARK;
@@ -49,7 +50,7 @@ export const ProfileDropdown = ({ user }: ProfileDropwdownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={"focus:outline-none"}>
-        <Avatar className={"bg-secondary h-6 w-6"}>
+        <Avatar className={`bg-secondary ${small ? "h-6 w-6" : "h-10 w-10"}`}>
           <AvatarImage src={getGravatarURL(user.email)} alt={"User image"} />
         </Avatar>
       </DropdownMenuTrigger>

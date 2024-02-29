@@ -5,7 +5,7 @@ import cuid from "cuid";
 import { LogTypes, Prisma, prisma } from "./client";
 
 const seedSingleBatch = async () => {
-  const envId = "clt3kbw1p000418cb7c728n7y";
+  const envId = "clt0r2wp70005yjxo9l44mn3c";
   const now = new Date();
   // const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
   const oneHourAgo: Date = new Date(now.getTime() - 60 * 60 * 1000);
@@ -25,12 +25,12 @@ const seedSingleBatch = async () => {
     const durationMs = new Date(endTime).getTime() - new Date(startTime).getTime();
     const duration = parseFloat((durationMs / 1000).toFixed(2));
 
-    const inputTokens = faker.number.int({ min: 100, max: 10000 });
-    const outputTokens = faker.number.int({ min: 100, max: 10000 });
+    const inputTokens = faker.number.int({ min: 200, max: 5000 });
+    const outputTokens = faker.number.int({ min: 200, max: 5000 });
     const totalTokens = inputTokens + outputTokens;
 
-    const inputCost = faker.number.float({ min: 0.001, max: 2, fractionDigits: 2 });
-    const outputCost = faker.number.float({ min: 0.001, max: 2, fractionDigits: 2 });
+    const inputCost = inputTokens * 0.00001;
+    const outputCost = outputTokens * 0.00003;
     const totalCost = parseFloat((inputCost + outputCost).toFixed(2));
 
     const getRandomLogType = (): LogTypes =>
@@ -67,11 +67,11 @@ const seedSingleBatch = async () => {
 
     let startTime = faker.date.between({
       from: oneHourAgo,
-      to: new Date(oneHourAgo.getTime() + 10 * 60 * 1000), // Adds 10 minutes to oneHourAgo
+      to: new Date(oneHourAgo.getTime() + 2 * 60 * 1000), // Adds 10 minutes to oneHourAgo
     });
     let endTime = faker.date.between({
       from: startTime,
-      to: new Date(startTime.getTime() + 10 * 1000),
+      to: new Date(startTime.getTime() + 2 * 1000),
     });
 
     for (let step = 0; step < numLogs; step++) {
@@ -83,11 +83,11 @@ const seedSingleBatch = async () => {
       // update dates
       startTime = faker.date.between({
         from: endTime,
-        to: new Date(endTime.getTime() + 10 * 1000),
+        to: new Date(endTime.getTime() + 2 * 1000),
       });
       endTime = faker.date.between({
         from: startTime,
-        to: new Date(startTime.getTime() + 10 * 1000),
+        to: new Date(startTime.getTime() + 2 * 1000),
       });
 
       fakeLogs.push(fakeLog);
@@ -135,7 +135,7 @@ const seedSingleBatch = async () => {
 
 const seed = async () => {
   try {
-    const arraySize = 1000;
+    const arraySize = 10;
     const array = Array(arraySize);
     const batches = 10;
     await eachLimit(array, batches, seedSingleBatch);
