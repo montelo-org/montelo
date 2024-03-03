@@ -1,5 +1,47 @@
 # @montelo/config
 
+## 1.1.48
+
+### Patch Changes
+
+- y
+
+## 1.1.47
+
+### Patch Changes
+
+- y
+
+## 1.1.46
+
+### Patch Changes
+
+- y
+
+## 1.1.45
+
+### Patch Changes
+
+- y
+
+## 1.1.44
+
+### Patch Changes
+
+- y
+
+## 1.1.43
+
+### Patch Changes
+
+- y
+
+## 1.1.42
+
+### Patch Changes
+
+- y
+
 ## 1.1.41
 
 ### Patch Changes

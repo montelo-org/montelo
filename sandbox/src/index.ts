@@ -1,50 +1,21 @@
 import dotenv from "dotenv";
-import { MonteloAI } from "montelo";
+import { Montelo } from "montelo";
 
 dotenv.config();
 
-const montelo = new MonteloAI();
+const montelo = new Montelo();
 
 const chat = async (): Promise<void> => {
-  const trace = montelo.startTrace({ name: "Researcher" });
-
-  await trace.openai.chat.completions.create({
-    name: "Slack Agent",
-    model: "gpt-3.5-turbo-0125",
-    messages: [
-      {
-        role: "user",
-        content: "Say hello",
-      },
-    ],
+  const stream = await montelo.openai.chat.completions.create({
+    name: "testing",
+    model: 'gpt-4',
+    messages: [{ role: 'user', content: 'Say this is a test' }],
+    stream: true,
   });
 
-  await trace.openai.chat.completions.create({
-    name: "Slack Agent / Write Message",
-    model: "gpt-3.5-turbo-0125",
-    messages: [
-      {
-        role: "system",
-        content: "You are tasked with writing message to the given Slack channel."
-      },
-      {
-        role: "user",
-        content: "Slack channel: #devs\n\nSearch results: ...",
-      },
-    ],
-  });
-
-  await trace.openai.chat.completions.create({
-    name: "Slack Agent / Send Message",
-    model: "gpt-3.5-turbo-0125",
-    messages: [
-      {
-        role: "user",
-        content: "Say hello",
-      },
-    ],
-  });
-
+  for await (const chunk of stream) {
+    process.stdout.write(chunk.choices[0]?.delta?.content || '');
+  }
 };
 
 void chat();

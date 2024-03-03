@@ -1,12 +1,12 @@
 {
   "name": "@montelo/log-server",
-  "version": "1.1.41",
+  "version": "1.1.48",
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "export DEBUG=\"prisma*\";dotenv -e .env.development -- nest start --watch",
+    "start:dev": "dotenv -e .env.development -- nest start --watch",
     "start:debug": "dotenv -e .env.development -- nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -18,7 +18,7 @@
     "generate:client": "openapi-generator-cli generate -i http://localhost:3002/docs-json -g typescript-fetch -o ../montelo/src/client"
   },
   "dependencies": {
-    "@montelo/db": "1.1.41",
+    "@montelo/db": "1.1.48",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/bull": "^10.0.1",
     "@nestjs/common": "^10.0.0",

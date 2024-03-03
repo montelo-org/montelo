@@ -1,4 +1,4 @@
-import { Log, LogTypes } from "@montelo/db";
+import { Log, LogSources } from "@montelo/db";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 import { omit } from "lodash";
@@ -23,8 +23,8 @@ export class LogDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ enum: LogTypes })
-  type: LogTypes;
+  @ApiProperty({ enum: LogSources })
+  source: LogSources;
 
   @ApiProperty()
   @IsString()

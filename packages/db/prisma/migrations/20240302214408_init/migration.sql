@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "UserPermissionRole" AS ENUM ('ADMIN', 'MEMBER');
 
+-- CreateEnum
+CREATE TYPE "LogSources" AS ENUM ('MANUAL', 'OPENAI', 'ANTHROPIC', 'MISTRAL', 'COHERE');
+
 -- CreateTable
 CREATE TABLE "team" (
     "id" TEXT NOT NULL,
@@ -81,6 +84,7 @@ CREATE TABLE "log" (
     "name" TEXT NOT NULL,
     "input" JSONB NOT NULL,
     "output" JSONB NOT NULL,
+    "source" "LogSources" NOT NULL,
     "model" TEXT,
     "extra" JSONB,
     "start_time" TIMESTAMP(3),

@@ -30,7 +30,7 @@ export interface LogInput {
      * @type {string}
      * @memberof LogInput
      */
-    type: string;
+    source: LogInputSourceEnum;
     /**
      * 
      * @type {string}
@@ -93,13 +93,27 @@ export interface LogInput {
     extra?: object;
 }
 
+
+/**
+ * @export
+ */
+export const LogInputSourceEnum = {
+    Manual: 'MANUAL',
+    Openai: 'OPENAI',
+    Anthropic: 'ANTHROPIC',
+    Mistral: 'MISTRAL',
+    Cohere: 'COHERE'
+} as const;
+export type LogInputSourceEnum = typeof LogInputSourceEnum[keyof typeof LogInputSourceEnum];
+
+
 /**
  * Check if a given object implements the LogInput interface.
  */
 export function instanceOfLogInput(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "type" in value;
+    isInstance = isInstance && "source" in value;
     isInstance = isInstance && "input" in value;
     isInstance = isInstance && "output" in value;
 
@@ -117,7 +131,7 @@ export function LogInputFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'name': json['name'],
-        'type': json['type'],
+        'source': json['source'],
         'model': !exists(json, 'model') ? undefined : json['model'],
         'input': json['input'],
         'output': json['output'],
@@ -141,7 +155,7 @@ export function LogInputToJSON(value?: LogInput | null): any {
     return {
         
         'name': value.name,
-        'type': value.type,
+        'source': value.source,
         'model': value.model,
         'input': value.input,
         'output': value.output,

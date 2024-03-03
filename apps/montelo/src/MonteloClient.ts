@@ -36,4 +36,8 @@ export class MonteloClient {
   public setTrace(trace: TraceInput) {
     this.trace = trace;
   }
+
+  public getTrace() {
+    return this.trace;
+  }
 }

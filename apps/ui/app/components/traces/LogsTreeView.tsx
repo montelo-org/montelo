@@ -55,10 +55,8 @@ const LogTreeNode: FC<{
 };
 
 export const LogsTreeView: FC<Props> = ({ logs, selectedId, handleSelect }) => {
-  console.log("Logs: ", logs);
   // build the tree of logs
   const treeLogs = buildTree(logs);
-  console.log("treeLogs: ", treeLogs);
 
   // offset calculations
   const containerRef = useRef<HTMLDivElement>(null);

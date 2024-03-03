@@ -1,4 +1,4 @@
-import { Log, LogTypes } from "@montelo/db";
+import { Log, LogSources } from "@montelo/db";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 import { omit } from "lodash";
@@ -16,15 +16,15 @@ export class LogDto {
   @IsString()
   envId: string;
 
-  @ApiProperty({ enum: LogTypes })
-  type: LogTypes;
-
   @ApiProperty()
   parentLogId: string | null;
 
   @ApiProperty()
   @IsString()
   name: string;
+
+  @ApiProperty({ enum: LogSources })
+  source: LogSources;
 
   @ApiProperty()
   @IsString()
@@ -66,8 +66,11 @@ export class LogDto {
   @ApiProperty()
   extra: any;
 
+  @ApiProperty()
+  createdAt: string;
+
   static fromLog(log: Log): LogDto {
-    const baseLog = omit(log, ["startTime", "endTime", "createdAt", "updatedAt"]);
+    const baseLog = omit(log, ["startTime", "endTime", "updatedAt"]);
 
     return {
       ...baseLog,
@@ -75,6 +78,7 @@ export class LogDto {
       startTime: log.startTime?.toISOString() || null,
       endTime: log.endTime?.toISOString() || null,
       parentLogId: baseLog.parentLogId || null,
+      createdAt: log.createdAt.toISOString(),
     };
   }
 }

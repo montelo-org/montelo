@@ -15,9 +15,12 @@ enum UserPermissionRole {
   MEMBER
 }
 
-enum LogTypes {
+enum LogSources {
   MANUAL
   OPENAI
+  ANTHROPIC
+  MISTRAL
+  COHERE
 }
 
 // Models
@@ -154,24 +157,24 @@ model Log {
 
   // properties
   // some are optional to discord logging things unrelated to LLM calls
-  traceId      String    @map("trace_id")
-  envId        String    @map("env_id")
-  parentLogId  String?   @map("parent_id")
+  traceId      String     @map("trace_id")
+  envId        String     @map("env_id")
+  parentLogId  String?    @map("parent_id")
   name         String
   input        Json
   output       Json
-  type         LogTypes
+  source       LogSources
   model        String?
   extra        Json?
-  startTime    DateTime? @map("start_time")
-  endTime      DateTime? @map("end_time")
+  startTime    DateTime?  @map("start_time")
+  endTime      DateTime?  @map("end_time")
   duration     Float?
-  inputTokens  Int?      @map("input_tokens")
-  outputTokens Int?      @map("output_tokens")
-  totalTokens  Int?      @map("total_tokens")
-  inputCost    Float?    @map("input_cost")
-  outputCost   Float?    @map("output_cost")
-  totalCost    Float?    @map("total_cost")
+  inputTokens  Int?       @map("input_tokens")
+  outputTokens Int?       @map("output_tokens")
+  totalTokens  Int?       @map("total_tokens")
+  inputCost    Float?     @map("input_cost")
+  outputCost   Float?     @map("output_cost")
+  totalCost    Float?     @map("total_cost")
 
   // relations
   environment Environment @relation(fields: [envId], references: [id], onDelete: Cascade)

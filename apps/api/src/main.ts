@@ -22,6 +22,7 @@ async function bootstrap() {
       .setDescription("Documentation for the Montelo API.")
       .setVersion("1.0")
       .addServer(`http://localhost:${env.PORT}/`, "🟢 Local")
+      .addServer(`https://api.montelo.ai/`, "🔴 Production")
       .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);

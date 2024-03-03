@@ -168,7 +168,7 @@ exports.Prisma.LogScalarFieldEnum = {
   name: 'name',
   input: 'input',
   output: 'output',
-  type: 'type',
+  source: 'source',
   model: 'model',
   extra: 'extra',
   startTime: 'startTime',
@@ -238,9 +238,12 @@ exports.UserPermissionRole = exports.$Enums.UserPermissionRole = {
   MEMBER: 'MEMBER'
 };
 
-exports.LogTypes = exports.$Enums.LogTypes = {
+exports.LogSources = exports.$Enums.LogSources = {
   MANUAL: 'MANUAL',
-  OPENAI: 'OPENAI'
+  OPENAI: 'OPENAI',
+  ANTHROPIC: 'ANTHROPIC',
+  MISTRAL: 'MISTRAL',
+  COHERE: 'COHERE'
 };
 
 exports.Prisma.ModelName = {

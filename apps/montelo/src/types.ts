@@ -1,8 +1,14 @@
 import { ClientOptions as OpenAIClientOptions } from "openai";
 
+export type MistralClientOptions = {
+  apiKey?: string;
+  endpoint?: string;
+};
+
 export type MonteloOptions = {
   montelo?: MonteloClientOptions;
   openai?: OpenAIClientOptions;
+  mistral?: MistralClientOptions;
 };
 
 export type MonteloClientOptions = {

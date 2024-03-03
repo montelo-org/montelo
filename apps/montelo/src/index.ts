@@ -1,2 +1,2 @@
 export { AIFunction } from "@montelo/fizz";
-export { MonteloAI } from "./MonteloAI";
+export { Montelo } from "./Montelo";

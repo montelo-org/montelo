@@ -2,10 +2,10 @@ import { faker } from "@faker-js/faker";
 import { eachLimit } from "async";
 import cuid from "cuid";
 
-import { LogTypes, Prisma, prisma } from "./client";
+import { LogSources, Prisma, prisma } from "./client";
 
 const seedSingleBatch = async () => {
-  const envId = "clt0r2wp70005yjxo9l44mn3c";
+  const envId = "clt0r2wp70004yjxos2kpuzvo";
   const now = new Date();
   // const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
   const oneHourAgo: Date = new Date(now.getTime() - 60 * 60 * 1000);
@@ -33,8 +33,8 @@ const seedSingleBatch = async () => {
     const outputCost = outputTokens * 0.00003;
     const totalCost = parseFloat((inputCost + outputCost).toFixed(2));
 
-    const getRandomLogType = (): LogTypes =>
-      Object.values(LogTypes)[Math.floor(Math.random() * Object.values(LogTypes).length)];
+    const getRandomLogType = (): LogSources =>
+      Object.values(LogSources)[Math.floor(Math.random() * Object.values(LogSources).length)];
 
     return {
       id: cuid(),
@@ -47,7 +47,7 @@ const seedSingleBatch = async () => {
       output: {
         productDepartment,
       },
-      type: getRandomLogType(),
+      source: getRandomLogType(),
       model: faker.datatype.boolean() ? "gpt-4-0125-preview" : "gpt-3.5-turbo-1106",
       startTime,
       endTime,

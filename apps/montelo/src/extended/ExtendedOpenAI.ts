@@ -1,4 +1,4 @@
-import { LogTypes } from "@montelo/db";
+import { LogSources } from "@montelo/db";
 import { TiktokenModel, encodingForModel } from "js-tiktoken";
 import OpenAI, { ClientOptions as OpenAIClientOptions } from "openai";
 import { APIPromise, RequestOptions } from "openai/core";
@@ -37,7 +37,7 @@ class ExtendedChatCompletions extends OpenAI.Chat.Completions {
   ): APIPromise<OpenAI.ChatCompletion | Stream<OpenAI.ChatCompletionChunk>> {
     const startTime = new Date();
 
-    const { name, ...bodyWithoutMonteloParams } = body;
+    const { name, extra, ...bodyWithoutMonteloParams } = body;
     const originalPromise = super.create(bodyWithoutMonteloParams, options);
 
     if ("stream" in body && body.stream) {
@@ -163,7 +163,7 @@ class ExtendedChatCompletions extends OpenAI.Chat.Completions {
   ): Promise<void> {
     const log: LogInput = {
       ...time,
-      type: LogTypes.OPENAI,
+      source: LogSources.OPENAI,
       name: input.name,
       model: output.model,
       inputTokens: output.usage?.prompt_tokens,

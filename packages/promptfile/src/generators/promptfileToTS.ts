@@ -64,5 +64,5 @@ export const promptfileToTS = (fileName: string, fileContent: string): string =>
     .map((message) => `{ role: "${message.role}", content: \`${message.content}\` }`)
     .join(",\n");
 
-  return `${fileName}: ({ ${joinedParams} }: { ${joinedTypedParams} }): Array<ChatCompletionMessageParam> => [${stringifiedMessages}],\n`;
+  return `${fileName}: ({ ${joinedParams} }: { ${joinedTypedParams} }) => [${stringifiedMessages}],\n`;
 };

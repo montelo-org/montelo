@@ -170,7 +170,6 @@ export const DashboardPage = () => {
           }>
             <Await resolve={costHistory}>
               {(costHistory) => {
-                console.log(costHistory);
                 if (!costHistory.costHistory.length) {
                   return (<div className={"flex h-full justify-center items-center border rounded-lg"}>
                     <Alert className={"flex flex-row w-1/3 p-4 justify-start items-center gap-4"}>
