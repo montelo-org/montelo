@@ -1,5 +1,4 @@
-import { LogSources } from "@montelo/db";
-import cuid from "cuid";
+import { createId } from '@paralleldrive/cuid2';
 
 import { MonteloClient } from "./MonteloClient";
 import { LogInput } from "./client";
@@ -22,7 +21,7 @@ export class Montelo {
   }
 
   public log(log: LogParams) {
-    void this.monteloClient.createLog({ ...log, source: LogSources.MANUAL });
+    void this.monteloClient.createLog({ ...log, source: "MANUAL" });
   }
 
   public trace(trace: TraceParams): Trace {
@@ -30,7 +29,7 @@ export class Montelo {
       throw new Error("Trace already set on this Montelo instance.");
     }
     const newMonteloInstance = new Montelo(this.constructorOptions);
-    newMonteloInstance.monteloClient.setTrace({ ...trace, id: cuid() });
+    newMonteloInstance.monteloClient.setTrace({ ...trace, id: createId() });
     return newMonteloInstance;
   }
 }

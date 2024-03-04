@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { eachLimit } from "async";
-import cuid from "cuid";
+import { createId } from '@paralleldrive/cuid2';
 
 import { LogSources, Prisma, prisma } from "./client";
 
@@ -37,7 +37,7 @@ const seedSingleBatch = async () => {
       Object.values(LogSources)[Math.floor(Math.random() * Object.values(LogSources).length)];
 
     return {
-      id: cuid(),
+      id: createId(),
       envId,
       name,
       input: {

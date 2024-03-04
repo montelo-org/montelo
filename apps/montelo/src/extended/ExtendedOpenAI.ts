@@ -1,4 +1,3 @@
-import { LogSources } from "@montelo/db";
 import OpenAI, { ClientOptions as OpenAIClientOptions } from "openai";
 import { APIPromise, RequestOptions } from "openai/core";
 import { Chat } from "openai/resources";
@@ -145,7 +144,7 @@ class ExtendedChatCompletions extends OpenAI.Chat.Completions {
           totalTokens: output.usage.total_tokens,
         },
       }),
-      source: LogSources.OPENAI,
+      source: "OPENAI",
       model: output.model,
       input: base,
       output,
