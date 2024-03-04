@@ -22,10 +22,6 @@ export class ProjectService {
   }
 
   async create(params: CreateProjectInput): Promise<Project> {
-    if (params.envNames.length > 3) {
-      throw new Error("Environment limit exceeded. Max 5 allowed.");
-    }
-
     const isRestrictedEnvironmentUsed = params.envNames.some(
       (el) => el === Environments.PRODUCTION || el === Environments.DEVELOPMENT,
     );
@@ -36,7 +32,7 @@ export class ProjectService {
     }
 
     const envNamesAsObj = params.envNames.map((name) => ({ name }));
-
+    console.log("envNamesAsObj: ", envNamesAsObj)
     return this.db.project.create({
       data: {
         name: params.name,

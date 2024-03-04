@@ -46,6 +46,9 @@ const PATH_ACTIONS = {
     reveal: (apiKeyId: string) => path(ROOT_ACTION, `/api-keys/${apiKeyId}/reveal`),
     rotate: (apiKeyId: string) => path(ROOT_ACTION, `/api-keys/${apiKeyId}/rotate`),
   },
+  trace: {
+    delete: path(ROOT_ACTION, "/trace/delete"),
+  },
 };
 
 // external pages

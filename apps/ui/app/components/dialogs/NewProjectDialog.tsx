@@ -15,6 +15,7 @@ import { Routes } from "../../routes";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
+import { Trash } from "lucide-react";
 
 type NewProjectDialogProps = {
   teamId: string;
@@ -24,7 +25,22 @@ type NewProjectDialogProps = {
 export const NewProjectDialog = ({ teamName, teamId }: NewProjectDialogProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isCollapseOpen, setIsCollapseOpen] = useState<boolean>(false);
+  const [environments, setEnvironments] = useState<string[]>([""]);
   const fetcher = useFetcher();
+
+  const handleAddEnvironment = () => {
+    setEnvironments([...environments, ""]);
+  };
+
+  const handleDeleteEnvironment = (index: number) => {
+    const newEnvironments = environments.filter((_, i) => i !== index);
+    setEnvironments(newEnvironments);
+  };
+
+  const handleEnvironmentChange = (index: number, value: string) => {
+    const newEnvironments = environments.map((env, i) => i === index ? value : env);
+    setEnvironments(newEnvironments);
+  };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
@@ -36,6 +52,8 @@ export const NewProjectDialog = ({ teamName, teamId }: NewProjectDialogProps) =>
 
     fetcher.submit(event.currentTarget);
     setIsDialogOpen(false);
+    setIsCollapseOpen(false);
+    setEnvironments([""]);
   };
 
   return (
@@ -75,22 +93,28 @@ export const NewProjectDialog = ({ teamName, teamId }: NewProjectDialogProps) =>
                 </CollapsibleTrigger>
               </div>
               <CollapsibleContent>
-                <div className="flex-row items-center">
-                  <p className={"text-sm font-light"}>
-                    By default, each project is created with a <span
-                    className={"font-medium"}>Development</span> and <span
-                    className={"font-medium"}>Production</span> environment.
-                  </p>
-                  <p className={"text-sm font-light mb-4 mt-2"}>
-                    Specify an additional environment here.
-                  </p>
-                  <Input id="environment" name={"environment"} placeholder={"Staging"} />
+                <div className={"flex flex-col gap-2"}>
+                  {environments.map((environment, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <Input
+                        id={`environment-${index}`}
+                        name="environments"
+                        value={environment}
+                        placeholder="Environment name"
+                        onChange={(e) => handleEnvironmentChange(index, e.target.value)}
+                      />
+                      <Button type={"button"} variant="ghost" size="icon" onClick={() => handleDeleteEnvironment(index)}>
+                        <Trash className={"text-destructive"} size={16} />
+                      </Button>
+                    </div>
+                  ))}
+                  <Button type={"button"} variant={"outline"} onClick={handleAddEnvironment} className={"self-end w-1/3"}>Add Another</Button>
                 </div>
               </CollapsibleContent>
             </Collapsible>
           </div>
           <DialogFooter>
-            <Button type="submit">Add to {teamName}</Button>
+            <Button type="submit">Add project to {teamName}</Button>
           </DialogFooter>
         </fetcher.Form>
       </DialogContent>

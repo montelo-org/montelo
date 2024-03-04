@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronDownIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,7 +13,6 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { LogDto } from "@montelo/browser-client";
-import { darkStyles, JsonView } from "react-json-view-lite";
 import "react-json-view-lite/dist/index.css";
 import dayjs from "dayjs";
 import { Checkbox } from "../../ui/checkbox";
@@ -21,6 +20,9 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { Button } from "../../ui/button";
@@ -28,8 +30,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Badge } from "../../ui/badge";
 import { idShortener } from "./idShortener";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../ui/tooltip";
-import { Link, useParams } from "@remix-run/react";
+import { Link, useFetcher, useParams } from "@remix-run/react";
 import { Routes } from "../../../routes";
+import { Eye, Trash } from "lucide-react";
 
 export const columns: ColumnDef<LogDto>[] = [
   {
@@ -198,30 +201,37 @@ export const columns: ColumnDef<LogDto>[] = [
     },
   },
   {
-    accessorKey: "input",
-    header: "Input",
-    cell: ({ row }) => (
-      <div>
-        <JsonView
-          data={row.getValue("input")}
-          style={{ ...darkStyles, container: "backgroundColor: inherit;", stringValue: "color: inherit;" }}
-          shouldExpandNode={(level) => level >= 1}
-        />
-      </div>
-    ),
-  },
-  {
-    accessorKey: "output",
-    header: "Output",
-    cell: ({ row }) => (
-      <div>
-        <JsonView
-          data={row.getValue("output")}
-          style={{ ...darkStyles, container: "backgroundColor: inherit;", stringValue: "color: inherit;" }}
-          shouldExpandNode={(level) => level >= 1}
-        />
-      </div>
-    ),
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const fetcher = useFetcher();
+      const traceId = row.getValue("traceId") as string;
+
+      const handleDelete = () => {
+        fetcher.submit({ traceId }, { method: "post", action: Routes.actions.trace.delete });
+      };
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <DotsHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem className={"gap-2"} disabled>
+              <Eye size={16} /> Quick View
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className={"gap-2 text-red-600"} onClick={handleDelete}>
+              <Trash size={16} /> Delete Trace
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ];
 

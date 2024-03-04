@@ -78,15 +78,6 @@ export const HomePageCard = ({ membership }: HomePageCardProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-36">
-              {/*<DropdownMenuItem>*/}
-              {/*  <Pencil size={16} />&nbsp;*/}
-              {/*  Edit*/}
-              {/*</DropdownMenuItem>*/}
-              {/*<DropdownMenuItem>*/}
-              {/*  <LogOut size={16} />&nbsp;*/}
-              {/*  Leave*/}
-              {/*</DropdownMenuItem>*/}
-              {/*<DropdownMenuSeparator />*/}
               <DropdownMenuItem className={"text-red-600"} onClick={() => setIsDialogOpen(true)}>
                 <Delete size={16} className={"text-red-600"} />&nbsp;
                 Delete

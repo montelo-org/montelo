@@ -15,12 +15,19 @@
 
 import * as runtime from '../runtime';
 import type {
+  DeleteSuccessDto,
   TraceWithLogsDto,
 } from '../models/index';
 import {
+    DeleteSuccessDtoFromJSON,
+    DeleteSuccessDtoToJSON,
     TraceWithLogsDtoFromJSON,
     TraceWithLogsDtoToJSON,
 } from '../models/index';
+
+export interface TraceControllerDeleteRequest {
+    traceId: string;
+}
 
 export interface TraceControllerGetAllRequest {
     traceId: string;
@@ -30,6 +37,42 @@ export interface TraceControllerGetAllRequest {
  * 
  */
 export class TraceApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async traceControllerDeleteRaw(requestParameters: TraceControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
+        if (requestParameters.traceId === null || requestParameters.traceId === undefined) {
+            throw new runtime.RequiredError('traceId','Required parameter requestParameters.traceId was null or undefined when calling traceControllerDelete.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/trace/{traceId}`.replace(`{${"traceId"}}`, encodeURIComponent(String(requestParameters.traceId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteSuccessDtoFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async traceControllerDelete(requestParameters: TraceControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
+        const response = await this.traceControllerDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */

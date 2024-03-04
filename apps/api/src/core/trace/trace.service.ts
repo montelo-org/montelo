@@ -22,4 +22,12 @@ export class TraceService {
       },
     });
   }
+
+  async delete(traceId: string): Promise<void> {
+    await this.db.trace.delete({
+      where: {
+        id: traceId,
+      },
+    });
+  }
 }
