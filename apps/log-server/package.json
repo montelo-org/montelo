@@ -1,6 +1,6 @@
 {
   "name": "@montelo/log-server",
-  "version": "1.1.48",
+  "version": "1.1.49",
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
@@ -18,7 +18,7 @@
     "generate:client": "openapi-generator-cli generate -i http://localhost:3002/docs-json -g typescript-fetch -o ../montelo/src/client"
   },
   "dependencies": {
-    "@montelo/db": "1.1.48",
+    "@montelo/db": "1.1.49",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/bull": "^10.0.1",
     "@nestjs/common": "^10.0.0",
@@ -33,9 +33,11 @@
     "class-validator": "^0.14.1",
     "cuid": "^3.0.0",
     "lodash": "^4.17.21",
+    "openai": "^4.28.4",
     "passport-http-bearer": "^1.0.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "tiktoken": "^1.0.13"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.2",

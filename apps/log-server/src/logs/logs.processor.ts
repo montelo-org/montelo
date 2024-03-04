@@ -5,6 +5,7 @@ import { Job } from "bull";
 import { LogsService } from "./logs.service";
 import { QLogsInput, Queues } from "./types";
 
+
 @Processor(Queues.logs)
 export class LogsProcessor {
   private logger = new Logger(LogsProcessor.name);
@@ -16,10 +17,11 @@ export class LogsProcessor {
     const {
       data: { envId, trace, log },
     } = job;
-    this.logger.log(`Handling job for envId ${envId}`);
+    this.logger.debug(`Handling job for envId ${envId}`);
     try {
       await this.logsService.create(envId, log, trace);
     } catch (e) {
+      this.logger.error(`Error handling log: ${e}`);
       throw new Error(`Error handling log: ${e}`);
     }
   }

@@ -5,4 +5,5 @@ export * from './HealthControllerCheck200Response';
 export * from './HealthControllerCheck200ResponseInfoValue';
 export * from './HealthControllerCheck503Response';
 export * from './LogInput';
+export * from './TokenInfo';
 export * from './TraceInput';

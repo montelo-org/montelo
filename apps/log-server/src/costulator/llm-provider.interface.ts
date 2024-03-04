@@ -1,3 +1,5 @@
+import { LogSources } from "@montelo/db";
+
 export type LogCostOutput = {
   inputCost: number;
   outputCost: number;
@@ -11,7 +13,11 @@ export type LogCostInput = {
 };
 
 export interface LLMProvider {
-  calculateLogCost(params: LogCostInput): LogCostOutput;
+  source: LogSources;
 
-  supportedModels(): string[];
+  countInputTokens(input: any): number;
+
+  countOutputTokens(output: any): number;
+
+  calculateLogCost(params: LogCostInput): LogCostOutput;
 }

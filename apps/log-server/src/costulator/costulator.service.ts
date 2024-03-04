@@ -1,8 +1,10 @@
+import { LogSources } from "@montelo/db";
 import { Inject, Injectable, Logger } from "@nestjs/common";
 
 import { TraceWithLogs } from "../logs/types";
 import { LLMProvider, LogCostInput, LogCostOutput } from "./llm-provider.interface";
 import { TraceMetrics } from "./types";
+
 
 @Injectable()
 export class CostulatorService {
@@ -10,13 +12,18 @@ export class CostulatorService {
 
   constructor(@Inject("LLM_PROVIDERS") private providers: LLMProvider[]) {}
 
-  getLogCost(params: LogCostInput): LogCostOutput {
-    const provider = this.providers.find((provider) =>
-      provider.supportedModels().includes(params.model),
-    );
-    if (!provider) {
-      return { inputCost: 0, outputCost: 0, totalCost: 0 };
+  getProvider(source: LogSources): LLMProvider | undefined {
+    if (source === LogSources.MANUAL) {
+      return undefined;
     }
+    const provider = this.providers.find((provider) => provider.source === source);
+    if (!provider) {
+      this.logger.warn(`No LLM provider found for source: ${source}`);
+    }
+    return provider;
+  }
+
+  getLogCost(provider: LLMProvider, params: LogCostInput): LogCostOutput {
     const result = provider.calculateLogCost(params);
     return {
       inputCost: this.roundToSmallestDecimal(result.inputCost),

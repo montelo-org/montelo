@@ -1,6 +1,26 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { LogSources } from "@montelo/db";
 
+export class TokenInfo {
+  @ApiProperty({
+    type: Number,
+    example: 5,
+  })
+  inputTokens: number;
+
+  @ApiProperty({
+    type: Number,
+    example: 5,
+  })
+  outputTokens: number;
+
+  @ApiProperty({
+    type: Number,
+    example: 10,
+  })
+  totalTokens: number;
+}
+
 export class LogInput {
   @ApiProperty({
     example: "Agent X",
@@ -49,25 +69,10 @@ export class LogInput {
   duration?: number;
 
   @ApiProperty({
-    type: Number,
-    example: 5,
+    type: TokenInfo,
     required: false,
   })
-  inputTokens?: number;
-
-  @ApiProperty({
-    type: Number,
-    example: 5,
-    required: false,
-  })
-  outputTokens?: number;
-
-  @ApiProperty({
-    type: Number,
-    example: 10,
-    required: false,
-  })
-  totalTokens?: number;
+  tokens?: TokenInfo;
 
   @ApiProperty({
     type: "object",

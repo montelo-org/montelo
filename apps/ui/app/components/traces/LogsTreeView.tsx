@@ -44,7 +44,7 @@ const LogTreeNode: FC<{
       onClick={handleClick}
     >
       <div className="flex items-center gap-2">
-        {TypeMap[log.type]}
+        {TypeMap[log.source]}
         <span className="flex gap-4 items-baseline">
           {log.name}
           <span className={"text-sm text-muted-foreground"}>{log.duration ? `${log.duration}s` : ""}</span>

@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { TokenInfo } from './TokenInfo';
+import {
+    TokenInfoFromJSON,
+    TokenInfoFromJSONTyped,
+    TokenInfoToJSON,
+} from './TokenInfo';
+
 /**
  * 
  * @export
@@ -69,22 +76,10 @@ export interface LogInput {
     duration?: number;
     /**
      * 
-     * @type {number}
+     * @type {TokenInfo}
      * @memberof LogInput
      */
-    inputTokens?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LogInput
-     */
-    outputTokens?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof LogInput
-     */
-    totalTokens?: number;
+    tokens?: TokenInfo;
     /**
      * 
      * @type {object}
@@ -138,9 +133,7 @@ export function LogInputFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'startTime': !exists(json, 'startTime') ? undefined : json['startTime'],
         'endTime': !exists(json, 'endTime') ? undefined : json['endTime'],
         'duration': !exists(json, 'duration') ? undefined : json['duration'],
-        'inputTokens': !exists(json, 'inputTokens') ? undefined : json['inputTokens'],
-        'outputTokens': !exists(json, 'outputTokens') ? undefined : json['outputTokens'],
-        'totalTokens': !exists(json, 'totalTokens') ? undefined : json['totalTokens'],
+        'tokens': !exists(json, 'tokens') ? undefined : TokenInfoFromJSON(json['tokens']),
         'extra': !exists(json, 'extra') ? undefined : json['extra'],
     };
 }
@@ -162,9 +155,7 @@ export function LogInputToJSON(value?: LogInput | null): any {
         'startTime': value.startTime,
         'endTime': value.endTime,
         'duration': value.duration,
-        'inputTokens': value.inputTokens,
-        'outputTokens': value.outputTokens,
-        'totalTokens': value.totalTokens,
+        'tokens': TokenInfoToJSON(value.tokens),
         'extra': value.extra,
     };
 }

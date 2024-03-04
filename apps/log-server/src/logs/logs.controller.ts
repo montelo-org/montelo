@@ -25,14 +25,14 @@ export class LogsController {
     @Body() body: CreateLogInput,
   ): Promise<{}> {
     try {
-      this.logger.log(`Received log for ${envId}`);
+      this.logger.debug(`Received log for ${envId}`);
       const queueInput: QLogsInput = {
         envId,
         trace: body.trace,
         log: body.log,
       };
       await this.logsQueue.add(queueInput);
-      this.logger.log(`Added ${envId} to queue`);
+      this.logger.debug(`Added ${envId} to queue`);
       return res.status(200).json({});
     } catch(e) {
       this.logger.error(e);

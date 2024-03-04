@@ -1,10 +1,16 @@
+import { LogSources } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
+import OpenAI from "openai/index";
+import { get_encoding } from "tiktoken";
 
 import { LLMProvider, LogCostInput, LogCostOutput } from "./llm-provider.interface";
 import { Pricing } from "./types";
 
+
 @Injectable()
 export class OpenAICostulatorService implements LLMProvider {
+  source = LogSources.OPENAI;
+
   private pricing: Record<string, Pricing> = {
     "gpt-4-0125-preview": {
       input1K: 0.01,
@@ -80,8 +86,39 @@ export class OpenAICostulatorService implements LLMProvider {
     return { inputCost, outputCost, totalCost };
   }
 
-  supportedModels(): string[] {
-    return Object.keys(this.pricing);
+  countInputTokens(input: OpenAI.ChatCompletionCreateParams): number {
+    const roleHandlers: Record<
+      OpenAI.ChatCompletionRole,
+      (accum: string, curr: OpenAI.ChatCompletionMessageParam) => string
+    > = {
+      system: (accum, curr) => accum + curr.content,
+      // TODO handle image uploads for user
+      user: (accum, curr) => (typeof curr.content === "string" ? accum + curr.content : accum),
+      assistant: (accum, curr) => accum + (curr.content || ""),
+      tool: (accum, curr) => accum + curr.content,
+      function: (accum, curr) => accum + (curr.content || ""),
+    };
+
+    const stringifiedMessages = input.messages.reduce((accum: string, curr) => {
+      if (roleHandlers[curr.role]) {
+        return roleHandlers[curr.role](accum, curr);
+      }
+      return accum;
+    }, "");
+
+    return this.getTokenCount(stringifiedMessages);
+  }
+
+  countOutputTokens(output: OpenAI.ChatCompletion): number {
+    const outputString = output.choices[0].message.content || "";
+    return this.getTokenCount(outputString);
+  }
+
+  private getTokenCount(x: string): number {
+    const enc = get_encoding("gpt2");
+    const tokens = enc.encode(x).length;
+    enc.free();
+    return tokens;
   }
 
   private getCostOfTokens(tokens: number, pricePer1K: number): number {

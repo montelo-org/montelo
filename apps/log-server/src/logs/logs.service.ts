@@ -1,9 +1,9 @@
 import { Prisma } from "@montelo/db";
 import { Injectable, Logger } from "@nestjs/common";
-import { pick } from "lodash";
+import { omit } from "lodash";
 
 import { CostulatorService } from "../costulator/costulator.service";
-import { LogCostInput } from "../costulator/llm-provider.interface";
+import { LLMProvider } from "../costulator/llm-provider.interface";
 import { NullableCost, TraceMetrics } from "../costulator/types";
 import { DatabaseService } from "../database";
 import { LogInput, TraceInput } from "./dto/create-log.input";
@@ -32,22 +32,43 @@ export class LogsService {
         })
       : null;
 
+    this.logger.debug(`Creating log for trace ${trace?.id || "new"} in env ${envId}`);
+
+    // get the LLM provider
+    const llmProvider = this.costulatorService.getProvider(log.source);
+
+    this.logger.debug(`Using provider ${llmProvider?.source || "None"}`);
+
+    // attempt to count tokens if not provided
+    const inputTokens = log.tokens?.inputTokens || llmProvider?.countInputTokens(log.input) || 0;
+    const outputTokens =
+      log.tokens?.outputTokens || llmProvider?.countOutputTokens(log.output) || 0;
+    const totalTokens = log.tokens?.totalTokens || inputTokens + outputTokens;
+
     // get the cost of the individual log
     // you need the arrow function to preserve the class binding
-    const logCost = this.calculateLogCostOrDefault(log, (params: LogCostInput) =>
-      this.costulatorService.getLogCost(params),
-    );
+    const logCost = this.calculateLogCostOrDefault(llmProvider, {
+      model: log.model,
+      inputTokens,
+      outputTokens,
+    });
 
     // get the updated cost of the trace + this new log. to do this we check all traces already on
     // the trace, sum the metrics up, then add the current log to it,
     const traceMetrics = await this.calculateTraceMetricsOrDefault({
       dbTrace,
       logCost,
-      logTokens: pick(log, ["inputTokens", "outputTokens", "totalTokens"]),
+      logTokens: {
+        inputTokens,
+        outputTokens,
+        totalTokens,
+      },
     });
 
+    console.log(traceMetrics);
+
     // get the parent id
-    const parentLogId = this.getParentId(log.name, dbTrace);
+    const parentLogId = this.getParentLogId(log.name, dbTrace);
     const logNameWithoutPath = this.getLogNameWithoutPath(log.name, dbTrace);
 
     // define the base TRACE
@@ -74,11 +95,15 @@ export class LogsService {
         };
 
     // define the LOG create
+    const logWithoutTokens = omit(log, "tokens");
     const logCreateInput: Prisma.LogCreateInput = {
-      ...log,
+      ...logWithoutTokens,
       ...logCost,
       name: logNameWithoutPath,
       parentLogId,
+      inputTokens,
+      outputTokens,
+      totalTokens,
       trace: traceArg,
       environment: {
         connect: {
@@ -90,7 +115,7 @@ export class LogsService {
     const createdLog = await this.db.log.create({
       data: logCreateInput,
     });
-    this.logger.log(`Created log with id ${createdLog.id}`);
+    this.logger.debug(`Created log with id ${createdLog.id}`);
 
     // update the trace metrics after we create the log
     await this.db.trace.update({
@@ -99,7 +124,7 @@ export class LogsService {
       },
       data: { ...traceMetrics, ...traceDates },
     });
-    this.logger.log(`Updated trace with id ${createdLog.traceId}`);
+    this.logger.debug(`Updated trace with id ${createdLog.traceId}`);
   }
 
   private async calculateTraceMetricsOrDefault({
@@ -114,12 +139,12 @@ export class LogsService {
     // default trace metrics
     if (!dbTrace) {
       return {
-        inputTokens: 0,
-        outputTokens: 0,
-        totalTokens: 0,
-        inputCost: 0,
-        outputCost: 0,
-        totalCost: 0,
+        inputTokens: logTokens.inputTokens || 0,
+        outputTokens: logTokens.outputTokens || 0,
+        totalTokens: logTokens.totalTokens || 0,
+        inputCost: logCost.inputCost || 0,
+        outputCost: logCost.outputCost || 0,
+        totalCost: logCost.totalCost || 0,
       };
     }
 
@@ -156,20 +181,24 @@ export class LogsService {
   }
 
   private calculateLogCostOrDefault(
-    log: LogInput,
-    calculateCost: (params: LogCostInput) => NullableCost,
+    provider: LLMProvider | undefined,
+    params: {
+      model?: string;
+      inputTokens?: number;
+      outputTokens?: number;
+    },
   ): NullableCost {
-    if (log.model && log.inputTokens && log.outputTokens) {
-      return calculateCost({
-        model: log.model,
-        inputTokens: log.inputTokens,
-        outputTokens: log.outputTokens,
+    if (provider && params.model && params.inputTokens && params.outputTokens) {
+      return this.costulatorService.getLogCost(provider, {
+        model: params.model,
+        inputTokens: params.inputTokens,
+        outputTokens: params.outputTokens,
       });
     }
     return { inputCost: null, outputCost: null, totalCost: null };
   }
 
-  private getParentId(logName: string, dbTrace: TraceWithLogs | null): string | null {
+  private getParentLogId(logName: string, dbTrace: TraceWithLogs | null): string | null {
     if (!dbTrace) {
       return null;
     }
@@ -182,7 +211,7 @@ export class LogsService {
     const parentLogName = splitName.at(-2);
     const parentLog = dbTrace.logs.find((log) => log.name === parentLogName);
     if (!parentLog) {
-      this.logger.log(`Parent log to ${logName} not found`);
+      this.logger.debug(`Parent log to ${logName} not found`);
       return null;
     }
 
