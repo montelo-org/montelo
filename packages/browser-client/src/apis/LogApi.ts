@@ -15,16 +15,18 @@
 
 import * as runtime from '../runtime';
 import type {
-  LogDto,
+  LogsDto,
 } from '../models/index';
 import {
-    LogDtoFromJSON,
-    LogDtoToJSON,
+    LogsDtoFromJSON,
+    LogsDtoToJSON,
 } from '../models/index';
 
 export interface LogControllerGetAllRequest {
     envId: string;
     take?: string;
+    skip?: string;
+    lastTimestamp?: string;
 }
 
 /**
@@ -34,7 +36,7 @@ export class LogApi extends runtime.BaseAPI {
 
     /**
      */
-    async logControllerGetAllRaw(requestParameters: LogControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<LogDto>>> {
+    async logControllerGetAllRaw(requestParameters: LogControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LogsDto>> {
         if (requestParameters.envId === null || requestParameters.envId === undefined) {
             throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling logControllerGetAll.');
         }
@@ -43,6 +45,14 @@ export class LogApi extends runtime.BaseAPI {
 
         if (requestParameters.take !== undefined) {
             queryParameters['take'] = requestParameters.take;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.lastTimestamp !== undefined) {
+            queryParameters['lastTimestamp'] = requestParameters.lastTimestamp;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -62,12 +72,12 @@ export class LogApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(LogDtoFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => LogsDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async logControllerGetAll(requestParameters: LogControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<LogDto>> {
+    async logControllerGetAll(requestParameters: LogControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LogsDto> {
         const response = await this.logControllerGetAllRaw(requestParameters, initOverrides);
         return await response.value();
     }

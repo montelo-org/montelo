@@ -13,6 +13,7 @@ export * from './HealthControllerCheck200Response';
 export * from './HealthControllerCheck200ResponseInfoValue';
 export * from './HealthControllerCheck503Response';
 export * from './LogDto';
+export * from './LogsDto';
 export * from './MaxDto';
 export * from './ProjectDto';
 export * from './TraceWithLogsDto';

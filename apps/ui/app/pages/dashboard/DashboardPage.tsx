@@ -22,6 +22,7 @@ export const DashboardPage = () => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { analytics, logs, costHistory, orgId } = useLoaderData<DashboardLoader>();
+  console.log("logs: ", logs)
   const selectedValue = searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
 
   const RecentLog: FC<{ log: LogDto }> = ({ log }) => {

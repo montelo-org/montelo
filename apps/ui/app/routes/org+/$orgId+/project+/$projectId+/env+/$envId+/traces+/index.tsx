@@ -8,24 +8,40 @@ import { Routes } from "../../../../../../../../routes";
 type LoaderType = {
   logs: LogDto[];
   orgId: string;
+  currentPage: number;
+  totalPages: number;
 }
 
-export const loader: LoaderFunction = withAuth(async ({ api, params, orgId }) => {
+export const loader: LoaderFunction = withAuth(async ({ request, api, params, orgId }) => {
   if (!orgId) {
     return redirect(Routes.app.root);
   }
 
   const envId = params.envId!;
+  const { searchParams } = new URL(request.url);
+  const page = searchParams.get("page") || "1";
 
-  const logs = await api.log().logControllerGetAll({
+  const pageSize = 1;
+  const skipAmount = page ? parseInt(page) - 1 : 0;
+
+  const response = await api.log().logControllerGetAll({
     envId,
+    take: pageSize.toString(),
+    skip: skipAmount.toString(),
   });
 
-  return json<LoaderType>({ logs, orgId });
+  const { logs, totalCount } = response || { logs: [], totalCount: 0 };
+
+  return json<LoaderType>({
+    logs,
+    orgId,
+    currentPage: parseInt(page),
+    totalPages: totalCount ? Math.ceil(totalCount / pageSize) : 0,
+  });
 });
 
 export default function TracesPage() {
-  const { logs, orgId } = useLoaderData<LoaderType>();
+  const { logs, currentPage, totalPages, orgId } = useLoaderData<LoaderType>();
   const logsWithOrgId = logs.map((log) => ({ ...log, orgId }));
-  return <LogTable logs={logsWithOrgId} />;
+  return <LogTable logs={logsWithOrgId} currentPage={currentPage} totalPages={totalPages} />;
 };

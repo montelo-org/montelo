@@ -104,9 +104,6 @@ export const Sidebar: FC<SidebarProps> = ({ project, environment, orgId }) => {
       );
     }
 
-    console.log("pathname: ", pathname);
-    console.log("item.href(params): ", item.href(params));
-
     const isActive = pathname.startsWith(item.href(params));
     return (
       <li key={item.name} className={`${isActive ? "bg-muted/50" : ""} group hover:bg-muted/50 rounded`}>

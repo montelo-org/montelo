@@ -5,6 +5,7 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from "./app.module";
 import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter";
 import { envSchema } from "./env";
+import { AllExceptionsFilter } from "./common/filters/catch-all.filter";
 
 async function bootstrap() {
   const env = envSchema.parse(process.env);
@@ -12,8 +13,9 @@ async function bootstrap() {
   const logger = new Logger("App");
 
   // filters
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  const httpAdapterHost = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapterHost.httpAdapter));
   app.use(cookieParser());
 
   // swagger

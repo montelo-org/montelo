@@ -29,10 +29,9 @@ export const loader = withAuth(async ({ request, api, params, orgId }) => {
     take: "25",
   });
 
-
   return defer<DeferredDashboardLoader>({
     analytics: analyticsPromise,
-    logs,
+    logs: logs.logs,
     costHistory: costHistoryPromise,
     orgId,
   });
