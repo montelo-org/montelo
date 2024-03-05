@@ -269,11 +269,6 @@ export function LogTable({ logs, currentPage, totalPages }: LogTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    initialState: {
-      pagination: {
-        pageSize: 25,
-      },
-    },
     state: {
       sorting,
       columnFilters,

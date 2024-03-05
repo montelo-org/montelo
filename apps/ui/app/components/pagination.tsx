@@ -23,7 +23,7 @@ const PageLink = ({ page, pageText, variant = "ghost", disabled = false, isActiv
   );
 
   return disabled ? pageLinkComponent
-    : <Link to={`?page=${page}`}>{pageLinkComponent}</Link>;
+    : <Link to={`?page=${page}`} prefetch="intent">{pageLinkComponent}</Link>;
 }
 
 type PaginationProps = {
@@ -31,7 +31,6 @@ type PaginationProps = {
   totalPages: number;
 };
 export default function Pagination({ currentPage, totalPages }: PaginationProps) {
-  console.log(currentPage, totalPages);
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const showStartingEllipsis = currentPage >= 3;
@@ -48,7 +47,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
   const hasNextPages = currentPage < totalPages;
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center gap-1">
       <PageLink
         variant="outline"
         page={firstPage}
@@ -63,7 +62,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
         disabled={!hasPreviousPages}
       />
 
-      {showStartingEllipsis && <span>...</span>}
+      {showStartingEllipsis && <span className="text-gray-500 -mr-1 ml-1">...</span>}
       {visiblePageNumbers.map((page) => (
         <PageLink
           key={page}
@@ -72,7 +71,7 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
           isActive={currentPage === page}
         />
       ))}
-      {showEndingEllipsis && <span>...</span>}
+      {showEndingEllipsis && <span className="text-gray-500 -ml-1 mr-1">...</span>}
 
       <PageLink
         variant="outline"
