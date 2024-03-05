@@ -1,6 +1,6 @@
 {
   "name": "@montelo/log-server",
-  "version": "1.1.53",
+  "version": "1.1.54",
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
@@ -18,7 +18,7 @@
     "generate:client": "openapi-generator-cli generate -i http://localhost:3002/docs-json -g typescript-fetch -o ../montelo/src/client"
   },
   "dependencies": {
-    "@montelo/db": "1.1.53",
+    "@montelo/db": "1.1.54",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/bull": "^10.0.1",
     "@nestjs/common": "^10.0.0",

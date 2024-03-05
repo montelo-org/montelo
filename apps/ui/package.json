@@ -1,6 +1,6 @@
 {
   "name": "@montelo/ui",
-  "version": "1.1.53",
+  "version": "1.1.54",
   "sideEffects": false,
   "type": "module",
   "scripts": {
@@ -13,7 +13,7 @@
   "dependencies": {
     "@clerk/remix": "^3.1.21",
     "@clerk/themes": "^1.7.9",
-    "@montelo/browser-client": "1.1.53",
+    "@montelo/browser-client": "1.1.54",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-collapsible": "^1.0.3",

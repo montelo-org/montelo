@@ -1,6 +1,6 @@
 {
   "name": "@montelo/config",
-  "version": "1.1.53",
+  "version": "1.1.54",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc"

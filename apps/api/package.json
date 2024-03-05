@@ -1,6 +1,6 @@
 {
   "name": "@montelo/api",
-  "version": "1.1.53",
+  "version": "1.1.54",
   "description": "",
   "author": "",
   "private": true,
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@clerk/clerk-sdk-node": "^4.13.11",
-    "@montelo/db": "1.1.53",
+    "@montelo/db": "1.1.54",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/common": "^10.3.3",
     "@nestjs/config": "^3.1.1",
