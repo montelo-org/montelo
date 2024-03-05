@@ -15,11 +15,11 @@ Deploy to Railway button.
 - [Rollup](https://rollupjs.org/) as the fast ⚡️ module bundler for `apps/montelo`.
 - [NestJS](https://nestjs.com/) as the 🐐 backend framework.
 - [Prisma](https://www.prisma.io/) as the 🐐 ORM.
-- [BullMQ](https://bullmq.io/) for background log processing 🐂.
-- [PassportJS](https://www.passportjs.org/) for auth 🔐.
+- [BullMQ](https://bullmq.io/) for background processing 🐂.
+- [Clerk](https://clerk.com/) for auth 🔐.
 - [Remix](https://remix.run/) as the modern 🙏 frontend framework.
 - [shadcn](https://ui.shadcn.com/) as the cleanest 🧼 component library.
-- [Railway](https://railway.app/) for smooth 🕺 deployments for our servers and databases (Postgres & Redis).
+- [Fly.io](https://fly.io/) for smooth 🕺 deployments for our servers and databases (Postgres & Redis).
 
 ## Setup
 
