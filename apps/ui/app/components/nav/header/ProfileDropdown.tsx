@@ -1,96 +1,26 @@
 import { Theme, useTheme } from "remix-themes";
-import { useFetcher } from "@remix-run/react";
-import { MouseEventHandler } from "react";
-import { Check, LogOut, Palette } from "lucide-react";
-import { AuthUserDto } from "@montelo/browser-client";
-import { Routes } from "../../../routes";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
-import { Avatar, AvatarImage } from "../../ui/avatar";
-import { sha256 } from "js-sha256";
+import { UserButton, useUser } from "@clerk/remix";
+import { dark } from "@clerk/themes";
+import { Skeleton } from "../../ui/skeleton";
+import { useDebounceValue } from "../../../hooks/useDebounceValue";
 
-type ProfileDropwdownProps = {
-  user: AuthUserDto;
-  small?: boolean;
-}
-
-export const ProfileDropdown = ({ user, small }: ProfileDropwdownProps) => {
-  const [theme, setTheme] = useTheme();
-  const fetcher = useFetcher();
+export const ProfileDropdown = () => {
+  const { isLoaded } = useUser();
+  const [theme] = useTheme();
   const isDarkMode = theme === Theme.DARK;
-
-  const userFullName = `${user.firstName} ${user.lastName}`;
-  const userEmail = user.email;
-
-  const handleLogOut: MouseEventHandler<HTMLDivElement> = (e) => {
-    e.preventDefault();
-    fetcher.submit(null, {
-      method: "POST",
-      action: Routes.actions.auth.logout,
-    });
-  };
-
-  function getGravatarURL(email: string) {
-    const address = email.trim().toLowerCase();
-    const hash = sha256(address);
-    return `https://www.gravatar.com/avatar/${hash}?d=robohash`;
-  }
+  const [debouncedIsLoaded] = useDebounceValue<boolean>(isLoaded, 350);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className={"focus:outline-none"}>
-        <Avatar className={`bg-secondary ${small ? "h-6 w-6" : "h-10 w-10"}`}>
-          <AvatarImage src={getGravatarURL(user.email)} alt={"User image"} />
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel className={"pb-0"}>{userFullName}</DropdownMenuLabel>
-        <DropdownMenuLabel
-          className={"text-sm text-muted-foreground font-light pt-0"}>{userEmail}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          {/*<DropdownMenuItem>*/}
-          {/*  <UserRound size={20} />&nbsp;*/}
-          {/*  Profile*/}
-          {/*</DropdownMenuItem>*/}
-          <DropdownMenuGroup>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <Palette size={20} />&nbsp;
-                Theme
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent>
-                  <DropdownMenuItem onClick={() => setTheme(Theme.DARK)}>
-                    {isDarkMode && <><Check size={20} />&nbsp;</>}
-                    Dark
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme(Theme.LIGHT)}>
-                    {!isDarkMode && <><Check size={20} />&nbsp;</>}
-                    Light
-                  </DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
-          </DropdownMenuGroup>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogOut}>
-          <LogOut size={20} />&nbsp;
-          Log out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    debouncedIsLoaded ?
+      <UserButton
+        appearance={{
+          baseTheme: isDarkMode ? dark : undefined,
+        }}
+        userProfileProps={{
+          appearance: {
+            baseTheme: isDarkMode ? dark : undefined,
+          },
+        }}
+      /> : <Skeleton className="h-8 w-8 rounded-full" />
   );
 };

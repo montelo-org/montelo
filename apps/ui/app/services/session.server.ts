@@ -3,17 +3,6 @@ import { createThemeSessionResolver } from "remix-themes";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-export const sessionStorage = createCookieSessionStorage({
-  cookie: {
-    name: "_session",
-    sameSite: "lax",
-    path: "/",
-    httpOnly: true,
-    secrets: [process.env.SECRET!],
-    secure: isProduction,
-  },
-});
-
 const themeStorage = createCookieSessionStorage({
   cookie: {
     name: "theme",

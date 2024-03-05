@@ -11,6 +11,8 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@clerk/remix": "^3.1.21",
+    "@clerk/themes": "^1.7.9",
     "@montelo/browser-client": "1.1.53",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -24,6 +26,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@remix-run/css-bundle": "^2.5.1",
     "@remix-run/node": "^2.5.1",
@@ -39,16 +42,15 @@
     "isbot": "^4.1.0",
     "js-sha256": "^0.11.0",
     "jwt-decode": "^4.0.0",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.320.0",
     "numbro": "^2.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-json-view-lite": "^1.2.1",
     "recharts": "^2.11.0",
-    "remix-auth": "^3.6.0",
     "remix-auth-form": "^1.4.0",
     "remix-themes": "^1.2.2",
-    "remix-validated-form": "^5.1.5",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "tiktoken": "^1.0.13"
@@ -56,6 +58,8 @@
   "devDependencies": {
     "@flydotio/dockerfile": "^0.5.2",
     "@remix-run/dev": "^2.5.1",
+    "@types/lodash": "^4.14.202",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20.11.12",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",

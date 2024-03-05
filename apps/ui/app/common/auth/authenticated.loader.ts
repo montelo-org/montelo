@@ -1,10 +1,14 @@
-import { LoaderFunction } from "@remix-run/node";
+import { getAuth } from "@clerk/remix/ssr.server";
+import { LoaderFunction, redirect } from "@remix-run/node";
 
 import { Routes } from "../../routes";
-import { authenticator } from "../../services/auth.server";
 
-export const authenticatedLoader: LoaderFunction = async ({ request }) => {
-  return await authenticator.isAuthenticated(request, {
-    successRedirect: Routes.app.root,
-  });
+export const authenticatedLoader: LoaderFunction = async (args) => {
+  const { userId } = await getAuth(args);
+
+  if (userId) {
+    return redirect(Routes.app.root);
+  }
+
+  return {};
 };

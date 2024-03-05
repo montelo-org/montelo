@@ -1,21 +1,20 @@
 import { useState } from "react";
-import { useFetcher, useNavigate } from "@remix-run/react";
-import { ApiKeyWithEnvDto, EnvironmentDto } from "@montelo/browser-client";
-import { Check, ChevronsUpDown, KeyRound } from "lucide-react";
+import { useNavigate } from "@remix-run/react";
+import { EnvironmentDto } from "@montelo/browser-client";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { sortEnvironmentsByName } from "../../../utils/sortEnvironmentsByName";
-import { Routes } from "../../../routes";
-import { Dialog, DialogTrigger } from "../../ui/dialog";
+import { Dialog } from "../../ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { Button } from "../../ui/button";
-import { ApiKeysDialog } from "../../dialogs/ApiKeys/ApiKeysDialog";
+import { Routes } from "../../../routes";
+import { useOrganization } from "@clerk/remix";
 
 type EnvSelectorProps = {
   environments: EnvironmentDto[];
@@ -23,20 +22,26 @@ type EnvSelectorProps = {
 };
 
 export const EnvSelector = ({ environments, pathEnv }: EnvSelectorProps) => {
+  const { isLoaded, organization } = useOrganization();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [selectedEnvName, setSelectedEnvName] = useState<string>(pathEnv.name);
-  const fetcher = useFetcher<ApiKeyWithEnvDto[]>();
   const navigate = useNavigate();
 
   const sortedEnvironments = sortEnvironmentsByName(environments);
 
   const handleMenuItemClick = (env: EnvironmentDto) => {
+    if (!isLoaded || !organization) {
+      return;
+    }
+
     setSelectedEnvName(env.name);
-    const path = `/project/${env.projectId}/env/${env.id}/dashboard`;
+    const path = Routes.app.org.project.env.dashboard({
+      orgId: organization.id,
+      projectId: env.projectId,
+      envId: env.id,
+    });
     navigate(path);
   };
-
-  const prefetchApiKeys = () => fetcher.load(Routes.actions.project.getAllApiKeys(pathEnv.projectId));
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -62,18 +67,8 @@ export const EnvSelector = ({ environments, pathEnv }: EnvSelectorProps) => {
               </DropdownMenuItem>
             ))}
           </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DialogTrigger asChild>
-            <DropdownMenuItem onMouseEnter={prefetchApiKeys}>
-              <div className={"flex flex-row gap-2"}>
-                <KeyRound size={20} />
-                <p>API Keys</p>
-              </div>
-            </DropdownMenuItem>
-          </DialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
-      <ApiKeysDialog apiKeys={fetcher.data} />
     </Dialog>
   );
 };

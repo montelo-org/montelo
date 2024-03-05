@@ -5,7 +5,7 @@ export class CreateProjectInput {
   name: string;
 
   @ApiProperty()
-  teamId: string;
+  orgId: string;
 
   @ApiProperty({
     type: [String],

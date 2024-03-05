@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
-import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
+import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 import { EnvironmentDto } from "./dto/environment.dto";
 import { EnvironmentService } from "./environment.service";
 
@@ -11,7 +11,7 @@ import { EnvironmentService } from "./environment.service";
 export class EnvironmentController {
   constructor(private environmentService: EnvironmentService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ClerkAuthGuard)
   @Get(":envId")
   async get(@Param("envId") envId: string): Promise<EnvironmentDto> {
     const environment = await this.environmentService.getEnvById(envId);

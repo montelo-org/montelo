@@ -107,17 +107,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.TeamScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  teamId: 'teamId',
+  orgId: 'orgId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -126,25 +119,6 @@ exports.Prisma.EnvironmentScalarFieldEnum = {
   id: 'id',
   name: 'name',
   projectId: 'projectId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  email: 'email',
-  password: 'password',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.MembershipScalarFieldEnum = {
-  id: 'id',
-  role: 'role',
-  userId: 'userId',
-  teamId: 'teamId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -233,11 +207,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.UserPermissionRole = exports.$Enums.UserPermissionRole = {
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
-};
-
 exports.LogSources = exports.$Enums.LogSources = {
   MANUAL: 'MANUAL',
   OPENAI: 'OPENAI',
@@ -247,11 +216,8 @@ exports.LogSources = exports.$Enums.LogSources = {
 };
 
 exports.Prisma.ModelName = {
-  Team: 'Team',
   Project: 'Project',
   Environment: 'Environment',
-  User: 'User',
-  Membership: 'Membership',
   ApiKey: 'ApiKey',
   Log: 'Log',
   Trace: 'Trace'

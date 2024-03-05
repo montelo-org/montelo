@@ -1,14 +1,15 @@
-import { AuthUserDto, Configuration } from "@montelo/browser-client";
-import { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { getAuth } from "@clerk/remix/ssr.server";
+import { Configuration } from "@montelo/browser-client";
+import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
 
 import { Api } from "../../api";
 import { env } from "../../config/environment.server";
 import { Routes } from "../../routes";
-import { authenticator } from "../../services/auth.server";
 
 export type AuthenticatedFunctionParams = Parameters<LoaderFunction | ActionFunction>[0] & {
   api: Api;
-  user: AuthUserDto;
+  userId: string;
+  orgId: string | undefined;
 };
 
 export type AuthenticatedFunction = (
@@ -17,16 +18,18 @@ export type AuthenticatedFunction = (
 
 export const withAuth = (func: AuthenticatedFunction): LoaderFunction | ActionFunction => {
   return async (args) => {
-    const decodedJwt = await authenticator.isAuthenticated(args.request, {
-      failureRedirect: Routes.auth.login,
-    });
+    const auth = await getAuth(args);
+    const token = await auth.getToken();
+    if (!token || !auth.userId) {
+      return redirect(Routes.auth.login);
+    }
 
     const configuration = new Configuration({
       basePath: env.SERVER_BASE_URL,
-      accessToken: decodedJwt.accessToken,
+      accessToken: token,
     });
     const api = new Api(configuration);
 
-    return func({ ...args, api, user: decodedJwt.user });
+    return func({ ...args, api, userId: auth.userId, orgId: auth.orgId });
   };
 };

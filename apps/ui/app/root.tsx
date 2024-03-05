@@ -15,7 +15,10 @@ import {
 } from "@remix-run/react";
 import { themeSessionResolver } from "./services/session.server";
 import { Routes } from "./routes";
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
+import { ClerkApp, ClerkErrorBoundary } from "@clerk/remix";
 import { useRevalidateOnFocus, useRevalidateOnReconnect, useWindowSize } from "./hooks";
+import { dark } from "@clerk/themes";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -26,32 +29,25 @@ export const meta: MetaFunction = () => {
   return [{ title: "Montelo" }, { name: "description", content: "Montelo" }];
 };
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  const { getTheme } = await themeSessionResolver(request);
-  return {
-    theme: getTheme(),
-  };
+export async function loader(args: LoaderFunctionArgs) {
+  return rootAuthLoader(args, async ({ request }) => {
+    const { getTheme } = await themeSessionResolver(request);
+    return { theme: getTheme() };
+  });
 }
 
-export default function AppWithProviders() {
-  const data = useLoaderData<typeof loader>();
-  return (
-    <ThemeProvider specifiedTheme={data.theme} themeAction={Routes.actions.setTheme}>
-      <App />
-    </ThemeProvider>
-  );
-}
+export const ErrorBoundary = ClerkErrorBoundary();
 
 export function App() {
   const { width } = useWindowSize();
   const [theme] = useTheme();
   const data = useLoaderData<typeof loader>();
 
-  const isMobile = width <= 640;
+  const isMobile = width <= 768;
 
   const MobilePage = () => (
     <div className={"w-screen h-screen flex justify-center items-center"}>
-      <p>MonteloAI is best viewed on a larger screen.</p>
+      <p>Montelo is best viewed on a larger screen.</p>
     </div>
   );
 
@@ -77,3 +73,14 @@ export function App() {
     </html>
   );
 }
+
+function AppWithProviders() {
+  const data = useLoaderData<typeof loader>();
+  return (
+    <ThemeProvider specifiedTheme={data.theme} themeAction={Routes.actions.setTheme}>
+      <App />
+    </ThemeProvider>
+  );
+}
+
+export default ClerkApp(AppWithProviders);

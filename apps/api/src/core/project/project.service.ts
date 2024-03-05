@@ -2,12 +2,28 @@ import { Project } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 
 import { DatabaseService } from "../../database";
+import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "../environment/environment.enums";
 import { CreateProjectInput, FullProject } from "./project.types";
 
+
 @Injectable()
 export class ProjectService {
-  constructor(private db: DatabaseService) {}
+  constructor(
+    private db: DatabaseService,
+    private apiKey: ApiKeyService,
+  ) {}
+
+  async findAllForOrg(orgId: string): Promise<FullProject[]> {
+    return this.db.project.findMany({
+      where: {
+        orgId,
+      },
+      include: {
+        environments: true,
+      },
+    });
+  }
 
   async findById(id: string): Promise<FullProject> {
     return this.db.project.findUniqueOrThrow({
@@ -15,45 +31,77 @@ export class ProjectService {
         id,
       },
       include: {
-        team: true,
         environments: true,
       },
     });
   }
 
   async create(params: CreateProjectInput): Promise<Project> {
-    const isRestrictedEnvironmentUsed = params.envNames.some(
-      (el) => el === Environments.PRODUCTION || el === Environments.DEVELOPMENT,
-    );
+    const EnvironmentNames: string[] = Object.values(Environments);
+    const isRestrictedEnvironmentUsed = params.envNames.some((el) => EnvironmentNames.includes(el));
     if (isRestrictedEnvironmentUsed) {
-      throw new Error(
-        "Restricted environment names 'PRODUCTION' or 'DEVELOPMENT' cannot be used in this context.",
-      );
+      throw new Error("Restricted environment name.");
     }
 
-    const envNamesAsObj = params.envNames.map((name) => ({ name }));
-    console.log("envNamesAsObj: ", envNamesAsObj)
-    return this.db.project.create({
+    const allEnvs = [...EnvironmentNames, ...params.envNames];
+    const allApiKeysPromises = allEnvs.map((name) => {
+      if (name === Environments.DEVELOPMENT) {
+        return this.apiKey.generateApiKey("dev");
+      } else if (name === Environments.PRODUCTION) {
+        return this.apiKey.generateApiKey("prod");
+      }
+      return this.apiKey.generateApiKey(name.substring(0, 5));
+    });
+    const allApiKeys = await Promise.all(allApiKeysPromises);
+
+    const createdProject = await this.db.project.create({
       data: {
         name: params.name,
-        team: {
-          connect: {
-            id: params.teamId,
+        orgId: params.orgId,
+      },
+    });
+
+    const createEnvironment = (envName: string, index: number) => {
+      const apiKey = allApiKeys[index];
+
+      return this.db.environment.create({
+        data: {
+          name: envName,
+          projectId: createdProject.id,
+          apiKey: {
+            create: {
+              public: apiKey.publicPart,
+              // initially we store the secret part in the db. Then, once the user views it, we replace it with the hash.
+              private: apiKey.secretPart,
+              combined: apiKey.combined,
+              viewed: false,
+            },
           },
         },
+      });
+    };
+
+    const envCreatePromises = allEnvs.map(createEnvironment);
+    const dbEnvs = await Promise.all(envCreatePromises);
+
+    return this.db.project.update({
+      where: {
+        id: createdProject.id,
+      },
+      data: {
         environments: {
-          createMany: {
-            data: [
-              {
-                name: Environments.DEVELOPMENT,
-              },
-              {
-                name: Environments.PRODUCTION,
-              },
-              ...envNamesAsObj,
-            ],
-          },
+          connect: dbEnvs.map((dbEnv) => ({
+            id: dbEnv.id,
+          })),
         },
+      },
+    });
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.db.project.delete({
+      where: {
+        id,
       },
     });
   }

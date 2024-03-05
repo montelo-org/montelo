@@ -1,11 +1,23 @@
-import { Link, useLoaderData, useLocation, useParams } from "@remix-run/react";
-import { BookOpen, FlaskConical, GanttChart, Hammer, HelpCircle, Home, LayoutDashboard, Rocket } from "lucide-react";
+import { Link, useLocation, useParams } from "@remix-run/react";
+import {
+  BookOpen,
+  Building,
+  FlaskConical,
+  GanttChart,
+  Hammer,
+  HelpCircle,
+  LayoutDashboard,
+  Rocket,
+} from "lucide-react";
 import { Routes } from "../../../routes";
-import { EnvLayoutLoader } from "../../../types/envLayout.loader.types";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../ui/tooltip";
 import { ComponentProps, FC } from "react";
 import { EnvSelector } from "../header/EnvSelector";
 import { ProfileDropdown } from "../header/ProfileDropdown";
+import { ThemeSwitcher } from "../header/ThemeSwitcher";
+import { ApiKeysDialog } from "./ApiKeysDialog";
+import { useOrganization } from "@clerk/remix";
+import { EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
 
 type ClassName = ComponentProps<"div">["className"];
 
@@ -24,48 +36,49 @@ type LinkItem = BaseSidebarItem & {
 
 type SidebarItem = DisabledItem | LinkItem;
 
-type BottomSidebarItem = {
-  name: string;
-  icon: JSX.Element;
-  href: string;
-};
-
 const SidebarItems: SidebarItem[] = [
   {
     name: "Dashboard",
-    href: Routes.app.project.env.dashboard,
-    icon: ({ className }) => <LayoutDashboard size={16} className={className} />,
+    href: Routes.app.org.project.env.dashboard,
+    icon: ({ className }) => <LayoutDashboard size={20} className={className} />,
   },
   {
     name: "Traces & Logs",
-    href: Routes.app.project.env.traces,
-    icon: ({ className }) => <GanttChart size={16} className={className} />,
+    href: Routes.app.org.project.env.traces,
+    icon: ({ className }) => <GanttChart size={20} className={className} />,
   },
   {
     name: "Prompts & Tools",
     disabled: true,
-    icon: ({ className }) => <Hammer size={16} className={className} />,
+    icon: ({ className }) => <Hammer size={20} className={className} />,
   },
   {
     name: "Experiments",
     disabled: true,
-    icon: ({ className }) => <FlaskConical size={16} className={className} />,
+    icon: ({ className }) => <FlaskConical size={20} className={className} />,
   },
   {
     name: "Deployments",
     disabled: true,
-    icon: ({ className }) => <Rocket size={16} className={className} />,
+    icon: ({ className }) => <Rocket size={20} className={className} />,
   },
 ];
 
-export const Sidebar = () => {
-  const { user, project, environment } = useLoaderData<EnvLayoutLoader>();
+type SidebarProps = {
+  orgId: string;
+  environment: EnvironmentDto;
+  project: FullProjectDto;
+}
+
+export const Sidebar: FC<SidebarProps> = ({ project, environment, orgId }) => {
+  const { isLoaded, organization } = useOrganization();
   const { pathname } = useLocation();
   const params = useParams();
   const envId = params.envId!;
 
   const SidebarItemsComponent = () => SidebarItems.map((item) => {
     const params = {
+      orgId,
       envId,
       projectId: project.id,
     };
@@ -90,6 +103,9 @@ export const Sidebar = () => {
         </TooltipProvider>
       );
     }
+
+    console.log("pathname: ", pathname);
+    console.log("item.href(params): ", item.href(params));
 
     const isActive = pathname.startsWith(item.href(params));
     return (
@@ -119,16 +135,23 @@ export const Sidebar = () => {
               className={"group flex items-center py-1 hover:bg-muted/50 rounded"}
             >
               <div className="flex justify-center w-8">
-                <Home size={16} className={"group-hover:text-foreground text-muted-foreground"} />
+                <img src={"/LogoIconOnly.svg"} alt={"Montelo Icon"} className={"h-6 w-6"} />
               </div>
             </Link>
-            <p className={"text-sm text-muted-foreground"}>/ {project.team.name}</p>
+            <Link
+              to={isLoaded && organization ? Routes.app.org.projects(organization.id) : Routes.app.root}
+              prefetch={"intent"}
+              className={"group flex items-center py-1 hover:bg-muted/50 rounded"}
+            >
+              <div className="flex justify-center w-8">
+                <Building size={20} className={"group-hover:text-foreground text-muted-foreground"} />
+              </div>
+            </Link>
           </div>
-          <ProfileDropdown user={user} small={true} />
-        </div>
-        <div className={"flex flex-col gap-1"}>
-          <p className={"text-sm text-muted-foreground"}>{project.name}</p>
-          <EnvSelector environments={project.environments} pathEnv={environment} />
+          <div className={"flex flex-row items-center gap-2"}>
+            <ThemeSwitcher size={20} />
+            <ProfileDropdown />
+          </div>
         </div>
       </div>
       <div className="overflow-y-auto flex-grow pl-4 pr-4 pb-4">
@@ -136,15 +159,20 @@ export const Sidebar = () => {
           <SidebarItemsComponent />
         </ul>
       </div>
+      <div className={"flex flex-col p-4 gap-2"}>
+        <p className={"text-sm text-muted-foreground"}>Project {project.name}</p>
+        <EnvSelector environments={project.environments} pathEnv={environment} />
+        <ApiKeysDialog projectId={project.id} />
+      </div>
       <div className="flex flex-row justify-between p-4">
         <div className={"group hover:bg-muted/50 rounded"}>
           <Link to={Routes.external.discord} target={"_blank"} prefetch={"intent"}>
-            <HelpCircle size={16} className={"group-hover:text-foreground text-muted-foreground"} />
+            <HelpCircle size={20} className={"group-hover:text-foreground text-muted-foreground"} />
           </Link>
         </div>
         <div className={"group hover:bg-muted/50 rounded"}>
           <Link to={Routes.external.documentation} target={"_blank"} prefetch={"intent"}>
-            <BookOpen size={16} className={"group-hover:text-foreground text-muted-foreground"} />
+            <BookOpen size={20} className={"group-hover:text-foreground text-muted-foreground"} />
           </Link>
         </div>
       </div>

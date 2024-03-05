@@ -1,13 +1,10 @@
 import {
   AnalyticsApi,
   ApiKeyApi,
-  AuthApi,
   Configuration,
   EnvironmentApi,
   LogApi,
-  MembershipApi,
   ProjectApi,
-  TeamApi,
   TraceApi,
 } from "@montelo/browser-client";
 
@@ -26,10 +23,6 @@ export class Api {
     return new ApiKeyApi(this.configuration);
   }
 
-  public auth(): AuthApi {
-    return new AuthApi(this.configuration);
-  }
-
   public environment(): EnvironmentApi {
     return new EnvironmentApi(this.configuration);
   }
@@ -38,16 +31,8 @@ export class Api {
     return new LogApi(this.configuration);
   }
 
-  public membership(): MembershipApi {
-    return new MembershipApi(this.configuration);
-  }
-
   public project(): ProjectApi {
     return new ProjectApi(this.configuration);
-  }
-
-  public team(): TeamApi {
-    return new TeamApi(this.configuration);
   }
 
   public trace(): TraceApi {

@@ -34,7 +34,7 @@ import { Link, useFetcher, useParams } from "@remix-run/react";
 import { Routes } from "../../../routes";
 import { Eye, Trash } from "lucide-react";
 
-export const columns: ColumnDef<LogDto>[] = [
+export const columns: ColumnDef<(LogDto & { orgId: string; })>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -69,6 +69,7 @@ export const columns: ColumnDef<LogDto>[] = [
     accessorKey: "traceId",
     header: "Trace",
     cell: ({ row }) => {
+      const orgId: string = row.original.orgId;
       const params = useParams();
       const traceId: string = row.getValue("traceId");
       const { short, variant } = idShortener(traceId);
@@ -78,7 +79,8 @@ export const columns: ColumnDef<LogDto>[] = [
           <TooltipProvider delayDuration={500}>
             <Tooltip>
               <TooltipTrigger>
-                <Link to={Routes.app.project.env.traceId({
+                <Link to={Routes.app.org.project.env.traceId({
+                  orgId,
                   projectId: params.projectId!,
                   envId: params.envId!,
                   traceId,
@@ -103,6 +105,7 @@ export const columns: ColumnDef<LogDto>[] = [
     cell: ({ row }) => {
       const params = useParams();
       const name = row.original.name.substring(0, 15);
+      const orgId: string = row.original.orgId;
       const traceId: string = row.getValue("traceId");
       const logId: string = row.getValue("id");
       const { short } = idShortener(logId);
@@ -112,7 +115,8 @@ export const columns: ColumnDef<LogDto>[] = [
           <TooltipProvider delayDuration={500}>
             <Tooltip>
               <TooltipTrigger>
-                <Link to={Routes.app.project.env.traceId({
+                <Link to={Routes.app.org.project.env.traceId({
+                  orgId,
                   projectId: params.projectId!,
                   envId: params.envId!,
                   traceId,
@@ -236,7 +240,7 @@ export const columns: ColumnDef<LogDto>[] = [
 ];
 
 type LogTableProps = {
-  logs: LogDto[];
+  logs: (LogDto & { orgId: string })[];
 }
 
 export function LogTable({ logs }: LogTableProps) {

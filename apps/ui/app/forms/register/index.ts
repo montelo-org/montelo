@@ -1,1 +1,0 @@
-export { signUpValidator } from "./validator";

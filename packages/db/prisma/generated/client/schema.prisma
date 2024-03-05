@@ -10,11 +10,6 @@ generator client {
 }
 
 // Enums
-enum UserPermissionRole {
-  ADMIN
-  MEMBER
-}
-
 enum LogSources {
   MANUAL
   OPENAI
@@ -24,35 +19,13 @@ enum LogSources {
 }
 
 // Models
-model Team {
-  // id
-  id String @id @default(cuid())
-
-  // properties
-  name String
-
-  // relations
-  projects Project[]
-  members  Membership[]
-
-  // dates
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  // rename
-  @@map("team")
-}
-
 model Project {
   // id
   id String @id @default(cuid())
 
   // properties
-  name   String
-  teamId String @map("team_id")
-
-  // relations
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  name  String
+  orgId String @map("org_id")
 
   environments Environment[]
 
@@ -61,7 +34,7 @@ model Project {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // attributes
-  @@unique([name, teamId])
+  @@unique([name, orgId])
   // rename
   @@map("project")
 }
@@ -85,48 +58,6 @@ model Environment {
 
   // rename
   @@map("environment")
-}
-
-model User {
-  // id
-  id String @id @default(cuid())
-
-  // properties
-  firstName String @map("first_name")
-  lastName  String @map("last_name")
-  email     String @unique
-  password  String
-
-  // relations
-  memberships Membership[]
-
-  // dates
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  // rename
-  @@map("user")
-}
-
-model Membership {
-  // id
-  id String @id @default(cuid())
-
-  // properties
-  role   UserPermissionRole
-  userId String             @map("user_id")
-  teamId String             @map("team_id")
-
-  // relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
-
-  // dates
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  // rename
-  @@map("membership")
 }
 
 model ApiKey {

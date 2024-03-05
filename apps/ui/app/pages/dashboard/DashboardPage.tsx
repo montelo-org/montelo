@@ -21,7 +21,7 @@ import { idShortener } from "../../components/tables/LogTable/idShortener";
 export const DashboardPage = () => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
+  const { analytics, logs, costHistory, orgId } = useLoaderData<DashboardLoader>();
   const selectedValue = searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
 
   const RecentLog: FC<{ log: LogDto }> = ({ log }) => {
@@ -32,7 +32,8 @@ export const DashboardPage = () => {
       <TableRow>
         <TableCell>{dayjs(log.startTime || log.createdAt).format("h:mm:ssa")}</TableCell>
         <TableCell>
-          <Link to={Routes.app.project.env.traceId({
+          <Link to={Routes.app.org.project.env.traceId({
+            orgId,
             projectId: params.projectId!,
             envId: params.envId!,
             traceId: log.traceId,

@@ -14,9 +14,9 @@ export class ProjectDto {
 
   @ApiProperty()
   @IsString()
-  teamId: string;
+  orgId: string;
 
   static fromProject(project: Project): ProjectDto {
-    return pick(project, ["id", "name", "teamId"]);
+    return pick(project, ["id", "name", "orgId"]);
   }
 }

@@ -1,11 +1,11 @@
 import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 
-import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { DateSelection } from "./analytics.enum";
 import { AnalyticsService } from "./analytics.service";
 import { CostHistoryDto } from "./dto/cost-history.dto";
 import { DashboardAnalyticsDto } from "./dto/dashboard-analytics.dto";
+import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 
 @ApiTags("Analytics")
 @ApiBearerAuth()
@@ -14,7 +14,7 @@ export class AnalyticsController {
   constructor(private analyticsService: AnalyticsService) {}
 
   @ApiQuery({ name: "dateSelection", enum: DateSelection })
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ClerkAuthGuard)
   @Get("dashboard")
   async getForDashboard(
     @Param("envId") envId: string,
@@ -27,7 +27,7 @@ export class AnalyticsController {
   }
 
   @ApiQuery({ name: "dateSelection", enum: DateSelection })
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(ClerkAuthGuard)
   @Get("cost-history")
   async getCostHistory(
     @Param("envId") envId: string,

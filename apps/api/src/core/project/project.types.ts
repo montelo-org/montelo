@@ -2,7 +2,7 @@ import { Prisma } from "@montelo/db";
 
 export type CreateProjectInput = {
   name: string;
-  teamId: string;
+  orgId: string;
   envNames: string[];
 };
 
@@ -15,7 +15,6 @@ export type ProjectWithEnvironments = Prisma.ProjectGetPayload<typeof projectWit
 
 const fullProject = Prisma.validator<Prisma.ProjectDefaultArgs>()({
   include: {
-    team: true,
     environments: true,
   },
 });
