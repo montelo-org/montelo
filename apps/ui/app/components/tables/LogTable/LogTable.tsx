@@ -241,7 +241,6 @@ export const columns: ColumnDef<(LogDto & { orgId: string; })>[] = [
 
 type LogTableProps = {
   logs: (LogDto & { orgId: string })[];
-  // lastTimestamp: string | null;
   currentPage: number;
   totalPages: number;
 }
