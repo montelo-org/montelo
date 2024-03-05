@@ -6,7 +6,6 @@ import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
@@ -30,9 +29,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import { Badge } from "../../ui/badge";
 import { idShortener } from "./idShortener";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../ui/tooltip";
-import { Link, useFetcher, useParams } from "@remix-run/react";
+import { Link, useFetcher, useParams, useSearchParams } from "@remix-run/react";
 import { Routes } from "../../../routes";
 import { Eye, Trash } from "lucide-react";
+import Pagination from "../../pagination";
 
 export const columns: ColumnDef<LogDto>[] = [
   {
@@ -237,9 +237,12 @@ export const columns: ColumnDef<LogDto>[] = [
 
 type LogTableProps = {
   logs: LogDto[];
+  // lastTimestamp: string | null;
+  currentPage: number;
+  totalPages: number;
 }
 
-export function LogTable({ logs }: LogTableProps) {
+export function LogTable({ logs, currentPage, totalPages }: LogTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -255,17 +258,17 @@ export function LogTable({ logs }: LogTableProps) {
   const table = useReactTable({
     data: logs,
     columns,
+    manualPagination: true,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     initialState: {
       pagination: {
-        pageSize: 15,
+        pageSize: 25,
       },
     },
     state: {
@@ -367,22 +370,7 @@ export function LogTable({ logs }: LogTableProps) {
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
         </div>
       </div>
     </div>

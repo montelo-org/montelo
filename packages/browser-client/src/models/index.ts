@@ -18,6 +18,7 @@ export * from './HealthControllerCheck503Response';
 export * from './LogDto';
 export * from './LoginDto';
 export * from './LoginUserInput';
+export * from './LogsDto';
 export * from './MaxDto';
 export * from './ProjectDto';
 export * from './ProjectWithEnvironmentsDto';
