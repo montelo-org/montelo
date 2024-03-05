@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 
+import { AuthObject, AuthObjectT } from "../../common/decorators/AuthObject.decorator";
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 import { LogsDto } from "./dto/logs.dto";
 import { LogService } from "./log.service";

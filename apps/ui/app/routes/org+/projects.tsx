@@ -1,19 +1,21 @@
-import { OrgIdPage } from "../../../pages/home/OrgIdPage";
-import { withAuth } from "../../../common/auth/withAuth";
-import { json, LoaderFunction } from "@remix-run/node";
+import { json, LoaderFunction, redirect } from "@remix-run/node";
 import { FullProjectDto } from "@montelo/browser-client";
 import { useLoaderData } from "@remix-run/react";
 import { createClerkClient, Organization } from "@clerk/remix/api.server";
-import { TabValues } from "../../../pages/home/enums";
+import { withAuth } from "../../common/auth/withAuth";
+import { Routes } from "../../routes";
+import { OrgIdPage } from "../../pages/home/OrgIdPage";
+import { TabValues } from "../../pages/home/enums";
 
 type LoaderType = {
   organization: Organization;
   projects: FullProjectDto[];
 }
 
-export const loader: LoaderFunction = withAuth(async ({ api, params }) => {
-  const orgId = params.orgId!;
-
+export const loader: LoaderFunction = withAuth(async ({ api, orgId }) => {
+  if (!orgId) {
+    return redirect(Routes.app.root);
+  }
   const organizationPromise = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY }).organizations.getOrganization({
     organizationId: orgId,
   });

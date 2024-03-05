@@ -1,9 +1,9 @@
 import { AnalyticsControllerGetForDashboardDateSelectionEnum } from "@montelo/browser-client";
 import { defer, redirect } from "@remix-run/node";
-import { withAuth } from "../../../../../../../common/auth/withAuth";
-import { DeferredDashboardLoader } from "../../../../../../../types/DashboardLoader.types";
-import { DashboardPage } from "../../../../../../../pages/dashboard/DashboardPage";
-import { Routes } from "../../../../../../../routes";
+import { Routes } from "../../../../../routes";
+import { withAuth } from "../../../../../common/auth/withAuth";
+import { DeferredDashboardLoader } from "../../../../../types/DashboardLoader.types";
+import { DashboardPage } from "../../../../../pages/dashboard/DashboardPage";
 
 export const loader = withAuth(async ({ request, api, params, orgId }) => {
   if (!orgId) {

@@ -5,7 +5,7 @@ import { createId } from '@paralleldrive/cuid2';
 import { LogSources, Prisma, prisma } from "./client";
 
 const seedSingleBatch = async () => {
-  const envId = "clt0r2wp70004yjxos2kpuzvo";
+  const envId = "cltevsxbi0005joxbzzvpmlv2";
   const now = new Date();
   // const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
   const oneHourAgo: Date = new Date(now.getTime() - 60 * 60 * 1000);

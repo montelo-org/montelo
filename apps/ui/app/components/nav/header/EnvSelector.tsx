@@ -35,8 +35,7 @@ export const EnvSelector = ({ environments, pathEnv }: EnvSelectorProps) => {
     }
 
     setSelectedEnvName(env.name);
-    const path = Routes.app.org.project.env.dashboard({
-      orgId: organization.id,
+    const path = Routes.app.project.env.dashboard({
       projectId: env.projectId,
       envId: env.id,
     });

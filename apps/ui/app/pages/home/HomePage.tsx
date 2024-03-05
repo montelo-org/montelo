@@ -17,8 +17,8 @@ export const HomePage = () => {
     <HomeLayout breadcrumbs={[OrgBreadcrumb]}>
       {debouncedIsLoaded ? <OrganizationList
         hidePersonal={true}
-        afterCreateOrganizationUrl={org => Routes.app.org.projects(org.id)}
-        afterSelectOrganizationUrl={org => Routes.app.org.projects(org.id)}
+        afterCreateOrganizationUrl={org => Routes.app.org.projects}
+        afterSelectOrganizationUrl={org => Routes.app.org.projects}
         appearance={{
           baseTheme: isDarkMode ? dark : undefined,
         }}

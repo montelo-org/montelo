@@ -11,5 +11,5 @@ export const OrgBreadcrumb: Breadcrumb = {
 
 export const OrgIdBreadcrumb: (id: string, name: string) => Breadcrumb = (id, name) => ({
   name,
-  link: Routes.app.org.projects(id),
+  link: Routes.app.org.projects,
 });

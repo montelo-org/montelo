@@ -79,8 +79,7 @@ export const columns: ColumnDef<(LogDto & { orgId: string; })>[] = [
           <TooltipProvider delayDuration={500}>
             <Tooltip>
               <TooltipTrigger>
-                <Link to={Routes.app.org.project.env.traceId({
-                  orgId,
+                <Link to={Routes.app.project.env.traceId({
                   projectId: params.projectId!,
                   envId: params.envId!,
                   traceId,
@@ -115,8 +114,7 @@ export const columns: ColumnDef<(LogDto & { orgId: string; })>[] = [
           <TooltipProvider delayDuration={500}>
             <Tooltip>
               <TooltipTrigger>
-                <Link to={Routes.app.org.project.env.traceId({
-                  orgId,
+                <Link to={Routes.app.project.env.traceId({
                   projectId: params.projectId!,
                   envId: params.envId!,
                   traceId,

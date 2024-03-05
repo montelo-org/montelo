@@ -39,12 +39,12 @@ type SidebarItem = DisabledItem | LinkItem;
 const SidebarItems: SidebarItem[] = [
   {
     name: "Dashboard",
-    href: Routes.app.org.project.env.dashboard,
+    href: Routes.app.project.env.dashboard,
     icon: ({ className }) => <LayoutDashboard size={20} className={className} />,
   },
   {
     name: "Traces & Logs",
-    href: Routes.app.org.project.env.traces,
+    href: Routes.app.project.env.traces,
     icon: ({ className }) => <GanttChart size={20} className={className} />,
   },
   {
@@ -136,7 +136,7 @@ export const Sidebar: FC<SidebarProps> = ({ project, environment, orgId }) => {
               </div>
             </Link>
             <Link
-              to={isLoaded && organization ? Routes.app.org.projects(organization.id) : Routes.app.root}
+              to={isLoaded && organization ? Routes.app.org.projects : Routes.app.root}
               prefetch={"intent"}
               className={"group flex items-center py-1 hover:bg-muted/50 rounded"}
             >
@@ -157,7 +157,7 @@ export const Sidebar: FC<SidebarProps> = ({ project, environment, orgId }) => {
         </ul>
       </div>
       <div className={"flex flex-col p-4 gap-2"}>
-        <p className={"text-sm text-muted-foreground"}>Project {project.name}</p>
+        <p className={"text-sm text-muted-foreground"}>{project.name}</p>
         <EnvSelector environments={project.environments} pathEnv={environment} />
         <ApiKeysDialog projectId={project.id} />
       </div>

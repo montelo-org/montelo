@@ -31,8 +31,8 @@ export const OrgIdPage: FC<OrgIdPageProps> = ({ activeTab, organization, project
     e.preventDefault();
 
     const ValueRouteMapping: Record<TabValues, string> = {
-      [TabValues.projects]: Routes.app.org.projects(orgId),
-      [TabValues.settings]: Routes.app.org.settings(orgId),
+      [TabValues.projects]: Routes.app.org.projects,
+      [TabValues.settings]: Routes.app.org.settings,
     };
 
     navigate(ValueRouteMapping[value]);

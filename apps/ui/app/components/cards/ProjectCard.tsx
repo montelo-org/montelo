@@ -20,13 +20,12 @@ export const ProjectCard: FC<HomePageCardProps> = ({ orgId, project }) => {
 
   const EnvironmentsView = ({ env, addMargin }: { env: EnvironmentDto; addMargin: boolean }) => {
     const params: EnvParams = {
-      orgId,
       envId: env.id,
       projectId: env.projectId,
     };
 
     return (
-      <Link to={Routes.app.org.project.env.dashboard(params)} prefetch={"intent"}
+      <Link to={Routes.app.project.env.dashboard(params)} prefetch={"intent"}
             className={`hover:underline font-light ${addMargin ? 'mr-4' : ''}`}>
         {env.name}
       </Link>

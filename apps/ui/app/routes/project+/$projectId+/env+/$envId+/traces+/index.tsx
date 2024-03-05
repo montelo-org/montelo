@@ -1,9 +1,9 @@
 import { LogDto } from "@montelo/browser-client";
 import { json, LoaderFunction, redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { withAuth } from "../../../../../../../../common/auth/withAuth";
-import { LogTable } from "../../../../../../../../components/tables/LogTable/LogTable";
-import { Routes } from "../../../../../../../../routes";
+import { Routes } from "../../../../../../routes";
+import { withAuth } from "../../../../../../common/auth/withAuth";
+import { LogTable } from "../../../../../../components/tables/LogTable/LogTable";
 
 type LoaderType = {
   logs: LogDto[];

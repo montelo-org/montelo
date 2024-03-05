@@ -1,10 +1,10 @@
 import { json, LoaderFunction, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { createClerkClient, User } from "@clerk/remix/api.server";
-import { withAuth } from "../../../../../../../common/auth/withAuth";
-import { Sidebar } from "../../../../../../../components/nav/sidebar/sidebar";
-import { Routes } from "../../../../../../../routes";
 import { EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
+import { withAuth } from "../../../../../common/auth/withAuth";
+import { Sidebar } from "../../../../../components/nav/sidebar/sidebar";
+import { Routes } from "../../../../../routes";
 
 type EnvLayoutLoader = {
   orgId: string;

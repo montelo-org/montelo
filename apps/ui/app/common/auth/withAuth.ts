@@ -19,10 +19,12 @@ export type AuthenticatedFunction = (
 export const withAuth = (func: AuthenticatedFunction): LoaderFunction | ActionFunction => {
   return async (args) => {
     const auth = await getAuth(args);
+    console.log(auth.orgId);
     const token = await auth.getToken();
     if (!token || !auth.userId) {
       return redirect(Routes.auth.login);
     }
+    console.log("token: ", token);
 
     const configuration = new Configuration({
       basePath: env.SERVER_BASE_URL,

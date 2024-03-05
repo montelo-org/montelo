@@ -33,8 +33,7 @@ export const DashboardPage = () => {
       <TableRow>
         <TableCell>{dayjs(log.startTime || log.createdAt).format("h:mm:ssa")}</TableCell>
         <TableCell>
-          <Link to={Routes.app.org.project.env.traceId({
-            orgId,
+          <Link to={Routes.app.project.env.traceId({
             projectId: params.projectId!,
             envId: params.envId!,
             traceId: log.traceId,

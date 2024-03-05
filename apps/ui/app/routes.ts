@@ -5,23 +5,23 @@ const ROOT_AUTH = "/auth";
 const ROOT_ACTION = "/action";
 
 const buildEnvPath = (params: EnvParams) => (sublink: string) =>
-  path(ROOT_APP, `org/${params.orgId}/project/${params.projectId}/env/${params.envId}/${sublink}`);
+  path(ROOT_APP, `project/${params.projectId}/env/${params.envId}/${sublink}`);
 
 // app pages
 const PATH_APP = {
   root: path(ROOT_APP, "home"),
   org: {
-    projects: (orgId: string) => `/org/${orgId}/projects`,
-    settings: (orgId: string) => `/org/${orgId}/settings`,
-    project: {
-      env: {
-        dashboard: (params: EnvParams) => buildEnvPath(params)("dashboard"),
-        traces: (params: EnvParams) => buildEnvPath(params)("traces"),
-        traceId: (params: EnvParams & { traceId: string; logId?: string }) =>
-          buildEnvPath(params)(
-            `traces/${params.traceId}${params.logId ? `?logId=${params.logId}` : ""}`,
-          ),
-      },
+    projects: "/org/projects",
+    settings: "/org/settings",
+  },
+  project: {
+    env: {
+      dashboard: (params: EnvParams) => buildEnvPath(params)("dashboard"),
+      traces: (params: EnvParams) => buildEnvPath(params)("traces"),
+      traceId: (params: EnvParams & { traceId: string; logId?: string }) =>
+        buildEnvPath(params)(
+          `traces/${params.traceId}${params.logId ? `?logId=${params.logId}` : ""}`,
+        ),
     },
   },
 };
@@ -66,7 +66,6 @@ export const Routes = {
 /* Types */
 
 export type EnvParams = {
-  orgId: string;
   projectId: string;
   envId: string;
 };

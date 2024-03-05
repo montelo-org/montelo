@@ -3,6 +3,7 @@ import { UserButton, useUser } from "@clerk/remix";
 import { dark } from "@clerk/themes";
 import { Skeleton } from "../../ui/skeleton";
 import { useDebounceValue } from "../../../hooks/useDebounceValue";
+import { Routes } from "../../../routes";
 
 export const ProfileDropdown = () => {
   const { isLoaded } = useUser();
@@ -13,6 +14,8 @@ export const ProfileDropdown = () => {
   return (
     debouncedIsLoaded ?
       <UserButton
+        afterSignOutUrl={Routes.auth.login}
+        signInUrl={Routes.auth.register}
         appearance={{
           baseTheme: isDarkMode ? dark : undefined,
         }}
