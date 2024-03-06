@@ -1,40 +1,28 @@
-import * as React from "react";
-import { ChevronDownIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import {  DotsHorizontalIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
-  ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
 } from "@tanstack/react-table";
 import { LogDto } from "@montelo/browser-client";
 import "react-json-view-lite/dist/index.css";
 import dayjs from "dayjs";
-import { Checkbox } from "../../ui/checkbox";
+import { Checkbox } from "~/components/ui/checkbox";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
-import { Button } from "../../ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { Badge } from "../../ui/badge";
-import { idShortener } from "./idShortener";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../ui/tooltip";
-import { Link, useFetcher, useParams, useSearchParams } from "@remix-run/react";
-import { Routes } from "../../../routes";
+} from "~/components/ui/dropdown-menu";
+import { Button } from "~/components/ui/button";
+import { idShortener } from "../utils/idShortener";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip";
+import { Link, useFetcher, useParams } from "@remix-run/react";
+import { Routes } from "~/routes";
+import { Badge } from "~/components/ui/badge";
 import { Eye, Trash } from "lucide-react";
-import Pagination from "../../pagination";
 
-export const columns: ColumnDef<(LogDto & { orgId: string; })>[] = [
+export const COLUMNS: ColumnDef<(LogDto & { orgId: string; })>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -236,139 +224,3 @@ export const columns: ColumnDef<(LogDto & { orgId: string; })>[] = [
     },
   },
 ];
-
-type LogTableProps = {
-  logs: (LogDto & { orgId: string })[];
-  currentPage: number;
-  totalPages: number;
-}
-
-export function LogTable({ logs, currentPage, totalPages }: LogTableProps) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  );
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
-    inputTokens: false,
-    outputTokens: false,
-    inputCost: false,
-    outputCost: false,
-  });
-  const [rowSelection, setRowSelection] = React.useState({});
-
-  const table = useReactTable({
-    data: logs,
-    columns,
-    manualPagination: true,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  });
-
-  return (
-    <div className="w-full">
-      <div className="flex items-center pb-4 pt-0.5">
-        {/*<Input*/}
-        {/*  placeholder="Search input or output"*/}
-        {/*  value={searchInput}*/}
-        {/*  onChange={e => setSearchInput(e.target.value)} // Update the search input state*/}
-        {/*  className="max-w-xs"*/}
-        {/*/>*/}
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={column.toggleVisibility}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Pagination currentPage={currentPage} totalPages={totalPages} />
-        </div>
-      </div>
-    </div>
-  );
-}
