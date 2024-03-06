@@ -26,6 +26,8 @@ export interface LogControllerGetAllRequest {
     envId: string;
     take?: string;
     skip?: string;
+    sortColumn?: string;
+    sortDirection?: string;
     lastTimestamp?: string;
 }
 
@@ -49,6 +51,14 @@ export class LogApi extends runtime.BaseAPI {
 
         if (requestParameters.skip !== undefined) {
             queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.sortColumn !== undefined) {
+            queryParameters['sortColumn'] = requestParameters.sortColumn;
+        }
+
+        if (requestParameters.sortDirection !== undefined) {
+            queryParameters['sortDirection'] = requestParameters.sortDirection;
         }
 
         if (requestParameters.lastTimestamp !== undefined) {

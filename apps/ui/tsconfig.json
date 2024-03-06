@@ -1,15 +1,10 @@
 {
-  "include": [
-    "remix.env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "paths": {
+      "~/*": ["./app/*"] // Adjust the path as necessary to point to your source directory
+    },
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",

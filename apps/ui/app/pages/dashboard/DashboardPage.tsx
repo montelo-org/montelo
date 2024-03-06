@@ -3,7 +3,6 @@ import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis 
 import { AnalyticsControllerGetForDashboardDateSelectionEnum, LogDto } from "@montelo/browser-client";
 import { Await, Link, useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
-import * as React from "react";
 import { FC, Suspense } from "react";
 import numbro from "numbro";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
@@ -15,7 +14,7 @@ import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
 import { ScrollArea } from "../../components/ui/scroll-area";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import { Badge } from "../../components/ui/badge";
-import { idShortener } from "../../components/tables/LogTable/idShortener";
+import { idShortener } from "../traces/utils";
 
 
 export const DashboardPage = () => {

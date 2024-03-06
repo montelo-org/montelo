@@ -1,8 +1,8 @@
 import { LogDto } from "@montelo/browser-client";
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { withAuth } from "../../../../../../../auth/withAuth";
-import { LogTable } from "../../../../../../../components/tables/LogTable/LogTable";
+import { withAuth } from "~/auth/withAuth";
+import { TracesPage } from "~/pages/traces";
 
 type LoaderType = {
   logs: LogDto[];
@@ -15,6 +15,8 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params, or
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
   const page = searchParams.get("page") || "1";
+  const sortColumn = searchParams.get("sortColumn");
+  const sortDirection = searchParams.get("sortDirection");
 
   const pageSize = 20;
   const skipAmount = page ? parseInt(page) - 1 : 0;
@@ -23,6 +25,8 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params, or
     envId,
     take: pageSize.toString(),
     skip: skipAmount.toString(),
+    sortColumn: sortColumn && sortColumn !== "undefined" ? sortColumn : undefined,
+    sortDirection: sortDirection && sortDirection !== "undefined" ? sortDirection : undefined,
   });
   const { logs, totalCount } = response;
 
@@ -34,8 +38,8 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params, or
   });
 });
 
-export default function TracesPage() {
+export default function TracesRoute() {
   const { logs, currentPage, totalPages, orgId } = useLoaderData<LoaderType>();
   const logsWithOrgId = logs.map((log) => ({ ...log, orgId }));
-  return <LogTable logs={logsWithOrgId} currentPage={currentPage} totalPages={totalPages} />;
+  return <TracesPage logs={logsWithOrgId} currentPage={currentPage} totalPages={totalPages} />;
 };
