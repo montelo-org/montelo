@@ -1,8 +1,8 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { FullProjectDto } from "@montelo/browser-client";
 import { useLoaderData } from "@remix-run/react";
-import { withAuth } from "../../../auth/withAuth";
-import { OrgProjectsPage } from "../../../pages/root/OrgProjectsPage";
+import { withAuth } from "~/auth/withAuth";
+import { OrgProjectsPage } from "~/pages/root/OrgProjectsPage";
 
 type LoaderType = {
   orgId: string;

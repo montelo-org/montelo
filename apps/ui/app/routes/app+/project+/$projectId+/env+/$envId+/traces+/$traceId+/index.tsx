@@ -1,8 +1,8 @@
 import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { TraceWithLogsDto } from "@montelo/browser-client";
-import { withAuth } from "../../../../../../../../auth/withAuth";
-import { TraceIdPage } from "../../../../../../../../pages/dashboard/TraceIdPage";
+import { withAuth } from "~/auth/withAuth";
+import { TraceIdPage } from "~/pages/dashboard/TraceIdPage";
 
 type LoaderType = {
   trace: TraceWithLogsDto

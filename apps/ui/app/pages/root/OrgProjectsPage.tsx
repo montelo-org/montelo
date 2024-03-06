@@ -11,7 +11,7 @@ type OrgIdPageProps = {
 export const OrgProjectsPage: FC<OrgIdPageProps> = ({ orgId, projects }) => {
   return (
     <div className={"flex justify-center w-full"}>
-      <div className={"flex flex-col w-1/2 justify-center"}>
+      <div className={"flex flex-col w-1/2"}>
         <div className={"flex justify-end mb-4"}>
           <CreateProjectDialog orgId={orgId} />
         </div>

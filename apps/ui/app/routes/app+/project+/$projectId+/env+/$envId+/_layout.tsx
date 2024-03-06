@@ -1,7 +1,7 @@
 import { Outlet, useMatches } from "@remix-run/react";
-import { Sidebar } from "../../../../../../components/nav/sidebar/Sidebar";
-import { Routes } from "../../../../../../routes";
-import { AppLayoutLoader } from "../../../../_layout";
+import { Sidebar } from "~/components/nav/sidebar/Sidebar";
+import { Routes } from "~/routes";
+import { AppLayoutLoader } from "~/routes/app+/_layout";
 
 export default function DashboardLayout() {
   const matches = useMatches();

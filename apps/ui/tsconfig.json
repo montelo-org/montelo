@@ -3,7 +3,7 @@
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "paths": {
-      "~/*": ["./app/*"] // Adjust the path as necessary to point to your source directory
+      "~/*": ["./app/*"]
     },
     "isolatedModules": true,
     "esModuleInterop": true,

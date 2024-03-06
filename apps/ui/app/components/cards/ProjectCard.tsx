@@ -2,9 +2,8 @@ import { EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
 import { Delete, MoreHorizontal } from "lucide-react";
 import { Link } from "@remix-run/react";
 import { FC, useState } from "react";
-import { EnvParams, Routes } from "../../routes";
-import { sortEnvironmentsByName } from "../../utils/sorters";
-import { Label } from "../ui/label";
+import { EnvParams, Routes } from "~/routes";
+import { sortEnvironmentsByName } from "~/utils/sorters";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
@@ -46,7 +45,7 @@ export const ProjectCard: FC<HomePageCardProps> = ({ project }) => {
   };
 
   return (
-    <div className={"max-w-96"}>
+    <div>
     <Card>
         <CardHeader>
           <CardTitle className={"text-2xl"}>
