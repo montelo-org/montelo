@@ -17,8 +17,7 @@ import { themeSessionResolver } from "./services/session.server";
 import { Routes } from "./routes";
 import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import { ClerkApp, ClerkErrorBoundary } from "@clerk/remix";
-import { useRevalidateOnFocus, useRevalidateOnReconnect, useWindowSize } from "./hooks";
-import { dark } from "@clerk/themes";
+import { useRevalidateOnFocus, useRevalidateOnReconnect } from "./hooks";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -39,17 +38,8 @@ export async function loader(args: LoaderFunctionArgs) {
 export const ErrorBoundary = ClerkErrorBoundary();
 
 export function App() {
-  const { width } = useWindowSize();
   const [theme] = useTheme();
   const data = useLoaderData<typeof loader>();
-
-  const isMobile = width <= 768;
-
-  const MobilePage = () => (
-    <div className={"w-screen h-screen flex justify-center items-center"}>
-      <p>Montelo is best viewed on a larger screen.</p>
-    </div>
-  );
 
   // revalidation hooks
   useRevalidateOnReconnect();
@@ -65,7 +55,7 @@ export function App() {
       <Links />
     </head>
     <body>
-    {isMobile ? <MobilePage /> : <Outlet />}
+    <Outlet />
     <ScrollRestoration />
     <Scripts />
     <LiveReload />

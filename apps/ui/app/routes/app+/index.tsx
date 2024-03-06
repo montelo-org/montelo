@@ -15,6 +15,14 @@ export default function RootRoute() {
         afterSelectOrganizationUrl={() => Routes.app.project.all}
         appearance={{
           baseTheme: isDarkMode ? dark : undefined,
+          elements: {
+            formFieldLabelRow__slug: {
+              display: "none"
+            },
+            formFieldInput__slug: {
+              display: "none"
+            }
+          }
         }}
       />
     </div>
