@@ -119,3 +119,7 @@ html {
 .cl-card > :last-child {
   display: none;
 }
+
+.cl-organizationSwitcher-root {
+  height: 28px;
+}

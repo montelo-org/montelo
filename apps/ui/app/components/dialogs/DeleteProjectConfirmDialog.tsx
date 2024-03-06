@@ -19,8 +19,7 @@ export const DeleteProjectConfirmDialog = ({
                                            }: NewProjectDialogProps) => {
   const revalidator = useRevalidator();
 
-  // NOTE: im fetching manually instead of using useFetcher because there seems to be a bug.
-  // I can't use useFetcher here, the dialog button stops working
+  // NOTE: turn this into useFetcher
   const handleDelete: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 

@@ -105,8 +105,8 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
   });
 
   return (
-    <aside className="mt-4 w-48 flex flex-col h-full fixed top-16 left-0 bottom-0" aria-label="Sidebar">
-      <div className="overflow-y-auto flex-grow pl-4 pr-4 pb-4">
+    <aside className="mt-2 w-48 flex flex-col h-full fixed top-16" aria-label="Sidebar">
+      <div className="pl-4 pr-4 pb-4">
         <ul className="space-y-1">
           <SidebarItemsComponent />
           <ApiKeysDialog projectId={project.id} />

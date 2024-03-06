@@ -1,12 +1,10 @@
-import { CaretSortIcon } from "@radix-ui/react-icons";
 import { FormEventHandler, useState } from "react";
 import { Form, useRevalidator } from "@remix-run/react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Routes } from "../../routes";
+import { Routes } from "~/routes";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible";
 import { Trash } from "lucide-react";
 
 type CreateProjectDialogProps = {
@@ -15,7 +13,6 @@ type CreateProjectDialogProps = {
 
 export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [isCollapseOpen, setIsCollapseOpen] = useState<boolean>(false);
   const [environments, setEnvironments] = useState<string[]>([""]);
   const revalidator = useRevalidator();
 
@@ -33,8 +30,7 @@ export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
     setEnvironments(newEnvironments);
   };
 
-  // NOTE: im fetching manually instead of using useFetcher because there seems to be a bug.
-  // I can't use useFetcher here, the dialog button stops working
+  // NOTE: turn this into useFetcher
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
@@ -43,7 +39,6 @@ export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
       return;
     }
 
-    // Example of fetching API directly
     const formData = new FormData(event.currentTarget);
     formData.append("orgId", orgId);
 
@@ -55,7 +50,6 @@ export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
 
     // Reset dialog state
     setIsDialogOpen(false);
-    setIsCollapseOpen(false);
     setEnvironments([""]);
   };
 
@@ -78,47 +72,35 @@ export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
               <Input id="name" name={"name"} placeholder={"Project X"} />
             </div>
 
-            <Collapsible
-              open={isCollapseOpen}
-              onOpenChange={setIsCollapseOpen}
-            >
-              <div className="flex items-center gap-1">
-                <Label htmlFor="environmentName" className="text-right font-bold text-base">
-                  Environments
-                </Label>
-                <CollapsibleTrigger asChild>
-                  <Button variant="ghost" size="sm">
-                    <CaretSortIcon />
+            <div className="flex items-center gap-1">
+              <Label htmlFor="environmentName" className="text-right font-bold text-base">
+                Environments
+              </Label>
+            </div>
+            <div className={"flex flex-col gap-2"}>
+              <p>Each project has <span className={"font-bold"}>Production</span> and <span
+                className={"font-bold"}>Development</span> environments by default.</p>
+              <p>Create additional environments below.</p>
+            </div>
+            <div className={"flex flex-col gap-2"}>
+              {environments.map((environment, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <Input
+                    id={`environment-${index}`}
+                    name="environments"
+                    value={environment}
+                    placeholder="Environment name (optional)"
+                    onChange={(e) => handleEnvironmentChange(index, e.target.value)}
+                  />
+                  <Button type={"button"} variant="ghost" size="icon"
+                          onClick={() => handleDeleteEnvironment(index)}>
+                    <Trash className={"text-destructive"} size={16} />
                   </Button>
-                </CollapsibleTrigger>
-              </div>
-              <CollapsibleContent>
-                <div className={"flex flex-col mt-2 mb-4 gap-2"}>
-                  <p>Each project has <span className={"font-bold"}>Production</span> and <span
-                    className={"font-bold"}>Development</span> environments by default.</p>
-                  <p>Create additional environments below.</p>
                 </div>
-                <div className={"flex flex-col gap-2"}>
-                  {environments.map((environment, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <Input
-                        id={`environment-${index}`}
-                        name="environments"
-                        value={environment}
-                        placeholder="Environment name"
-                        onChange={(e) => handleEnvironmentChange(index, e.target.value)}
-                      />
-                      <Button type={"button"} variant="ghost" size="icon"
-                              onClick={() => handleDeleteEnvironment(index)}>
-                        <Trash className={"text-destructive"} size={16} />
-                      </Button>
-                    </div>
-                  ))}
-                  <Button type={"button"} variant={"outline"} onClick={handleAddEnvironment}
-                          className={"self-end w-1/3"}>Add Another</Button>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
+              ))}
+              <Button type={"button"} variant={"outline"} onClick={handleAddEnvironment}
+                      className={"self-end w-1/3"}>Add Another</Button>
+            </div>
           </div>
           <DialogFooter>
             <Button type="submit">Create project</Button>

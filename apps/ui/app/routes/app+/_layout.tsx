@@ -61,7 +61,7 @@ export default function AppLayout() {
       <header className="fixed top-0 w-full h-14 z-10 px-4 py-2 bg-background shadow">
         <Header project={project} environment={environment} allProjects={allProjects} hideOrgSwitcher={shouldHideOrgSwitcher} />
       </header>
-      <main className="flex mt-16 h-full">
+      <main className="flex mt-14 h-full">
         <Outlet />
       </main>
     </div>
