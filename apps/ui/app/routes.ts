@@ -1,20 +1,17 @@
 const path = (root: string, sublink: string) => `${root}${sublink}`;
 
-const ROOT_APP = "/";
+const ROOT_APP = "/app";
 const ROOT_AUTH = "/auth";
 const ROOT_ACTION = "/action";
 
 const buildEnvPath = (params: EnvParams) => (sublink: string) =>
-  path(ROOT_APP, `project/${params.projectId}/env/${params.envId}/${sublink}`);
+  path(ROOT_APP, `/project/${params.projectId}/env/${params.envId}/${sublink}`);
 
 // app pages
 const PATH_APP = {
-  root: path(ROOT_APP, "home"),
-  org: {
-    projects: "/org/projects",
-    settings: "/org/settings",
-  },
+  root: ROOT_APP,
   project: {
+    all: path(ROOT_APP, "/project"),
     env: {
       dashboard: (params: EnvParams) => buildEnvPath(params)("dashboard"),
       traces: (params: EnvParams) => buildEnvPath(params)("traces"),
@@ -52,7 +49,7 @@ const PATH_ACTIONS = {
 // external pages
 const PATH_EXTERNAL = {
   documentation: "https://docs.montelo.ai",
-  discord: "https://discord.gg/DfnXRGtFhP",
+  slack: "https://join.slack.com/t/montelo/shared_invite/zt-2e2n0d68m-1Ib_qDeGavkrBIxFaIpjgg",
 };
 
 // routes object to use in files
@@ -64,7 +61,6 @@ export const Routes = {
 };
 
 /* Types */
-
 export type EnvParams = {
   projectId: string;
   envId: string;

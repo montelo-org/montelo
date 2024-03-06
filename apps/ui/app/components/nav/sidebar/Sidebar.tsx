@@ -1,23 +1,10 @@
 import { Link, useLocation, useParams } from "@remix-run/react";
-import {
-  BookOpen,
-  Building,
-  FlaskConical,
-  GanttChart,
-  Hammer,
-  HelpCircle,
-  LayoutDashboard,
-  Rocket,
-} from "lucide-react";
+import { BookOpen, FlaskConical, GanttChart, Hammer, HelpCircle, LayoutDashboard, Rocket } from "lucide-react";
 import { Routes } from "../../../routes";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../ui/tooltip";
 import { ComponentProps, FC } from "react";
-import { EnvSelector } from "../header/EnvSelector";
-import { ProfileDropdown } from "../header/ProfileDropdown";
-import { ThemeSwitcher } from "../header/ThemeSwitcher";
 import { ApiKeysDialog } from "./ApiKeysDialog";
-import { useOrganization } from "@clerk/remix";
-import { EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
+import { FullProjectDto } from "@montelo/browser-client";
 
 type ClassName = ComponentProps<"div">["className"];
 
@@ -65,20 +52,16 @@ const SidebarItems: SidebarItem[] = [
 ];
 
 type SidebarProps = {
-  orgId: string;
-  environment: EnvironmentDto;
   project: FullProjectDto;
 }
 
-export const Sidebar: FC<SidebarProps> = ({ project, environment, orgId }) => {
-  const { isLoaded, organization } = useOrganization();
+export const Sidebar: FC<SidebarProps> = ({ project }) => {
   const { pathname } = useLocation();
   const params = useParams();
   const envId = params.envId!;
 
   const SidebarItemsComponent = () => SidebarItems.map((item) => {
     const params = {
-      orgId,
       envId,
       projectId: project.id,
     };
@@ -122,53 +105,21 @@ export const Sidebar: FC<SidebarProps> = ({ project, environment, orgId }) => {
   });
 
   return (
-    <aside className="w-52 h-screen fixed left-0 top-0 flex flex-col border-r-[1px]" aria-label="Sidebar">
-      <div className={"flex flex-col p-4 gap-4 mb-2"}>
-        <div className="flex flex-row items-center justify-between">
-          <div className={"flex flex-row items-center"}>
-            <Link
-              to={Routes.app.root}
-              prefetch={"intent"}
-              className={"group flex items-center py-1 hover:bg-muted/50 rounded"}
-            >
-              <div className="flex justify-center w-8">
-                <img src={"/LogoIconOnly.svg"} alt={"Montelo Icon"} className={"h-6 w-6"} />
-              </div>
-            </Link>
-            <Link
-              to={isLoaded && organization ? Routes.app.org.projects : Routes.app.root}
-              prefetch={"intent"}
-              className={"group flex items-center py-1 hover:bg-muted/50 rounded"}
-            >
-              <div className="flex justify-center w-8">
-                <Building size={20} className={"group-hover:text-foreground text-muted-foreground"} />
-              </div>
-            </Link>
-          </div>
-          <div className={"flex flex-row items-center gap-2"}>
-            <ThemeSwitcher size={20} />
-            <ProfileDropdown />
-          </div>
-        </div>
-      </div>
+    <aside className="mt-4 w-48 flex flex-col h-full fixed top-16 left-0 bottom-0" aria-label="Sidebar">
       <div className="overflow-y-auto flex-grow pl-4 pr-4 pb-4">
         <ul className="space-y-1">
           <SidebarItemsComponent />
+          <ApiKeysDialog projectId={project.id} />
         </ul>
-      </div>
-      <div className={"flex flex-col p-4 gap-2"}>
-        <p className={"text-sm text-muted-foreground"}>{project.name}</p>
-        <EnvSelector environments={project.environments} pathEnv={environment} />
-        <ApiKeysDialog projectId={project.id} />
       </div>
       <div className="flex flex-row justify-between p-4">
         <div className={"group hover:bg-muted/50 rounded"}>
-          <Link to={Routes.external.discord} target={"_blank"} prefetch={"intent"}>
+          <Link to={Routes.external.slack} target={"_blank"}>
             <HelpCircle size={20} className={"group-hover:text-foreground text-muted-foreground"} />
           </Link>
         </div>
         <div className={"group hover:bg-muted/50 rounded"}>
-          <Link to={Routes.external.documentation} target={"_blank"} prefetch={"intent"}>
+          <Link to={Routes.external.documentation} target={"_blank"}>
             <BookOpen size={20} className={"group-hover:text-foreground text-muted-foreground"} />
           </Link>
         </div>

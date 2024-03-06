@@ -87,7 +87,7 @@ model Log {
   id String @id @default(cuid())
 
   // properties
-  // some are optional to discord logging things unrelated to LLM calls
+  // some are optional to slack logging things unrelated to LLM calls
   traceId      String     @map("trace_id")
   envId        String     @map("env_id")
   parentLogId  String?    @map("parent_id")

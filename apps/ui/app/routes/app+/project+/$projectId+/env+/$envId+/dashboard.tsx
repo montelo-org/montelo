@@ -1,15 +1,10 @@
 import { AnalyticsControllerGetForDashboardDateSelectionEnum } from "@montelo/browser-client";
-import { defer, redirect } from "@remix-run/node";
-import { Routes } from "../../../../../routes";
-import { withAuth } from "../../../../../common/auth/withAuth";
-import { DeferredDashboardLoader } from "../../../../../types/DashboardLoader.types";
-import { DashboardPage } from "../../../../../pages/dashboard/DashboardPage";
+import { defer } from "@remix-run/node";
+import { withAuth } from "../../../../../../auth/withAuth";
+import { DeferredDashboardLoader } from "../../../../../../types/DashboardLoader.types";
+import { DashboardPage } from "../../../../../../pages/dashboard/DashboardPage";
 
 export const loader = withAuth(async ({ request, api, params, orgId }) => {
-  if (!orgId) {
-    return redirect(Routes.app.root);
-  }
-
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
   const dateSelectionQuery = (searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins) as AnalyticsControllerGetForDashboardDateSelectionEnum;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "@remix-run/react";
 import { EnvironmentDto } from "@montelo/browser-client";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { sortEnvironmentsByName } from "../../../utils/sortEnvironmentsByName";
+import { sortEnvironmentsByName } from "../../../utils/sorters";
 import { Dialog } from "../../ui/dialog";
 import {
   DropdownMenu,
@@ -14,7 +14,6 @@ import {
 } from "../../ui/dropdown-menu";
 import { Button } from "../../ui/button";
 import { Routes } from "../../../routes";
-import { useOrganization } from "@clerk/remix";
 
 type EnvSelectorProps = {
   environments: EnvironmentDto[];
@@ -22,19 +21,12 @@ type EnvSelectorProps = {
 };
 
 export const EnvSelector = ({ environments, pathEnv }: EnvSelectorProps) => {
-  const { isLoaded, organization } = useOrganization();
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const [selectedEnvName, setSelectedEnvName] = useState<string>(pathEnv.name);
+  const [showChevron, setShowEvron] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const sortedEnvironments = sortEnvironmentsByName(environments);
 
   const handleMenuItemClick = (env: EnvironmentDto) => {
-    if (!isLoaded || !organization) {
-      return;
-    }
-
-    setSelectedEnvName(env.name);
     const path = Routes.app.project.env.dashboard({
       projectId: env.projectId,
       envId: env.id,
@@ -42,14 +34,23 @@ export const EnvSelector = ({ environments, pathEnv }: EnvSelectorProps) => {
     navigate(path);
   };
 
+  const showChevronFunc = () => {
+    setShowEvron(true);
+  };
+
+  const hideChevron = () => {
+    setShowEvron(false);
+  };
+
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild className={"w-full"}>
-          <Button variant="outline"
-                  className={`text-muted-foreground ${pathEnv.name === "Production" ? "border-orange-600 border-2" : ""} justify-between`}>
-            {selectedEnvName}
-            <ChevronsUpDown size={16} />
+        <DropdownMenuTrigger asChild onMouseEnter={showChevronFunc} onMouseLeave={hideChevron}>
+          <Button
+            variant="ghost"
+            className={"text-muted-foreground justify-between"}>
+            {pathEnv.name}
+            {showChevron && <ChevronsUpDown size={20} />}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-44">
@@ -60,7 +61,7 @@ export const EnvSelector = ({ environments, pathEnv }: EnvSelectorProps) => {
             {sortedEnvironments.map((env) => (
               <DropdownMenuItem key={env.id} onSelect={() => handleMenuItemClick(env)}>
                 <div className={"flex flex-row gap-2"}>
-                  {selectedEnvName === env.name && <Check size={20} />}
+                  {pathEnv.id === env.id && <Check size={20} />}
                   {env.name}
                 </div>
               </DropdownMenuItem>

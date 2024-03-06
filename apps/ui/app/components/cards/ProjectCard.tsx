@@ -3,7 +3,7 @@ import { Delete, MoreHorizontal } from "lucide-react";
 import { Link } from "@remix-run/react";
 import { FC, useState } from "react";
 import { EnvParams, Routes } from "../../routes";
-import { sortEnvironmentsByName } from "../../utils/sortEnvironmentsByName";
+import { sortEnvironmentsByName } from "../../utils/sorters";
 import { Label } from "../ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
@@ -11,10 +11,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card
 import { DeleteProjectConfirmDialog } from "../dialogs/DeleteProjectConfirmDialog";
 
 type HomePageCardProps = {
-  orgId: string;
   project: FullProjectDto;
 }
-export const ProjectCard: FC<HomePageCardProps> = ({ orgId, project }) => {
+export const ProjectCard: FC<HomePageCardProps> = ({ project }) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const projectName = project.name;
 
@@ -47,7 +46,7 @@ export const ProjectCard: FC<HomePageCardProps> = ({ orgId, project }) => {
   };
 
   return (
-    <div>
+    <div className={"max-w-96"}>
     <Card>
         <CardHeader>
           <CardTitle className={"text-2xl"}>

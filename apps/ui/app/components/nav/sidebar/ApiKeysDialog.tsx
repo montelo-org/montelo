@@ -7,7 +7,7 @@ import { useFetcher } from "@remix-run/react";
 import { ApiKeyWithEnvDto } from "@montelo/browser-client";
 import { Routes } from "../../../routes";
 import { FC } from "react";
-import { sortApiKeys } from "../../../utils/sortEnvironmentsByName";
+import { sortApiKeys } from "../../../utils/sorters";
 
 type ApiKeysDialogProps = {
   projectId: string;

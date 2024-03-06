@@ -1,9 +1,8 @@
 import { LogDto } from "@montelo/browser-client";
-import { json, LoaderFunction, redirect } from "@remix-run/node";
+import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { Routes } from "../../../../../../routes";
-import { withAuth } from "../../../../../../common/auth/withAuth";
-import { LogTable } from "../../../../../../components/tables/LogTable/LogTable";
+import { withAuth } from "../../../../../../../auth/withAuth";
+import { LogTable } from "../../../../../../../components/tables/LogTable/LogTable";
 
 type LoaderType = {
   logs: LogDto[];
@@ -13,10 +12,6 @@ type LoaderType = {
 }
 
 export const loader: LoaderFunction = withAuth(async ({ request, api, params, orgId }) => {
-  if (!orgId) {
-    return redirect(Routes.app.root);
-  }
-
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
   const page = searchParams.get("page") || "1";
