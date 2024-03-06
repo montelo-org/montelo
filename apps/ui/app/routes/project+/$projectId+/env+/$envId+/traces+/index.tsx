@@ -21,7 +21,7 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params, or
   const { searchParams } = new URL(request.url);
   const page = searchParams.get("page") || "1";
 
-  const pageSize = 15;
+  const pageSize = 20;
   const skipAmount = page ? parseInt(page) - 1 : 0;
 
   const response = await api.log().logControllerGetAll({
