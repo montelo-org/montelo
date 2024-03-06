@@ -213,7 +213,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/junior/GitHub/montelo/packages/db/prisma/generated/client",
+      "value": "/Users/samani/github/montelo/packages/db/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -222,7 +222,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
+        "value": "darwin",
         "native": true
       },
       {

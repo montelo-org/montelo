@@ -239,7 +239,6 @@ export const columns: ColumnDef<(LogDto & { orgId: string; })>[] = [
 
 type LogTableProps = {
   logs: (LogDto & { orgId: string })[];
-  // lastTimestamp: string | null;
   currentPage: number;
   totalPages: number;
 }
@@ -268,11 +267,6 @@ export function LogTable({ logs, currentPage, totalPages }: LogTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
-    initialState: {
-      pagination: {
-        pageSize: 25,
-      },
-    },
     state: {
       sorting,
       columnFilters,
