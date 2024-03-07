@@ -34,7 +34,7 @@ export class LogsController {
       await this.logsQueue.add(queueInput);
       this.logger.debug(`Added ${envId} to queue`);
       return res.status(200).json({});
-    } catch(e) {
+    } catch (e) {
       this.logger.error(e);
       throw e;
     }

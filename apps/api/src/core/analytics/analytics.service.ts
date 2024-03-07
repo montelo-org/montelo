@@ -11,7 +11,6 @@ import {
   GetDashboardAnalyticsParams,
 } from "./analytics.types";
 
-
 @Injectable()
 export class AnalyticsService {
   constructor(private db: DatabaseService) {}

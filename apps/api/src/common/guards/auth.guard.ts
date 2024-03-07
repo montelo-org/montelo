@@ -1,7 +1,6 @@
 import { ClerkExpressRequireAuth } from "@clerk/clerk-sdk-node";
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 
-
 @Injectable()
 export class ClerkAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {

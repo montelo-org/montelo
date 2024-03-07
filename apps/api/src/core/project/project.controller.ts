@@ -8,7 +8,6 @@ import { FullProjectDto } from "./dto/full-project.dto";
 import { ProjectDto } from "./dto/project.dto";
 import { ProjectService } from "./project.service";
 
-
 @ApiTags("Project")
 @ApiBearerAuth()
 @Controller("project")

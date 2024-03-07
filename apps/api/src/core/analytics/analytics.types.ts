@@ -22,7 +22,7 @@ export type DashboardAnalytics = {
   max: {
     cost: string;
     latency: string;
-  },
+  };
   changes: {
     cost: string;
     latency: string;

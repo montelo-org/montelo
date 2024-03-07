@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { LogSources } from "@montelo/db";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class TokenInfo {
   @ApiProperty({

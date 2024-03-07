@@ -5,7 +5,6 @@ import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 import { ApiKeyService } from "./apiKey.service";
 import { ApiKeyWithEnvDto } from "./dto/apiKeyWithEnv.dto";
 
-
 @ApiTags("Api Key")
 @ApiBearerAuth()
 @Controller()

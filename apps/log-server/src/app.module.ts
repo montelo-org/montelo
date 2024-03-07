@@ -5,7 +5,6 @@ import { AuthModule } from "./auth/auth.module";
 import { HealthModule } from "./health/health.module";
 import { LogsModule } from "./logs/logs.module";
 
-
 @Module({
   imports: [
     BullModule.forRootAsync({

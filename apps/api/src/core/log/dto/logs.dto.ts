@@ -1,6 +1,7 @@
 import { Log } from "@montelo/db";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
+
 import { LogDto } from "./log.dto";
 
 export class LogsDto {
@@ -11,8 +12,8 @@ export class LogsDto {
   @IsString()
   totalCount: number;
 
-  static fromLogsWithCount(logsAndCount: { logs: Log[], totalCount: number }): LogsDto {
-    const logs = logsAndCount.logs.map(log => LogDto.fromLog(log));
+  static fromLogsWithCount(logsAndCount: { logs: Log[]; totalCount: number }): LogsDto {
+    const logs = logsAndCount.logs.map((log) => LogDto.fromLog(log));
     const totalCount = logsAndCount.totalCount;
 
     return { logs, totalCount };

@@ -13,14 +13,18 @@ type FindAllForEnvOpts = {
 
 @Injectable()
 export class LogService {
-  constructor(private db: DatabaseService) { }
+  constructor(private db: DatabaseService) {}
 
-  async findAllForEnv(envId: string, options?: FindAllForEnvOpts): Promise<{ logs: Log[], totalCount: number }> {
+  async findAllForEnv(
+    envId: string,
+    options?: FindAllForEnvOpts,
+  ): Promise<{ logs: Log[]; totalCount: number }> {
     if (!envId) throw new Error("envId is required");
 
-    const orderByOptions = options?.sortColumn && options?.sortDirection ?
-      { [options.sortColumn]: options.sortDirection }
-      : { startTime: "desc" } as const;
+    const orderByOptions =
+      options?.sortColumn && options?.sortDirection
+        ? { [options.sortColumn]: options.sortDirection }
+        : ({ startTime: "desc" } as const);
 
     const logs = await this.db.log.findMany({
       where: {

@@ -9,7 +9,6 @@ import { TraceModule } from "./core/trace/trace.module";
 import { EnvModule, envSchema } from "./env";
 import { HealthModule } from "./health/health.module";
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({

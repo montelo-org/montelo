@@ -92,7 +92,9 @@ export class ApiKeyService {
     return this.obfuscatePublicAndPrivateKey(updatedKey);
   }
 
-  public async generateApiKey(prefix: string,): Promise<{ publicPart: string; secretPart: string; combined: string }> {
+  public async generateApiKey(
+    prefix: string,
+  ): Promise<{ publicPart: string; secretPart: string; combined: string }> {
     const publicPart = this.generateRandomCharacters(16);
     const secretPart = this.generateRandomCharacters(16);
     const fullPrefix = `sk-${prefix}-`;

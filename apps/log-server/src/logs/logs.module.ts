@@ -9,7 +9,6 @@ import { LogsProcessor } from "./logs.processor";
 import { LogsService } from "./logs.service";
 import { Queues } from "./types";
 
-
 @Module({
   imports: [
     BullModule.registerQueue({

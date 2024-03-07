@@ -5,7 +5,6 @@ import { HealthCheck, HealthCheckService, PrismaHealthIndicator } from "@nestjs/
 import { DatabaseService } from "../database";
 import { LogQueueHealthIndicator } from "../logs/logs.health";
 
-
 @ApiTags("Health")
 @Controller("health")
 export class HealthController {

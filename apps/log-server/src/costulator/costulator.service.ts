@@ -5,7 +5,6 @@ import { TraceWithLogs } from "../logs/types";
 import { LLMProvider, LogCostInput, LogCostOutput } from "./llm-provider.interface";
 import { TraceMetrics } from "./types";
 
-
 @Injectable()
 export class CostulatorService {
   private logger = new Logger(CostulatorService.name);

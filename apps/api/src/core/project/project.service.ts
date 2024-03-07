@@ -6,7 +6,6 @@ import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "../environment/environment.enums";
 import { CreateProjectInput, FullProject } from "./project.types";
 
-
 @Injectable()
 export class ProjectService {
   constructor(

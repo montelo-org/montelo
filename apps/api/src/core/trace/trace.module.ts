@@ -4,7 +4,6 @@ import { DatabaseModule } from "../../database";
 import { TraceController } from "./trace.controller";
 import { TraceService } from "./trace.service";
 
-
 @Module({
   imports: [DatabaseModule],
   controllers: [TraceController],

@@ -1,11 +1,12 @@
 import { Logger } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import * as cookieParser from 'cookie-parser';
+import * as cookieParser from "cookie-parser";
+
 import { AppModule } from "./app.module";
+import { AllExceptionsFilter } from "./common/filters/catch-all.filter";
 import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter";
 import { envSchema } from "./env";
-import { AllExceptionsFilter } from "./common/filters/catch-all.filter";
 
 async function bootstrap() {
   const env = envSchema.parse(process.env);
