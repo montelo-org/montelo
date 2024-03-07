@@ -1,4 +1,5 @@
-import { Logger } from "@nestjs/common";
+import { Logger as PinoLogger, LoggerErrorInterceptor } from 'nestjs-pino';
+import { Logger } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as cookieParser from "cookie-parser";
@@ -10,13 +11,14 @@ import { envSchema } from "./env";
 
 async function bootstrap() {
   const env = envSchema.parse(process.env);
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(app.get(PinoLogger));
   const logger = new Logger("App");
 
   // filters
   const httpAdapterHost = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapterHost.httpAdapter));
+  app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.use(cookieParser());
 
   // swagger
