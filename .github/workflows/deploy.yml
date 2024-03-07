@@ -1,0 +1,45 @@
+name: Fly Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && (contains(github.event.head_commit.modified, 'apps/api/') || contains(github.event.head_commit.modified, 'packages/db/')) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy API
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        working-directory: ./apps/api
+
+  deploy-ui:
+    name: Deploy UI
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && (contains(github.event.head_commit.modified, 'apps/ui/') || contains(github.event.head_commit.modified, 'packages/db/')) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy UI
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        working-directory: ./apps/ui
+
+  deploy-log-server:
+    name: Deploy Log Server
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && (contains(github.event.head_commit.modified, 'apps/log-server/') || contains(github.event.head_commit.modified, 'packages/db/')) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy Log Server
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        working-directory: ./apps/log-server
