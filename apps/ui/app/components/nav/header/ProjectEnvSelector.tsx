@@ -38,7 +38,7 @@ export const ProjectEnvSelector: FC<EnvSelectorProps> = ({ projects, selectedPro
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={"text-muted-foreground justify-between gap-2"}>
+        <Button variant="ghost" className={"text-muted-foreground justify-between gap-2 h-8"}>
           <div>
             {selectedProject.name}
           </div>

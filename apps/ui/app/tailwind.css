@@ -60,11 +60,21 @@
 }
 
 /* For JSON */
-pre .string { color: #a77a64; }
-.number { color: #a0b291; }
-.boolean { color: #5c8dca; }
-.null { color: #5c8dca; }
-.key { color: #a0d4f9; }
+pre .string {
+  color: #a77a64;
+}
+.number {
+  color: #a0b291;
+}
+.boolean {
+  color: #5c8dca;
+}
+.null {
+  color: #5c8dca;
+}
+.key {
+  color: #a0d4f9;
+}
 
 /* hide scrollbar */
 html {
@@ -121,5 +131,5 @@ html {
 }
 
 .cl-organizationSwitcher-root {
-  height: 28px;
+  height: 32px;
 }

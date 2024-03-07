@@ -15,13 +15,13 @@ export const Header: FC<HeaderProps> = ({ project, environment, allProjects, hid
   const shouldRenderProjectEnvSelector = !!(project && environment && allProjects);
 
   return (
-    <div className={"flex flex-row justify-between items-center align-middle"}>
-      <div className={"flex flex-row gap-4 items-center align-middle"}>
+    <div className={"flex-1 flex flex-row justify-between items-center"}>
+      <div className={"flex flex-row gap-1 items-center"}>
         {!hideOrgSwitcher && <OrgSwitcher />}
         {shouldRenderProjectEnvSelector && <ProjectEnvSelector projects={allProjects} selectedProject={project} selectedEnvironment={environment} />}
       </div>
       <div>
-        <div className={"flex flex-row gap-4 items-center align-middle"}>
+        <div className={"flex flex-row gap-4 items-center"}>
           <ThemeSwitcher size={24} />
           <ProfileDropdown />
         </div>
