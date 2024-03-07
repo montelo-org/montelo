@@ -43,3 +43,6 @@ yarn-error.log*
 
 # Redis
 dump.rdb
+
+# Prisma Generated
+packages/db/prisma/generated/client
