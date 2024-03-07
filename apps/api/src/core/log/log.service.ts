@@ -25,11 +25,6 @@ export class LogService {
     const logs = await this.db.log.findMany({
       where: {
         envId,
-        // environment: {
-        //   project: {
-        //     orgId,
-        //   },
-        // },
       },
       orderBy: orderByOptions,
       take: options?.take || 50,
