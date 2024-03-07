@@ -1,10 +1,22 @@
 import { Params } from "nestjs-pino";
 
+const isProduction = process.env.NODE_ENV === "production";
+const betterstackSourceToken = process.env.BETTERSTACK_SOURCE_TOKEN;
+
+const pinoPrettyConfig = {
+  target: "pino-pretty",
+  options: {
+    singleLine: isProduction ? true : false,
+  },
+};
+const betterstackConfig = !!betterstackSourceToken &&
+  isProduction && { target: "@logtail/pino", options: { sourceToken: betterstackSourceToken } };
+
 export const loggerConfig: Params = {
   pinoHttp: {
-    customReceivedMessage: (req, res) => `Incoming Request: ${req.method} "${req.url}"`,
-    customSuccessMessage: (req, res) => `Request Completed: ${req.method} "${req.url}"`,
-    customErrorMessage: (req, res) => `Request Failed: ${req.method} "${req.url}"`,
+    customReceivedMessage: (req) => `Incoming Request: ${req.method} "${req.url}"`,
+    customSuccessMessage: (req) => `Request Completed: ${req.method} "${req.url}"`,
+    customErrorMessage: (req) => `Request Failed: ${req.method} "${req.url}"`,
     customLogLevel: function (req, res, err) {
       if (res?.statusCode >= 400 && res.statusCode < 500) {
         return "warn";
@@ -18,10 +30,7 @@ export const loggerConfig: Params = {
       res: (res) => ({ statusCode: res.statusCode }),
     },
     transport: {
-      target: "pino-pretty",
-      options: {
-        singleLine: process.env.NODE_ENV === "production" ? true : false,
-      },
+      targets: [pinoPrettyConfig, ...(betterstackConfig ? [betterstackConfig] : [])],
     },
   },
 };
