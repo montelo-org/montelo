@@ -1,4 +1,4 @@
-import { Params } from 'nestjs-pino';
+import { Params } from "nestjs-pino";
 
 export const loggerConfig: Params = {
   pinoHttp: {
@@ -7,16 +7,21 @@ export const loggerConfig: Params = {
     customErrorMessage: (req, res) => `Request Failed: ${req.method} "${req.url}"`,
     customLogLevel: function (req, res, err) {
       if (res?.statusCode >= 400 && res.statusCode < 500) {
-        return 'warn';
+        return "warn";
       } else if (res?.statusCode >= 500 || err) {
-        return 'error';
+        return "error";
       }
-      return 'info';
+      return "info";
     },
     serializers: {
       req: (req) => ({ query: req.query, body: req.raw.body }),
       res: (res) => ({ statusCode: res.statusCode }),
     },
-    transport: { target: 'pino-pretty' },
+    transport: {
+      target: "pino-pretty",
+      options: {
+        singleLine: process.env.NODE_ENV === "production" ? true : false,
+      },
+    },
   },
 };

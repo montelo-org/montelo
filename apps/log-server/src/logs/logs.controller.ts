@@ -19,11 +19,7 @@ export class LogsController {
 
   @UseGuards(BearerGuard)
   @Post("logs")
-  async createLog(
-    @Res() res: Response,
-    @EnvId() envId: string,
-    @Body() body: CreateLogInput,
-  ): Promise<{}> {
+  async createLog(@Res() res: Response, @EnvId() envId: string, @Body() body: CreateLogInput): Promise<{}> {
     try {
       this.logger.debug(`Received log for ${envId}`);
       const queueInput: QLogsInput = {

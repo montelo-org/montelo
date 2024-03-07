@@ -16,9 +16,7 @@ const PATH_APP = {
       dashboard: (params: EnvParams) => buildEnvPath(params)("dashboard"),
       traces: (params: EnvParams) => buildEnvPath(params)("traces"),
       traceId: (params: EnvParams & { traceId: string; logId?: string }) =>
-        buildEnvPath(params)(
-          `traces/${params.traceId}${params.logId ? `?logId=${params.logId}` : ""}`,
-        ),
+        buildEnvPath(params)(`traces/${params.traceId}${params.logId ? `?logId=${params.logId}` : ""}`),
     },
   },
 };

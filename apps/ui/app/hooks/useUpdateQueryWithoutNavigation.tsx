@@ -13,9 +13,7 @@ export const useUpdateQueryWithoutNavigation = (queryKey: string, queryValue: st
     } else {
       currentSearchParams.delete(queryKey);
     }
-    const newUrl = [window.location.pathname, currentSearchParams.toString()]
-      .filter(Boolean)
-      .join("?");
+    const newUrl = [window.location.pathname, currentSearchParams.toString()].filter(Boolean).join("?");
     // alright, let's talk about this...
     // Normally with remix, you'd update the params via useSearchParams from react-router-dom
     // and updating the search params will trigger the search to update for you.

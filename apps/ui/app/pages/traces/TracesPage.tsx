@@ -21,7 +21,7 @@ import {
 } from "../../components/ui/dropdown-menu";
 import { Button } from "../../components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
-import {  useSearchParams } from "@remix-run/react";
+import { useSearchParams } from "@remix-run/react";
 import Pagination from "../../components/pagination";
 import { COLUMNS } from "./constants";
 
@@ -33,7 +33,7 @@ type TracesPageProps = {
 
 export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   const paramsSortColumn = searchParams.get("sortColumn");
   const paramsSortDirection = searchParams.get("sortDirection");
   const defaultSorting: SortingState = paramsSortColumn && paramsSortDirection
@@ -55,7 +55,6 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
   const onSortingChange: OnChangeFn<SortingState> = (updaterOrValue) => {
     setSorting((oldSorting) => {
       const newSorting = typeof updaterOrValue === 'function' ? updaterOrValue(oldSorting) : updaterOrValue;
-      
       const params = new URLSearchParams(searchParams.toString());
       const sortColumn = newSorting.length ? newSorting[0].id : undefined;
       const sortDirection = newSorting.length ? newSorting[0].desc ? "desc" : "asc" : undefined;
@@ -144,7 +143,7 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
                           : flexRender(
                             header.column.columnDef.header,
                             header.getContext(),
-                        )}
+                          )}
                         <span>
                           {isSorted && (header.column.getIsSorted() === 'desc' ? <ChevronDownIcon /> : <ChevronUpIcon />)}
                         </span>

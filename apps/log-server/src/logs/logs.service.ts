@@ -40,8 +40,7 @@ export class LogsService {
 
     // attempt to count tokens if not provided
     const inputTokens = log.tokens?.inputTokens || llmProvider?.countInputTokens(log.input) || 0;
-    const outputTokens =
-      log.tokens?.outputTokens || llmProvider?.countOutputTokens(log.output) || 0;
+    const outputTokens = log.tokens?.outputTokens || llmProvider?.countOutputTokens(log.output) || 0;
     const totalTokens = log.tokens?.totalTokens || inputTokens + outputTokens;
 
     // get the cost of the individual log
@@ -171,10 +170,7 @@ export class LogsService {
       outputTokens: traceMetrics.outputTokens + (logTokens.outputTokens || 0),
       totalTokens: traceMetrics.totalTokens + (logTokens.totalTokens || 0),
       inputCost: truncateToSignificantDigits(traceMetrics.inputCost + (logCost.inputCost || 0), 5),
-      outputCost: truncateToSignificantDigits(
-        traceMetrics.outputCost + (logCost.outputCost || 0),
-        5,
-      ),
+      outputCost: truncateToSignificantDigits(traceMetrics.outputCost + (logCost.outputCost || 0), 5),
       totalCost: truncateToSignificantDigits(traceMetrics.totalCost + (logCost.totalCost || 0), 5),
     };
   }

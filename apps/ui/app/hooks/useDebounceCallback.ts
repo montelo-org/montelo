@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef } from "react";
 
 import { useUnmount } from "./useUnmount";
 
-
 /**
  * Configuration options for controlling the behavior of the debounced function.
  */
@@ -48,8 +47,7 @@ interface ControlFunctions {
  * Ensure proper handling in your code.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface DebouncedState<T extends (...args: any) => ReturnType<T>>
-  extends ControlFunctions {
+export interface DebouncedState<T extends (...args: any) => ReturnType<T>> extends ControlFunctions {
   (...args: Parameters<T>): ReturnType<T> | undefined;
 }
 
