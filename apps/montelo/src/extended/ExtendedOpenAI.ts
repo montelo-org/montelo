@@ -149,7 +149,7 @@ class ExtendedChatCompletions extends OpenAI.Chat.Completions {
       input: base,
       output,
     };
-    await this.monteloClient.createLog(log);
+    void this.monteloClient.createLog(log);
   }
 }
 

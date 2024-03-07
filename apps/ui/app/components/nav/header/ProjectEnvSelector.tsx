@@ -51,7 +51,7 @@ export const ProjectEnvSelector: FC<EnvSelectorProps> = ({ projects, selectedPro
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Projects</DropdownMenuLabel>
+        <DropdownMenuLabel>Projects / Environments</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {projects.map((project) => (
           <DropdownMenuGroup key={project.id}>
