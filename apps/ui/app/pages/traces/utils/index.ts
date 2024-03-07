@@ -1,1 +1,1 @@
-export * from './idShortener';
+export * from "./idShortener";

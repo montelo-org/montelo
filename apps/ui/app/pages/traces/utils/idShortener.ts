@@ -21,7 +21,7 @@ export const idShortener = (id: string): { short: string; variant: BadgeProps["v
     "yellow",
     "amber",
     "orange",
-    "red"
+    "red",
   ];
 
   const adjustedAsciiIndex = lastLetterAscii % variants.length;

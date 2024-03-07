@@ -4,11 +4,9 @@ const project = resolve(process.cwd(), "tsconfig.json");
 
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  ignorePatterns: ["apps/**", "packages/**", ".*.js", "node_modules/", "dist/"],
-  extends: [
-    "eslint:recommended",
-    "prettier"
-  ],
+  ignorePatterns: ["packages/", ".*.js", "node_modules/", "dist/"],
+  extends: ["eslint:recommended", "prettier"],
+  plugins: ["unused-imports"],
   globals: {
     React: true,
     JSX: true,
@@ -31,5 +29,9 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: true,
+  },
+  rules: {
+    "unused-imports/no-unused-imports": "warn",
+    "unused-imports/no-unused-vars": "warn",
   },
 };

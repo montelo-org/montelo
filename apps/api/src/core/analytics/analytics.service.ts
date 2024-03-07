@@ -4,12 +4,7 @@ import * as dayjs from "dayjs";
 
 import { DatabaseService } from "../../database";
 import { DateSelection } from "./analytics.enum";
-import {
-  CostHistory,
-  DashboardAnalytics,
-  GetCostHistoryParams,
-  GetDashboardAnalyticsParams,
-} from "./analytics.types";
+import { CostHistory, DashboardAnalytics, GetCostHistoryParams, GetDashboardAnalyticsParams } from "./analytics.types";
 
 @Injectable()
 export class AnalyticsService {
@@ -61,10 +56,7 @@ export class AnalyticsService {
     return this.db.$queryRawUnsafe<CostHistory[]>(queryString, envId, startTime);
   }
 
-  async getDashboardAnalytics({
-    envId,
-    dateSelection,
-  }: GetDashboardAnalyticsParams): Promise<DashboardAnalytics> {
+  async getDashboardAnalytics({ envId, dateSelection }: GetDashboardAnalyticsParams): Promise<DashboardAnalytics> {
     const now = dayjs();
 
     const dateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter<"Trace">> = {
@@ -149,10 +141,7 @@ export class AnalyticsService {
       },
     });
 
-    const [currAggregation, prevAggregation] = await Promise.all([
-      currAggregationPromise,
-      prevAggregationPromise,
-    ]);
+    const [currAggregation, prevAggregation] = await Promise.all([currAggregationPromise, prevAggregationPromise]);
 
     const currTotalCost = currAggregation._sum?.totalCost ?? 0;
     const prevTotalCost = prevAggregation._sum?.totalCost ?? 0;

@@ -15,10 +15,7 @@ type FindAllForEnvOpts = {
 export class LogService {
   constructor(private db: DatabaseService) {}
 
-  async findAllForEnv(
-    envId: string,
-    options?: FindAllForEnvOpts,
-  ): Promise<{ logs: Log[]; totalCount: number }> {
+  async findAllForEnv(envId: string, options?: FindAllForEnvOpts): Promise<{ logs: Log[]; totalCount: number }> {
     if (!envId) throw new Error("envId is required");
 
     const orderByOptions =

@@ -1,4 +1,4 @@
-import { createId } from '@paralleldrive/cuid2';
+import { createId } from "@paralleldrive/cuid2";
 
 import { MonteloClient } from "./MonteloClient";
 import { LogInput } from "./client";

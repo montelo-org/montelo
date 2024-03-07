@@ -4,8 +4,6 @@ import { Chat } from "openai/resources";
 import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
 import { Stream } from "openai/streaming";
 
-
-
 import { MonteloClient } from "../MonteloClient";
 import { LogInput } from "../client";
 import { MonteloLogExtend, separateExtend } from "./types";

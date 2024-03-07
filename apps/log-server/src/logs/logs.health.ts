@@ -39,6 +39,7 @@ export class LogQueueHealthIndicator extends HealthIndicator {
       const timeout = new Promise<boolean>((resolve) => {
         setTimeout(() => resolve(false), 1000); // 5 seconds timeout
       });
+      // eslint-disable-next-line no-async-promise-executor
       const ping = new Promise<boolean>(async (resolve) => {
         try {
           const client = this.logsQueue.client;

@@ -9,8 +9,8 @@ const chat = async (): Promise<void> => {
   const trace = montelo.trace({ name: "wowza" });
   const stream = await trace.openai.chat.completions.create({
     name: "testing",
-    model: 'gpt-3.5-turbo-0125',
-    messages: [{ role: 'user', content: 'Say this is a testtt' }],
+    model: "gpt-3.5-turbo-0125",
+    messages: [{ role: "user", content: "Say this is a testtt" }],
     stream: true,
   });
 
@@ -20,9 +20,9 @@ const chat = async (): Promise<void> => {
 
   await trace.openai.chat.completions.create({
     name: "testing / nesting",
-    model: 'gpt-3.5-turbo-0125',
-    messages: [{ role: 'user', content: 'Say this is another test' }],
-  })
+    model: "gpt-3.5-turbo-0125",
+    messages: [{ role: "user", content: "Say this is another test" }],
+  });
 };
 
 void chat();

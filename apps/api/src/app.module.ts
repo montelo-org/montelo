@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { LoggerModule } from 'nestjs-pino';
+import { LoggerModule } from "nestjs-pino";
 
+import { loggerConfig } from "./common/configs/logger.config";
 import { AnalyticsModule } from "./core/analytics/analytics.module";
 import { EnvironmentModule } from "./core/environment/environment.module";
 import { LogModule } from "./core/log/log.module";
@@ -9,7 +10,6 @@ import { ProjectModule } from "./core/project/project.module";
 import { TraceModule } from "./core/trace/trace.module";
 import { EnvModule, envSchema } from "./env";
 import { HealthModule } from "./health/health.module";
-import { loggerConfig } from "./common/configs/logger.config";
 
 @Module({
   imports: [
@@ -28,4 +28,4 @@ import { loggerConfig } from "./common/configs/logger.config";
     TraceModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

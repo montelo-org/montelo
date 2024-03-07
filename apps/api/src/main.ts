@@ -1,8 +1,8 @@
-import { Logger as PinoLogger, LoggerErrorInterceptor } from 'nestjs-pino';
-import { Logger } from '@nestjs/common';
+import { Logger } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as cookieParser from "cookie-parser";
+import { LoggerErrorInterceptor, Logger as PinoLogger } from "nestjs-pino";
 
 import { AppModule } from "./app.module";
 import { AllExceptionsFilter } from "./common/filters/catch-all.filter";
