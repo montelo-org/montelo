@@ -153,7 +153,7 @@ export const DashboardPage = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Timestamp</TableHead>
-                  <TableHead>Trace / Log </TableHead>
+                  <TableHead className={"min-w-28"}>Trace / Log </TableHead>
                   <TableHead>Log Name</TableHead>
                   <TableHead>Latency</TableHead>
                   <TableHead>Cost</TableHead>
