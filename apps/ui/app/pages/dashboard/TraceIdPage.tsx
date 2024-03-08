@@ -1,10 +1,18 @@
 import { TraceWithLogsDto } from "@montelo/browser-client";
-import { useSearchParams } from "@remix-run/react";
+import { Link, useParams, useSearchParams } from "@remix-run/react";
 import { useState } from "react";
 import { LogAnalytics } from "../../components/traces/LogAnalytics/LogAnalytics";
 import { LogView } from "../../components/traces/LogView";
 import { LogsTreeView } from "../../components/traces/LogsTreeView";
 import { useUpdateQueryWithoutNavigation } from "../../hooks/useUpdateQueryWithoutNavigation";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "~/components/ui/breadcrumb";
+import { Routes } from "~/routes";
 
 type TraceIdProps = {
   trace: TraceWithLogsDto;
@@ -12,6 +20,7 @@ type TraceIdProps = {
 
 export const TraceIdPage = ({ trace }: TraceIdProps) => {
   const queryKey = "logId";
+  const params = useParams();
   const [searchParams] = useSearchParams();
   const [selectedId, setSelectedId] = useState<string>(searchParams.get(queryKey) ?? "");
   useUpdateQueryWithoutNavigation(queryKey, selectedId);
@@ -24,7 +33,25 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
 
   return (
     <div>
-      <h1 className={"mb-4 text-2xl"}>{trace.name}</h1>
+      <Breadcrumb className={"mb-4"}>
+        <BreadcrumbList className={"text-xl"}>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to={Routes.app.project.env.traces({
+                projectId: params.projectId!,
+                envId: trace.envId,
+              })}>
+                Traces & Logs
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            {trace.name}
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       <div className={"flex flex-row gap-8"}>
         <LogAnalytics trace={trace} />
       </div>
