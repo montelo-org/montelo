@@ -1,5 +1,4 @@
 import { Prisma } from "@montelo/db";
-
 import { LogInput, TraceInput } from "./dto/create-log.input";
 
 export enum Queues {

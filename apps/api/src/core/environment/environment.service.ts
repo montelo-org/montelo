@@ -1,6 +1,5 @@
 import { Environment } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
-
 import { DatabaseService } from "../../database";
 import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "./environment.enums";

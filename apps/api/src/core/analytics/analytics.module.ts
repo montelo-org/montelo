@@ -1,5 +1,4 @@
 import { Module } from "@nestjs/common";
-
 import { DatabaseModule } from "../../database";
 import { AnalyticsController } from "./analytics.controller";
 import { AnalyticsService } from "./analytics.service";

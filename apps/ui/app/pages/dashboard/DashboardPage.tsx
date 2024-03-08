@@ -1,28 +1,28 @@
-import { AlertCircle, CircleSlash, DollarSign, GanttChart, Timer } from "lucide-react";
-import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { AnalyticsControllerGetForDashboardDateSelectionEnum, LogDto } from "@montelo/browser-client";
 import { Await, Link, useLoaderData, useParams, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
-import { FC, Suspense } from "react";
+import { AlertCircle, CircleSlash, DollarSign, GanttChart, Timer } from "lucide-react";
 import numbro from "numbro";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
-import { DashboardLoader } from "../../types/DashboardLoader.types";
-import { Routes } from "../../routes";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
-import { AnalyticsCard } from "./cards/AnalyticsCard";
-import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
-import { ScrollArea } from "../../components/ui/scroll-area";
+import { FC, Suspense } from "react";
+import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
 import { Badge } from "../../components/ui/badge";
+import { ScrollArea } from "../../components/ui/scroll-area";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
+import { Routes } from "../../routes";
+import { DashboardLoader } from "../../types/DashboardLoader.types";
 import { idShortener } from "../traces/utils";
-
+import { AnalyticsCard } from "./cards/AnalyticsCard";
+import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
 
 export const DashboardPage = () => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { analytics, logs, costHistory, orgId } = useLoaderData<DashboardLoader>();
 
-  const selectedValue = searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
+  const selectedValue =
+    searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
 
   const RecentLog: FC<{ log: LogDto }> = ({ log }) => {
     const { short: shortTraceId, variant } = idShortener(log.traceId);
@@ -32,12 +32,14 @@ export const DashboardPage = () => {
       <TableRow>
         <TableCell>{dayjs(log.startTime || log.createdAt).format("h:mm:ssa")}</TableCell>
         <TableCell>
-          <Link to={Routes.app.project.env.traceId({
-            projectId: params.projectId!,
-            envId: params.envId!,
-            traceId: log.traceId,
-            logId: log.id,
-          })}>
+          <Link
+            to={Routes.app.project.env.traceId({
+              projectId: params.projectId!,
+              envId: params.envId!,
+              traceId: log.traceId,
+              logId: log.id,
+            })}
+          >
             <Badge variant={variant}>
               {shortTraceId} / {shortLogId}
             </Badge>
@@ -66,14 +68,16 @@ export const DashboardPage = () => {
 
   return (
     <div className={"flex flex-col pt-0.5"}>
-      <div className={"flex justify-end mb-4"}>
-        <Select value={selectedValue}
-                onValueChange={(value) => {
-                  setSearchParams((prev) => {
-                    prev.set("dateSelection", value);
-                    return prev;
-                  });
-                }}>
+      <div className={"mb-4 flex justify-end"}>
+        <Select
+          value={selectedValue}
+          onValueChange={(value) => {
+            setSearchParams((prev) => {
+              prev.set("dateSelection", value);
+              return prev;
+            });
+          }}
+        >
           <SelectTrigger className="w-[150px]">
             <SelectValue />
           </SelectTrigger>
@@ -92,55 +96,58 @@ export const DashboardPage = () => {
       </div>
 
       {/*Analytics Section*/}
-      <div className={"flex flex-row flex-grow gap-8"}>
+      <div className={"flex flex-grow flex-row gap-8"}>
         <AnalyticsCard title={"Cost"} icon={DollarSign}>
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
-              {(analytics) =>
+              {(analytics) => (
                 <BaseContent
                   title={`$${numbro(analytics.cost).format({ thousandSeparated: true })}`}
                   content={() => <Badge variant={"orange"}>{`Max $${analytics.max.cost}`}</Badge>}
                   percent={analytics.changes.cost}
                 />
-              }
+              )}
             </Await>
           </Suspense>
         </AnalyticsCard>
         <AnalyticsCard title={"Latency"} icon={Timer}>
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
-              {(analytics) =>
+              {(analytics) => (
                 <BaseContent
                   title={`${analytics.averageLatency}s avg`}
                   content={() => <Badge variant={"orange"}>{`Max ${analytics.max.latency}s`}</Badge>}
                   percent={analytics.changes.latency}
                 />
-              }
+              )}
             </Await>
           </Suspense>
         </AnalyticsCard>
         <AnalyticsCard title={"Traces"} icon={GanttChart}>
           <Suspense fallback={<BaseContentSkeleton />}>
             <Await resolve={analytics}>
-              {(analytics) => <BaseContent title={numbro(analytics.traces).format({
-                thousandSeparated: true,
-              })} percent={analytics.changes.traces} />}
+              {(analytics) => (
+                <BaseContent
+                  title={numbro(analytics.traces).format({
+                    thousandSeparated: true,
+                  })}
+                  percent={analytics.changes.traces}
+                />
+              )}
             </Await>
           </Suspense>
         </AnalyticsCard>
         <AnalyticsCard title={"Prompts & Tools"} icon={AlertCircle}>
           <Suspense fallback={<BaseContentSkeleton />}>
-            <Await resolve={analytics}>
-              {(analytics) => <BaseContent title={"Coming soon"} />}
-            </Await>
+            <Await resolve={analytics}>{(analytics) => <BaseContent title={"Coming soon"} />}</Await>
           </Suspense>
         </AnalyticsCard>
       </div>
 
-      <div className={"grid grid-cols-5 gap-8 mt-8"}>
+      <div className={"mt-8 grid grid-cols-5 gap-8"}>
         {/*Recent Logs Section*/}
         <div className="col-span-2">
-          <h1 className={"text-2xl font-medium mb-4"}>Recent Logs</h1>
+          <h1 className={"mb-4 text-2xl font-medium"}>Recent Logs</h1>
           <ScrollArea className="h-[32rem] rounded-lg border" type={"scroll"}>
             <Table>
               <TableHeader>
@@ -153,35 +160,41 @@ export const DashboardPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {logs.map((log) => <RecentLog key={log.id} log={log} />)}
+                {logs.map((log) => (
+                  <RecentLog key={log.id} log={log} />
+                ))}
               </TableBody>
             </Table>
           </ScrollArea>
         </div>
 
         {/*Cost History Section*/}
-        <div className="h-[32rem] col-span-3">
-          <h1 className={"text-2xl font-medium mb-4"}>Cost History</h1>
+        <div className="col-span-3 h-[32rem]">
+          <h1 className={"mb-4 text-2xl font-medium"}>Cost History</h1>
 
-          <Suspense fallback={
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={[]}></LineChart>
-            </ResponsiveContainer>
-          }>
+          <Suspense
+            fallback={
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={[]}></LineChart>
+              </ResponsiveContainer>
+            }
+          >
             <Await resolve={costHistory}>
               {(costHistory) => {
                 if (!costHistory.costHistory.length) {
-                  return (<div className={"flex h-full justify-center items-center border rounded-lg"}>
-                    <Alert className={"flex flex-row w-1/3 p-4 justify-start items-center gap-4"}>
-                      <div>
-                        <CircleSlash size={20} />
-                      </div>
-                      <div className={"flex flex-col"}>
-                        <AlertTitle>No Data</AlertTitle>
-                        <AlertDescription>Try another date filter.</AlertDescription>
-                      </div>
-                    </Alert>
-                  </div>);
+                  return (
+                    <div className={"flex h-full items-center justify-center rounded-lg border"}>
+                      <Alert className={"flex w-1/3 flex-row items-center justify-start gap-4 p-4"}>
+                        <div>
+                          <CircleSlash size={20} />
+                        </div>
+                        <div className={"flex flex-col"}>
+                          <AlertTitle>No Data</AlertTitle>
+                          <AlertDescription>Try another date filter.</AlertDescription>
+                        </div>
+                      </Alert>
+                    </div>
+                  );
                 }
 
                 return (

@@ -1,7 +1,6 @@
 import { Prisma } from "@montelo/db";
 import { Injectable, Logger } from "@nestjs/common";
 import { omit } from "lodash";
-
 import { CostulatorService } from "../costulator/costulator.service";
 import { LLMProvider } from "../costulator/llm-provider.interface";
 import { NullableCost, TraceMetrics } from "../costulator/types";

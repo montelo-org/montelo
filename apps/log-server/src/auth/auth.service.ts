@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-
 import { HashingService } from "../common/services/hashing/hashing.service";
 import { DatabaseService } from "../database";
 

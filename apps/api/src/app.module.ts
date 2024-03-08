@@ -1,7 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { LoggerModule } from "nestjs-pino";
-
 import { loggerConfig } from "./common/configs/logger.config";
 import { AnalyticsModule } from "./core/analytics/analytics.module";
 import { EnvironmentModule } from "./core/environment/environment.module";

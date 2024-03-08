@@ -1,7 +1,6 @@
 import { ProjectDto } from "@montelo/browser-client";
 import { ActionFunction, json } from "@remix-run/node";
 import _ from "lodash";
-
 import { withAuth } from "../../../auth/withAuth";
 
 export const action: ActionFunction = withAuth(async ({ api, request }) => {

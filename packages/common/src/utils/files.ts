@@ -17,5 +17,5 @@ export const getRelativePath = (from: string, to: string): string => {
 
 export const getBaseNameWithoutExtension = (filename: string): string => {
   const baseFilename = basename(filename);
-  return baseFilename.split('.')[0];
+  return baseFilename.split(".")[0];
 };

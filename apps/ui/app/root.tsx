@@ -1,6 +1,5 @@
-import styles from "./tailwind.css";
-import clsx from "clsx";
-import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from "remix-themes";
+import { ClerkApp, ClerkErrorBoundary } from "@clerk/remix";
+import { rootAuthLoader } from "@clerk/remix/ssr.server";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
@@ -13,11 +12,12 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from "@remix-run/react";
-import { themeSessionResolver } from "./services/session.server";
-import { Routes } from "./routes";
-import { rootAuthLoader } from "@clerk/remix/ssr.server";
-import { ClerkApp, ClerkErrorBoundary } from "@clerk/remix";
+import clsx from "clsx";
+import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from "remix-themes";
 import { useRevalidateOnFocus, useRevalidateOnReconnect } from "./hooks";
+import { Routes } from "./routes";
+import { themeSessionResolver } from "./services/session.server";
+import styles from "./tailwind.css";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -47,19 +47,19 @@ export function App() {
 
   return (
     <html lang="en" className={clsx(theme)}>
-    <head>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <Meta />
-      <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
-      <Links />
-    </head>
-    <body>
-    <Outlet />
-    <ScrollRestoration />
-    <Scripts />
-    <LiveReload />
-    </body>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <PreventFlashOnWrongTheme ssrTheme={Boolean(data.theme)} />
+        <Links />
+      </head>
+      <body>
+        <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
     </html>
   );
 }

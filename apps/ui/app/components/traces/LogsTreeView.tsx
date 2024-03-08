@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useRef, useState } from "react";
 import { LogDto } from "@montelo/browser-client";
-import { buildTree } from "./utils";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { TypeMap } from "./TypeMap";
+import { buildTree } from "./utils";
 
 type Props = {
   logs: LogDto[];
@@ -32,10 +32,10 @@ const LogTreeNode: FC<{
   return (
     <div
       className={`
-      px-4 py-2
-      hover:bg-secondary 
-      dark:hover:bg-secondary/25
-      cursor-pointer
+      hover:bg-secondary dark:hover:bg-secondary/25
+      cursor-pointer 
+      px-4
+      py-2
       ${isNodeSelected ? "bg-secondary dark:bg-secondary/25" : ""} 
       `}
       style={{
@@ -45,9 +45,9 @@ const LogTreeNode: FC<{
     >
       <div className="flex items-center gap-2">
         {TypeMap[log.source]}
-        <span className="flex gap-4 items-baseline">
+        <span className="flex items-baseline gap-4">
           {log.name}
-          <span className={"text-sm text-muted-foreground"}>{log.duration ? `${log.duration}s` : ""}</span>
+          <span className={"text-muted-foreground text-sm"}>{log.duration ? `${log.duration}s` : ""}</span>
         </span>
       </div>
     </div>
@@ -77,8 +77,9 @@ export const LogsTreeView: FC<Props> = ({ logs, selectedId, handleSelect }) => {
         <div
           ref={containerRef}
           // className={"border rounded-xl"}
-          style={{ minHeight: `calc(100vh - ${offsetTop}px - 16px)` }}>
-          {treeLogs.map((log, index) => (
+          style={{ minHeight: `calc(100vh - ${offsetTop}px - 16px)` }}
+        >
+          {treeLogs.map((log) => (
             <LogTreeNode
               key={log.id}
               // isFirst={index === 0}

@@ -1,14 +1,14 @@
-import { TableCell, TableRow } from "../../ui/table";
 import { ApiKeyWithEnvDto } from "@montelo/browser-client";
-import { useFetcherWithReset } from "../../../hooks";
-import { Routes } from "../../../routes";
-import { Revealed } from "./Revealed";
+import { useFetcherWithReset } from "~/hooks";
+import { Routes } from "~/routes";
+import { TableCell, TableRow } from "../../ui/table";
 import { RevealApiKey } from "./RevealApiKey";
+import { Revealed } from "./Revealed";
 import { RotateApiKey } from "./RotateApiKey";
 
 type ApiKeyRowProps = {
   apiKey: ApiKeyWithEnvDto;
-}
+};
 
 export const ApiKeyRow = ({ apiKey }: ApiKeyRowProps) => {
   const revealFetcher = useFetcherWithReset<ApiKeyWithEnvDto>();
@@ -35,14 +35,10 @@ export const ApiKeyRow = ({ apiKey }: ApiKeyRowProps) => {
   return (
     <TableRow key={apiKey.envId}>
       <TableCell className="font-medium">{apiKey.environment.name}</TableCell>
-      <TableCell>
-        {apiKeyToShow ? <Revealed apiKey={apiKeyToShow} /> : apiKey.key}
-      </TableCell>
+      <TableCell>{apiKeyToShow ? <Revealed apiKey={apiKeyToShow} /> : apiKey.key}</TableCell>
       <TableCell>
         <div className="grid grid-cols-2 gap-1">
-          <div>
-            {!apiKey.viewed && <RevealApiKey onClick={handleReveal} />}
-          </div>
+          <div>{!apiKey.viewed && <RevealApiKey onClick={handleReveal} />}</div>
           <RotateApiKey handleRotate={handleRotate} />
         </div>
       </TableCell>

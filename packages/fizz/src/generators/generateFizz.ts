@@ -3,13 +3,9 @@ import async from "async";
 import { sync } from "fast-glob";
 import { readFile } from "fs/promises";
 import { basename, dirname } from "path";
-
 import { getOutput } from "./utils";
 
-export const generateFizz = async (
-  pathToUserFunctionsDir: string,
-  outputFilePath: string,
-): Promise<string> => {
+export const generateFizz = async (pathToUserFunctionsDir: string, outputFilePath: string): Promise<string> => {
   const userFunctions = sync(`${pathToUserFunctionsDir}/**/*.ts`);
   const functions: Array<{
     name: string;

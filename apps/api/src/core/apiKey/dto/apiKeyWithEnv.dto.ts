@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-
 import { EnvironmentDto } from "../../environment/dto/environment.dto";
 import { ApiKeyWithEnvironment } from "../apiKey.types";
 import { ApiKeyDto } from "./apiKey.dto";

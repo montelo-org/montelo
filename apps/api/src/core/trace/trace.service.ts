@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-
 import { DatabaseService } from "../../database";
 import { TraceWithLogs } from "./trace.types";
 

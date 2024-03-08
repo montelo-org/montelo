@@ -1,12 +1,12 @@
-import { json, LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
 import { TraceWithLogsDto } from "@montelo/browser-client";
+import { LoaderFunction, json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { withAuth } from "~/auth/withAuth";
 import { TraceIdPage } from "~/pages/dashboard/TraceIdPage";
 
 type LoaderType = {
-  trace: TraceWithLogsDto
-}
+  trace: TraceWithLogsDto;
+};
 
 export const loader: LoaderFunction = withAuth(async ({ api, params }) => {
   const traceId = params.traceId!;
@@ -19,4 +19,4 @@ export const loader: LoaderFunction = withAuth(async ({ api, params }) => {
 export default function TraceIdRoute() {
   const { trace } = useLoaderData<LoaderType>();
   return <TraceIdPage trace={trace} />;
-};
+}

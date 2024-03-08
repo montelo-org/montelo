@@ -1,7 +1,6 @@
 import { Process, Processor } from "@nestjs/bull";
 import { Logger } from "@nestjs/common";
 import { Job } from "bull";
-
 import { LogsService } from "./logs.service";
 import { QLogsInput, Queues } from "./types";
 

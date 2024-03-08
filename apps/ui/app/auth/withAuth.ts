@@ -1,10 +1,9 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import { Configuration } from "@montelo/browser-client";
 import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
-
-import { Api } from "../api";
-import { env } from "../config/environment.server";
-import { Routes } from "../routes";
+import { Api } from "~/api";
+import { env } from "~/config/environment.server";
+import { Routes } from "~/routes";
 
 export type AuthenticatedFunctionParams = Parameters<LoaderFunction | ActionFunction>[0] & {
   api: Api;

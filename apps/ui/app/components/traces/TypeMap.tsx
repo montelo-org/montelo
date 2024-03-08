@@ -3,29 +3,29 @@ import { GanttChart } from "lucide-react";
 
 export const TypeMap = {
   [LogDtoSourceEnum.Manual]: (
-    <div className="w-6 h-6 bg-blue-500 rounded p-1">
-      <GanttChart className="w-full h-full" />
+    <div className="h-6 w-6 rounded bg-blue-500 p-1">
+      <GanttChart className="h-full w-full" />
     </div>
   ),
   [LogDtoSourceEnum.Openai]: (
-    <div className="w-6 h-6 bg-orange-500 rounded p-1">
-      <img src="/openai.svg" alt="Openai Logo" className="w-full h-full" />
+    <div className="h-6 w-6 rounded bg-orange-500 p-1">
+      <img src="/openai.svg" alt="Openai Logo" className="h-full w-full" />
     </div>
   ),
   // TODO add other sources
   [LogDtoSourceEnum.Anthropic]: (
-    <div className="w-6 h-6 bg-orange-500 rounded p-1">
-      <img src="/openai.svg" alt="Openai Logo" className="w-full h-full" />
+    <div className="h-6 w-6 rounded bg-orange-500 p-1">
+      <img src="/openai.svg" alt="Openai Logo" className="h-full w-full" />
     </div>
   ),
   [LogDtoSourceEnum.Mistral]: (
-    <div className="w-6 h-6 bg-orange-500 rounded p-1">
-      <img src="/openai.svg" alt="Openai Logo" className="w-full h-full" />
+    <div className="h-6 w-6 rounded bg-orange-500 p-1">
+      <img src="/openai.svg" alt="Openai Logo" className="h-full w-full" />
     </div>
   ),
   [LogDtoSourceEnum.Cohere]: (
-    <div className="w-6 h-6 bg-orange-500 rounded p-1">
-      <img src="/openai.svg" alt="Openai Logo" className="w-full h-full" />
+    <div className="h-6 w-6 rounded bg-orange-500 p-1">
+      <img src="/openai.svg" alt="Openai Logo" className="h-full w-full" />
     </div>
   ),
 };

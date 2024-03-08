@@ -1,6 +1,5 @@
 import debounce from "lodash.debounce";
 import { useEffect, useMemo, useRef } from "react";
-
 import { useUnmount } from "./useUnmount";
 
 /**

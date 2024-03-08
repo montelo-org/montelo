@@ -1,6 +1,5 @@
 import { Controller, Get, Param, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 import { EnvironmentDto } from "./dto/environment.dto";
 import { EnvironmentService } from "./environment.service";

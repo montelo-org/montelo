@@ -1,7 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-
 import { AppModule } from "./app.module";
 import { HttpExceptionFilter } from "./common/filters/exception.filter";
 import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter";

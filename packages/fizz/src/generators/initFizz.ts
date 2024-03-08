@@ -1,7 +1,6 @@
 import { getBaseNameWithoutExtension, getRelativePath } from "@montelo/common";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { dirname, join } from "path";
-
 import { FUNCTION_EXAMPLE, FUNCTION_EXAMPLE_FILE_NAME } from "./example";
 import { getOutput } from "./utils";
 

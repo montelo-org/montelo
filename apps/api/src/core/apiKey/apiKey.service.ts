@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { randomBytes } from "crypto";
-
 import { HashingService } from "../../common/services/hashing/hashing.service";
 import { DatabaseService } from "../../database";
 import { EnvApiKeyPrefixMap } from "../environment/environment.enums";
@@ -43,8 +42,6 @@ export class ApiKeyService {
     }
 
     const dbUpdatedApiKey = await this.markKeyAsViewed(apiKeyId, originalApiKey.public, originalApiKey.private);
-
-    const combined = this.combinePublicAndPrivate(originalApiKey.public, originalApiKey.private);
 
     return {
       ...dbUpdatedApiKey,

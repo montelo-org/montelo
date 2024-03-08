@@ -2,7 +2,6 @@ import async from "async";
 import { sync } from "fast-glob";
 import { readFile } from "fs/promises";
 import { parse } from "path";
-
 import { promptfileToTS } from "./promptfileToTS";
 import { getOutput } from "./utils";
 

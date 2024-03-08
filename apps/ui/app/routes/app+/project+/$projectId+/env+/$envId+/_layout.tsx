@@ -9,11 +9,11 @@ export default function DashboardLayout() {
   const rootLayoutData = matches.find((match) => match.pathname === Routes.app.root)?.data as AppLayoutLoader;
 
   return (
-    <div className="flex flex-1">
+    <div className="h-full">
       <Sidebar project={rootLayoutData.project!} />
-      <main className="flex-1 overflow-y-auto pb-4 px-8 mt-2 ml-44">
+      <main className="ml-44 mt-2 flex-1 px-8 pb-4">
         <Outlet />
       </main>
     </div>
   );
-};
+}

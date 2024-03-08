@@ -10,50 +10,52 @@ import {
 } from "./LogAnalytics/LogAnalytics.styles";
 import { formatDate, formatNumber } from "./LogAnalytics/utils";
 
-
 type RawHTMLProps = {
   html: string;
-}
+};
 
 const RawHTML: FC<RawHTMLProps> = ({ html }) => {
-  return <pre
-    className={"px-8 py-4 bg-secondary dark:bg-secondary/25 rounded-xl whitespace-pre-wrap"}
-    dangerouslySetInnerHTML={{ __html: html }}
-  />;
+  return (
+    <pre
+      className={"text-sm bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4"}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 };
 
 type CodeBlockProps = {
   title: string;
   value: string;
-}
+};
 const CodeBlock: FC<CodeBlockProps> = ({ title, value }) => {
   function syntaxHighlight(json: string) {
     const nJson = json.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    return nJson.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
-      let cls = "number";
-      if (/^"/.test(match)) {
-        if (/:$/.test(match)) {
-          cls = "key";
-        } else {
-          cls = "string";
+    return nJson.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g,
+      function (match) {
+        let cls = "number";
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = "key";
+          } else {
+            cls = "string";
+          }
+        } else if (/true|false/.test(match)) {
+          cls = "boolean";
+        } else if (/null/.test(match)) {
+          cls = "null";
         }
-      } else if (/true|false/.test(match)) {
-        cls = "boolean";
-      } else if (/null/.test(match)) {
-        cls = "null";
-      }
-      return "<span class=\"" + cls + "\">" + match + "</span>";
-    });
+        return '<span class="' + cls + '">' + match + "</span>";
+      },
+    );
   }
 
   const syntaxHighlightedHTML = syntaxHighlight(value);
 
   return (
     <div className={"mb-4 text-wrap"}>
-      <h1 className={"text-xl mb-2"}>{title}</h1>
-      <RawHTML
-        html={syntaxHighlightedHTML}
-      />
+      <h1 className={"mb-2 text-xl"}>{title}</h1>
+      <RawHTML html={syntaxHighlightedHTML} />
     </div>
   );
 };
@@ -68,8 +70,8 @@ export const LogView: FC<Props> = ({ log }) => {
       <div className={"mb-2"}>
         <h1 className={"text-xl"}>{log.name}</h1>
       </div>
-      <div className={"flex flex-row gap-4 mb-4"}>
-        <AnalyticsContainer numCols={4}>
+      <div className={"mb-4 flex flex-row gap-4"}>
+        <AnalyticsContainer>
           <SingleContainer className={"bg-background rounded-l-xl"}>
             <div className={"flex flex-col"}>
               <AnalyticsTitle className={"mb-2"}>General</AnalyticsTitle>
@@ -91,8 +93,9 @@ export const LogView: FC<Props> = ({ log }) => {
               <AnalyticsTitle>Tokens</AnalyticsTitle>
               <AnalyticsMajorStat>{log.totalTokens ? formatNumber(log.totalTokens) : "—"}</AnalyticsMajorStat>
               <AnalyticsMinorStat>Input ➯ {log.inputTokens ? formatNumber(log.inputTokens) : "—"}</AnalyticsMinorStat>
-              <AnalyticsMinorStat>Output
-                ➯ {log.outputTokens ? formatNumber(log.outputTokens) : "—"}</AnalyticsMinorStat>
+              <AnalyticsMinorStat>
+                Output ➯ {log.outputTokens ? formatNumber(log.outputTokens) : "—"}
+              </AnalyticsMinorStat>
             </StatsContainer>
           </SingleContainer>
 

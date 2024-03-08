@@ -1,5 +1,4 @@
 import { createId } from "@paralleldrive/cuid2";
-
 import { MonteloClient } from "./MonteloClient";
 import { LogInput } from "./client";
 import { ExtendedOpenAI } from "./extended/ExtendedOpenAI";

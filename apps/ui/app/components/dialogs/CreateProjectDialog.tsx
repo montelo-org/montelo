@@ -1,15 +1,15 @@
-import { FormEventHandler, useState } from "react";
 import { Form, useRevalidator } from "@remix-run/react";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Routes } from "~/routes";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { Trash } from "lucide-react";
+import { FormEventHandler, useState } from "react";
+import { Routes } from "~/routes";
+import { Button } from "../ui/button";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 type CreateProjectDialogProps = {
   orgId: string;
-}
+};
 
 export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
   };
 
   const handleEnvironmentChange = (index: number, value: string) => {
-    const newEnvironments = environments.map((env, i) => i === index ? value : env);
+    const newEnvironments = environments.map((env, i) => (i === index ? value : env));
     setEnvironments(newEnvironments);
   };
 
@@ -66,20 +66,22 @@ export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
           <div className="grid gap-4 py-4">
             <div className="flex-row items-center space-y-1">
               <input type="hidden" name="orgId" value={orgId} />
-              <Label htmlFor="name" className="text-right font-bold text-base">
+              <Label htmlFor="name" className="text-right text-base font-bold">
                 Project Name *
               </Label>
               <Input id="name" name={"name"} placeholder={"Project X"} />
             </div>
 
             <div className="flex items-center gap-1">
-              <Label htmlFor="environmentName" className="text-right font-bold text-base">
+              <Label htmlFor="environmentName" className="text-right text-base font-bold">
                 Environments
               </Label>
             </div>
             <div className={"flex flex-col gap-2"}>
-              <p>Each project has <span className={"font-bold"}>Production</span> and <span
-                className={"font-bold"}>Development</span> environments by default.</p>
+              <p>
+                Each project has <span className={"font-bold"}>Production</span> and{" "}
+                <span className={"font-bold"}>Development</span> environments by default.
+              </p>
               <p>Create additional environments below.</p>
             </div>
             <div className={"flex flex-col gap-2"}>
@@ -92,14 +94,14 @@ export const CreateProjectDialog = ({ orgId }: CreateProjectDialogProps) => {
                     placeholder="Environment name (optional)"
                     onChange={(e) => handleEnvironmentChange(index, e.target.value)}
                   />
-                  <Button type={"button"} variant="ghost" size="icon"
-                          onClick={() => handleDeleteEnvironment(index)}>
+                  <Button type={"button"} variant="ghost" size="icon" onClick={() => handleDeleteEnvironment(index)}>
                     <Trash className={"text-destructive"} size={16} />
                   </Button>
                 </div>
               ))}
-              <Button type={"button"} variant={"outline"} onClick={handleAddEnvironment}
-                      className={"self-end w-1/3"}>Add Another</Button>
+              <Button type={"button"} variant={"outline"} onClick={handleAddEnvironment} className={"w-1/3 self-end"}>
+                Add Another
+              </Button>
             </div>
           </div>
           <DialogFooter>

@@ -2,7 +2,6 @@ import { LogSources } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import OpenAI from "openai/index";
 import { get_encoding } from "tiktoken";
-
 import { LLMProvider, LogCostInput, LogCostOutput } from "./llm-provider.interface";
 import { Pricing } from "./types";
 

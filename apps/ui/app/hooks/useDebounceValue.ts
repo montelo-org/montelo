@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-
 import { type DebouncedState, useDebounceCallback } from "./useDebounceCallback";
 
 /**

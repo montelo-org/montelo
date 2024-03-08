@@ -1,14 +1,14 @@
 import { OrganizationList } from "@clerk/remix";
-import { Routes } from "../../routes";
-import { Theme, useTheme } from "remix-themes";
 import { dark } from "@clerk/themes";
+import { Theme, useTheme } from "remix-themes";
+import { Routes } from "~/routes";
 
 export default function RootRoute() {
   const [theme] = useTheme();
   const isDarkMode = theme === Theme.DARK;
 
   return (
-    <div className={"flex justify-center w-full"}>
+    <div className={"flex w-full justify-center"}>
       <OrganizationList
         hidePersonal={true}
         afterCreateOrganizationUrl={() => Routes.app.project.all}
@@ -17,14 +17,14 @@ export default function RootRoute() {
           baseTheme: isDarkMode ? dark : undefined,
           elements: {
             formFieldLabelRow__slug: {
-              display: "none"
+              display: "none",
             },
             formFieldInput__slug: {
-              display: "none"
-            }
-          }
+              display: "none",
+            },
+          },
         }}
       />
     </div>
   );
-};
+}

@@ -2,7 +2,6 @@ import { InjectQueue } from "@nestjs/bull";
 import { Injectable } from "@nestjs/common";
 import { HealthCheckError, HealthIndicator, HealthIndicatorResult } from "@nestjs/terminus";
 import { Queue } from "bull";
-
 import { QLogsInput, Queues } from "./types";
 
 @Injectable()

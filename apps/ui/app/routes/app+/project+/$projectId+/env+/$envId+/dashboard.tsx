@@ -1,13 +1,14 @@
 import { AnalyticsControllerGetForDashboardDateSelectionEnum } from "@montelo/browser-client";
 import { defer } from "@remix-run/node";
 import { withAuth } from "~/auth/withAuth";
-import { DeferredDashboardLoader } from "~/types/DashboardLoader.types";
 import { DashboardPage } from "~/pages/dashboard/DashboardPage";
+import { DeferredDashboardLoader } from "~/types/DashboardLoader.types";
 
 export const loader = withAuth(async ({ request, api, params, orgId }) => {
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
-  const dateSelectionQuery = (searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins) as AnalyticsControllerGetForDashboardDateSelectionEnum;
+  const dateSelectionQuery = (searchParams.get("dateSelection") ||
+    AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins) as AnalyticsControllerGetForDashboardDateSelectionEnum;
 
   const analyticsPromise = api.analytics().analyticsControllerGetForDashboard({
     envId,

@@ -1,9 +1,9 @@
 import { OrganizationSwitcher, useOrganization } from "@clerk/remix";
 import { dark } from "@clerk/themes";
 import { Theme, useTheme } from "remix-themes";
-import { Routes } from "~/routes";
-import { useDebounceValue } from "~/hooks/useDebounceValue";
 import { Skeleton } from "~/components/ui/skeleton";
+import { useDebounceValue } from "~/hooks/useDebounceValue";
+import { Routes } from "~/routes";
 
 export const OrgSwitcher = () => {
   const { isLoaded } = useOrganization();
@@ -11,8 +11,8 @@ export const OrgSwitcher = () => {
   const isDarkMode = theme === Theme.DARK;
   const [debouncedIsLoaded] = useDebounceValue<boolean>(isLoaded, 350);
 
-  return (
-    debouncedIsLoaded ? <OrganizationSwitcher
+  return debouncedIsLoaded ? (
+    <OrganizationSwitcher
       hidePersonal={true}
       afterLeaveOrganizationUrl={Routes.app.root}
       afterCreateOrganizationUrl={Routes.app.project.all}
@@ -25,6 +25,8 @@ export const OrgSwitcher = () => {
           baseTheme: isDarkMode ? dark : undefined,
         },
       }}
-    /> : <Skeleton className={"h-10 w-48"} />
+    />
+  ) : (
+    <Skeleton className={"h-10 w-48"} />
   );
 };

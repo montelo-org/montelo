@@ -4,9 +4,8 @@
   "semi": true,
   "tabWidth": 2,
   "trailingComma": "all",
-  "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
   "importOrder": ["<THIRD_PARTY_MODULES>", "^[./]"],
-  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
   "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss", "prettier-plugin-packagejson"]
 }

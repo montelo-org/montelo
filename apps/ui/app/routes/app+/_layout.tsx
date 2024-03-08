@@ -1,11 +1,11 @@
-import { json, LoaderFunction, redirect } from "@remix-run/node";
-import { Outlet, ShouldRevalidateFunction, useLoaderData, useLocation } from "@remix-run/react";
-import { Configuration, EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
-import { Header } from "~/components/nav/header/Header";
-import { Routes } from "~/routes";
 import { getAuth } from "@clerk/remix/ssr.server";
-import { env } from "~/config/environment.server";
+import { Configuration, EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
+import { LoaderFunction, json, redirect } from "@remix-run/node";
+import { Outlet, ShouldRevalidateFunction, useLoaderData, useLocation } from "@remix-run/react";
 import { Api } from "~/api";
+import { Header } from "~/components/nav/header/Header";
+import { env } from "~/config/environment.server";
+import { Routes } from "~/routes";
 
 export type AppLayoutLoader = {
   environment?: EnvironmentDto;
@@ -31,19 +31,29 @@ export const loader: LoaderFunction = async (args) => {
   const envId = args.params.envId;
   const projectId = args.params.projectId;
 
-  const environmentPromise = envId ? api.environment().environmentControllerGet({
-    envId,
-  }) : undefined;
+  const environmentPromise = envId
+    ? api.environment().environmentControllerGet({
+        envId,
+      })
+    : undefined;
 
-  const projectPromise = projectId ? api.project().projectControllerGet({
-    projectId,
-  }) : undefined;
+  const projectPromise = projectId
+    ? api.project().projectControllerGet({
+        projectId,
+      })
+    : undefined;
 
-  const allProjectsForOrgPromise = orgId ? api.project().projectControllerGetAllForOrg({
-    orgId,
-  }) : undefined;
+  const allProjectsForOrgPromise = orgId
+    ? api.project().projectControllerGetAllForOrg({
+        orgId,
+      })
+    : undefined;
 
-  const [environment, project, allProjects] = await Promise.all([environmentPromise, projectPromise, allProjectsForOrgPromise]);
+  const [environment, project, allProjects] = await Promise.all([
+    environmentPromise,
+    projectPromise,
+    allProjectsForOrgPromise,
+  ]);
 
   return json<AppLayoutLoader>({ environment, project, allProjects });
 };
@@ -57,11 +67,16 @@ export default function AppLayout() {
   const shouldHideOrgSwitcher = pathname === Routes.app.root;
 
   return (
-    <div className="flex flex-col h-screen w-screen">
-      <header className="fixed top-0 w-full h-14 z-10 px-4 py-2 bg-background shadow flex items-center">
-        <Header project={project} environment={environment} allProjects={allProjects} hideOrgSwitcher={shouldHideOrgSwitcher} />
+    <div className="flex h-screen w-screen flex-col">
+      <header className="bg-background fixed top-0 z-10 flex h-14 w-full items-center px-4 py-2 shadow">
+        <Header
+          project={project}
+          environment={environment}
+          allProjects={allProjects}
+          hideOrgSwitcher={shouldHideOrgSwitcher}
+        />
       </header>
-      <main className="flex mt-14 h-full">
+      <main className="mt-14">
         <Outlet />
       </main>
     </div>

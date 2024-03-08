@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-
 import { isBrowser, off, on } from "./misc/util";
 import { useRafState } from "./useRafState";
 

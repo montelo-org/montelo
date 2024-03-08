@@ -1,10 +1,12 @@
-import {  DotsHorizontalIcon } from "@radix-ui/react-icons";
-import {
-  ColumnDef,
-} from "@tanstack/react-table";
 import { LogDto } from "@montelo/browser-client";
-import "react-json-view-lite/dist/index.css";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { Link, useFetcher, useParams } from "@remix-run/react";
+import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
+import { Eye, Trash } from "lucide-react";
+import "react-json-view-lite/dist/index.css";
+import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import {
   DropdownMenu,
@@ -14,23 +16,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Button } from "~/components/ui/button";
-import { idShortener } from "../utils/idShortener";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip";
-import { Link, useFetcher, useParams } from "@remix-run/react";
 import { Routes } from "~/routes";
-import { Badge } from "~/components/ui/badge";
-import { Eye, Trash } from "lucide-react";
+import { idShortener } from "../utils/idShortener";
 
-export const COLUMNS: ColumnDef<(LogDto & { orgId: string; })>[] = [
+export const COLUMNS: ColumnDef<LogDto & { orgId: string }>[] = [
   {
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -50,7 +45,7 @@ export const COLUMNS: ColumnDef<(LogDto & { orgId: string; })>[] = [
     header: "Timestamp",
     cell: ({ row }) => {
       const date: string | undefined = row.getValue("startTime") || row.original.createdAt;
-      return (<div>{date && dayjs(date).format("h:mm:ssa - D/M/YY")}</div>);
+      return <div>{date && dayjs(date).format("h:mm:ssa - D/M/YY")}</div>;
     },
   },
   {
@@ -67,14 +62,14 @@ export const COLUMNS: ColumnDef<(LogDto & { orgId: string; })>[] = [
           <TooltipProvider delayDuration={500}>
             <Tooltip>
               <TooltipTrigger>
-                <Link to={Routes.app.project.env.traceId({
-                  projectId: params.projectId!,
-                  envId: params.envId!,
-                  traceId,
-                })}>
-                  <Badge variant={variant}>
-                    {short}
-                  </Badge>
+                <Link
+                  to={Routes.app.project.env.traceId({
+                    projectId: params.projectId!,
+                    envId: params.envId!,
+                    traceId,
+                  })}
+                >
+                  <Badge variant={variant}>{short}</Badge>
                 </Link>
               </TooltipTrigger>
               <TooltipContent>
@@ -102,14 +97,17 @@ export const COLUMNS: ColumnDef<(LogDto & { orgId: string; })>[] = [
           <TooltipProvider delayDuration={500}>
             <Tooltip>
               <TooltipTrigger>
-                <Link to={Routes.app.project.env.traceId({
-                  projectId: params.projectId!,
-                  envId: params.envId!,
-                  traceId,
-                  logId,
-                })}>
+                <Link
+                  to={Routes.app.project.env.traceId({
+                    projectId: params.projectId!,
+                    envId: params.envId!,
+                    traceId,
+                    logId,
+                  })}
+                >
                   <Badge>
-                    {short} — {name}{name.length !== row.original.name.length && "..."}
+                    {short} — {name}
+                    {name.length !== row.original.name.length && "..."}
                   </Badge>
                 </Link>
               </TooltipTrigger>
@@ -125,49 +123,37 @@ export const COLUMNS: ColumnDef<(LogDto & { orgId: string; })>[] = [
   {
     accessorKey: "model",
     header: "Model",
-    cell: ({ row }) => (
-      <div>{row.getValue("model") || "—"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("model") || "—"}</div>,
   },
   {
     accessorKey: "duration",
     header: "Duration",
     cell: ({ row }) => {
       const duration: string | undefined = row.getValue("duration");
-      return (
-        <div>{duration ? `${duration}s` : "—"}</div>
-      );
+      return <div>{duration ? `${duration}s` : "—"}</div>;
     },
   },
   {
     accessorKey: "inputTokens",
     header: "Input Tokens",
-    cell: ({ row }) => (
-      <div>{row.getValue("inputTokens") ?? "—"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("inputTokens") ?? "—"}</div>,
   },
   {
     accessorKey: "outputTokens",
     header: "Output Tokens",
-    cell: ({ row }) => (
-      <div>{row.getValue("outputTokens") ?? "—"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("outputTokens") ?? "—"}</div>,
   },
   {
     accessorKey: "totalTokens",
     header: "Total Tokens",
-    cell: ({ row }) => (
-      <div>{row.getValue("totalTokens") ?? "—"}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("totalTokens") ?? "—"}</div>,
   },
   {
     accessorKey: "inputCost",
     header: "Input Cost",
     cell: ({ row }) => {
       const inputCost: number | undefined = row.getValue("inputCost");
-      return (
-        <div>{inputCost ? `$${inputCost}` : "—"}</div>
-      );
+      return <div>{inputCost ? `$${inputCost}` : "—"}</div>;
     },
   },
   {
@@ -175,9 +161,7 @@ export const COLUMNS: ColumnDef<(LogDto & { orgId: string; })>[] = [
     header: "Output Cost",
     cell: ({ row }) => {
       const outputCost: number | undefined = row.getValue("outputCost");
-      return (
-        <div>{outputCost ? `$${outputCost}` : "—"}</div>
-      );
+      return <div>{outputCost ? `$${outputCost}` : "—"}</div>;
     },
   },
   {
@@ -185,9 +169,7 @@ export const COLUMNS: ColumnDef<(LogDto & { orgId: string; })>[] = [
     header: "Total Cost",
     cell: ({ row }) => {
       const totalCost: number | undefined = row.getValue("totalCost");
-      return (
-        <div>{totalCost ? `$${totalCost}` : "—"}</div>
-      );
+      return <div>{totalCost ? `$${totalCost}` : "—"}</div>;
     },
   },
   {

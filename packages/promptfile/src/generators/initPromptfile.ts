@@ -2,7 +2,6 @@ import { getBaseNameWithoutExtension } from "@montelo/common";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { readFile } from "fs/promises";
 import { join } from "path";
-
 import { PROMPT_EXAMPLE, PROMPT_EXAMPLE_FILE_NAME } from "./example";
 import { promptfileToTS } from "./promptfileToTS";
 import { getOutput } from "./utils";

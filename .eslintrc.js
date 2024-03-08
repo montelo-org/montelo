@@ -5,7 +5,7 @@ const project = resolve(process.cwd(), "tsconfig.json");
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   ignorePatterns: ["packages/", ".*.js", "node_modules/", "dist/"],
-  extends: ["eslint:recommended", "prettier"],
+  extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
   plugins: ["unused-imports"],
   globals: {
     React: true,

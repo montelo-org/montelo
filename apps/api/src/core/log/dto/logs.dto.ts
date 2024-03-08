@@ -1,7 +1,6 @@
 import { Log } from "@montelo/db";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
-
 import { LogDto } from "./log.dto";
 
 export class LogsDto {

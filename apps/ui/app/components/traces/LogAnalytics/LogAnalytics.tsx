@@ -1,3 +1,6 @@
+import { TraceWithLogsDto } from "@montelo/browser-client";
+import dayjs from "dayjs";
+import { DollarSign, Info, Timer, WholeWord } from "lucide-react";
 import { FC } from "react";
 import {
   AnalyticsContainer,
@@ -8,17 +11,14 @@ import {
   SingleContainer,
   StatsContainer,
 } from "./LogAnalytics.styles";
-import { DollarSign, Info, Timer, WholeWord } from "lucide-react";
 import { formatDate, formatNumber } from "./utils";
-import { TraceWithLogsDto } from "@montelo/browser-client";
-import dayjs from "dayjs";
 
 type Props = {
   trace: TraceWithLogsDto;
-}
+};
 export const LogAnalytics: FC<Props> = ({ trace }) => {
   return (
-    <AnalyticsContainer numCols={5}>
+    <AnalyticsContainer>
       <SingleContainer className={"bg-background rounded-l-xl"}>
         <StatsContainer>
           <AnalyticsTitle className={"mb-2"}>General</AnalyticsTitle>
@@ -62,9 +62,15 @@ export const LogAnalytics: FC<Props> = ({ trace }) => {
       <SingleContainer className={"bg-background rounded-r-xl"}>
         <div className={"flex flex-col"}>
           <AnalyticsTitle className={"mb-2"}>Extra</AnalyticsTitle>
-          {trace.extra ? Object.entries(trace.extra).map(([key, value]) =>
-            <AnalyticsMinorStat key={key}>{key} ➯ {value.toString()}</AnalyticsMinorStat>,
-          ) : <AnalyticsMinorStat>None provided</AnalyticsMinorStat>}
+          {trace.extra ? (
+            Object.entries(trace.extra).map(([key, value]) => (
+              <AnalyticsMinorStat key={key}>
+                {key} ➯ {value.toString()}
+              </AnalyticsMinorStat>
+            ))
+          ) : (
+            <AnalyticsMinorStat>None provided</AnalyticsMinorStat>
+          )}
         </div>
       </SingleContainer>
     </AnalyticsContainer>

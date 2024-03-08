@@ -12,8 +12,7 @@ type OpenAITool = {
   function: OpenAIFunction;
 };
 
-type InferSchemaType<TSchema extends z.ZodType<any, any>> =
-  TSchema extends z.ZodType<infer T, any> ? T : never;
+type InferSchemaType<TSchema extends z.ZodType<any, any>> = TSchema extends z.ZodType<infer T, any> ? T : never;
 
 type FunctionParams<TSchema extends z.ZodObject<any, any>, TResult> = {
   name: string;

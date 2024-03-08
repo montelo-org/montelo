@@ -6,19 +6,17 @@ import { CreateProjectDialog } from "../../components/dialogs/CreateProjectDialo
 type OrgIdPageProps = {
   orgId: string;
   projects?: FullProjectDto[];
-}
+};
 
 export const OrgProjectsPage: FC<OrgIdPageProps> = ({ orgId, projects }) => {
   return (
-    <div className={"flex justify-center w-full"}>
-      <div className={"flex flex-col w-1/2"}>
-        <div className={"flex justify-end mb-4"}>
+    <div className={"flex w-full justify-center"}>
+      <div className={"flex w-1/2 flex-col"}>
+        <div className={"mb-4 flex justify-end"}>
           <CreateProjectDialog orgId={orgId} />
         </div>
         <div className={"grid grid-cols-2 gap-4"}>
-          {projects?.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          {projects?.map((project) => <ProjectCard key={project.id} project={project} />)}
         </div>
       </div>
     </div>

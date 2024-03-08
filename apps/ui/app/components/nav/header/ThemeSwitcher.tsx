@@ -4,7 +4,7 @@ import { Theme, useTheme } from "remix-themes";
 
 type ThemeSwitcherProps = {
   size: number;
-}
+};
 export const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ size }) => {
   const [theme, setTheme] = useTheme();
   const isDarkMode = theme === Theme.DARK;
@@ -14,9 +14,12 @@ export const ThemeSwitcher: FC<ThemeSwitcherProps> = ({ size }) => {
   };
 
   return (
-    <div onClick={handleClick} className={"text-muted-foreground cursor-pointer group"}>
-      {isDarkMode ? <Moon size={size} className={"group-hover:text-foreground"} /> :
-        <Sun size={size} className={"group-hover:text-foreground"} />}
+    <div onClick={handleClick} className={"text-muted-foreground group cursor-pointer"}>
+      {isDarkMode ? (
+        <Moon size={size} className={"group-hover:text-foreground"} />
+      ) : (
+        <Sun size={size} className={"group-hover:text-foreground"} />
+      )}
     </div>
   );
 };

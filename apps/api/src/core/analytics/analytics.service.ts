@@ -1,7 +1,6 @@
 import { Prisma } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import * as dayjs from "dayjs";
-
 import { DatabaseService } from "../../database";
 import { DateSelection } from "./analytics.enum";
 import { CostHistory, DashboardAnalytics, GetCostHistoryParams, GetDashboardAnalyticsParams } from "./analytics.types";

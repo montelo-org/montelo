@@ -1,17 +1,17 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../ui/dialog";
-import { AlertTriangle, KeyRound } from "lucide-react";
-import { Alert, AlertDescription } from "../../ui/alert";
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "../../ui/table";
-import { ApiKeyRow } from "../../dialogs/ApiKeys/ApiKeyRow";
-import { useFetcher } from "@remix-run/react";
 import { ApiKeyWithEnvDto } from "@montelo/browser-client";
-import { Routes } from "../../../routes";
+import { useFetcher } from "@remix-run/react";
+import { AlertTriangle, KeyRound } from "lucide-react";
 import { FC } from "react";
+import { Routes } from "../../../routes";
 import { sortApiKeys } from "../../../utils/sorters";
+import { ApiKeyRow } from "../../dialogs/ApiKeys/ApiKeyRow";
+import { Alert, AlertDescription } from "../../ui/alert";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../ui/dialog";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "../../ui/table";
 
 type ApiKeysDialogProps = {
   projectId: string;
-}
+};
 
 export const ApiKeysDialog: FC<ApiKeysDialogProps> = ({ projectId }) => {
   const fetcher = useFetcher<ApiKeyWithEnvDto[]>();
@@ -23,11 +23,11 @@ export const ApiKeysDialog: FC<ApiKeysDialogProps> = ({ projectId }) => {
   return (
     <Dialog>
       <DialogTrigger asChild onMouseEnter={prefetchApiKeys}>
-        <div className={"flex items-center py-1 group hover:bg-muted/50 rounded cursor-pointer"}>
-          <div className={"flex justify-center w-8"}>
+        <div className={"hover:bg-muted/50 group flex cursor-pointer items-center rounded py-1"}>
+          <div className={"flex w-8 justify-center"}>
             {<KeyRound size={20} className={"group-hover:text-foreground text-muted-foreground"} />}
           </div>
-          <span className="ml-1 whitespace-nowrap text-muted-foreground">API Keys</span>
+          <span className="text-muted-foreground ml-1 whitespace-nowrap">API Keys</span>
         </div>
       </DialogTrigger>
       <DialogContent className="min-w-fit">
@@ -52,7 +52,9 @@ export const ApiKeysDialog: FC<ApiKeysDialogProps> = ({ projectId }) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {sortedEnvironments.map((apiKey) => <ApiKeyRow key={apiKey.id} apiKey={apiKey} />)}
+              {sortedEnvironments.map((apiKey) => (
+                <ApiKeyRow key={apiKey.id} apiKey={apiKey} />
+              ))}
             </TableBody>
           </Table>
         </div>

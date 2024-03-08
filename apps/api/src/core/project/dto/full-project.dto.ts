@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-
 import { EnvironmentDto } from "../../environment/dto/environment.dto";
 import { FullProject } from "../project.types";
 import { ProjectDto } from "./project.dto";

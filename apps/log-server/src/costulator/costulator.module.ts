@@ -1,5 +1,4 @@
 import { Module } from "@nestjs/common";
-
 import { CostulatorService } from "./costulator.service";
 import { LLMProvider } from "./llm-provider.interface";
 import { OpenAICostulatorService } from "./openai.costulator.service";

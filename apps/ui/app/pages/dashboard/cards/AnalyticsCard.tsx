@@ -6,11 +6,11 @@ type AnalyticsCardProps = {
   title: string;
   icon: LucideIcon;
   children: ReactNode;
-}
+};
 
 export const AnalyticsCard = ({ title, icon: Icon, children }: AnalyticsCardProps) => {
   return (
-    <Card className="flex flex-col flex-1 flex-grow p-8">
+    <Card className="flex flex-1 flex-grow flex-col p-8">
       <CardHeader className={"p-0"}>
         <CardTitle>
           <div className={"flex justify-between font-medium"}>
@@ -19,9 +19,7 @@ export const AnalyticsCard = ({ title, icon: Icon, children }: AnalyticsCardProp
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className={"p-0 mt-2 flex-grow"}>
-        {children}
-      </CardContent>
+      <CardContent className={"mt-2 flex-grow p-0"}>{children}</CardContent>
     </Card>
   );
 };

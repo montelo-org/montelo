@@ -1,7 +1,9 @@
-import { FC } from "react";
-import { useNavigate } from "@remix-run/react";
 import { EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
-import { Check } from "lucide-react";
+import { useNavigate } from "@remix-run/react";
+import { Check, Slash } from "lucide-react";
+import { FC } from "react";
+import { Routes } from "~/routes";
+import { Button } from "../../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,8 +17,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-import { Button } from "../../ui/button";
-import { Routes } from "~/routes";
 
 type EnvSelectorProps = {
   projects: FullProjectDto[];
@@ -24,7 +24,7 @@ type EnvSelectorProps = {
   selectedEnvironment: EnvironmentDto;
 };
 
-export const ProjectEnvSelector: FC<EnvSelectorProps> = ({ projects, selectedProject, selectedEnvironment}) => {
+export const ProjectEnvSelector: FC<EnvSelectorProps> = ({ projects, selectedProject, selectedEnvironment }) => {
   const navigate = useNavigate();
 
   const handleMenuItemClick = (env: EnvironmentDto) => {
@@ -38,16 +38,10 @@ export const ProjectEnvSelector: FC<EnvSelectorProps> = ({ projects, selectedPro
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className={"text-muted-foreground justify-between gap-2 h-8"}>
-          <div>
-            {selectedProject.name}
-          </div>
-          <div>
-            /
-          </div>
-          <div>
-            {selectedEnvironment.name}
-          </div>
+        <Button variant="ghost" className={"text-muted-foreground h-8 justify-between gap-2"}>
+          <div>{selectedProject.name}</div>
+          <div>/</div>
+          <div>{selectedEnvironment.name}</div>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

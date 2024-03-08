@@ -2,7 +2,6 @@ import * as fs from "fs";
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { z } from "zod";
-
 import { CONFIG_FILE_NAME } from "./constants";
 
 export const MonteloConfigSchema = z.object({

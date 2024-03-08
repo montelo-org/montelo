@@ -1,5 +1,4 @@
 import { ApiProperty } from "@nestjs/swagger";
-
 import { LogDto } from "../../log/dto/log.dto";
 import { TraceWithLogs } from "../trace.types";
 import { TraceDto } from "./trace.dto";

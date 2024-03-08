@@ -1,7 +1,7 @@
-import { DoubleArrowLeftIcon, DoubleArrowRightIcon, ChevronLeftIcon, ChevronRightIcon, TrackNextIcon, TrackPreviousIcon } from "@radix-ui/react-icons";
+import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { Link } from "@remix-run/react";
-import { Button } from "./ui/button";
 import { ReactNode } from "react";
+import { Button } from "./ui/button";
 
 type PageLinkProps = {
   page: number;
@@ -12,19 +12,19 @@ type PageLinkProps = {
 };
 const PageLink = ({ page, pageText, variant = "ghost", disabled = false, isActive = false }: PageLinkProps) => {
   const pageLinkComponent = (
-    <Button
-      variant={variant}
-      size="sm"
-      className={isActive ? "bg-muted" : ""}
-      disabled={disabled}
-    >
+    <Button variant={variant} size="sm" className={isActive ? "bg-muted" : ""} disabled={disabled}>
       {pageText || page}
     </Button>
   );
 
-  return disabled ? pageLinkComponent
-    : <Link to={`?page=${page}`} prefetch="intent">{pageLinkComponent}</Link>;
-}
+  return disabled ? (
+    pageLinkComponent
+  ) : (
+    <Link to={`?page=${page}`} prefetch="intent">
+      {pageLinkComponent}
+    </Link>
+  );
+};
 
 type PaginationProps = {
   currentPage: number;
@@ -48,44 +48,19 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
 
   return (
     <div className="flex items-center gap-1">
-      <PageLink
-        variant="outline"
-        page={firstPage}
-        pageText={<DoubleArrowLeftIcon />}
-        disabled={!hasPreviousPages}
-      />
+      <PageLink variant="outline" page={firstPage} pageText={<DoubleArrowLeftIcon />} disabled={!hasPreviousPages} />
 
-      <PageLink
-        variant="outline"
-        page={currentPage - 1}
-        pageText={<ChevronLeftIcon />}
-        disabled={!hasPreviousPages}
-      />
+      <PageLink variant="outline" page={currentPage - 1} pageText={<ChevronLeftIcon />} disabled={!hasPreviousPages} />
 
-      {showStartingEllipsis && <span className="text-gray-500 -mr-1 ml-1">...</span>}
+      {showStartingEllipsis && <span className="-mr-1 ml-1 text-gray-500">...</span>}
       {visiblePageNumbers.map((page) => (
-        <PageLink
-          key={page}
-          page={page}
-          pageText={page}
-          isActive={currentPage === page}
-        />
+        <PageLink key={page} page={page} pageText={page} isActive={currentPage === page} />
       ))}
-      {showEndingEllipsis && <span className="text-gray-500 -ml-1 mr-1">...</span>}
+      {showEndingEllipsis && <span className="-ml-1 mr-1 text-gray-500">...</span>}
 
-      <PageLink
-        variant="outline"
-        page={currentPage + 1}
-        pageText={<ChevronRightIcon />}
-        disabled={!hasNextPages}
-      />
+      <PageLink variant="outline" page={currentPage + 1} pageText={<ChevronRightIcon />} disabled={!hasNextPages} />
 
-      <PageLink
-        variant="outline"
-        page={lastPage}
-        pageText={<DoubleArrowRightIcon />}
-        disabled={!hasNextPages}
-      />
+      <PageLink variant="outline" page={lastPage} pageText={<DoubleArrowRightIcon />} disabled={!hasNextPages} />
     </div>
   );
 }
