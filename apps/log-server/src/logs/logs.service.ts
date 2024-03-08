@@ -62,8 +62,6 @@ export class LogsService {
       },
     });
 
-    console.log(traceMetrics);
-
     // get the parent id
     const parentLogId = this.getParentLogId(log.name, dbTrace);
     const logNameWithoutPath = this.getLogNameWithoutPath(log.name, dbTrace);
