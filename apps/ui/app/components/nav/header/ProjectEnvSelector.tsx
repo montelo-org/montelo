@@ -1,6 +1,7 @@
 import { EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
+import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "@remix-run/react";
-import { Check, Slash } from "lucide-react";
+import { Check } from "lucide-react";
 import { FC } from "react";
 import { Routes } from "~/routes";
 import { Button } from "../../ui/button";
@@ -39,13 +40,15 @@ export const ProjectEnvSelector: FC<EnvSelectorProps> = ({ projects, selectedPro
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className={"text-muted-foreground h-8 justify-between gap-2"}>
-          <div>{selectedProject.name}</div>
-          <div>/</div>
-          <div>{selectedEnvironment.name}</div>
+          {selectedProject.name}
+          <ChevronRightIcon />
+          {selectedEnvironment.name}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Projects / Environments</DropdownMenuLabel>
+        <DropdownMenuLabel className="flex items-center gap-1">
+          Projects <ChevronRightIcon /> Environments
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         {projects.map((project) => (
           <DropdownMenuGroup key={project.id}>
