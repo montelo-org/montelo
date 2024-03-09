@@ -62,7 +62,7 @@ export class LogController {
       sortDirection: (sortDirection ?? "desc") as Prisma.SortOrder,
     };
 
-    this.logger.log("options: ", options);
+    this.logger.log(options, `options`);
 
     const logsAndCount = await this.logService.findAllForEnv(envId, options);
     return LogsDto.fromLogsWithCount(logsAndCount);

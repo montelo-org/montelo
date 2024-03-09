@@ -70,7 +70,6 @@ export interface DebouncedState<T extends (...args: any) => ReturnType<T>> exten
  * // Later in the component
  * debouncedCallback('react hooks'); // Will invoke the callback after 500 milliseconds of inactivity.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useDebounceCallback<T extends (...args: any) => ReturnType<T>>(
   func: T,
   delay = 500,
