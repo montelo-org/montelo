@@ -32,6 +32,9 @@ export const withAuth = (func: AuthenticatedFunction): LoaderFunction | ActionFu
     const configuration = new Configuration({
       basePath: env.SERVER_BASE_URL,
       accessToken: token,
+      headers: {
+        connection: "keep-alive",
+      },
     });
     const api = new Api(configuration);
 

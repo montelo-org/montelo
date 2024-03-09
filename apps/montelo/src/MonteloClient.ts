@@ -16,9 +16,6 @@ export class MonteloClient {
     const configuration = new Configuration({
       basePath: baseUrl,
       accessToken: apiKey,
-      headers: {
-        connection: "keep-alive",
-      },
     });
     this.api = new Api(configuration);
   }

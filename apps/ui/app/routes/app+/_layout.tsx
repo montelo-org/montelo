@@ -24,6 +24,9 @@ export const loader: LoaderFunction = async (args) => {
   const configuration = new Configuration({
     basePath: env.SERVER_BASE_URL,
     accessToken: token,
+    headers: {
+      connection: "keep-alive",
+    },
   });
   const api = new Api(configuration);
 
