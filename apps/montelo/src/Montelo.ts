@@ -6,7 +6,7 @@ import { MonteloOptions, TraceParams } from "./types";
 
 export type Trace = Omit<Montelo, "startTrace">;
 
-export type LogParams = Omit<LogInput, "type">;
+export type LogParams = Omit<LogInput, "source">;
 
 export class Montelo {
   private readonly constructorOptions: MonteloOptions | undefined;
