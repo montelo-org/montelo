@@ -21,12 +21,15 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params, or
   const pageSize = 20;
   const skipAmount = page ? parseInt(page) - 1 : 0;
 
+  const sColumn = sortColumn && sortColumn !== "undefined" ? sortColumn : undefined;
+  const sDirection = sortDirection && sortDirection !== "undefined" ? sortDirection : undefined
+  console.log(`making request with sColumn and sDirection: ${sColumn} ${sDirection}`);
   const response = await api.log().logControllerGetAll({
     envId,
     take: pageSize.toString(),
     skip: skipAmount.toString(),
-    sortColumn: sortColumn && sortColumn !== "undefined" ? sortColumn : undefined,
-    sortDirection: sortDirection && sortDirection !== "undefined" ? sortDirection : undefined,
+    sortColumn: sColumn,
+    sortDirection: sDirection,
   });
   const { logs, totalCount } = response;
 

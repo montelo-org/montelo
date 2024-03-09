@@ -1,14 +1,17 @@
 import { Prisma } from "@montelo/db";
-import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Query, UseGuards, Logger } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 import { LogsDto } from "./dto/logs.dto";
 import { LogService } from "./log.service";
 
+
 @ApiTags("Log")
 @ApiBearerAuth()
 @Controller("env/:envId/log")
 export class LogController {
+  private logger = new Logger(LogController.name);
+
   constructor(private logService: LogService) {}
 
   @ApiQuery({
@@ -58,6 +61,8 @@ export class LogController {
       sortColumn: (sortColumn ?? "startTime") as keyof Prisma.LogOrderByWithRelationInput,
       sortDirection: (sortDirection ?? "desc") as Prisma.SortOrder,
     };
+
+    this.logger.log("options: ", options);
 
     const logsAndCount = await this.logService.findAllForEnv(envId, options);
     return LogsDto.fromLogsWithCount(logsAndCount);
