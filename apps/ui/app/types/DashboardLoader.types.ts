@@ -5,7 +5,6 @@ export type DeferredDashboardLoader = {
   analytics: Promise<DashboardAnalyticsDto>;
   logs: LogDto[];
   costHistory: Promise<CostHistoryDto>;
-  orgId: string;
 };
 
 export type DashboardLoader = () => Promise<TypedDeferredData<DeferredDashboardLoader>>;

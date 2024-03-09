@@ -4,7 +4,7 @@ import { withAuth } from "~/auth/withAuth";
 import { DashboardPage } from "~/pages/dashboard/DashboardPage";
 import { DeferredDashboardLoader } from "~/types/DashboardLoader.types";
 
-export const loader = withAuth(async ({ request, api, params, orgId }) => {
+export const loader = withAuth(async ({ request, api, params }) => {
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
   const dateSelectionQuery = (searchParams.get("dateSelection") ||
@@ -29,7 +29,6 @@ export const loader = withAuth(async ({ request, api, params, orgId }) => {
     analytics: analyticsPromise,
     logs: logs.logs,
     costHistory: costHistoryPromise,
-    orgId,
   });
 });
 

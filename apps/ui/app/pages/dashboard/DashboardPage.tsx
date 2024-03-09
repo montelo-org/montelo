@@ -5,13 +5,13 @@ import { AlertCircle, CircleSlash, DollarSign, GanttChart, Timer } from "lucide-
 import numbro from "numbro";
 import { FC, Suspense } from "react";
 import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Alert, AlertDescription, AlertTitle } from "../../components/ui/alert";
-import { Badge } from "../../components/ui/badge";
-import { ScrollArea } from "../../components/ui/scroll-area";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
-import { Routes } from "../../routes";
-import { DashboardLoader } from "../../types/DashboardLoader.types";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { Badge } from "~/components/ui/badge";
+import { ScrollArea } from "~/components/ui/scroll-area";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
+import { Routes } from "~/routes";
+import { DashboardLoader } from "~/types/DashboardLoader.types";
 import { idShortener } from "../traces/utils";
 import { AnalyticsCard } from "./cards/AnalyticsCard";
 import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
@@ -19,7 +19,7 @@ import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
 export const DashboardPage = () => {
   const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { analytics, logs, costHistory, orgId } = useLoaderData<DashboardLoader>();
+  const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
 
   const selectedValue =
     searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
@@ -77,7 +77,7 @@ export const DashboardPage = () => {
               return prev;
             });
           }}
-        >
+        > 
           <SelectTrigger className="w-[150px]">
             <SelectValue />
           </SelectTrigger>
