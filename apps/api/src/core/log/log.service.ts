@@ -6,8 +6,10 @@ type FindAllForEnvOpts = {
   take?: number;
   skip?: number;
   cursor?: string;
-  sortColumn?: keyof Prisma.LogOrderByWithRelationInput;
+  sortColumn?: keyof Prisma.LogOrderByWithAggregationInput;
   sortDirection?: "asc" | "desc";
+  searchQuery?: string;
+  startDate?: string;
 };
 
 @Injectable()
@@ -15,15 +17,35 @@ export class LogService {
   constructor(private db: DatabaseService) {}
 
   async findAllForEnv(envId: string, options?: FindAllForEnvOpts): Promise<{ logs: Log[]; totalCount: number }> {
-    const orderByOptions: Prisma.LogOrderByWithRelationInput =
+    if (!envId) throw new Error("envId is required");
+
+    const whereQuery = {
+      envId,
+      ...(options?.searchQuery && {
+        OR: [
+          {
+            name: { contains: options.searchQuery },
+          },
+          {
+            input: { string_contains: options.searchQuery },
+          },
+          {
+            output: { string_contains: options.searchQuery },
+          },
+        ],
+      }),
+      ...(options?.startDate && {
+        startTime: { gte: new Date(options.startDate) },
+      }),
+    };
+
+    const orderByOptions =
       options?.sortColumn && options?.sortDirection
         ? { [options.sortColumn]: options.sortDirection }
         : ({ startTime: "desc" } as const);
 
     const logs = await this.db.log.findMany({
-      where: {
-        envId,
-      },
+      where: whereQuery,
       orderBy: orderByOptions,
       take: options?.take || 50,
       skip: options?.skip || 0,
@@ -31,11 +53,7 @@ export class LogService {
     });
 
     // Get the total count of logs for the given envId
-    const totalCount = await this.db.log.count({
-      where: {
-        envId,
-      },
-    });
+    const totalCount = await this.db.log.count({ where: whereQuery });
 
     return { logs, totalCount };
   }

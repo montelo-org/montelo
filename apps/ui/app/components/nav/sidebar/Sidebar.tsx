@@ -100,11 +100,11 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
 
   return (
     <aside
-      className="fixed top-16 mt-2 flex w-48 flex-col justify-between"
+      className="fixed top-16 flex w-48 flex-col justify-between pt-2"
       style={{ height: "calc(100vh - 4rem - 0.5rem)" }}
     >
       <div className="pb-4 pl-4 pr-4">
-        <ul className="space-y-1">
+        <ul className="flex flex-col gap-1 space-y-1">
           <SidebarItemsComponent />
           <ApiKeysDialog projectId={project.id} />
         </ul>

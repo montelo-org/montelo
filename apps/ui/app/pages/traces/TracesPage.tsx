@@ -13,17 +13,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import * as React from "react";
+import { useEffect } from "react";
 import "react-json-view-lite/dist/index.css";
+import { useDebounceValue } from "~/hooks/useDebounceValue";
 import Pagination from "../../components/pagination";
-import { Button } from "../../components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "../../components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
+import { TracesTableHeader } from "./components/TracesTableHeader";
 import { COLUMNS } from "./constants";
+import { TimeFrames } from "./constants/timeframes";
 
 type TracesPageProps = {
   logs: (LogDto & { orgId: string })[];
@@ -33,6 +30,11 @@ type TracesPageProps = {
 
 export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedDate, setSelectedDate] = React.useState<TimeFrames>(
+    (searchParams.get("date") as TimeFrames) || TimeFrames.LAST_HOUR,
+  );
+  const [searchQuery, setSearchQuery] = React.useState(searchParams.get("q") || "");
+  const [debouncedSearchQuery] = useDebounceValue(searchQuery, 300);
 
   const paramsSortColumn = searchParams.get("sortColumn");
   const paramsSortDirection = searchParams.get("sortDirection");
@@ -48,6 +50,14 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
     outputCost: false,
   });
   const [rowSelection, setRowSelection] = React.useState({});
+
+  const onDateChange = (value: TimeFrames) => {
+    setSelectedDate(value);
+    setSearchParams((prev) => {
+      prev.set("date", value);
+      return prev;
+    });
+  };
 
   const onSortingChange: OnChangeFn<SortingState> = (updaterOrValue) => {
     setSorting((oldSorting) => {
@@ -68,6 +78,18 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
       return newSorting;
     });
   };
+
+  const updateSearchQueryParam = () => {
+    setSearchParams((prev) => {
+      if (debouncedSearchQuery) {
+        prev.set("q", debouncedSearchQuery);
+      } else {
+        prev.delete("q");
+      }
+      return prev;
+    });
+  };
+  useEffect(updateSearchQueryParam, [debouncedSearchQuery]);
 
   const table = useReactTable({
     data: logs,
@@ -92,39 +114,14 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center pb-4 pt-0.5">
-        {/*<Input*/}
-        {/*  placeholder="Search input or output"*/}
-        {/*  value={searchInput}*/}
-        {/*  onChange={e => setSearchInput(e.target.value)} // Update the search input state*/}
-        {/*  className="max-w-xs"*/}
-        {/*/>*/}
+      <TracesTableHeader
+        searchQuery={searchQuery}
+        onSearch={setSearchQuery}
+        onDateChange={onDateChange}
+        selectedDate={selectedDate}
+        table={table}
+      />
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={column.toggleVisibility}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
