@@ -1,7 +1,7 @@
 import { LogDtoSourceEnum } from "@montelo/browser-client";
 import { GanttChart } from "lucide-react";
 
-export const TypeMap = {
+export const SourceToIconMap: Record<LogDtoSourceEnum, JSX.Element> = {
   [LogDtoSourceEnum.Manual]: (
     <div className="h-6 w-6 rounded bg-blue-500 p-1">
       <GanttChart className="h-full w-full" />

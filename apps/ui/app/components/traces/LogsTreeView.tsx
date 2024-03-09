@@ -1,7 +1,7 @@
 import { LogDto } from "@montelo/browser-client";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
-import { TypeMap } from "./TypeMap";
+import { SourceToIconMap } from "./SourceToIconMap";
 import { buildTree } from "./utils";
 
 type Props = {
@@ -44,7 +44,7 @@ const LogTreeNode: FC<{
       onClick={handleClick}
     >
       <div className="flex items-center gap-2">
-        {TypeMap[log.source]}
+        {SourceToIconMap[log.source]}
         <span className="flex items-baseline gap-4">
           {log.name}
           <span className={"text-muted-foreground text-sm"}>{log.duration ? `${log.duration}s` : ""}</span>
