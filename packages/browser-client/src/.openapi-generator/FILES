@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 apis/AnalyticsApi.ts
 apis/ApiKeyApi.ts
 apis/EnvironmentApi.ts

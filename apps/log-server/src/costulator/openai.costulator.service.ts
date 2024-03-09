@@ -5,7 +5,6 @@ import { get_encoding } from "tiktoken";
 import { OpenAICostMap, OpenAICostMapKeys } from "./costMaps/openai.costmap";
 import { LLMProvider, LogCostInput, LogCostOutput } from "./llm-provider.interface";
 
-
 @Injectable()
 export class OpenAICostulatorService implements LLMProvider {
   source = LogSources.OPENAI;

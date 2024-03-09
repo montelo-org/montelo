@@ -10,14 +10,9 @@ type ChildrenPropsWithClassName = {
   children: ReactNode;
 };
 
-export const AnalyticsContainer: FC<ChildrenPropsWithClassName> = ({
-  className,
-  children,
-}) => {
+export const AnalyticsContainer: FC<ChildrenPropsWithClassName> = ({ className, children }) => {
   return (
-    <div
-      className={`flex bg-secondary dark:bg-secondary/25 w-full divide-x rounded-xl border ${className || ""}`}
-    >
+    <div className={`bg-secondary dark:bg-secondary/25 flex w-full divide-x rounded-xl border ${className || ""}`}>
       {children}
     </div>
   );

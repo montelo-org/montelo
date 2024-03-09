@@ -1,10 +1,6 @@
 import { TraceWithLogsDto } from "@montelo/browser-client";
 import { Link, useParams, useSearchParams } from "@remix-run/react";
 import { useState } from "react";
-import { LogAnalytics } from "../../components/traces/LogAnalytics/LogAnalytics";
-import { LogView } from "../../components/traces/LogView";
-import { LogsTreeView } from "../../components/traces/LogsTreeView";
-import { useUpdateQueryWithoutNavigation } from "../../hooks/useUpdateQueryWithoutNavigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,6 +9,10 @@ import {
   BreadcrumbSeparator,
 } from "~/components/ui/breadcrumb";
 import { Routes } from "~/routes";
+import { LogAnalytics } from "../../components/traces/LogAnalytics/LogAnalytics";
+import { LogView } from "../../components/traces/LogView";
+import { LogsTreeView } from "../../components/traces/LogsTreeView";
+import { useUpdateQueryWithoutNavigation } from "../../hooks/useUpdateQueryWithoutNavigation";
 
 type TraceIdProps = {
   trace: TraceWithLogsDto;
@@ -37,18 +37,18 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
         <BreadcrumbList className={"text-xl"}>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link to={Routes.app.project.env.traces({
-                projectId: params.projectId!,
-                envId: trace.envId,
-              })}>
+              <Link
+                to={Routes.app.project.env.traces({
+                  projectId: params.projectId!,
+                  envId: trace.envId,
+                })}
+              >
                 Traces & Logs
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            {trace.name}
-          </BreadcrumbItem>
+          <BreadcrumbItem>{trace.name}</BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 

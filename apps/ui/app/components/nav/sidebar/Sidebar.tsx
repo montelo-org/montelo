@@ -99,7 +99,10 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
     });
 
   return (
-    <aside className="flex flex-col justify-between fixed top-16 mt-2 w-48" style={{ height: 'calc(100vh - 4rem - 0.5rem)' }}>
+    <aside
+      className="fixed top-16 mt-2 flex w-48 flex-col justify-between"
+      style={{ height: "calc(100vh - 4rem - 0.5rem)" }}
+    >
       <div className="pb-4 pl-4 pr-4">
         <ul className="space-y-1">
           <SidebarItemsComponent />
