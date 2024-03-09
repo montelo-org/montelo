@@ -15,9 +15,7 @@ export class LogService {
   constructor(private db: DatabaseService) {}
 
   async findAllForEnv(envId: string, options?: FindAllForEnvOpts): Promise<{ logs: Log[]; totalCount: number }> {
-    if (!envId) throw new Error("envId is required");
-
-    const orderByOptions =
+    const orderByOptions: Prisma.LogOrderByWithRelationInput =
       options?.sortColumn && options?.sortDirection
         ? { [options.sortColumn]: options.sortDirection }
         : ({ startTime: "desc" } as const);
