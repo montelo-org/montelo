@@ -1,7 +1,7 @@
 import { SignIn } from "@clerk/remix";
 import { dark } from "@clerk/themes";
-import { authenticatedLoader } from "../../auth/authenticated.loader";
-import { Routes } from "../../routes";
+import { authenticatedLoader } from "~/auth/authenticated.loader";
+import { Routes } from "~/routes";
 
 export const loader = authenticatedLoader;
 

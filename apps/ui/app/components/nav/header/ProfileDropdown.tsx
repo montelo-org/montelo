@@ -3,7 +3,7 @@ import { dark } from "@clerk/themes";
 import { Theme, useTheme } from "remix-themes";
 import { useDebounceValue } from "~/hooks/useDebounceValue";
 import { Routes } from "~/routes";
-import { Skeleton } from "../../ui/skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export const ProfileDropdown = () => {
   const { isLoaded } = useUser();
