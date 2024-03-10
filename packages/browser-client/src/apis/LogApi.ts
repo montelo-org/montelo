@@ -23,7 +23,8 @@ export interface LogControllerGetAllRequest {
   skip?: string;
   sortColumn?: string;
   sortDirection?: string;
-  lastTimestamp?: string;
+  searchQuery?: string;
+  startDate?: string;
 }
 
 /**
@@ -61,8 +62,12 @@ export class LogApi extends runtime.BaseAPI {
       queryParameters["sortDirection"] = requestParameters.sortDirection;
     }
 
-    if (requestParameters.lastTimestamp !== undefined) {
-      queryParameters["lastTimestamp"] = requestParameters.lastTimestamp;
+    if (requestParameters.searchQuery !== undefined) {
+      queryParameters["searchQuery"] = requestParameters.searchQuery;
+    }
+
+    if (requestParameters.startDate !== undefined) {
+      queryParameters["startDate"] = requestParameters.startDate;
     }
 
     const headerParameters: runtime.HTTPHeaders = {};

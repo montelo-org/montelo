@@ -39,6 +39,18 @@ export class LogController {
     required: false,
   })
   @ApiQuery({
+    name: "searchQuery",
+    type: String,
+    description: "Search query for logs. If undefined returns all.",
+    required: false,
+  })
+  @ApiQuery({
+    name: "startDate",
+    type: String,
+    description: "Show logs that started after this date. Format: YYYY-MM-DDTHH:MM:SSZ",
+    required: false,
+  })
+  @ApiQuery({
     name: "lastTimestamp",
     type: String,
     description: "The timestamp of the last trace. If undefined starts from the latest trace.",
@@ -52,14 +64,18 @@ export class LogController {
     @Query("skip") skip?: string,
     @Query("sortColumn") sortColumn?: string,
     @Query("sortDirection") sortDirection?: string,
+    @Query("searchQuery") searchQuery?: string,
+    @Query("startDate") startDate?: string,
     @Query("lastTimestamp") lastTimestamp?: string,
   ): Promise<LogsDto> {
     const options = {
       take: take ? parseInt(take) : undefined,
       skip: skip ? parseInt(skip) : undefined,
       cursor: lastTimestamp || undefined,
-      sortColumn: (sortColumn ?? "startTime") as keyof Prisma.LogOrderByWithRelationInput,
+      sortColumn: (sortColumn ?? "startTime") as keyof Prisma.LogOrderByWithAggregationInput,
       sortDirection: (sortDirection ?? "desc") as Prisma.SortOrder,
+      searchQuery,
+      startDate,
     };
 
     this.logger.log(options, `options`);
