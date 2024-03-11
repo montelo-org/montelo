@@ -1,5 +1,13 @@
 # @montelo/promptfile
 
+## 1.1.56
+
+### Patch Changes
+
+- Logs Route Updates
+- Updated dependencies
+  - @montelo/common@1.1.56
+
 ## 1.1.55
 
 ### Patch Changes

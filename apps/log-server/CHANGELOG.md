@@ -1,5 +1,12 @@
 # @montelo/log-server
 
+## 1.1.56
+
+### Patch Changes
+
+- Updated dependencies
+  - @montelo/db@1.1.56
+
 ## 1.1.55
 
 ### Patch Changes

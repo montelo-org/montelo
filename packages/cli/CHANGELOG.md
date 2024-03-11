@@ -1,5 +1,15 @@
 # @montelo/cli
 
+## 1.1.56
+
+### Patch Changes
+
+- Logs Route Updates
+- Updated dependencies
+  - @montelo/config@1.1.56
+  - @montelo/fizz@1.1.56
+  - @montelo/promptfile@1.1.56
+
 ## 1.1.55
 
 ### Patch Changes
