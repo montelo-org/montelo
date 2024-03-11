@@ -8,7 +8,7 @@ export const SourceToIconMap: Record<LogDtoSourceEnum, JSX.Element> = {
     </div>
   ),
   [LogDtoSourceEnum.Openai]: (
-    <div className="h-6 w-6 rounded bg-green-600 p-1">
+    <div className="h-6 w-6 rounded bg-green-700 p-1">
       <img src="/openai.svg" alt="Openai Logo" className="h-full w-full" />
     </div>
   ),
@@ -18,8 +18,8 @@ export const SourceToIconMap: Record<LogDtoSourceEnum, JSX.Element> = {
     </div>
   ),
   [LogDtoSourceEnum.Anthropic]: (
-    <div className="h-6 w-6 rounded bg-orange-500 p-1">
-      <img src="/openai.svg" alt="Openai Logo" className="h-full w-full" />
+    <div className="h-6 w-6 rounded bg-[#c6a083] p-1">
+      <img src="/anthropic.png" alt="Anthropic Logo" className="h-full w-full" />
     </div>
   ),
   [LogDtoSourceEnum.Cohere]: (

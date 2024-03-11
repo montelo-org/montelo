@@ -36,7 +36,7 @@ export class LogsService {
     const llmProvider = this.costulatorService.getProvider(log.source);
 
     // attempt to count tokens if not provided
-    const inputTokens = log.tokens?.inputTokens || llmProvider?.countInputTokens(log.input) || 0;
+    const inputTokens = log.tokens?.inputTokens || llmProvider?.countInputTokens(log.input, log.output) || 0;
     const outputTokens = log.tokens?.outputTokens || llmProvider?.countOutputTokens(log.output) || 0;
     const totalTokens = log.tokens?.totalTokens || inputTokens + outputTokens;
 

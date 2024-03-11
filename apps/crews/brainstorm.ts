@@ -28,12 +28,14 @@
 //   description:
 //     "Identify the next big trend in {topic}. Focus on identifying pros and cons and the overall narrative. Your final report should clearly articulate the key points, its market opportunities, and potential risks.",
 //   agent: researcher,
+//   tools: [searchTool], // idk
 // });
 //
 // const writeTask = new Task({
 //   description:
 //     "Compose an insightful article on {topic}. Focus on the latest trends and how it's impacting the industry. This article should be easy to understand, engaging, and positive.",
 //   agent: writer,
+//   tools: [searchTool], // idk
 // });
 //
 // const crew = new Crew({

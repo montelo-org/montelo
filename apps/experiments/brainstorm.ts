@@ -16,6 +16,10 @@
 // await montelo.datapoints.create({
 //   datasetId: dataset.id,
 //   inputs: datasetInputs,
+//   source: "",
+//   metadata: {
+//     hardness: "easy"
+//   }
 // });
 //
 // const runDatapoint = async ({ topic }): Promise<Record<string, any>> => {

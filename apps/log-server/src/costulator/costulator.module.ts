@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { CostulatorService } from "./costulator.service";
 import { LLMProvider } from "./llm-provider.interface";
+import { AnthropicCostulatorService } from "./providers/anthropic.costulator.service";
 import { MistralCostulatorService } from "./providers/mistral.costulator.service";
 import { OpenAICostulatorService } from "./providers/openai.costulator.service";
 
@@ -9,12 +10,17 @@ import { OpenAICostulatorService } from "./providers/openai.costulator.service";
   providers: [
     OpenAICostulatorService,
     MistralCostulatorService,
+    AnthropicCostulatorService,
     {
       provide: "LLM_PROVIDERS",
-      useFactory: (openaiService: OpenAICostulatorService, mistralService: MistralCostulatorService): LLMProvider[] => {
-        return [openaiService, mistralService];
+      useFactory: (
+        openaiService: OpenAICostulatorService,
+        mistralService: MistralCostulatorService,
+        anthropicService: AnthropicCostulatorService,
+      ): LLMProvider[] => {
+        return [openaiService, mistralService, anthropicService];
       },
-      inject: [OpenAICostulatorService, MistralCostulatorService],
+      inject: [OpenAICostulatorService, MistralCostulatorService, AnthropicCostulatorService],
     },
     CostulatorService,
   ],

@@ -77,9 +77,6 @@ export class LogController {
       searchQuery,
       startDate,
     };
-
-    this.logger.log(options, `options`);
-
     const logsAndCount = await this.logService.findAllForEnv(envId, options);
     return LogsDto.fromLogsWithCount(logsAndCount);
   }

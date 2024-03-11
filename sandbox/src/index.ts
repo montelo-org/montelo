@@ -35,18 +35,17 @@ const chat = async (): Promise<void> => {
     },
   ];
 
-  const response = await trace.mistral.chat({
-    name: "Weather Chat",
-    model: "mistral-large-latest",
-    messages: messages,
-    tools: tools,
+  const stream = await trace.anthropic.messages.create({
+    name: "Outputter",
+    model: "claude-3-sonnet-20240229",
+    messages: [{ role: "user", content: "say hi" }],
+    max_tokens: 100,
+    // stream: true,
   });
 
-  await trace.openai.chat.completions.create({
-    name: "Weather Chat / Searcher",
-    model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: "How are you?" }],
-  });
+  // for await (const message of stream) {
+  //   console.log(message);
+  // }
 
   // const message1 = response.choices[0].message;
   // console.log(JSON.stringify(message1));

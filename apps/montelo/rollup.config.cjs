@@ -13,7 +13,12 @@ module.exports = [
       dir: "dist/bundle.js",
       format: "commonjs",
     },
-    plugins: [typescript(), resolve(), commonjs(), json()],
+    plugins: [
+      resolve(),
+      typescript(),
+      commonjs(),
+      json(),
+    ],
   },
   // Separate configuration for the CLI script
   {

@@ -4,10 +4,10 @@ datasource db {
 }
 
 generator client {
-  provider      = "prisma-client-js"
-  output        = "./generated/client"
+  provider        = "prisma-client-js"
+  output          = "./generated/client"
   previewFeatures = ["fullTextSearch"]
-  binaryTargets = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-3.0.x"]
+  binaryTargets   = ["native", "debian-openssl-3.0.x", "linux-arm64-openssl-3.0.x"]
 }
 
 // Enums
@@ -69,7 +69,7 @@ model ApiKey {
   envId    String  @unique @map("env_id")
   public   String  @unique
   private  String  @unique
-  combined String  @unique
+  combined String  @unique // remove this at one point
   viewed   Boolean
 
   // relations

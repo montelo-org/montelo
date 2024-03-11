@@ -1,4 +1,4 @@
-// import { ClientOptions as AnthropicClientOptions } from "@anthropic-ai/sdk";
+import { ClientOptions as AnthropicClientOptions } from "@anthropic-ai/sdk";
 import { ClientOptions as OpenAIClientOptions } from "openai";
 
 export type MistralClientOptions = {
@@ -10,7 +10,7 @@ export type MonteloOptions = {
   montelo?: MonteloClientOptions;
   openai?: OpenAIClientOptions;
   mistral?: MistralClientOptions;
-  // anthropic?: AnthropicClientOptions;
+  anthropic?: AnthropicClientOptions;
 };
 
 export type MonteloClientOptions = {

@@ -15,7 +15,11 @@ export type LogCostInput = {
 export interface LLMProvider {
   source: LogSources;
 
-  countInputTokens(input: any): number;
+  /**
+   * Count the input tokens from the input object.
+   * Sometimes the input tokens are directly available from the output object, so we pass it in.
+   */
+  countInputTokens(input: any, output: any): number;
 
   countOutputTokens(output: any): number;
 

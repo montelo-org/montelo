@@ -33,7 +33,7 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
 
   return (
     <div>
-      <Breadcrumb className={"mb-4"}>
+      <Breadcrumb className={"mb-4 pt-2"}>
         <BreadcrumbList className={"text-xl"}>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
