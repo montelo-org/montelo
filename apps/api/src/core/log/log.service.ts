@@ -17,8 +17,6 @@ export class LogService {
   constructor(private db: DatabaseService) {}
 
   async findAllForEnv(envId: string, options?: FindAllForEnvOpts): Promise<{ logs: Log[]; totalCount: number }> {
-    if (!envId) throw new Error("envId is required");
-
     const whereQuery = {
       envId,
       ...(options?.searchQuery && {

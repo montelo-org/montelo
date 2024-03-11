@@ -4,6 +4,7 @@ import { TraceWithLogs } from "../logs/types";
 import { LLMProvider, LogCostInput, LogCostOutput } from "./llm-provider.interface";
 import { TraceMetrics } from "./types";
 
+
 @Injectable()
 export class CostulatorService {
   private logger = new Logger(CostulatorService.name);
@@ -17,6 +18,8 @@ export class CostulatorService {
     const provider = this.providers.find((provider) => provider.source === source);
     if (!provider) {
       this.logger.warn(`No LLM provider found for source: ${source}`);
+    } else {
+      this.logger.debug(`Found and using provider ${source}`);
     }
     return provider;
   }

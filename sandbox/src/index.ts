@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import { Montelo } from "montelo";
-import OpenAI from "openai";
 
 dotenv.config();
 
@@ -9,13 +8,13 @@ const montelo = new Montelo();
 const chat = async (): Promise<void> => {
   const trace = montelo.trace({ name: "Weather Chat" });
 
-  const messages: Array<OpenAI.ChatCompletionMessageParam> = [
+  const messages = [
     {
       role: "user",
       content: "What's the weather like in Boston today?",
     },
   ];
-  const tools: Array<OpenAI.ChatCompletionTool> = [
+  const tools = [
     {
       type: "function",
       function: {
@@ -36,33 +35,38 @@ const chat = async (): Promise<void> => {
     },
   ];
 
-  const response = await trace.openai.chat.completions.create({
+  const response = await trace.mistral.chat({
     name: "Weather Chat",
-    model: "gpt-3.5-turbo",
+    model: "mistral-large-latest",
     messages: messages,
     tools: tools,
-    tool_choice: "auto",
   });
 
-  const message1 = response.choices[0].message;
-  console.log(JSON.stringify(message1));
-  const toolCallId = message1.tool_calls[0].id;
-
-  messages.push(message1);
-
-  messages.push({
-    role: "tool",
-    tool_call_id: toolCallId,
-    content: "23 degrees Celsius",
-  });
-
-  const secondResponse = await trace.openai.chat.completions.create({
-    name: "Weather Chat / Tool Response",
+  await trace.openai.chat.completions.create({
+    name: "Weather Chat / Searcher",
     model: "gpt-3.5-turbo",
-    messages,
+    messages: [{ role: "user", content: "How are you?" }],
   });
 
-  console.log(JSON.stringify(secondResponse.choices[0].message));
+  // const message1 = response.choices[0].message;
+  // console.log(JSON.stringify(message1));
+  // const toolCallId = message1.tool_calls[0].id;
+  //
+  // messages.push(message1);
+  //
+  // messages.push({
+  //   role: "tool",
+  //   tool_call_id: toolCallId,
+  //   content: "23 degrees Celsius",
+  // });
+  //
+  // const secondResponse = await trace.openai.chat.completions.create({
+  //   name: "Weather Chat / Tool Response",
+  //   model: "gpt-3.5-turbo",
+  //   messages,
+  // });
+  //
+  // console.log(JSON.stringify(secondResponse.choices[0].message));
 };
 
 void chat();

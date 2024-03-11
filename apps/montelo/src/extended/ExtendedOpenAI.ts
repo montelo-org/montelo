@@ -12,26 +12,26 @@ import ChatCompletion = Chat.ChatCompletion;
 class ExtendedChatCompletions extends OpenAI.Chat.Completions {
   private monteloClient: MonteloClient;
 
-  constructor(monteloClient: MonteloClient, openAIOptions: OpenAI) {
-    super(openAIOptions);
+  constructor(monteloClient: MonteloClient, openAI: OpenAI) {
+    super(openAI);
 
     this.monteloClient = monteloClient;
   }
 
-  create(
+  override create(
     body: OpenAI.ChatCompletionCreateParamsNonStreaming & MonteloLogExtend,
     options?: RequestOptions,
   ): APIPromise<OpenAI.ChatCompletion>;
-  create(
+  override create(
     body: OpenAI.ChatCompletionCreateParamsStreaming & MonteloLogExtend,
     options?: RequestOptions,
   ): APIPromise<Stream<OpenAI.ChatCompletionChunk>>;
-  create(
+  override create(
     body: ChatCompletionCreateParamsBase & MonteloLogExtend,
     options?: RequestOptions,
   ): APIPromise<Stream<OpenAI.ChatCompletionChunk> | OpenAI.ChatCompletion>;
 
-  create(
+  override create(
     body: ChatCompletionCreateParamsBase & MonteloLogExtend,
     options?: RequestOptions,
   ): APIPromise<OpenAI.ChatCompletion | Stream<OpenAI.ChatCompletionChunk>> {
@@ -153,8 +153,8 @@ class ExtendedChatCompletions extends OpenAI.Chat.Completions {
 class ExtendedChat extends OpenAI.Chat {
   completions: ExtendedChatCompletions;
 
-  constructor(monteloClient: MonteloClient, openAIOptions: OpenAI) {
-    super(openAIOptions);
+  constructor(monteloClient: MonteloClient, openAI: OpenAI) {
+    super(openAI);
 
     this.completions = new ExtendedChatCompletions(monteloClient, this._client);
   }
@@ -163,8 +163,8 @@ class ExtendedChat extends OpenAI.Chat {
 export class ExtendedOpenAI extends OpenAI {
   chat: ExtendedChat;
 
-  constructor(monteloClient: MonteloClient, openAIOptions?: OpenAIClientOptions) {
-    super(openAIOptions);
+  constructor(monteloClient: MonteloClient, openAIClientOptions?: OpenAIClientOptions) {
+    super(openAIClientOptions);
 
     this.chat = new ExtendedChat(monteloClient, this);
   }

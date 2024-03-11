@@ -1,9 +1,9 @@
 import { LogSources } from "@montelo/db";
 import { Injectable, Logger } from "@nestjs/common";
-import OpenAI from "openai/index";
+import OpenAI from "openai";
 import { get_encoding } from "tiktoken";
-import { OpenAICostMap, OpenAICostMapKeys } from "./costMaps/openai.costmap";
-import { LLMProvider, LogCostInput, LogCostOutput } from "./llm-provider.interface";
+import { OpenAICostMap, OpenAICostMapKeys } from "../costMaps/openai.costmap";
+import { LLMProvider, LogCostInput, LogCostOutput } from "../llm-provider.interface";
 
 @Injectable()
 export class OpenAICostulatorService implements LLMProvider {
@@ -30,7 +30,6 @@ export class OpenAICostulatorService implements LLMProvider {
       system: (accum, curr: OpenAI.ChatCompletionSystemMessageParam) => accum + curr.content,
       // TODO handle image uploads for user
       user: (accum, curr: OpenAI.ChatCompletionUserMessageParam) => {
-        console.log("user", curr);
         // just a string
         if (typeof curr.content === "string") {
           return accum + curr.content;
@@ -38,14 +37,10 @@ export class OpenAICostulatorService implements LLMProvider {
 
         // array of text/image_url
         const allStrings = curr.content.reduce((accum, curr) => {
-          console.log("array curr", curr);
           if (curr.type === "text") {
-            console.log("text, returning; ", curr.text);
             return accum + curr.text;
           } else if (curr.type === "image_url") {
-            console.log("image_url", curr.image_url);
             if (curr.image_url.detail === "low") {
-              console.log("low detail image", curr.image_url.url);
               // low detail images are 85 characters long
               return accum + "how many tokens are 85 characters long wow i didnt realize it would be this many okay";
             }

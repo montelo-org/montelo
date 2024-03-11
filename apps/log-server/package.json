@@ -18,6 +18,7 @@
     "generate:client": "openapi-generator-cli generate -i http://localhost:3002/docs-json -g typescript-fetch -o ../montelo/src/client"
   },
   "dependencies": {
+    "@mistralai/mistralai": "^0.1.3",
     "@montelo/db": "1.1.55",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/bull": "^10.0.1",
@@ -33,6 +34,7 @@
     "class-validator": "^0.14.1",
     "cuid": "^3.0.0",
     "lodash": "^4.17.21",
+    "mistral-tokenizer-ts": "^1.2.0",
     "openai": "^4.28.4",
     "passport-http-bearer": "^1.0.1",
     "reflect-metadata": "^0.1.13",
