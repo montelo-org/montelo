@@ -1,17 +1,20 @@
 import { Logger } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { LoggerErrorInterceptor, Logger as PinoLogger } from "nestjs-pino";
 import { AppModule } from "./app.module";
 import { HttpExceptionFilter } from "./common/filters/exception.filter";
 import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(app.get(PinoLogger));
   const logger = new Logger("App");
 
   // filters
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  app.useGlobalInterceptors(new LoggerErrorInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
 
   // swagger
