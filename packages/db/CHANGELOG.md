@@ -1,5 +1,11 @@
 # @montelo/db
 
+## 1.1.56
+
+### Patch Changes
+
+- Logs Route Updates
+
 ## 1.1.55
 
 ### Patch Changes
