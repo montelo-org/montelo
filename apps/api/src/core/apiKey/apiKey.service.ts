@@ -86,9 +86,10 @@ export class ApiKeyService {
   }
 
   public async generateApiKey(prefix: string): Promise<{ publicPart: string; secretPart: string; combined: string }> {
+    const loweredPrefix = prefix.toLowerCase();
     const publicPart = this.generateRandomCharacters(16);
     const secretPart = this.generateRandomCharacters(16);
-    const fullPrefix = `sk-${prefix}-`;
+    const fullPrefix = `sk-${loweredPrefix}-`;
     const idPartWithPrefix = `${fullPrefix}${publicPart}`;
     const combined = this.combinePublicAndPrivate(publicPart, secretPart);
     const combinedWithPrefix = `${fullPrefix}${combined}`;

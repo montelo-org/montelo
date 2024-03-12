@@ -26,7 +26,7 @@ export class EnvironmentService {
     }
 
     // if changing this also change apiKey service
-    const prefix = name.substring(6);
+    const prefix = name.substring(0, 5);
     const { publicPart, secretPart, combined } = await this.apiKeyService.generateApiKey(prefix);
 
     return this.db.environment.create({
