@@ -1,7 +1,7 @@
 import { EnvironmentDto, FullProjectDto } from "@montelo/browser-client";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
-import { useNavigate } from "@remix-run/react";
-import { Check } from "lucide-react";
+import { Link, useNavigate } from "@remix-run/react";
+import { Check, Home } from "lucide-react";
 import { FC } from "react";
 import { Routes } from "~/routes";
 import { Button } from "../../ui/button";
@@ -74,6 +74,13 @@ export const ProjectEnvSelector: FC<EnvSelectorProps> = ({ projects, selectedPro
             </DropdownMenuSub>
           </DropdownMenuGroup>
         ))}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className={"flex flex-row gap-2"} asChild>
+          <Link to={Routes.app.project.all} prefetch={"intent"}>
+            <Home size={16} />
+            Home
+          </Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

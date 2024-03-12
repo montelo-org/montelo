@@ -68,7 +68,7 @@ export const DashboardPage = () => {
   };
 
   return (
-    <div className={"flex flex-col pt-0.5"}>
+    <div className={"flex flex-col pt-2"}>
       <div className={"mb-4 flex justify-end"}>
         <Select
           value={selectedValue}
