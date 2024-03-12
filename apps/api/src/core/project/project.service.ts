@@ -1,9 +1,11 @@
 import { Project } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
+import { capitalize } from "lodash";
 import { DatabaseService } from "../../database";
 import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "../environment/environment.enums";
 import { CreateProjectInput, FullProject } from "./project.types";
+
 
 @Injectable()
 export class ProjectService {
@@ -54,7 +56,7 @@ export class ProjectService {
 
     const createdProject = await this.db.project.create({
       data: {
-        name: params.name,
+        name: capitalize(params.name),
         orgId: params.orgId,
       },
     });
