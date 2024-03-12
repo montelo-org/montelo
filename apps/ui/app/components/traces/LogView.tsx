@@ -68,7 +68,7 @@ export const LogView: FC<Props> = ({ log }) => {
   return (
     <div className={"ml-4"}>
       <div className={"mb-2"}>
-        <h1 className={"text-xl"}>{log.name}</h1>
+        <h1 className={"text-xl"}>{log.name || "—"}</h1>
       </div>
       <div className={"mb-4 flex flex-row gap-4"}>
         <AnalyticsContainer>
@@ -109,8 +109,8 @@ export const LogView: FC<Props> = ({ log }) => {
           </SingleContainer>
         </AnalyticsContainer>
       </div>
-      <CodeBlock title={"Input"} value={JSON.stringify(log.input, undefined, 2)} />
-      <CodeBlock title={"Output"} value={JSON.stringify(log.output, undefined, 2)} />
+      <CodeBlock title={"Input"} value={JSON.stringify(log.input || {}, undefined, 2)} />
+      <CodeBlock title={"Output"} value={JSON.stringify(log.output || {}, undefined, 2)} />
       <CodeBlock title={"Extra"} value={JSON.stringify(log.extra || {}, undefined, 2)} />
     </div>
   );

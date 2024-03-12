@@ -92,9 +92,9 @@ model Log {
   traceId      String     @map("trace_id")
   envId        String     @map("env_id")
   parentLogId  String?    @map("parent_id")
-  name         String
-  input        Json
-  output       Json
+  name         String?
+  input        Json?
+  output       Json?
   source       LogSources
   model        String?
   extra        Json?

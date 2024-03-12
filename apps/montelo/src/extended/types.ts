@@ -5,7 +5,7 @@ export type MonteloLogExtend = {
    * [Montelo] A name for the log.
    *
    */
-  name: string;
+  name?: string;
   /**
    * [Montelo] An object with extra properties.
    *

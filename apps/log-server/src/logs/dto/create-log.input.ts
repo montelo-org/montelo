@@ -23,9 +23,11 @@ export class TokenInfo {
 
 export class LogInput {
   @ApiProperty({
+    type: String,
+    required: false,
     example: "Agent X",
   })
-  name: string;
+  name?: string;
 
   @ApiProperty({ enum: LogSources })
   source: LogSources;
@@ -39,11 +41,13 @@ export class LogInput {
 
   @ApiProperty({
     example: "What is your name?",
+    required: false,
   })
   input: any;
 
   @ApiProperty({
     example: "I am an AI. I do not have a name.",
+    required: false,
   })
   output: any;
 

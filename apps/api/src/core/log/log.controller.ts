@@ -1,5 +1,5 @@
 import { Prisma } from "@montelo/db";
-import { Controller, Get, Param, Query, UseGuards, Logger } from "@nestjs/common";
+import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 import { LogsDto } from "./dto/logs.dto";
@@ -10,7 +10,6 @@ import { LogService } from "./log.service";
 @ApiBearerAuth()
 @Controller("env/:envId/log")
 export class LogController {
-  private logger = new Logger(LogController.name);
 
   constructor(private logService: LogService) {}
 

@@ -15,6 +15,7 @@ import { DashboardLoader } from "~/types/DashboardLoader.types";
 import { idShortener } from "../traces/utils";
 import { AnalyticsCard } from "./cards/AnalyticsCard";
 import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
+import { TimerIcon } from "@radix-ui/react-icons";
 
 export const DashboardPage = () => {
   const params = useParams();
@@ -45,7 +46,7 @@ export const DashboardPage = () => {
             </Badge>
           </Link>
         </TableCell>
-        <TableCell>{log.name}</TableCell>
+        <TableCell>{log.name || "—"}</TableCell>
         <TableCell>{log.duration ? `${log.duration}s` : "—"}</TableCell>
         <TableCell>{log.totalCost ? `$${log.totalCost}` : "—"}</TableCell>
       </TableRow>
@@ -78,7 +79,8 @@ export const DashboardPage = () => {
             });
           }}
         > 
-          <SelectTrigger className="w-[150px]">
+          <SelectTrigger className="w-[125px]">
+            <TimerIcon />
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

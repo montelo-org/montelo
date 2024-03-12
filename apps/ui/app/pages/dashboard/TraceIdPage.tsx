@@ -9,10 +9,10 @@ import {
   BreadcrumbSeparator,
 } from "~/components/ui/breadcrumb";
 import { Routes } from "~/routes";
-import { LogAnalytics } from "../../components/traces/LogAnalytics/LogAnalytics";
-import { LogView } from "../../components/traces/LogView";
-import { LogsTreeView } from "../../components/traces/LogsTreeView";
-import { useUpdateQueryWithoutNavigation } from "../../hooks/useUpdateQueryWithoutNavigation";
+import { LogAnalytics } from "~/components/traces/LogAnalytics/LogAnalytics";
+import { LogView } from "~/components/traces/LogView";
+import { LogsTreeView } from "~/components/traces/LogsTreeView";
+import { useUpdateQueryWithoutNavigation } from "~/hooks/useUpdateQueryWithoutNavigation";
 
 type TraceIdProps = {
   trace: TraceWithLogsDto;

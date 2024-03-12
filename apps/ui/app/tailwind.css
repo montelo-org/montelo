@@ -133,3 +133,17 @@ html {
 .cl-organizationSwitcher-root {
   height: 32px;
 }
+
+.cl-headerTitle {
+  color: hsl(var(--muted-foreground));
+}
+
+.cl-form p,
+.cl-form label,
+.cl-form svg {
+  color: hsl(var(--muted-foreground));
+}
+
+.cl-formFieldInput {
+  color: hsl(var(--muted-foreground));
+}

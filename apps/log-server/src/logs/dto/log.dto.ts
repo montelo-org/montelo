@@ -20,8 +20,7 @@ export class LogDto {
   parentLogId: string | null;
 
   @ApiProperty()
-  @IsString()
-  name: string;
+  name: string | null;
 
   @ApiProperty({ enum: LogSources })
   source: LogSources;

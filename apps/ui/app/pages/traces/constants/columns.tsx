@@ -20,7 +20,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/comp
 import { Routes } from "~/routes";
 import { idShortener } from "../utils/idShortener";
 
-export const COLUMNS: ColumnDef<LogDto & { orgId: string }>[] = [
+export const COLUMNS: ColumnDef<LogDto>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -52,14 +52,13 @@ export const COLUMNS: ColumnDef<LogDto & { orgId: string }>[] = [
     accessorKey: "traceId",
     header: "Trace",
     cell: ({ row }) => {
-      const orgId: string = row.original.orgId;
       const params = useParams();
       const traceId: string = row.getValue("traceId");
       const { short, variant } = idShortener(traceId);
 
       return (
         <div>
-          <TooltipProvider delayDuration={500}>
+          <TooltipProvider delayDuration={350}>
             <Tooltip>
               <TooltipTrigger>
                 <Link
@@ -86,15 +85,14 @@ export const COLUMNS: ColumnDef<LogDto & { orgId: string }>[] = [
     header: "Log",
     cell: ({ row }) => {
       const params = useParams();
-      const name = row.original.name.substring(0, 15);
-      const orgId: string = row.original.orgId;
+      const name = row.original.name?.substring(0, 15);
       const traceId: string = row.getValue("traceId");
       const logId: string = row.getValue("id");
       const { short } = idShortener(logId);
 
       return (
         <div>
-          <TooltipProvider delayDuration={500}>
+          <TooltipProvider delayDuration={350}>
             <Tooltip>
               <TooltipTrigger>
                 <Link
@@ -106,8 +104,8 @@ export const COLUMNS: ColumnDef<LogDto & { orgId: string }>[] = [
                   })}
                 >
                   <Badge>
-                    {short} — {name}
-                    {name.length !== row.original.name.length && "..."}
+                    {short}{name ? ` —  ${name}` : ""}
+                    {name?.length !== row.original.name?.length && "..."}
                   </Badge>
                 </Link>
               </TooltipTrigger>

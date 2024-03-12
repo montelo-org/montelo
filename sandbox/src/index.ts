@@ -35,12 +35,20 @@ const chat = async (): Promise<void> => {
     },
   ];
 
+  await trace.log({ name: "Weather Agent" });
+
   const stream = await trace.anthropic.messages.create({
-    name: "Outputter",
+    name: "Weather Agent / Action 1",
     model: "claude-3-sonnet-20240229",
     messages: [{ role: "user", content: "say hi" }],
     max_tokens: 100,
     // stream: true,
+  });
+
+  const stream2 = await trace.mistral.chat({
+    name: "Weather Agent / Action 2",
+    model: "mistral-tiny",
+    messages: [{ role: "user", content: "say hi" }],
   });
 
   // for await (const message of stream) {

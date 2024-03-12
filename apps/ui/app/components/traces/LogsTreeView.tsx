@@ -46,7 +46,7 @@ const LogTreeNode: FC<{
       <div className="flex items-center gap-2">
         {SourceToIconMap[log.source]}
         <span className="flex items-baseline gap-4">
-          {log.name}
+          {log.name || "—"}
           <span className={"text-muted-foreground text-sm"}>{log.duration ? `${log.duration}s` : ""}</span>
         </span>
       </div>

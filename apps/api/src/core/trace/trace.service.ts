@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../../database";
 import { TraceWithLogs } from "./trace.types";
 
+
 @Injectable()
 export class TraceService {
   constructor(private db: DatabaseService) {}
@@ -13,9 +14,11 @@ export class TraceService {
       },
       include: {
         logs: {
-          orderBy: {
-            startTime: "asc",
-          },
+          orderBy: [
+            {
+              createdAt: "asc",
+            },
+          ],
         },
       },
     });

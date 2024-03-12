@@ -1,5 +1,13 @@
 # @montelo/promptfile
 
+## 1.1.58
+
+### Patch Changes
+
+- y
+- Updated dependencies
+  - @montelo/common@1.1.58
+
 ## 1.1.57
 
 ### Patch Changes

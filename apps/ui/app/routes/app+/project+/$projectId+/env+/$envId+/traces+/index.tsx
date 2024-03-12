@@ -1,5 +1,5 @@
 import { LogDto } from "@montelo/browser-client";
-import { LoaderFunction, json } from "@remix-run/node";
+import { json, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { withAuth } from "~/auth/withAuth";
 import { TracesPage } from "~/pages/traces";
@@ -33,12 +33,11 @@ const formatDate = (date?: TimeFrames) => {
 
 type LoaderType = {
   logs: LogDto[];
-  orgId: string;
   currentPage: number;
   totalPages: number;
 };
 
-export const loader: LoaderFunction = withAuth(async ({ request, api, params, orgId }) => {
+export const loader: LoaderFunction = withAuth(async ({ request, api, params }) => {
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
   const page = searchParams.get("page") || "1";
@@ -63,14 +62,12 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params, or
 
   return json<LoaderType>({
     logs,
-    orgId,
     currentPage: parseInt(page),
     totalPages: totalCount ? Math.ceil(totalCount / pageSize) : 0,
   });
 });
 
 export default function TracesRoute() {
-  const { logs, currentPage, totalPages, orgId } = useLoaderData<LoaderType>();
-  const logsWithOrgId = logs.map((log) => ({ ...log, orgId }));
-  return <TracesPage logs={logsWithOrgId} currentPage={currentPage} totalPages={totalPages} />;
+  const { logs, currentPage, totalPages } = useLoaderData<LoaderType>();
+  return <TracesPage logs={logs} currentPage={currentPage} totalPages={totalPages} />;
 }

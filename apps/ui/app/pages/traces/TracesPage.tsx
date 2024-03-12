@@ -17,13 +17,13 @@ import { useEffect } from "react";
 import "react-json-view-lite/dist/index.css";
 import { useDebounceValue } from "~/hooks/useDebounceValue";
 import Pagination from "../../components/pagination";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { TracesTableHeader } from "./components/TracesTableHeader";
 import { COLUMNS } from "./constants";
 import { TimeFrames } from "./constants/timeframes";
 
 type TracesPageProps = {
-  logs: (LogDto & { orgId: string })[];
+  logs: LogDto[];
   currentPage: number;
   totalPages: number;
 };
@@ -113,7 +113,7 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full pt-2">
       <TracesTableHeader
         searchQuery={searchQuery}
         onSearch={setSearchQuery}

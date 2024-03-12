@@ -188,8 +188,8 @@ export class LogsService {
     return { inputCost: null, outputCost: null, totalCost: null };
   }
 
-  private getParentLogId(logName: string, dbTrace: TraceWithLogs | null): string | null {
-    if (!dbTrace) {
+  private getParentLogId(logName: string | undefined, dbTrace: TraceWithLogs | null): string | null {
+    if (!dbTrace || !logName) {
       return null;
     }
 
@@ -234,9 +234,9 @@ export class LogsService {
     };
   }
 
-  private getLogNameWithoutPath(name: string, dbTrace: TraceWithLogs | null): string {
+  private getLogNameWithoutPath(name: string | undefined, dbTrace: TraceWithLogs | null): string | undefined {
     // if not part of a trace, just return the name
-    if (!dbTrace) {
+    if (!dbTrace || !name) {
       return name;
     }
 
