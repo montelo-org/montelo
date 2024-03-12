@@ -42,6 +42,9 @@ const PATH_ACTIONS = {
   trace: {
     delete: path(ROOT_ACTION, "/trace/delete"),
   },
+  env: {
+    create: path(ROOT_ACTION, "/env/create"),
+  },
 };
 
 // external pages

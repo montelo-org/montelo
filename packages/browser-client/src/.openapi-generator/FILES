@@ -11,6 +11,7 @@ models/ApiKeyWithEnvDto.ts
 models/ChangesDto.ts
 models/CostHistory.ts
 models/CostHistoryDto.ts
+models/CreateEnvInput.ts
 models/CreateProjectInput.ts
 models/DashboardAnalyticsDto.ts
 models/DeleteSuccessDto.ts

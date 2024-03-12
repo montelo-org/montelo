@@ -4,6 +4,7 @@ export * from './ApiKeyWithEnvDto';
 export * from './ChangesDto';
 export * from './CostHistory';
 export * from './CostHistoryDto';
+export * from './CreateEnvInput';
 export * from './CreateProjectInput';
 export * from './DashboardAnalyticsDto';
 export * from './DeleteSuccessDto';

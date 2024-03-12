@@ -57,6 +57,7 @@ model Environment {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  @@unique([name, projectId]) // env name should be unique per project
   // rename
   @@map("environment")
 }

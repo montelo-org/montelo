@@ -15,12 +15,19 @@
 
 import * as runtime from '../runtime';
 import type {
+  CreateEnvInput,
   EnvironmentDto,
 } from '../models/index';
 import {
+    CreateEnvInputFromJSON,
+    CreateEnvInputToJSON,
     EnvironmentDtoFromJSON,
     EnvironmentDtoToJSON,
 } from '../models/index';
+
+export interface EnvironmentControllerCreateRequest {
+    createEnvInput: CreateEnvInput;
+}
 
 export interface EnvironmentControllerGetRequest {
     envId: string;
@@ -30,6 +37,45 @@ export interface EnvironmentControllerGetRequest {
  * 
  */
 export class EnvironmentApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async environmentControllerCreateRaw(requestParameters: EnvironmentControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentDto>> {
+        if (requestParameters.createEnvInput === null || requestParameters.createEnvInput === undefined) {
+            throw new runtime.RequiredError('createEnvInput','Required parameter requestParameters.createEnvInput was null or undefined when calling environmentControllerCreate.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/env`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreateEnvInputToJSON(requestParameters.createEnvInput),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => EnvironmentDtoFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async environmentControllerCreate(requestParameters: EnvironmentControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentDto> {
+        const response = await this.environmentControllerCreateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */
