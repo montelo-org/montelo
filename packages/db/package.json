@@ -1,6 +1,6 @@
 {
   "name": "@montelo/db",
-  "version": "1.1.59",
+  "version": "1.1.60",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc && npm run generate",

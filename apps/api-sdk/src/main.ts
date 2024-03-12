@@ -20,7 +20,7 @@ async function bootstrap() {
   // swagger
   if (process.env.NODE_ENV === "development") {
     const config = new DocumentBuilder()
-      .setTitle("Montelo Log Server")
+      .setTitle("Montelo API SDK")
       .setDescription("This server handles creating traces and traces.")
       .setVersion("1.0")
       .addServer(`http://localhost:${process.env.PORT!}/`, "🟢 Local")

@@ -21,14 +21,14 @@ services:
     depends_on:
       - api
 
-  log-server:
+  api-sdk:
     build:
-      context: ./apps/log-server
+      context: apps/api-sdk
       dockerfile: Dockerfile
     ports:
       - "3002:3002"
     env_file:
-      - ./apps/log-server/.env.development
+      - apps/api-sdk/.env.development
 
   db:
     image: postgres:latest

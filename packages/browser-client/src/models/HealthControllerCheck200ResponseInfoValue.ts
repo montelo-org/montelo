@@ -19,13 +19,13 @@ import { exists, mapValues } from '../runtime';
  * @interface HealthControllerCheck200ResponseInfoValue
  */
 export interface HealthControllerCheck200ResponseInfoValue {
-    [key: string]: string | any;
+    [key: string]: any | any;
     /**
      * 
      * @type {string}
      * @memberof HealthControllerCheck200ResponseInfoValue
      */
-    status?: string;
+    status: string;
 }
 
 /**
@@ -33,6 +33,7 @@ export interface HealthControllerCheck200ResponseInfoValue {
  */
 export function instanceOfHealthControllerCheck200ResponseInfoValue(value: object): boolean {
     let isInstance = true;
+    isInstance = isInstance && "status" in value;
 
     return isInstance;
 }
@@ -48,7 +49,7 @@ export function HealthControllerCheck200ResponseInfoValueFromJSONTyped(json: any
     return {
         
             ...json,
-        'status': !exists(json, 'status') ? undefined : json['status'],
+        'status': json['status'],
     };
 }
 

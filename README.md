@@ -39,7 +39,7 @@ Once that's ready, open 3 terminals and do:
 ```bash
 # in separate terminals
 cd apps/api && npm run dev
-cd apps/log-server && npm run start:dev
+cd apps/api-sdk && npm run start:dev
 cd apps/ui && npm run dev
 ```
 

@@ -1,4 +1,12 @@
-# @montelo/log-server
+# @montelo/api-sdk
+
+## 1.1.60
+
+### Patch Changes
+
+- y
+- Updated dependencies
+  - @montelo/db@1.1.60
 
 ## 1.1.59
 
