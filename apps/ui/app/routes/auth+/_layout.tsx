@@ -15,7 +15,6 @@ export default function AuthLayout() {
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center gap-8">
-      <img className="fixed top-12 h-10" src={"/DarkModeLogo.svg"} alt="Logo" />
       <Outlet />
     </div>
   );
