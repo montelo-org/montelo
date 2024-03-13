@@ -7,7 +7,7 @@ type RawHTMLProps = {
 const RawHTML: FC<RawHTMLProps> = ({ html }) => {
   return (
     <pre
-      className={"bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4 text-sm"}
+      className={"bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4"}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );
