@@ -3,8 +3,9 @@ import { APIPromise } from "@anthropic-ai/sdk/core";
 import { MessageCreateParamsBase, MessageStream } from "@anthropic-ai/sdk/resources/messages";
 import { Stream } from "@anthropic-ai/sdk/streaming";
 import { MonteloClient } from "../MonteloClient";
-import { LogInput } from "../client";
+import { LogInput, LogInputSourceEnum } from "../client";
 import { MonteloLogExtend, separateExtend } from "./types";
+
 
 class ExtendedMessages extends Anthropic.Messages {
   private monteloClient: MonteloClient;
@@ -171,7 +172,7 @@ class ExtendedMessages extends Anthropic.Messages {
         outputTokens: output.usage.output_tokens,
         totalTokens: output.usage.input_tokens + output.usage.output_tokens,
       },
-      source: "ANTHROPIC",
+      source: LogInputSourceEnum.Anthropic,
       model: output.model,
       input: base,
       output,

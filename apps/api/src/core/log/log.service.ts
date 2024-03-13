@@ -17,7 +17,7 @@ export class LogService {
   constructor(private db: DatabaseService) {}
 
   async findAllForEnv(envId: string, options?: FindAllForEnvOpts): Promise<{ logs: Log[]; totalCount: number }> {
-    const whereQuery = {
+    const whereQuery: Prisma.LogWhereInput = {
       envId,
       ...(options?.searchQuery && {
         OR: [
@@ -37,7 +37,7 @@ export class LogService {
       }),
     };
 
-    const orderByOptions =
+    const orderByOptions: Prisma.LogOrderByWithRelationAndSearchRelevanceInput =
       options?.sortColumn && options?.sortDirection
         ? { [options.sortColumn]: options.sortDirection }
         : ({ startTime: "desc" } as const);

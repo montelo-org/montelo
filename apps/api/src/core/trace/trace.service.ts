@@ -16,7 +16,7 @@ export class TraceService {
         logs: {
           orderBy: [
             {
-              createdAt: "asc",
+              startTime: "asc",
             },
           ],
         },

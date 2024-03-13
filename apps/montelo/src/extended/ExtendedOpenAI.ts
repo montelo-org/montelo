@@ -4,8 +4,9 @@ import { Chat } from "openai/resources";
 import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
 import { Stream } from "openai/streaming";
 import { MonteloClient } from "../MonteloClient";
-import { LogInput } from "../client";
+import { LogInput, LogInputSourceEnum } from "../client";
 import { MonteloLogExtend, separateExtend } from "./types";
+
 
 import ChatCompletion = Chat.ChatCompletion;
 
@@ -141,7 +142,7 @@ class ExtendedChatCompletions extends OpenAI.Chat.Completions {
           totalTokens: output.usage.total_tokens,
         },
       }),
-      source: "OPENAI",
+      source: LogInputSourceEnum.Openai,
       model: output.model,
       input: base,
       output,

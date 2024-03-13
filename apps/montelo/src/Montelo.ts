@@ -1,6 +1,6 @@
 import { createId } from "@paralleldrive/cuid2";
 import { MonteloClient } from "./MonteloClient";
-import { LogInput } from "./client";
+import { LogInput, LogInputSourceEnum } from "./client";
 import { ExtendedAnthropic } from "./extended/ExtendedAnthropic";
 import { ExtendedMistral } from "./extended/ExtendedMistral";
 import { ExtendedOpenAI } from "./extended/ExtendedOpenAI";
@@ -8,7 +8,7 @@ import { MonteloOptions, TraceParams } from "./types";
 
 export type Trace = Omit<Montelo, "startTrace">;
 
-export type LogParams = Omit<LogInput, "source">;
+export type LogParams = Omit<LogInput, "name" | "source"> & { name: string };
 
 export class Montelo {
   private readonly constructorOptions: MonteloOptions | undefined;
@@ -26,7 +26,9 @@ export class Montelo {
   }
 
   public log(log: LogParams) {
-    void this.monteloClient.createLog({ ...log, source: "MANUAL" });
+    const startTime = log.startTime || new Date().toISOString();
+    const endTime = log.endTime || new Date().toISOString();
+    void this.monteloClient.createLog({ ...log, startTime, endTime, source: LogInputSourceEnum.Manual });
   }
 
   public trace(trace: TraceParams): Trace {
