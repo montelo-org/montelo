@@ -32,7 +32,7 @@ export const TracesTableHeader = ({
     <div className="flex items-center pb-4 pt-0.5 justify-between">
       <div className="relative w-1/4">
         <Input
-          placeholder="Search by log name, input or output"
+          placeholder="Search by log name"
           value={searchQuery}
           onChange={(e) => onSearch(e.target.value)}
           className="w-full rounded border py-2 pl-10 pr-4"

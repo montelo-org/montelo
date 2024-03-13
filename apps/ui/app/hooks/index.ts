@@ -1,6 +1,7 @@
 export { useCopyToClipboard } from "./useCopyToClipboard";
 export { useEffectOnce } from "./useEffectOnce";
 export { useFetcherWithReset } from "./useFetcherWithReset";
+export { useKey } from "./useKey";
 export { useMount } from "./useMount";
 export { useMountedState } from "./useMountedState";
 export { useRafState } from "./useRafState";

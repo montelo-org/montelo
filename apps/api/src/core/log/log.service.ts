@@ -22,14 +22,15 @@ export class LogService {
       ...(options?.searchQuery && {
         OR: [
           {
-            name: { contains: options.searchQuery },
+            name: { contains: options.searchQuery, mode: "insensitive" },
           },
-          {
-            input: { string_contains: options.searchQuery },
-          },
-          {
-            output: { string_contains: options.searchQuery },
-          },
+          // this no work, maybe try meilisearch
+          // {
+          //   input: { string_contains: options.searchQuery },
+          // },
+          // {
+          //   output: { string_contains: options.searchQuery },
+          // },
         ],
       }),
       ...(options?.startDate && {

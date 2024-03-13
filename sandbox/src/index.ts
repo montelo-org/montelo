@@ -16,7 +16,7 @@ const chat = async (): Promise<void> => {
   ];
   const tools = [
     {
-      type: "function",
+      type: "function" as const,
       function: {
         name: "get_current_weather",
         description: "Get the current weather in a given location",
@@ -49,6 +49,30 @@ const chat = async (): Promise<void> => {
     name: "Weather Agent / Action 2",
     model: "mistral-tiny",
     messages: [{ role: "user", content: "say hi" }],
+  });
+
+  const res3 = await trace.openai.chat.completions.create({
+    name: "Weather Agent / Action 3",
+    model: "gpt-3.5-turbo",
+    messages: [{ role: "user", content: "what's the weather today in toronto" }],
+    tools,
+  });
+
+  const res3Message = res3.choices[0].message;
+
+  await trace.openai.chat.completions.create({
+    name: "Weather Agent / Action 4",
+    model: "gpt-3.5-turbo",
+    messages: [
+      { role: "user", content: "what's the weather today in toronto" },
+      res3Message,
+      {
+        tool_call_id: res3.choices[0].message.tool_calls[0].id,
+        role: "tool",
+        content: "23 degrees Celsius",
+      },
+    ],
+    tools,
   });
 
   // for await (const message of stream) {

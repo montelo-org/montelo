@@ -2,7 +2,7 @@ import { FullProjectDto } from "@montelo/browser-client";
 import { Link, useLocation, useParams } from "@remix-run/react";
 import { BookOpen, FlaskConical, GanttChart, Hammer, HelpCircle, LayoutDashboard, Rocket } from "lucide-react";
 import { ComponentProps, FC } from "react";
-import { Routes } from "../../../routes";
+import { Routes } from "~/routes";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../ui/tooltip";
 import { ApiKeysDialog } from "./ApiKeysDialog";
 
@@ -13,15 +13,11 @@ type BaseSidebarItem = {
   icon: FC<{ className: ClassName }>;
 };
 
-type DisabledItem = BaseSidebarItem & {
-  disabled: true;
-};
-
 type LinkItem = BaseSidebarItem & {
   href: (params: any) => string;
 };
 
-type SidebarItem = DisabledItem | LinkItem;
+type SidebarItem = LinkItem;
 
 const SidebarItems: SidebarItem[] = [
   {
@@ -33,21 +29,6 @@ const SidebarItems: SidebarItem[] = [
     name: "Traces & Logs",
     href: Routes.app.project.env.traces,
     icon: ({ className }) => <GanttChart size={20} className={className} />,
-  },
-  {
-    name: "Prompts & Tools",
-    disabled: true,
-    icon: ({ className }) => <Hammer size={20} className={className} />,
-  },
-  {
-    name: "Experiments",
-    disabled: true,
-    icon: ({ className }) => <FlaskConical size={20} className={className} />,
-  },
-  {
-    name: "Deployments",
-    disabled: true,
-    icon: ({ className }) => <Rocket size={20} className={className} />,
   },
 ];
 
@@ -66,24 +47,6 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
         envId,
         projectId: project.id,
       };
-
-      if ("disabled" in item) {
-        return (
-          <TooltipProvider delayDuration={0} key={item.name}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <li key={item.name} className="flex cursor-not-allowed items-center py-1">
-                  <div className="flex w-8 justify-center">{<item.icon className={"text-muted-foreground/50"} />}</div>
-                  <span className="text-muted-foreground/50 ml-1 whitespace-nowrap">{item.name}</span>
-                </li>
-              </TooltipTrigger>
-              <TooltipContent side={"right"} sideOffset={-10} align={"start"}>
-                <p>Coming Soon</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        );
-      }
 
       const isActive = pathname.startsWith(item.href(params));
       return (
