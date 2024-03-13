@@ -17,5 +17,5 @@ export const Container: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export const MessageContainer: FC<{ children: ReactNode }> = ({ children }) => {
-  return <div className={"flex flex-col gap-2"}>{children}</div>;
+  return <div className={"flex flex-col gap-4"}>{children}</div>;
 }
