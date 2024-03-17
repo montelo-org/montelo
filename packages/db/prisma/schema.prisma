@@ -49,9 +49,10 @@ model Environment {
   projectId String @map("project_id")
 
   // relations
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  traces  Log[]
-  apiKey  ApiKey?
+  project  Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  traces   Log[]
+  apiKey   ApiKey?
+  datasets Dataset[]
 
   // dates
   createdAt DateTime @default(now()) @map("created_at")
@@ -156,4 +157,90 @@ model Trace {
   @@index([envId])
   // rename
   @@map("trace")
+}
+
+model Dataset {
+  // id
+  id String @id @default(cuid())
+
+  // properties
+  name         String
+  apiName      String  @map("api_name")
+  description  String?
+  inputSchema  Json    @map("input_schema")
+  outputSchema Json    @map("output_schema")
+
+  // relations
+  envId      String      @map("env_id")
+  env        Environment @relation(fields: [envId], references: [id], onDelete: Cascade)
+  datapoints Datapoint[]
+
+  // dates
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // each dataset apiName should be unique per environment
+  @@unique([apiName, envId])
+  // rename
+  @@map("dataset")
+}
+
+model Datapoint {
+  // id
+  id String @id @default(cuid())
+
+  // properties
+  input  Json?
+  output Json?
+
+  // relations
+  datasetId String  @map("dataset_id")
+  dataset   Dataset @relation(fields: [datasetId], references: [id])
+
+  // dates
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // rename
+  @@map("datapoint")
+}
+
+model Experiment {
+  // id
+  id String @id @default(cuid())
+
+  // properties
+  datasetId   String  @map("dataset_id")
+  name        String
+  description String?
+
+  // relations
+  ExperimentRun ExperimentRun[]
+
+  // dates
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // rename
+  @@map("experiment")
+}
+
+model ExperimentRun {
+  // id
+  id String @id @default(cuid())
+
+  // properties
+  input  Json?
+  output Json?
+
+  // relations
+  experimentId String     @map("experiment_id")
+  experiment   Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
+
+  // dates
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // rename
+  @@map("experiment_run")
 }

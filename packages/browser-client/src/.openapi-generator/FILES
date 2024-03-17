@@ -1,5 +1,7 @@
 apis/AnalyticsApi.ts
 apis/ApiKeyApi.ts
+apis/DatapointApi.ts
+apis/DatasetApi.ts
 apis/EnvironmentApi.ts
 apis/HealthApi.ts
 apis/LogApi.ts
@@ -11,9 +13,12 @@ models/ApiKeyWithEnvDto.ts
 models/ChangesDto.ts
 models/CostHistory.ts
 models/CostHistoryDto.ts
+models/CreateDatasetInput.ts
 models/CreateEnvInput.ts
 models/CreateProjectInput.ts
 models/DashboardAnalyticsDto.ts
+models/DatapointDto.ts
+models/DatasetDto.ts
 models/DeleteSuccessDto.ts
 models/EnvironmentDto.ts
 models/FullProjectDto.ts

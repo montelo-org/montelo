@@ -1,10 +1,11 @@
+import { loggerConfig } from "@montelo/api-common";
 import { BullModule } from "@nestjs/bull";
 import { Module } from "@nestjs/common";
 import { LoggerModule } from "nestjs-pino";
 import { AuthModule } from "./auth/auth.module";
-import { loggerConfig } from "./common/configs/logger.config";
 import { HealthModule } from "./health/health.module";
 import { LogsModule } from "./logs/logs.module";
+
 
 @Module({
   imports: [

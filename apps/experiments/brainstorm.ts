@@ -16,7 +16,7 @@
 // await montelo.datapoints.create({
 //   datasetId: dataset.id,
 //   inputs: datasetInputs,
-//   source: "",
+//   outputs: [],
 //   metadata: {
 //     hardness: "easy"
 //   }
@@ -30,7 +30,7 @@
 //   });
 // };
 //
-// await montelo.datasets.run({
+// const experiment = await montelo.experiments.run({
 //   datasetId,
 //   runner: runDatapoint,
 // });

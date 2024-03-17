@@ -7,6 +7,7 @@ on:
     paths:
       - "apps/api/**"
       - "packages/db/**"
+      - "packages/api-common/**"
 
 jobs:
   deploy:

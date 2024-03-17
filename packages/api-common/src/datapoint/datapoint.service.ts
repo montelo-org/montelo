@@ -1,6 +1,6 @@
 import { Datapoint } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
-import { DatabaseService } from "@montelo/api-common";
+import { DatabaseService } from "../database";
 
 
 @Injectable()
