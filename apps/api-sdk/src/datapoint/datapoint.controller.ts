@@ -2,7 +2,7 @@ import { DatapointService } from "@montelo/api-common";
 import { DeleteSuccessDto } from "@montelo/browser-client";
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { ClerkAuthGuard } from "../../common/guards/auth.guard";
+import { BearerGuard } from "../auth/bearer.guard";
 import { AddToDatasetInput } from "./dto/add-to-dataset.input";
 import { DatapointDto } from "./dto/datapoint.dto";
 
@@ -13,7 +13,7 @@ import { DatapointDto } from "./dto/datapoint.dto";
 export class DatapointController {
   constructor(private datapointService: DatapointService) {}
 
-  @UseGuards(ClerkAuthGuard)
+  @UseGuards(BearerGuard)
   @Post()
   async addToDataset(
     @Param("datasetId") datasetId: string,
@@ -23,14 +23,14 @@ export class DatapointController {
     return DatapointDto.fromDatapoint(datapoint);
   }
 
-  @UseGuards(ClerkAuthGuard)
+  @UseGuards(BearerGuard)
   @Get()
   async getAll(@Param("datasetId") datasetId: string): Promise<DatapointDto[]> {
     const datapoints = await this.datapointService.getAllForDataset(datasetId);
     return datapoints.map(DatapointDto.fromDatapoint);
   }
 
-  @UseGuards(ClerkAuthGuard)
+  @UseGuards(BearerGuard)
   @Delete(":datapointId")
   async removeFromDataset(@Param("datapointId") datapointId: string): Promise<DeleteSuccessDto> {
     await this.datapointService.delete(datapointId);

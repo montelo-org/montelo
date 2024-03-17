@@ -1,16 +1,31 @@
 import { Datapoint } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../database";
+import { AddToDatasetParams } from "./types";
 
 
 @Injectable()
 export class DatapointService {
   constructor(private db: DatabaseService) {}
 
+  async addToDataset(params: AddToDatasetParams): Promise<Datapoint> {
+    return this.db.datapoint.create({
+      data: params,
+    });
+  }
+
   async getAllForDataset(datasetId: string): Promise<Datapoint[]> {
     return this.db.datapoint.findMany({
       where: {
         datasetId,
+      },
+    });
+  }
+
+  async delete(datapointId: string): Promise<void> {
+    await this.db.datapoint.delete({
+      where: {
+        id: datapointId,
       },
     });
   }
