@@ -4,7 +4,7 @@ import { withAuth } from "../../../../auth/withAuth";
 
 export const action: ActionFunction = withAuth(async ({ api, params }) => {
   const apiKeyId = params.apiKeyId!;
-  const apiKey = await api.apiKey().apiKeyControllerRotate({
+  const apiKey = await api.apiKey.apiKeyControllerRotate({
     apiKeyId,
   });
   return json<ApiKeyWithEnvDto>(apiKey);

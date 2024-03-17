@@ -22,7 +22,7 @@ export class MonteloClient {
 
   public async createLog(log: LogInput): Promise<void> {
     try {
-      await this.api.log().logsControllerCreateLog({
+      await this.api.log.logsControllerCreateLog({
         createLogInput: {
           log,
           trace: this.trace,

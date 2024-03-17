@@ -5,7 +5,7 @@ export const action: ActionFunction = withAuth(async ({ api, request }) => {
   const formData = await request.formData();
   const projectId = formData.get("projectId")!.toString();
 
-  await api.project().projectControllerDelete({
+  await api.project.projectControllerDelete({
     projectId,
   });
 

@@ -7,7 +7,7 @@ export const action: ActionFunction = withAuth(async ({ api, request }) => {
   const envName = formData.get("envName")!.toString();
   const projectId = formData.get("projectId")!.toString();
 
-  const environment = await api.environment().environmentControllerCreate({
+  const environment = await api.environment.environmentControllerCreate({
     createEnvInput: {
       projectId,
       name: envName,

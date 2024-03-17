@@ -10,17 +10,17 @@ export const loader = withAuth(async ({ request, api, params }) => {
   const dateSelectionQuery = (searchParams.get("dateSelection") ||
     AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins) as AnalyticsControllerGetForDashboardDateSelectionEnum;
 
-  const analyticsPromise = api.analytics().analyticsControllerGetForDashboard({
+  const analyticsPromise = api.analytics.analyticsControllerGetForDashboard({
     envId,
     dateSelection: dateSelectionQuery,
   });
 
-  const costHistoryPromise = api.analytics().analyticsControllerGetCostHistory({
+  const costHistoryPromise = api.analytics.analyticsControllerGetCostHistory({
     envId,
     dateSelection: dateSelectionQuery,
   });
 
-  const logs = await api.log().logControllerGetAll({
+  const logs = await api.log.logControllerGetAll({
     envId,
     take: "25",
   });

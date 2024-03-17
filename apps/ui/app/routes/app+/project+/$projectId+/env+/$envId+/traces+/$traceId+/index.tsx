@@ -10,7 +10,7 @@ type LoaderType = {
 
 export const loader: LoaderFunction = withAuth(async ({ api, params }) => {
   const traceId = params.traceId!;
-  const trace = await api.trace().traceControllerGetAll({
+  const trace = await api.trace.traceControllerGetAll({
     traceId,
   });
   return json<LoaderType>({ trace });
