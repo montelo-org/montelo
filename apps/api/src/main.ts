@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import * as cookieParser from "cookie-parser";
 import { LoggerErrorInterceptor, Logger as PinoLogger } from "nestjs-pino";
 import { AppModule } from "./app.module";
-import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter";
+import { PrismaClientExceptionFilter } from "@montelo/api-common";
 import { envSchema } from "./env";
 
 async function bootstrap() {

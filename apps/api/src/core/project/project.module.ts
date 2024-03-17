@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { DatabaseModule } from "../../database";
+import { DatabaseModule } from "@montelo/api-common";
 import { ApiKeyModule } from "../apiKey/apiKey.module";
 import { ProjectController } from "./project.controller";
 import { ProjectService } from "./project.service";

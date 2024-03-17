@@ -1,7 +1,7 @@
 import { Project } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import { capitalize } from "lodash";
-import { DatabaseService } from "../../database";
+import { DatabaseService } from "@montelo/api-common";
 import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "../environment/environment.enums";
 import { CreateProjectInput, FullProject } from "./project.types";

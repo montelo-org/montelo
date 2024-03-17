@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { DatabaseService } from "../../database";
+import { DatabaseService } from "@montelo/api-common";
 import { TraceWithLogs } from "./trace.types";
 
 
