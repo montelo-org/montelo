@@ -1,5 +1,5 @@
 import { LogDto } from "@montelo/browser-client";
-import { json, LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { withAuth } from "~/auth/withAuth";
 import { TracesPage } from "~/pages/traces";
@@ -49,7 +49,7 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
   const pageSize = 20;
   const skipAmount = page ? parseInt(page) - 1 : 0;
 
-  const response = await api.log().logControllerGetAll({
+  const response = await api.log.logControllerGetAll({
     envId,
     take: pageSize.toString(),
     skip: skipAmount.toString(),

@@ -35,19 +35,19 @@ export const loader: LoaderFunction = async (args) => {
   const projectId = args.params.projectId;
 
   const environmentPromise = envId
-    ? api.environment().environmentControllerGet({
+    ? api.environment.environmentControllerGet({
         envId,
       })
     : undefined;
 
   const projectPromise = projectId
-    ? api.project().projectControllerGet({
+    ? api.project.projectControllerGet({
         projectId,
       })
     : undefined;
 
   const allProjectsForOrgPromise = orgId
-    ? api.project().projectControllerGetAllForOrg({
+    ? api.project.projectControllerGetAllForOrg({
         orgId,
       })
     : undefined;

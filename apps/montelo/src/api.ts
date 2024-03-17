@@ -1,13 +1,9 @@
 import { Configuration, LogsApi } from "./client";
 
 export class Api {
-  private readonly configuration: Configuration;
+  public readonly log: LogsApi;
 
   constructor(configuration: Configuration) {
-    this.configuration = configuration;
-  }
-
-  public log(): LogsApi {
-    return new LogsApi(this.configuration);
+    this.log = new LogsApi(configuration);
   }
 }
