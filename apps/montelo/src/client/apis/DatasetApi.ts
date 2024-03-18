@@ -29,21 +29,14 @@ import {
 } from '../models/index';
 
 export interface DatasetControllerCreateRequest {
-    envId: string;
     createDatasetInput: CreateDatasetInput;
 }
 
 export interface DatasetControllerDeleteRequest {
-    envId: string;
     datasetId: string;
 }
 
-export interface DatasetControllerGetAllDatasetsRequest {
-    envId: string;
-}
-
 export interface DatasetControllerGetFullDatasetRequest {
-    envId: string;
     datasetId: string;
 }
 
@@ -55,10 +48,6 @@ export class DatasetApi extends runtime.BaseAPI {
     /**
      */
     async datasetControllerCreateRaw(requestParameters: DatasetControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetDto>> {
-        if (requestParameters.envId === null || requestParameters.envId === undefined) {
-            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling datasetControllerCreate.');
-        }
-
         if (requestParameters.createDatasetInput === null || requestParameters.createDatasetInput === undefined) {
             throw new runtime.RequiredError('createDatasetInput','Required parameter requestParameters.createDatasetInput was null or undefined when calling datasetControllerCreate.');
         }
@@ -78,7 +67,7 @@ export class DatasetApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/env/{envId}/dataset`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))),
+            path: `/dataset`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -98,10 +87,6 @@ export class DatasetApi extends runtime.BaseAPI {
     /**
      */
     async datasetControllerDeleteRaw(requestParameters: DatasetControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
-        if (requestParameters.envId === null || requestParameters.envId === undefined) {
-            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling datasetControllerDelete.');
-        }
-
         if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
             throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datasetControllerDelete.');
         }
@@ -119,7 +104,7 @@ export class DatasetApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/env/{envId}/dataset/{datasetId}`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))).replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
+            path: `/dataset/{datasetId}`.replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -137,11 +122,7 @@ export class DatasetApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetControllerGetAllDatasetsRaw(requestParameters: DatasetControllerGetAllDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatasetDto>>> {
-        if (requestParameters.envId === null || requestParameters.envId === undefined) {
-            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling datasetControllerGetAllDatasets.');
-        }
-
+    async datasetControllerGetAllDatasetsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatasetDto>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -155,7 +136,7 @@ export class DatasetApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/env/{envId}/dataset`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))),
+            path: `/dataset`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -166,18 +147,14 @@ export class DatasetApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetControllerGetAllDatasets(requestParameters: DatasetControllerGetAllDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatasetDto>> {
-        const response = await this.datasetControllerGetAllDatasetsRaw(requestParameters, initOverrides);
+    async datasetControllerGetAllDatasets(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatasetDto>> {
+        const response = await this.datasetControllerGetAllDatasetsRaw(initOverrides);
         return await response.value();
     }
 
     /**
      */
     async datasetControllerGetFullDatasetRaw(requestParameters: DatasetControllerGetFullDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FullDatasetDto>> {
-        if (requestParameters.envId === null || requestParameters.envId === undefined) {
-            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling datasetControllerGetFullDataset.');
-        }
-
         if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
             throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datasetControllerGetFullDataset.');
         }
@@ -195,7 +172,7 @@ export class DatasetApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/env/{envId}/dataset/{datasetId}`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))).replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
+            path: `/dataset/{datasetId}`.replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

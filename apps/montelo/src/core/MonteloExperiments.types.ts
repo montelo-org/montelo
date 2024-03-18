@@ -2,7 +2,7 @@ export type CreateExperimentInput = {
   /**
    * The dataset ID to which the experiment belongs.
    */
-  datasetId: string;
+  slug: string;
   /**
    * The name of the experiment.
    */

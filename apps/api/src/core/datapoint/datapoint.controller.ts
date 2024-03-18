@@ -19,7 +19,7 @@ export class DatapointController {
     @Param("datasetId") datasetId: string,
     @Body() addToDatasetInput: AddToDatasetInput,
   ): Promise<DatapointDto> {
-    const datapoint = await this.datapointService.addToDataset({ datasetId, ...addToDatasetInput });
+    const datapoint = await this.datapointService.addToDatasetById(datasetId, addToDatasetInput);
     return DatapointDto.fromDatapoint(datapoint);
   }
 

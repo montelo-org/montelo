@@ -21,9 +21,19 @@ export class ExperimentService {
     });
   }
 
-  async create(params: CreateExperimentParams): Promise<Experiment> {
+  async createUsingSlug(envId: string, slug: string, params: CreateExperimentParams): Promise<Experiment> {
     return this.db.experiment.create({
-      data: params,
+      data: {
+        ...params,
+        dataset: {
+          connect: {
+            slug_envId: {
+              envId,
+              slug,
+            },
+          },
+        },
+      },
     });
   }
 

@@ -9,12 +9,12 @@ export class MonteloExperiments {
   }
 
   public async create(params: CreateExperimentInput): Promise<{ id: string | null }> {
-    const result = await this.monteloClient.createExperiment(params);
+    const { slug, ...rest } = params;
+    const result = await this.monteloClient.createExperiment(slug, rest);
     return { id: result?.id || null };
   }
 
   public async run(params: RunExperimentInput): Promise<void> {
-    console.log("Running experiment");
     const { experimentId, runner } = params;
 
     const experiment = await this.monteloClient.getDatapointsByExperimentId(experimentId);
@@ -23,21 +23,16 @@ export class MonteloExperiments {
       return;
     }
 
-    console.log("Experiment found: ", experiment.name);
-
     const datapoints = experiment.dataset.datapoints;
-    console.log("Running datapoints: ", datapoints.length)
     for (const datapoint of datapoints) {
-      console.log("Running datapoint: ", datapoint.input)
       try {
         const output = await runner(datapoint.input);
-        console.log("Output: ", output)
         await this.monteloClient.createRun({
           experimentId,
           input: datapoint.input,
           output,
         });
-        console.log("Run created")
+        console.log("Run created");
       } catch (e: any) {
         console.error("Error running experiment: ", e.toString());
         await this.monteloClient.createRun({
@@ -53,7 +48,7 @@ export class MonteloExperiments {
     const createdExperiment = await this.create({
       name: params.name,
       description: params.description,
-      datasetId: params.datasetId,
+      slug: params.slug,
     });
     if (!createdExperiment.id) {
       console.error("No experiment created, skipping run");

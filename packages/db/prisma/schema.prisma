@@ -165,7 +165,7 @@ model Dataset {
 
   // properties
   name         String
-  apiName      String  @map("api_name")
+  slug         String
   description  String?
   inputSchema  Json    @map("input_schema")
   outputSchema Json    @map("output_schema")
@@ -180,8 +180,8 @@ model Dataset {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  // each dataset apiName should be unique per environment
-  @@unique([apiName, envId])
+  // each dataset slug should be unique per environment
+  @@unique([slug, envId])
   // rename
   @@map("dataset")
 }

@@ -8,9 +8,28 @@ import { AddToDatasetParams } from "./types";
 export class DatapointService {
   constructor(private db: DatabaseService) {}
 
-  async addToDataset(params: AddToDatasetParams): Promise<Datapoint> {
+  async addToDatasetBySlug(envId: string, slug: string, params: AddToDatasetParams): Promise<Datapoint> {
     return this.db.datapoint.create({
-      data: params,
+      data: {
+        ...params,
+        dataset: {
+          connect: {
+            slug_envId: {
+              slug,
+              envId,
+            },
+          },
+        },
+      },
+    });
+  }
+
+  async addToDatasetById(datasetId: string, params: AddToDatasetParams): Promise<Datapoint> {
+    return this.db.datapoint.create({
+      data: {
+        datasetId,
+        ...params,
+      },
     });
   }
 

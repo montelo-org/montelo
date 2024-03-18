@@ -27,18 +27,18 @@ export class DatasetService {
     });
   }
 
-  async getByName(params: Prisma.DatasetApiNameEnvIdCompoundUniqueInput): Promise<Dataset> {
+  async getByName(params: Prisma.DatasetSlugEnvIdCompoundUniqueInput): Promise<Dataset> {
     return this.db.dataset.findUniqueOrThrow({
       where: {
-        apiName_envId: params,
+        slug_envId: params,
       },
     });
   }
 
   async create(params: CreateDatasetParams): Promise<Dataset> {
-    const apiName = params.name.replace(/\W+/g, "-").toLowerCase();
+    const slug = params.name.replace(/\W+/g, "-").toLowerCase();
     return this.db.dataset.create({
-      data: { ...params, apiName },
+      data: { ...params, slug },
     });
   }
 

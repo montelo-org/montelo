@@ -8,9 +8,8 @@ export class MonteloDatasets {
     this.monteloClient = monteloClient;
   }
 
-  public async create(params: CreateDatasetInput): Promise<{ id: string | null }> {
-    // TODO get somehow from api key env
-    const result = await this.monteloClient.createDataset("cltnraee700031wspszwdp4nm", params);
-    return { id: result?.id || null };
+  public async create(params: CreateDatasetInput): Promise<{ id: string; slug: string } | null> {
+    const result = await this.monteloClient.createDataset(params);
+    return result ? { id: result.id, slug: result.slug } : null;
   }
 }

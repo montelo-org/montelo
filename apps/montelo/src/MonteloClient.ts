@@ -8,7 +8,6 @@ import {
   DatapointDto,
   DatasetDto,
   ExperimentDto,
-  FullDatasetDto,
   FullExperimentDto,
   type LogInput,
   type TraceInput,
@@ -54,10 +53,9 @@ export class MonteloClient {
     }
   }
 
-  public async createDataset(envId: string, params: CreateDatasetInput): Promise<DatasetDto | null> {
+  public async createDataset(params: CreateDatasetInput): Promise<DatasetDto | null> {
     try {
       return await this.api.dataset.datasetControllerCreate({
-        envId,
         createDatasetInput: params,
       });
     } catch (e: any) {
@@ -66,22 +64,10 @@ export class MonteloClient {
     }
   }
 
-  public async getDatasetWithDatapoints(datasetId: string): Promise<FullDatasetDto | null> {
-    try {
-      return await this.api.dataset.datasetControllerGetFullDataset({
-        datasetId,
-        envId: "", // This isn't used in the API. figure out better way to handle this
-      });
-    } catch (e: any) {
-      console.error("Montelo Error when getting dataset with datapoints: ", e.toString());
-      return null;
-    }
-  }
-
-  public async createDatapoint(datasetId: string, params: AddToDatasetInput): Promise<DatapointDto | null> {
+  public async createDatapoint(slug: string, params: AddToDatasetInput): Promise<DatapointDto | null> {
     try {
       return await this.api.datapoint.datapointControllerAddToDataset({
-        datasetId,
+        datasetSlug: slug,
         addToDatasetInput: params,
       });
     } catch (e: any) {
@@ -90,9 +76,10 @@ export class MonteloClient {
     }
   }
 
-  public async createExperiment(params: CreateExperimentInput): Promise<ExperimentDto | null> {
+  public async createExperiment(datasetSlug: string, params: CreateExperimentInput): Promise<ExperimentDto | null> {
     try {
       return await this.api.experiment.experimentControllerCreate({
+        datasetSlug,
         createExperimentInput: params,
       });
     } catch (e: any) {
@@ -112,7 +99,9 @@ export class MonteloClient {
     }
   }
 
-  public async getDatapointsByExperimentId(experimentId: string): Promise<FullExperimentDto | null> {
+  public async getDatapointsByExperimentId(
+    experimentId: string,
+  ): Promise<FullExperimentDto | null> {
     try {
       return await this.api.experiment.experimentControllerGetFullExperiment({
         experimentId,

@@ -24,12 +24,6 @@ export interface CreateExperimentInput {
      * @type {string}
      * @memberof CreateExperimentInput
      */
-    datasetId: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateExperimentInput
-     */
     name: string;
     /**
      * 
@@ -44,7 +38,6 @@ export interface CreateExperimentInput {
  */
 export function instanceOfCreateExperimentInput(value: object): boolean {
     let isInstance = true;
-    isInstance = isInstance && "datasetId" in value;
     isInstance = isInstance && "name" in value;
 
     return isInstance;
@@ -60,7 +53,6 @@ export function CreateExperimentInputFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'datasetId': json['datasetId'],
         'name': json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
     };
@@ -75,7 +67,6 @@ export function CreateExperimentInputToJSON(value?: CreateExperimentInput | null
     }
     return {
         
-        'datasetId': value.datasetId,
         'name': value.name,
         'description': value.description,
     };

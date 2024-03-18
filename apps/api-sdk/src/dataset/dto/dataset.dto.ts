@@ -14,7 +14,7 @@ export class DatasetDto {
 
   @ApiProperty()
   @IsString()
-  apiName: string;
+  slug: string;
 
   @ApiProperty()
   @IsString()
@@ -30,6 +30,6 @@ export class DatasetDto {
   outputSchema: any;
 
   static fromDataset(dataset: Dataset): DatasetDto {
-    return pick(dataset, ["id", "envId", "apiName", "name", "description", "inputSchema", "outputSchema"]);
+    return pick(dataset, ["id", "envId", "slug", "name", "description", "inputSchema", "outputSchema"]);
   }
 }

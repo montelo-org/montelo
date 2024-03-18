@@ -35,6 +35,7 @@ import {
 } from '../models/index';
 
 export interface ExperimentControllerCreateRequest {
+    datasetSlug: string;
     createExperimentInput: CreateExperimentInput;
 }
 
@@ -54,6 +55,10 @@ export class ExperimentApi extends runtime.BaseAPI {
     /**
      */
     async experimentControllerCreateRaw(requestParameters: ExperimentControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExperimentDto>> {
+        if (requestParameters.datasetSlug === null || requestParameters.datasetSlug === undefined) {
+            throw new runtime.RequiredError('datasetSlug','Required parameter requestParameters.datasetSlug was null or undefined when calling experimentControllerCreate.');
+        }
+
         if (requestParameters.createExperimentInput === null || requestParameters.createExperimentInput === undefined) {
             throw new runtime.RequiredError('createExperimentInput','Required parameter requestParameters.createExperimentInput was null or undefined when calling experimentControllerCreate.');
         }
@@ -73,7 +78,7 @@ export class ExperimentApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/experiment`,
+            path: `/dataset/{datasetSlug}/experiment`.replace(`{${"datasetSlug"}}`, encodeURIComponent(String(requestParameters.datasetSlug))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -110,7 +115,7 @@ export class ExperimentApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/experiment/{experimentId}`.replace(`{${"experimentId"}}`, encodeURIComponent(String(requestParameters.experimentId))),
+            path: `/dataset/experiment/{experimentId}`.replace(`{${"experimentId"}}`, encodeURIComponent(String(requestParameters.experimentId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -148,7 +153,7 @@ export class ExperimentApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/experiment/run`,
+            path: `/dataset/experiment/run`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

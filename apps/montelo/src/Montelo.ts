@@ -1,9 +1,7 @@
 import { createId } from "@paralleldrive/cuid2";
 import { MonteloClient } from "./MonteloClient";
 import { LogInput, LogInputSourceEnum } from "./client";
-import { MonteloDatasets } from "./core";
-import { MonteloDatapoints } from "./core/MonteloDatapoints";
-import { MonteloExperiments } from "./core/MonteloExperiments";
+import { MonteloDatapoints, MonteloDatasets, MonteloExperiments } from "./core";
 import { ExtendedAnthropic } from "./extended/ExtendedAnthropic";
 import { ExtendedMistral } from "./extended/ExtendedMistral";
 import { ExtendedOpenAI } from "./extended/ExtendedOpenAI";
@@ -19,9 +17,9 @@ export class Montelo {
   public readonly openai: ExtendedOpenAI;
   public readonly mistral: ExtendedMistral;
   public readonly anthropic: ExtendedAnthropic;
-  public readonly datasets;
-  public readonly datapoints;
-  public readonly experiments;
+  public readonly datasets: MonteloDatasets;
+  public readonly datapoints: MonteloDatapoints;
+  public readonly experiments: MonteloExperiments;
 
   constructor(options?: MonteloOptions) {
     this.constructorOptions = options;
@@ -35,8 +33,9 @@ export class Montelo {
   }
 
   public log(log: LogParams) {
-    const startTime = log.startTime || new Date().toISOString();
-    const endTime = log.endTime || new Date().toISOString();
+    const now = new Date().toISOString();
+    const startTime = log.startTime || now;
+    const endTime = log.endTime || now;
     void this.monteloClient.createLog({ ...log, startTime, endTime, source: LogInputSourceEnum.Manual });
   }
 

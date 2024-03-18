@@ -1,8 +1,8 @@
 export type CreateDatapointInput = {
   /**
-   * The dataset id to which the datapoint belongs
+   * The dataset slug.
    */
-  datasetId: string;
+  slug: string;
   /**
    * The input data for the datapoint
    */
