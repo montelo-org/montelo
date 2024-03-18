@@ -12,7 +12,7 @@ export const OrgProjectsPage: FC<OrgIdPageProps> = ({ orgId, projects }) => {
   return (
     <div className={"flex w-full justify-center"}>
       <div className={"flex w-1/2 flex-col"}>
-        <div className={"mb-4 flex justify-end"}>
+        <div className={"mb-4 mt-4 flex justify-end"}>
           <CreateProjectDialog orgId={orgId} />
         </div>
         <div className={"grid grid-cols-2 gap-4"}>
