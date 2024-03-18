@@ -66,7 +66,7 @@ export default function AppLayout() {
 
   return (
     <div className="flex h-screen w-screen flex-col">
-      <header className="bg-background fixed top-0 z-10 flex h-16 w-full items-center px-4 shadow">
+      <header className="bg-background fixed top-0 z-10 flex h-14 w-full items-center px-4 shadow">
         <Header org={org} project={project} environment={environment} allProjects={allProjects} />
       </header>
       <main className="mt-16">
