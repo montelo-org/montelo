@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   CreateDatasetInput,
   DatasetDto,
+  DeleteSuccessDto,
   FullDatasetDto,
 } from '../models/index';
 import {
@@ -24,6 +25,8 @@ import {
     CreateDatasetInputToJSON,
     DatasetDtoFromJSON,
     DatasetDtoToJSON,
+    DeleteSuccessDtoFromJSON,
+    DeleteSuccessDtoToJSON,
     FullDatasetDtoFromJSON,
     FullDatasetDtoToJSON,
 } from '../models/index';
@@ -86,7 +89,7 @@ export class DatasetApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetControllerDeleteRaw(requestParameters: DatasetControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async datasetControllerDeleteRaw(requestParameters: DatasetControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
         if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
             throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datasetControllerDelete.');
         }
@@ -110,12 +113,12 @@ export class DatasetApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteSuccessDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async datasetControllerDelete(requestParameters: DatasetControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+    async datasetControllerDelete(requestParameters: DatasetControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
         const response = await this.datasetControllerDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }

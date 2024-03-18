@@ -7,6 +7,7 @@ export * from './CreateLogInput';
 export * from './CreateRunInput';
 export * from './DatapointDto';
 export * from './DatasetDto';
+export * from './DeleteSuccessDto';
 export * from './EventQueuedDto';
 export * from './ExperimentDto';
 export * from './FullDatasetDto';

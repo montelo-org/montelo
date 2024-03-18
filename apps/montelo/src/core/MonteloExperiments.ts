@@ -9,8 +9,8 @@ export class MonteloExperiments {
   }
 
   public async create(params: CreateExperimentInput): Promise<{ id: string | null }> {
-    const { slug, ...rest } = params;
-    const result = await this.monteloClient.createExperiment(slug, rest);
+    const { dataset, ...rest } = params;
+    const result = await this.monteloClient.createExperiment(dataset, rest);
     return { id: result?.id || null };
   }
 
@@ -47,7 +47,7 @@ export class MonteloExperiments {
     const createdExperiment = await this.create({
       name: params.name,
       description: params.description,
-      slug: params.slug,
+      dataset: params.dataset,
     });
     if (!createdExperiment.id) {
       console.error("No experiment created, skipping run");

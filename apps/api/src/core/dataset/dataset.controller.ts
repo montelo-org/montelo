@@ -1,5 +1,4 @@
-import { DatasetService } from "@montelo/api-common";
-import { DeleteSuccessDto } from "@montelo/browser-client";
+import { DatasetService, DeleteSuccessDto } from "@montelo/api-common";
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";
@@ -10,34 +9,34 @@ import { FullDatasetDto } from "./dto/full-dataset.dto";
 
 @ApiTags("Dataset")
 @ApiBearerAuth()
-@Controller("env/:envId/dataset")
+@Controller()
 export class DatasetController {
   constructor(private datasetService: DatasetService) {}
 
   @UseGuards(ClerkAuthGuard)
-  @Get()
+  @Get("env/:envId/dataset")
   async getAllDatasets(@Param("envId") envId: string): Promise<DatasetDto[]> {
     const datasets = await this.datasetService.getAllDatasets(envId);
     return datasets.map(DatasetDto.fromDataset);
   }
 
   @UseGuards(ClerkAuthGuard)
-  @Get(":datasetId")
-  async getFullDataset(@Param("envId") envId: string, @Param("datasetId") datasetId: string): Promise<FullDatasetDto> {
+  @Get("dataset/:datasetId")
+  async getFullDataset(@Param("datasetId") datasetId: string): Promise<FullDatasetDto> {
     const fullDataset = await this.datasetService.getFullDatasetById(datasetId);
     return FullDatasetDto.fromFullDataset(fullDataset);
   }
 
   @UseGuards(ClerkAuthGuard)
-  @Post()
-  async create(@Param("envId") envId: string, @Body() createDatasetInput: CreateDatasetInput): Promise<DatasetDto> {
+  @Post("dataset")
+  async create(@Body() createDatasetInput: CreateDatasetInput): Promise<DatasetDto> {
     const dataset = await this.datasetService.create(createDatasetInput);
     return DatasetDto.fromDataset(dataset);
   }
 
   @UseGuards(ClerkAuthGuard)
-  @Delete()
-  async delete(@Param("envId") envId: string, @Param("datasetId") datasetId: string): Promise<DeleteSuccessDto> {
+  @Delete("dataset/:datasetId")
+  async delete(@Param("datasetId") datasetId: string): Promise<DeleteSuccessDto> {
     await this.datasetService.delete(datasetId);
     return { success: true };
   }

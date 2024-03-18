@@ -4,9 +4,9 @@ import { withAuth } from "~/auth/withAuth";
 
 export const action: ActionFunction = withAuth(async ({ api, request }) => {
   const formData = await request.formData();
-  const traceId = formData.get("traceId")!.toString();
-  const success = await api.trace.traceControllerDelete({
-    traceId,
+  const datasetId = formData.get("datasetId")!.toString();
+  const success = await api.dataset.datasetControllerDelete({
+    datasetId,
   });
   return json<DeleteSuccessDto>(success);
 });

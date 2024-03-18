@@ -1,6 +1,6 @@
 import { Controller, Delete, Get, Param, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { DeleteSuccessDto } from "../../common/dto/delete-success.dto";
+import { DeleteSuccessDto } from "@montelo/api-common";
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 import { TraceWithLogsDto } from "./dto/trace-with-logs.dto";
 import { TraceService } from "./trace.service";

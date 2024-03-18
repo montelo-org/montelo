@@ -49,6 +49,10 @@ const PATH_ACTIONS = {
   env: {
     create: path(ROOT_ACTION, "/env/create"),
   },
+  dataset: {
+    create: path(ROOT_ACTION, "/dataset/create"),
+    delete: path(ROOT_ACTION, "/dataset/delete"),
+  }
 };
 
 // external pages

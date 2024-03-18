@@ -12,6 +12,7 @@ models/CreateLogInput.ts
 models/CreateRunInput.ts
 models/DatapointDto.ts
 models/DatasetDto.ts
+models/DeleteSuccessDto.ts
 models/EventQueuedDto.ts
 models/ExperimentDto.ts
 models/FullDatasetDto.ts

@@ -1,5 +1,4 @@
-import { DatapointService } from "@montelo/api-common";
-import { DeleteSuccessDto } from "@montelo/browser-client";
+import { DatapointService, DeleteSuccessDto } from "@montelo/api-common";
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";

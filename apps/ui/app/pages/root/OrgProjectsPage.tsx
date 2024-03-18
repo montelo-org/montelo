@@ -19,7 +19,7 @@ export const OrgProjectsPage: FC<OrgIdPageProps> = ({ orgId, projects }) => {
         <div className={"mb-4 mt-4 flex justify-end"}>
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant={"outline"}>Create Project</Button>
+              <Button>Create Project</Button>
             </DialogTrigger>
             <CreateProjectDialog orgId={orgId} onClose={() => setIsDialogOpen(false)} />
           </Dialog>

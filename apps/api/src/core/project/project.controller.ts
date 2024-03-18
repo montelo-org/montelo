@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
-import { DeleteSuccessDto } from "../../common/dto/delete-success.dto";
+import { DeleteSuccessDto } from "@montelo/api-common";
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";
 import { CreateProjectInput } from "./dto/create-project.input";
 import { FullProjectDto } from "./dto/full-project.dto";

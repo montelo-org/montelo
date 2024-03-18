@@ -17,12 +17,15 @@ import * as runtime from '../runtime';
 import type {
   AddToDatasetInput,
   DatapointDto,
+  DeleteSuccessDto,
 } from '../models/index';
 import {
     AddToDatasetInputFromJSON,
     AddToDatasetInputToJSON,
     DatapointDtoFromJSON,
     DatapointDtoToJSON,
+    DeleteSuccessDtoFromJSON,
+    DeleteSuccessDtoToJSON,
 } from '../models/index';
 
 export interface DatapointControllerAddToDatasetRequest {
@@ -125,7 +128,7 @@ export class DatapointApi extends runtime.BaseAPI {
 
     /**
      */
-    async datapointControllerRemoveFromDatasetRaw(requestParameters: DatapointControllerRemoveFromDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+    async datapointControllerRemoveFromDatasetRaw(requestParameters: DatapointControllerRemoveFromDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
         if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
             throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datapointControllerRemoveFromDataset.');
         }
@@ -153,12 +156,12 @@ export class DatapointApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => DeleteSuccessDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async datapointControllerRemoveFromDataset(requestParameters: DatapointControllerRemoveFromDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+    async datapointControllerRemoveFromDataset(requestParameters: DatapointControllerRemoveFromDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
         const response = await this.datapointControllerRemoveFromDatasetRaw(requestParameters, initOverrides);
         return await response.value();
     }

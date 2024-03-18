@@ -43,7 +43,7 @@ export interface FullDatasetDto {
      * @type {string}
      * @memberof FullDatasetDto
      */
-    apiName: string;
+    slug: string;
     /**
      * 
      * @type {string}
@@ -83,7 +83,7 @@ export function instanceOfFullDatasetDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "envId" in value;
-    isInstance = isInstance && "apiName" in value;
+    isInstance = isInstance && "slug" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "description" in value;
     isInstance = isInstance && "inputSchema" in value;
@@ -105,7 +105,7 @@ export function FullDatasetDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'id': json['id'],
         'envId': json['envId'],
-        'apiName': json['apiName'],
+        'slug': json['slug'],
         'name': json['name'],
         'description': json['description'],
         'inputSchema': json['inputSchema'],
@@ -125,7 +125,7 @@ export function FullDatasetDtoToJSON(value?: FullDatasetDto | null): any {
         
         'id': value.id,
         'envId': value.envId,
-        'apiName': value.apiName,
+        'slug': value.slug,
         'name': value.name,
         'description': value.description,
         'inputSchema': value.inputSchema,
