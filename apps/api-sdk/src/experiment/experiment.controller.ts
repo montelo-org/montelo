@@ -1,5 +1,5 @@
 import { InjectQueue } from "@nestjs/bull";
-import { Body, Controller, Logger, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Logger, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Queue } from "bull";
 import { BearerGuard } from "../auth/bearer.guard";
@@ -7,6 +7,7 @@ import { CreateExperimentInput } from "./dto/create-experiment.input";
 import { CreateRunInput } from "./dto/create-run.input";
 import { EventQueuedDto } from "./dto/event-queued.dto";
 import { ExperimentDto } from "./dto/experiment.dto";
+import { FullExperimentDto } from "./dto/full-experiment.dto";
 import { ExperimentService } from "./experiment.service";
 import { QExperimentInput, Queues } from "./types";
 
@@ -21,6 +22,13 @@ export class ExperimentController {
     @InjectQueue(Queues.experiments) private readonly experimentQueue: Queue<QExperimentInput>,
     private experimentService: ExperimentService,
   ) {}
+
+  @UseGuards(BearerGuard)
+  @Get(":experimentId")
+  async getFullExperiment(@Param("experimentId") experimentId: string): Promise<FullExperimentDto> {
+    const experimentWithDatapoints = await this.experimentService.getExperimentWithDatapoints(experimentId);
+    return FullExperimentDto.fromFullExperiment(experimentWithDatapoints);
+  }
 
   @UseGuards(BearerGuard)
   @Post()

@@ -21,5 +21,7 @@ export type RunExperimentInput = {
   /**
    * The runner function to run the experiment.
    */
-  runner:(params: Record<string, any>) => Promise<Record<string, any>>;
+  runner: (params: Record<string, any>) => Promise<Record<string, any>>;
 };
+
+export type CreateAndRunExperimentinput = CreateExperimentInput & Omit<RunExperimentInput, "experimentId">;

@@ -1,9 +1,5 @@
 export type CreateDatasetInput = {
   /**
-   * The environment id.
-   */
-  envId: string;
-  /**
    * The name of the dataset.
    */
   name: string;

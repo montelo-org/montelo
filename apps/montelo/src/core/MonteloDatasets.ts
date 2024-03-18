@@ -9,8 +9,8 @@ export class MonteloDatasets {
   }
 
   public async create(params: CreateDatasetInput): Promise<{ id: string | null }> {
-    const { envId, ...rest } = params;
-    const result = await this.monteloClient.createDataset(envId, rest);
+    // TODO get somehow from api key env
+    const result = await this.monteloClient.createDataset("cltnraee700031wspszwdp4nm", params);
     return { id: result?.id || null };
   }
 }

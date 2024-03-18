@@ -1,5 +1,5 @@
 import { MonteloClient } from "../MonteloClient";
-import { CreateExperimentInput, RunExperimentInput } from "./MonteloExperiments.types";
+import { CreateAndRunExperimentinput, CreateExperimentInput, RunExperimentInput } from "./MonteloExperiments.types";
 
 export class MonteloExperiments {
   private readonly monteloClient: MonteloClient;
@@ -14,24 +14,30 @@ export class MonteloExperiments {
   }
 
   public async run(params: RunExperimentInput): Promise<void> {
+    console.log("Running experiment");
     const { experimentId, runner } = params;
 
-    // TODO fix this
-    const dataset = await this.monteloClient.getDatasetWithDatapoints(experimentId);
-    if (!dataset) {
-      console.error("No dataset found, skipping experiment");
+    const experiment = await this.monteloClient.getDatapointsByExperimentId(experimentId);
+    if (!experiment) {
+      console.error("No experiment found, skipping...");
       return;
     }
 
-    const datapoints = dataset.datapoints;
+    console.log("Experiment found: ", experiment.name);
+
+    const datapoints = experiment.dataset.datapoints;
+    console.log("Running datapoints: ", datapoints.length)
     for (const datapoint of datapoints) {
+      console.log("Running datapoint: ", datapoint.input)
       try {
         const output = await runner(datapoint.input);
+        console.log("Output: ", output)
         await this.monteloClient.createRun({
           experimentId,
           input: datapoint.input,
           output,
         });
+        console.log("Run created")
       } catch (e: any) {
         console.error("Error running experiment: ", e.toString());
         await this.monteloClient.createRun({
@@ -43,7 +49,7 @@ export class MonteloExperiments {
     }
   }
 
-  public async createAndRun(params: CreateExperimentInput & RunExperimentInput): Promise<void> {
+  public async createAndRun(params: CreateAndRunExperimentinput): Promise<void> {
     const createdExperiment = await this.create({
       name: params.name,
       description: params.description,

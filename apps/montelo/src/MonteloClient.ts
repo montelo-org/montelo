@@ -9,6 +9,7 @@ import {
   DatasetDto,
   ExperimentDto,
   FullDatasetDto,
+  FullExperimentDto,
   type LogInput,
   type TraceInput,
 } from "./client";
@@ -108,6 +109,17 @@ export class MonteloClient {
     } catch (e: any) {
       console.error("Montelo Error when creating run: ", e.toString());
       return { success: false };
+    }
+  }
+
+  public async getDatapointsByExperimentId(experimentId: string): Promise<FullExperimentDto | null> {
+    try {
+      return await this.api.experiment.experimentControllerGetFullExperiment({
+        experimentId,
+      });
+    } catch (e: any) {
+      console.error("Montelo Error when getting datapoints by experiment id: ", e.toString());
+      return null;
     }
   }
 }

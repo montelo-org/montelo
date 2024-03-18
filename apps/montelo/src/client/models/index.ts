@@ -10,6 +10,7 @@ export * from './DatasetDto';
 export * from './EventQueuedDto';
 export * from './ExperimentDto';
 export * from './FullDatasetDto';
+export * from './FullExperimentDto';
 export * from './HealthControllerCheck200Response';
 export * from './HealthControllerCheck200ResponseInfoValue';
 export * from './HealthControllerCheck503Response';

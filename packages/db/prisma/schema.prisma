@@ -171,9 +171,10 @@ model Dataset {
   outputSchema Json    @map("output_schema")
 
   // relations
-  envId      String      @map("env_id")
-  env        Environment @relation(fields: [envId], references: [id], onDelete: Cascade)
-  datapoints Datapoint[]
+  envId       String       @map("env_id")
+  env         Environment  @relation(fields: [envId], references: [id], onDelete: Cascade)
+  datapoints  Datapoint[]
+  experiments Experiment[]
 
   // dates
   createdAt DateTime @default(now()) @map("created_at")
@@ -195,7 +196,7 @@ model Datapoint {
 
   // relations
   datasetId String  @map("dataset_id")
-  dataset   Dataset @relation(fields: [datasetId], references: [id])
+  dataset   Dataset @relation(fields: [datasetId], references: [id], onDelete: Cascade)
 
   // dates
   createdAt DateTime @default(now()) @map("created_at")
@@ -215,6 +216,7 @@ model Experiment {
   description String?
 
   // relations
+  dataset       Dataset         @relation(fields: [datasetId], references: [id], onDelete: Cascade)
   ExperimentRun ExperimentRun[]
 
   // dates

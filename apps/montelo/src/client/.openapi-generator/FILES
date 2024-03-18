@@ -15,6 +15,7 @@ models/DatasetDto.ts
 models/EventQueuedDto.ts
 models/ExperimentDto.ts
 models/FullDatasetDto.ts
+models/FullExperimentDto.ts
 models/HealthControllerCheck200Response.ts
 models/HealthControllerCheck200ResponseInfoValue.ts
 models/HealthControllerCheck503Response.ts

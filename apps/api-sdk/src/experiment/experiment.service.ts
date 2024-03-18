@@ -1,14 +1,25 @@
 import { DatabaseService } from "@montelo/api-common";
 import { Experiment } from "@montelo/db";
-import { Injectable, Logger } from "@nestjs/common";
-import { CreateExperimentParams, CreateRunParams } from "./experiment.service.types";
+import { Injectable } from "@nestjs/common";
+import { CreateExperimentParams, CreateRunParams, ExperimentWithDatapoints } from "./experiment.service.types";
 
 
 @Injectable()
 export class ExperimentService {
-  private logger = new Logger(ExperimentService.name);
-
   constructor(private db: DatabaseService) {}
+
+  async getExperimentWithDatapoints(experimentId: string): Promise<ExperimentWithDatapoints> {
+    return this.db.experiment.findUniqueOrThrow({
+      where: { id: experimentId },
+      include: {
+        dataset: {
+          include: {
+            datapoints: true,
+          },
+        },
+      },
+    });
+  }
 
   async create(params: CreateExperimentParams): Promise<Experiment> {
     return this.db.experiment.create({
