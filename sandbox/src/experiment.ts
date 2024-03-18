@@ -20,25 +20,26 @@ const localDataset: Array<{ input: DInput; output: DOutput }> = [
 ];
 
 const main = async () => {
-  // const dataset = await montelo.datasets.create({
-  //   name: "Topic Datasets",
-  //   inputSchema: {},
-  //   outputSchema: {},
-  // });
-  //
-  // for (const { input, output } of localDataset) {
-  //   await montelo.datapoints.create({
-  //     slug: dataset.slug,
-  //     input,
-  //     output,
-  //   });
-  // }
+  const dataset = await montelo.datasets.create({
+    name: "Topic Datasets",
+    inputSchema: {},
+    outputSchema: {},
+  });
+
+  for (const { input, output } of localDataset) {
+    await montelo.datapoints.create({
+      // rename to dataset
+      slug: dataset.slug,
+      input,
+      output,
+    });
+  }
 
   await montelo.experiments.createAndRun({
-    name: "AI Articles",
+    name: "AI Articles Anthropic",
     description: "Find articles about AI",
     slug: "topic-datasets",
-    runner: openaiChat,
+    runner: anthropicChat,
   });
 };
 

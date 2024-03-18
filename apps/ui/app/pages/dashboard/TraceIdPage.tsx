@@ -69,12 +69,12 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
                   envId: trace.envId,
                 })}
               >
-                Traces & Logs
+                Traces
               </Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-          <BreadcrumbItem>{trace.name}</BreadcrumbItem>
+          <BreadcrumbItem>{trace.name || "—"}</BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 

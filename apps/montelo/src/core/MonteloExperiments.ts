@@ -32,7 +32,6 @@ export class MonteloExperiments {
           input: datapoint.input,
           output,
         });
-        console.log("Run created");
       } catch (e: any) {
         console.error("Error running experiment: ", e.toString());
         await this.monteloClient.createRun({

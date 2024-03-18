@@ -1,9 +1,9 @@
 import { FullProjectDto } from "@montelo/browser-client";
 import { Link, useLocation, useParams } from "@remix-run/react";
-import { BookOpen, FlaskConical, GanttChart, Hammer, HelpCircle, LayoutDashboard, Rocket } from "lucide-react";
+import { BookOpen, Database, FlaskConical, GanttChart, HelpCircle, LayoutDashboard } from "lucide-react";
 import { ComponentProps, FC } from "react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip";
 import { Routes } from "~/routes";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../../ui/tooltip";
 import { ApiKeysDialog } from "./ApiKeysDialog";
 
 type ClassName = ComponentProps<"div">["className"];
@@ -17,18 +17,26 @@ type LinkItem = BaseSidebarItem & {
   href: (params: any) => string;
 };
 
-type SidebarItem = LinkItem;
-
-const SidebarItems: SidebarItem[] = [
+const SidebarItems: LinkItem[] = [
   {
     name: "Dashboard",
     href: Routes.app.project.env.dashboard,
     icon: ({ className }) => <LayoutDashboard size={20} className={className} />,
   },
   {
-    name: "Traces & Logs",
+    name: "Traces",
     href: Routes.app.project.env.traces,
     icon: ({ className }) => <GanttChart size={20} className={className} />,
+  },
+  {
+    name: "Datasets",
+    href: Routes.app.project.env.datasets,
+    icon: ({ className }) => <Database size={20} className={className} />,
+  },
+  {
+    name: "Experiments",
+    href: Routes.app.project.env.experiments,
+    icon: ({ className }) => <FlaskConical size={20} className={className} />,
   },
 ];
 
@@ -73,16 +81,35 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
         </ul>
       </div>
       <div className="flex flex-row justify-between p-4">
-        <div className={"hover:bg-muted/50 group rounded"}>
-          <Link to={Routes.external.slack} target={"_blank"}>
-            <HelpCircle size={20} className={"group-hover:text-foreground text-muted-foreground"} />
-          </Link>
-        </div>
-        <div className={"hover:bg-muted/50 group rounded"}>
-          <Link to={Routes.external.documentation} target={"_blank"}>
-            <BookOpen size={20} className={"group-hover:text-foreground text-muted-foreground"} />
-          </Link>
-        </div>
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className={"hover:bg-muted/50 group rounded"}>
+                <Link to={Routes.external.slack} target={"_blank"}>
+                  <HelpCircle size={20} className={"group-hover:text-foreground text-muted-foreground"} />
+                </Link>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Help & Support</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider delayDuration={0}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className={"hover:bg-muted/50 group rounded"}>
+                <Link to={Routes.external.documentation} target={"_blank"}>
+                  <BookOpen size={20} className={"group-hover:text-foreground text-muted-foreground"} />
+                </Link>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Documentation</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </aside>
   );

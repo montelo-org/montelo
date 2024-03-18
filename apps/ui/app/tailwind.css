@@ -3,147 +3,153 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
-  }
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 222.2 47.4% 11.2%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
+        --radius: 0.5rem;
+    }
 
-  .dark,
-  :root[class~="dark"] {
-    --background: 222.2 84% 5%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9;
-  }
+    .dark,
+    :root[class~="dark"] {
+        --background: 222.2 84% 5%;
+        --foreground: 210 40% 98%;
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
+        --popover: 222.2 84% 4.9%;
+        --popover-foreground: 210 40% 98%;
+        --primary: 210 40% 98%;
+        --primary-foreground: 222.2 47.4% 11.2%;
+        --secondary: 217.2 32.6% 17.5%;
+        --secondary-foreground: 210 40% 98%;
+        --muted: 217.2 32.6% 17.5%;
+        --muted-foreground: 215 20.2% 65.1%;
+        --accent: 217.2 32.6% 17.5%;
+        --accent-foreground: 210 40% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 217.2 32.6% 17.5%;
+        --input: 217.2 32.6% 17.5%;
+        --ring: 212.7 26.8% 83.9;
+    }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
 }
 
 /* For JSON */
 pre .string {
-  color: #a77a64;
+    color: #a77a64;
 }
+
 .number {
-  color: #a0b291;
+    color: #a0b291;
 }
+
 .boolean {
-  color: #5c8dca;
+    color: #5c8dca;
 }
+
 .null {
-  color: #5c8dca;
+    color: #5c8dca;
 }
+
 .key {
-  color: #a0d4f9;
+    color: #a0d4f9;
 }
 
 /* hide scrollbar */
 html {
-  overflow: scroll;
-  overflow-x: hidden;
+    overflow: scroll;
+    overflow-x: hidden;
 }
+
 ::-webkit-scrollbar {
-  width: 0;
-  background: transparent;
+    width: 0;
+    background: transparent;
 }
 
 /* Clerk */
 .cl-card {
-  background-color: hsl(var(--card));
-  border-color: hsl(var(--muted));
+    background-color: hsl(var(--card));
+    border-color: hsl(var(--muted));
 }
 
 .cl-formFieldInput {
-  background-color: hsl(var(--card));
-  border-color: hsl(var(--muted));
+    background-color: hsl(var(--card));
+    border-color: hsl(var(--muted));
 }
 
 .cl-formButtonPrimary {
-  background-color: hsl(var(--primary));
-  border-color: hsl(var(--border));
-  color: hsl(var(--primary-foreground));
-
-  &:hover {
     background-color: hsl(var(--primary));
     border-color: hsl(var(--border));
     color: hsl(var(--primary-foreground));
-  }
+
+    &:hover {
+        background-color: hsl(var(--primary));
+        border-color: hsl(var(--border));
+        color: hsl(var(--primary-foreground));
+    }
 }
 
 .cl-footerActionLink {
-  color: hsl(var(--primary));
+    color: hsl(var(--primary));
 }
 
 .cl-profileSectionPrimaryButton {
-  color: hsl(var(--primary));
+    color: hsl(var(--primary));
 }
 
 .cl-badge {
-  background-color: hsl(var(--muted));
-  color: hsl(var(--muted-foreground));
+    background-color: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
 }
 
 .cl-formButtonReset {
-  color: hsl(var(--muted-foreground));
+    color: hsl(var(--muted-foreground));
 }
 
 .cl-card > :last-child {
-  display: none;
+    display: none;
 }
 
 .cl-organizationSwitcher-root {
-  height: 32px;
+    height: 32px;
 }
 
 .cl-headerTitle {
-  color: hsl(var(--muted-foreground));
+    color: hsl(var(--foreground));
 }
 
 .cl-form p,
 .cl-form label,
 .cl-form svg {
-  color: hsl(var(--muted-foreground));
+    color: hsl(var(--muted-foreground));
 }
 
 .cl-formFieldInput {
-  color: hsl(var(--muted-foreground));
+    color: hsl(var(--muted-foreground));
 }

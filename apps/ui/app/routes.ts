@@ -10,6 +10,8 @@ const buildEnvPath = (params: EnvParams) => (sublink: string) =>
 // app pages
 const PATH_APP = {
   root: ROOT_APP,
+  org: path(ROOT_APP, "/org"),
+  account: path(ROOT_APP, "/account"),
   project: {
     all: path(ROOT_APP, "/project"),
     env: {
@@ -17,6 +19,8 @@ const PATH_APP = {
       traces: (params: EnvParams) => buildEnvPath(params)("traces"),
       traceId: (params: EnvParams & { traceId: string; logId?: string }) =>
         buildEnvPath(params)(`traces/${params.traceId}${params.logId ? `?logId=${params.logId}` : ""}`),
+      datasets: (params: EnvParams) => buildEnvPath(params)("datasets"),
+      experiments: (params: EnvParams) => buildEnvPath(params)("experiments"),
     },
   },
 };
