@@ -1,11 +1,9 @@
-import { LogInput, TraceInput } from "../logs/dto/create-log.input";
-
 export enum Queues {
   experiments = "experiments",
 }
 
 export type QExperimentInput = {
-  envId: string;
-  trace?: TraceInput;
-  log: LogInput;
+  experimentId: string;
+  input: Record<string, any>;
+  output: Record<string, any>;
 };

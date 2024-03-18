@@ -1,11 +1,11 @@
 import { InjectQueue } from "@nestjs/bull";
-import { Body, Controller, Logger, Post, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Logger, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { Queue } from "bull";
-import { Response } from "express";
-import { EnvId } from "../auth/EnvId.decorator";
 import { BearerGuard } from "../auth/bearer.guard";
 import { CreateExperimentInput } from "./dto/create-experiment.input";
+import { CreateRunInput } from "./dto/create-run.input";
+import { EventQueuedDto } from "./dto/event-queued.dto";
 import { ExperimentDto } from "./dto/experiment.dto";
 import { ExperimentService } from "./experiment.service";
 import { QExperimentInput, Queues } from "./types";
@@ -31,14 +31,10 @@ export class ExperimentController {
 
   @UseGuards(BearerGuard)
   @Post("/run")
-  async run(@Res() res: Response, @EnvId() envId: string, @Body() body: CreateLogInput): Promise<{}> {
-    const queueInput: QExperimentInput = {
-      envId,
-      trace: body.trace,
-      log: body.log,
-    };
+  async run(@Body() body: CreateRunInput): Promise<EventQueuedDto> {
+    const queueInput: QExperimentInput = body;
     await this.experimentQueue.add(queueInput);
-    this.logger.debug(`Added ${envId} to queue`);
-    return res.status(200).json({});
+    this.logger.debug(`Added experiment ${body.experimentId} to queue`);
+    return { success: true };
   }
 }

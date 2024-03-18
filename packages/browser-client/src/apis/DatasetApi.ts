@@ -17,19 +17,33 @@ import * as runtime from '../runtime';
 import type {
   CreateDatasetInput,
   DatasetDto,
+  FullDatasetDto,
 } from '../models/index';
 import {
     CreateDatasetInputFromJSON,
     CreateDatasetInputToJSON,
     DatasetDtoFromJSON,
     DatasetDtoToJSON,
+    FullDatasetDtoFromJSON,
+    FullDatasetDtoToJSON,
 } from '../models/index';
 
 export interface DatasetControllerCreateRequest {
+    envId: string;
     createDatasetInput: CreateDatasetInput;
 }
 
-export interface DatasetControllerGetRequest {
+export interface DatasetControllerDeleteRequest {
+    envId: string;
+    datasetId: string;
+}
+
+export interface DatasetControllerGetAllDatasetsRequest {
+    envId: string;
+}
+
+export interface DatasetControllerGetFullDatasetRequest {
+    envId: string;
     datasetId: string;
 }
 
@@ -41,6 +55,10 @@ export class DatasetApi extends runtime.BaseAPI {
     /**
      */
     async datasetControllerCreateRaw(requestParameters: DatasetControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetDto>> {
+        if (requestParameters.envId === null || requestParameters.envId === undefined) {
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling datasetControllerCreate.');
+        }
+
         if (requestParameters.createDatasetInput === null || requestParameters.createDatasetInput === undefined) {
             throw new runtime.RequiredError('createDatasetInput','Required parameter requestParameters.createDatasetInput was null or undefined when calling datasetControllerCreate.');
         }
@@ -60,7 +78,7 @@ export class DatasetApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/dataset`,
+            path: `/env/{envId}/dataset`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -79,9 +97,13 @@ export class DatasetApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetControllerGetRaw(requestParameters: DatasetControllerGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatasetDto>> {
+    async datasetControllerDeleteRaw(requestParameters: DatasetControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
+        if (requestParameters.envId === null || requestParameters.envId === undefined) {
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling datasetControllerDelete.');
+        }
+
         if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
-            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datasetControllerGet.');
+            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datasetControllerDelete.');
         }
 
         const queryParameters: any = {};
@@ -97,19 +119,95 @@ export class DatasetApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/dataset/{datasetId}`.replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
+            path: `/env/{envId}/dataset`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))).replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async datasetControllerDelete(requestParameters: DatasetControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<object> {
+        const response = await this.datasetControllerDeleteRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async datasetControllerGetAllDatasetsRaw(requestParameters: DatasetControllerGetAllDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatasetDto>>> {
+        if (requestParameters.envId === null || requestParameters.envId === undefined) {
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling datasetControllerGetAllDatasets.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/env/{envId}/dataset`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => DatasetDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DatasetDtoFromJSON));
     }
 
     /**
      */
-    async datasetControllerGet(requestParameters: DatasetControllerGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatasetDto> {
-        const response = await this.datasetControllerGetRaw(requestParameters, initOverrides);
+    async datasetControllerGetAllDatasets(requestParameters: DatasetControllerGetAllDatasetsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatasetDto>> {
+        const response = await this.datasetControllerGetAllDatasetsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async datasetControllerGetFullDatasetRaw(requestParameters: DatasetControllerGetFullDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FullDatasetDto>> {
+        if (requestParameters.envId === null || requestParameters.envId === undefined) {
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling datasetControllerGetFullDataset.');
+        }
+
+        if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
+            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datasetControllerGetFullDataset.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/env/{envId}/dataset/{datasetId}`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))).replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FullDatasetDtoFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async datasetControllerGetFullDataset(requestParameters: DatasetControllerGetFullDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FullDatasetDto> {
+        const response = await this.datasetControllerGetFullDatasetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

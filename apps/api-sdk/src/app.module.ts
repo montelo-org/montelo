@@ -6,6 +6,8 @@ import { AuthModule } from "./auth/auth.module";
 import { DatasetModule } from "./dataset/dataset.module";
 import { HealthModule } from "./health/health.module";
 import { LogsModule } from "./logs/logs.module";
+import { DatapointModule } from "./datapoint/datapoint.module";
+import { ExperimentModule } from "./experiment/experiment.module";
 
 
 @Module({
@@ -31,6 +33,8 @@ import { LogsModule } from "./logs/logs.module";
     AuthModule,
     LogsModule,
     DatasetModule,
+    DatapointModule,
+    ExperimentModule
   ],
 })
 export class AppModule {}

@@ -23,21 +23,21 @@ export class DatasetController {
 
   @UseGuards(ClerkAuthGuard)
   @Get(":datasetId")
-  async getFullDataset(@Param("datasetId") datasetId: string): Promise<FullDatasetDto> {
+  async getFullDataset(@Param("envId") envId: string, @Param("datasetId") datasetId: string): Promise<FullDatasetDto> {
     const fullDataset = await this.datasetService.getFullDatasetById(datasetId);
     return FullDatasetDto.fromFullDataset(fullDataset);
   }
 
   @UseGuards(ClerkAuthGuard)
   @Post()
-  async create(@Body() createDatasetInput: CreateDatasetInput): Promise<DatasetDto> {
+  async create(@Param("envId") envId: string, @Body() createDatasetInput: CreateDatasetInput): Promise<DatasetDto> {
     const dataset = await this.datasetService.create(createDatasetInput);
     return DatasetDto.fromDataset(dataset);
   }
 
   @UseGuards(ClerkAuthGuard)
   @Delete()
-  async delete(@Param("datasetId") datasetId: string): Promise<DeleteSuccessDto> {
+  async delete(@Param("envId") envId: string, @Param("datasetId") datasetId: string): Promise<DeleteSuccessDto> {
     await this.datasetService.delete(datasetId);
     return { success: true };
   }

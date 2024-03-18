@@ -6,11 +6,11 @@ export class CreateDatasetInput {
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
   description: string | null;
-
-  @ApiProperty()
-  envId: string;
 
   @ApiProperty()
   inputSchema: any;

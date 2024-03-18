@@ -1,6 +1,9 @@
 import { createId } from "@paralleldrive/cuid2";
 import { MonteloClient } from "./MonteloClient";
 import { LogInput, LogInputSourceEnum } from "./client";
+import { MonteloDatasets } from "./core";
+import { MonteloDatapoints } from "./core/MonteloDatapoints";
+import { MonteloExperiments } from "./core/MonteloExperiments";
 import { ExtendedAnthropic } from "./extended/ExtendedAnthropic";
 import { ExtendedMistral } from "./extended/ExtendedMistral";
 import { ExtendedOpenAI } from "./extended/ExtendedOpenAI";
@@ -16,6 +19,9 @@ export class Montelo {
   public readonly openai: ExtendedOpenAI;
   public readonly mistral: ExtendedMistral;
   public readonly anthropic: ExtendedAnthropic;
+  public readonly datasets;
+  public readonly datapoints;
+  public readonly experiments;
 
   constructor(options?: MonteloOptions) {
     this.constructorOptions = options;
@@ -23,6 +29,9 @@ export class Montelo {
     this.openai = new ExtendedOpenAI(this.monteloClient, options?.openai);
     this.mistral = new ExtendedMistral(this.monteloClient, options?.mistral);
     this.anthropic = new ExtendedAnthropic(this.monteloClient, options?.anthropic);
+    this.datasets = new MonteloDatasets(this.monteloClient);
+    this.datapoints = new MonteloDatapoints(this.monteloClient);
+    this.experiments = new MonteloExperiments(this.monteloClient);
   }
 
   public log(log: LogParams) {

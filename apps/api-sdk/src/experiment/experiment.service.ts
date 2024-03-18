@@ -1,7 +1,7 @@
 import { DatabaseService } from "@montelo/api-common";
 import { Experiment } from "@montelo/db";
 import { Injectable, Logger } from "@nestjs/common";
-import { CreateExperimentParams } from "./experiment.service.types";
+import { CreateExperimentParams, CreateRunParams } from "./experiment.service.types";
 
 
 @Injectable()
@@ -16,8 +16,9 @@ export class ExperimentService {
     });
   }
 
-  async createAndRun(params: CreateExperimentParams): Promise<Experiment> {
-    const experiment = await this.create(params);
-
+  async createRun(params: CreateRunParams) {
+    return this.db.experimentRun.create({
+      data: params,
+    });
   }
 }

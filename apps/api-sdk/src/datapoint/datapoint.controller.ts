@@ -32,7 +32,7 @@ export class DatapointController {
 
   @UseGuards(BearerGuard)
   @Delete(":datapointId")
-  async removeFromDataset(@Param("datapointId") datapointId: string): Promise<DeleteSuccessDto> {
+  async removeFromDataset(@Param("datasetId") datasetId: string, @Param("datapointId") datapointId: string): Promise<DeleteSuccessDto> {
     await this.datapointService.delete(datapointId);
     return { success: true };
   }

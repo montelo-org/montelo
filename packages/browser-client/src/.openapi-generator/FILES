@@ -3,12 +3,14 @@ apis/ApiKeyApi.ts
 apis/DatapointApi.ts
 apis/DatasetApi.ts
 apis/EnvironmentApi.ts
+apis/ExperimentApi.ts
 apis/HealthApi.ts
 apis/LogApi.ts
 apis/ProjectApi.ts
 apis/TraceApi.ts
 apis/index.ts
 index.ts
+models/AddToDatasetInput.ts
 models/ApiKeyWithEnvDto.ts
 models/ChangesDto.ts
 models/CostHistory.ts
@@ -21,6 +23,8 @@ models/DatapointDto.ts
 models/DatasetDto.ts
 models/DeleteSuccessDto.ts
 models/EnvironmentDto.ts
+models/ExperimentDto.ts
+models/FullDatasetDto.ts
 models/FullProjectDto.ts
 models/HealthControllerCheck200Response.ts
 models/HealthControllerCheck200ResponseInfoValue.ts

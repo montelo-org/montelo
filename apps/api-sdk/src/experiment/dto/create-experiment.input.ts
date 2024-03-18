@@ -7,6 +7,9 @@ export class CreateExperimentInput {
   @ApiProperty()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
   description: string | null;
 }

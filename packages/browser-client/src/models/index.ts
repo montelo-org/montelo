@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './AddToDatasetInput';
 export * from './ApiKeyWithEnvDto';
 export * from './ChangesDto';
 export * from './CostHistory';
@@ -12,6 +13,8 @@ export * from './DatapointDto';
 export * from './DatasetDto';
 export * from './DeleteSuccessDto';
 export * from './EnvironmentDto';
+export * from './ExperimentDto';
+export * from './FullDatasetDto';
 export * from './FullProjectDto';
 export * from './HealthControllerCheck200Response';
 export * from './HealthControllerCheck200ResponseInfoValue';
