@@ -20,6 +20,7 @@ const PATH_APP = {
       traceId: (params: EnvParams & { traceId: string; logId?: string }) =>
         buildEnvPath(params)(`traces/${params.traceId}${params.logId ? `?logId=${params.logId}` : ""}`),
       datasets: (params: EnvParams) => buildEnvPath(params)("datasets"),
+      datasetsId: (params: EnvParams & { datasetId: string }) => buildEnvPath(params)(`datasets/${params.datasetId}`),
       experiments: (params: EnvParams) => buildEnvPath(params)("experiments"),
     },
   },
@@ -52,7 +53,10 @@ const PATH_ACTIONS = {
   dataset: {
     create: path(ROOT_ACTION, "/dataset/create"),
     delete: path(ROOT_ACTION, "/dataset/delete"),
-  }
+  },
+  datapoints: {
+    delete: path(ROOT_ACTION, "/datapoint/delete"),
+  },
 };
 
 // external pages

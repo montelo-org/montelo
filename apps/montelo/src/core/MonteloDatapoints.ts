@@ -9,8 +9,8 @@ export class MonteloDatapoints {
   }
 
   public async create(params: CreateDatapointInput): Promise<{ id: string } | null> {
-    const { slug, ...rest } = params;
-    const result = await this.monteloClient.createDatapoint(slug, rest);
+    const { dataset, ...rest } = params;
+    const result = await this.monteloClient.createDatapoint(dataset, rest);
     return result ? { id: result.id } : null;
   }
 }

@@ -1,16 +1,11 @@
 import { TraceWithLogsDto } from "@montelo/browser-client";
 import { Link, useParams, useSearchParams } from "@remix-run/react";
 import { useState } from "react";
+import { PageBreadcrumbContainer } from "~/components/PageBreadcrumbContainer";
 import { LogAnalytics } from "~/components/traces/LogAnalytics/LogAnalytics";
 import { LogView } from "~/components/traces/LogView";
 import { LogsTreeView } from "~/components/traces/LogsTreeView";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "~/components/ui/breadcrumb";
+import { BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { useKey, useMount } from "~/hooks";
 import { useUpdateQueryWithoutNavigation } from "~/hooks/useUpdateQueryWithoutNavigation";
 import { Routes } from "~/routes";
@@ -58,25 +53,23 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
   useKey("ArrowLeft", handleArrowLeft, { event: "keyup" }, [selectedId]);
 
   return (
-    <div>
-      <Breadcrumb className={"mb-4 pt-2"}>
-        <BreadcrumbList className={"text-xl"}>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link
-                to={Routes.app.project.env.traces({
-                  projectId: params.projectId!,
-                  envId: trace.envId,
-                })}
-              >
-                Traces
-              </Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>{trace.name || "—"}</BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+    <div className={"mt-2"}>
+      <PageBreadcrumbContainer>
+        <BreadcrumbItem>
+          <BreadcrumbLink asChild>
+            <Link
+              to={Routes.app.project.env.traces({
+                projectId: params.projectId!,
+                envId: trace.envId,
+              })}
+            >
+              Traces
+            </Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbPage>{trace.name || "—"}</BreadcrumbPage>
+      </PageBreadcrumbContainer>
 
       <div className={"flex flex-row gap-8"}>
         <LogAnalytics trace={trace} />

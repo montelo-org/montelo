@@ -1,57 +1,28 @@
-import { AnalyticsControllerGetForDashboardDateSelectionEnum, LogDto } from "@montelo/browser-client";
-import { Await, Link, useLoaderData, useParams, useSearchParams } from "@remix-run/react";
+import { AnalyticsControllerGetForDashboardDateSelectionEnum } from "@montelo/browser-client";
+import { Await, useLoaderData, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
 import { AlertCircle, CircleSlash, DollarSign, GanttChart, Timer } from "lucide-react";
 import numbro from "numbro";
-import { FC, Suspense } from "react";
+import { Suspense } from "react";
 import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { PageBreadcrumbContainer } from "~/components/PageBreadcrumbContainer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Badge } from "~/components/ui/badge";
+import { BreadcrumbItem, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
-import { Routes } from "~/routes";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "~/components/ui/table";
+import { DateSelector } from "~/pages/dashboard/DateSelector";
 import { DashboardLoader } from "~/types/DashboardLoader.types";
-import { idShortener } from "../traces/utils";
+import { RecentLog } from "./RecentLog";
 import { AnalyticsCard } from "./cards/AnalyticsCard";
 import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
-import { TimerIcon } from "@radix-ui/react-icons";
 
 export const DashboardPage = () => {
-  const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
 
   const selectedValue =
     searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
-
-  const RecentLog: FC<{ log: LogDto }> = ({ log }) => {
-    const { short: shortTraceId, variant } = idShortener(log.traceId);
-    const { short: shortLogId } = idShortener(log.id);
-
-    return (
-      <TableRow>
-        <TableCell>{dayjs(log.startTime || log.createdAt).format("h:mm:ssa")}</TableCell>
-        <TableCell>
-          <Link
-            to={Routes.app.project.env.traceId({
-              projectId: params.projectId!,
-              envId: params.envId!,
-              traceId: log.traceId,
-              logId: log.id,
-            })}
-          >
-            <Badge variant={variant}>
-              {shortTraceId} / {shortLogId}
-            </Badge>
-          </Link>
-        </TableCell>
-        <TableCell>{log.name || "—"}</TableCell>
-        <TableCell>{log.duration ? `${log.duration}s` : "—"}</TableCell>
-        <TableCell>{log.totalCost ? `$${log.totalCost}` : "—"}</TableCell>
-      </TableRow>
-    );
-  };
 
   const formatXDates = (tickItem: string): string => {
     const date = dayjs(tickItem);
@@ -69,32 +40,14 @@ export const DashboardPage = () => {
 
   return (
     <div className={"flex flex-col pt-2"}>
+      <PageBreadcrumbContainer>
+        <BreadcrumbItem>
+          <BreadcrumbPage className={"text-lg"}>Dashboard</BreadcrumbPage>
+        </BreadcrumbItem>
+      </PageBreadcrumbContainer>
+
       <div className={"mb-4 flex justify-end"}>
-        <Select
-          value={selectedValue}
-          onValueChange={(value) => {
-            setSearchParams((prev) => {
-              prev.set("dateSelection", value);
-              return prev;
-            });
-          }}
-        > 
-          <SelectTrigger className="w-[125px]">
-            <TimerIcon />
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value={AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins}>30 mins</SelectItem>
-              <SelectItem value={AnalyticsControllerGetForDashboardDateSelectionEnum._1Hr}>1 hr</SelectItem>
-              <SelectItem value={AnalyticsControllerGetForDashboardDateSelectionEnum._24Hrs}>24 hrs</SelectItem>
-              <SelectItem value={AnalyticsControllerGetForDashboardDateSelectionEnum._7Days}>7 days</SelectItem>
-              <SelectItem value={AnalyticsControllerGetForDashboardDateSelectionEnum._1Month}>1 month</SelectItem>
-              <SelectItem value={AnalyticsControllerGetForDashboardDateSelectionEnum._3Months}>3 months</SelectItem>
-              <SelectItem value={AnalyticsControllerGetForDashboardDateSelectionEnum.AllTime}>All time</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <DateSelector selectedValue={selectedValue} setSearchParams={setSearchParams} />
       </div>
 
       {/*Analytics Section*/}

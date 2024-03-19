@@ -1,13 +1,9 @@
 import { FC } from "react";
 
-type RawHTMLProps = {
-  html: string;
-};
-
-const RawHTML: FC<RawHTMLProps> = ({ html }) => {
+const RawHTML: FC<{ html: string; }> = ({ html }) => {
   return (
     <pre
-      className={"bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4"}
+      className={"bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4 text-sm"}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

@@ -60,24 +60,50 @@
     }
 }
 
-/* For JSON */
+/* For JSON in light mode */
 pre .string {
-    color: #a77a64;
+    color: #89231c;
 }
 
 .number {
-    color: #a0b291;
+    color: #367950;
 }
 
 .boolean {
-    color: #5c8dca;
+    color: #0000f6;
 }
 
 .null {
-    color: #5c8dca;
+    color: #0000f6;
 }
 
 .key {
+    color: #204096;
+}
+
+/* For JSON in dark mode */
+.dark pre .string,
+:root[class~="dark"] pre .string {
+    color: #a77a64;
+}
+
+.dark pre .number,
+:root[class~="dark"] pre .number {
+    color: #367950;
+}
+
+.dark pre .boolean,
+:root[class~="dark"] pre .boolean {
+    color: #5c8dca;
+}
+
+.dark pre .null,
+:root[class~="dark"] pre .null {
+    color: #5c8dca;
+}
+
+.dark pre .key,
+:root[class~="dark"] pre .key {
     color: #a0d4f9;
 }
 
@@ -141,7 +167,7 @@ html {
 }
 
 .cl-headerTitle {
-    color: hsl(var(--foreground));
+    color: hsl(var(--muted-foreground));
 }
 
 .cl-form p,

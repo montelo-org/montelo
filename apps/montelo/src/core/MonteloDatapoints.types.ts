@@ -2,7 +2,7 @@ export type CreateDatapointInput = {
   /**
    * The dataset slug.
    */
-  slug: string;
+  dataset: string;
   /**
    * The input data for the datapoint
    */
