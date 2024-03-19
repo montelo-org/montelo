@@ -2,6 +2,7 @@ import { DatasetService, DeleteSuccessDto } from "@montelo/api-common";
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ClerkAuthGuard } from "../../common/guards/auth.guard";
+import { validateDatasetSchema } from "../../common/validations/validateDatasetSchema";
 import { CreateDatasetInput } from "./dto/create-dataset.input";
 import { DatasetDto } from "./dto/dataset.dto";
 import { FullDatasetDto } from "./dto/full-dataset.dto";
@@ -30,6 +31,7 @@ export class DatasetController {
   @UseGuards(ClerkAuthGuard)
   @Post("dataset")
   async create(@Body() createDatasetInput: CreateDatasetInput): Promise<DatasetDto> {
+    validateDatasetSchema(createDatasetInput.inputSchema, createDatasetInput.outputSchema);
     const dataset = await this.datasetService.create(createDatasetInput);
     return DatasetDto.fromDataset(dataset);
   }

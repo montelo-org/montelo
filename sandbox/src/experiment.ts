@@ -23,8 +23,12 @@ const main = async () => {
   const dataset = await montelo.datasets.create({
     name: "Topic Datasets",
     description: "Datasets for AI articles.",
-    inputSchema: {},
-    outputSchema: {},
+    inputSchema: {
+      topic: "string",
+    },
+    outputSchema: {
+      article: "string",
+    },
   });
 
   for (const { input, output } of localDataset) {

@@ -31,7 +31,10 @@ export class DatapointController {
 
   @UseGuards(ClerkAuthGuard)
   @Delete(":datapointId")
-  async removeFromDataset(@Param("datasetId") datasetId: string, @Param("datapointId") datapointId: string): Promise<DeleteSuccessDto> {
+  async removeFromDataset(
+    @Param("datasetId") datasetId: string,
+    @Param("datapointId") datapointId: string,
+  ): Promise<DeleteSuccessDto> {
     await this.datapointService.delete(datapointId);
     return { success: true };
   }

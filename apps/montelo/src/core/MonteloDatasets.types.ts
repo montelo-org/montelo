@@ -1,3 +1,5 @@
+export type SchemaDataType = "string" | "number" | "boolean" | "object" | "array";
+
 export type CreateDatasetInput = {
   /**
    * The name of the dataset.
@@ -10,9 +12,9 @@ export type CreateDatasetInput = {
   /**
    * The input schema of the dataset.
    */
-  inputSchema: Record<string, any>;
+  inputSchema: Record<string, SchemaDataType>;
   /**
    * The output schema of the dataset.
    */
-  outputSchema: Record<string, any>;
-}
+  outputSchema: Record<string, SchemaDataType>;
+};
