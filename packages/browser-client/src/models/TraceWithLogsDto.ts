@@ -103,7 +103,7 @@ export interface TraceWithLogsDto {
      * @type {string}
      * @memberof TraceWithLogsDto
      */
-    userId: string | null;
+    userId?: string | null;
     /**
      * 
      * @type {Array<string>}
@@ -141,7 +141,6 @@ export function instanceOfTraceWithLogsDto(value: object): boolean {
     isInstance = isInstance && "startTime" in value;
     isInstance = isInstance && "endTime" in value;
     isInstance = isInstance && "duration" in value;
-    isInstance = isInstance && "userId" in value;
     isInstance = isInstance && "tags" in value;
     isInstance = isInstance && "extra" in value;
     isInstance = isInstance && "logs" in value;
@@ -171,7 +170,7 @@ export function TraceWithLogsDtoFromJSONTyped(json: any, ignoreDiscriminator: bo
         'startTime': json['startTime'],
         'endTime': json['endTime'],
         'duration': json['duration'],
-        'userId': json['userId'],
+        'userId': !exists(json, 'userId') ? undefined : json['userId'],
         'tags': json['tags'],
         'extra': json['extra'],
         'logs': ((json['logs'] as Array<any>).map(LogDtoFromJSON)),

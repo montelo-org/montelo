@@ -27,10 +27,10 @@ export interface CreateDatasetInput {
     name: string;
     /**
      * 
-     * @type {object}
+     * @type {string}
      * @memberof CreateDatasetInput
      */
-    description: object;
+    description?: string;
     /**
      * 
      * @type {string}
@@ -57,7 +57,6 @@ export interface CreateDatasetInput {
 export function instanceOfCreateDatasetInput(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "description" in value;
     isInstance = isInstance && "envId" in value;
     isInstance = isInstance && "inputSchema" in value;
     isInstance = isInstance && "outputSchema" in value;
@@ -76,7 +75,7 @@ export function CreateDatasetInputFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'name': json['name'],
-        'description': json['description'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'envId': json['envId'],
         'inputSchema': json['inputSchema'],
         'outputSchema': json['outputSchema'],
