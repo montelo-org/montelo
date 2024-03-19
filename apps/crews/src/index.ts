@@ -1,5 +1,4 @@
-export { Montelo } from "montelo";
 export { Agent } from "./Agent";
 export { Crew } from "./Crew";
-export { OpenAIModelProvider, AbstractModelProvider } from "./ModelProvider";
+export { Model } from "./Model";
 export { Task } from "./Task";

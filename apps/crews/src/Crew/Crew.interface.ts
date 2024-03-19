@@ -1,12 +1,10 @@
 import type { Agent } from "../Agent";
-import type { AbstractModelProvider } from "../ModelProvider/ModelProvider";
+import type { Model } from "../Model";
 import type { Task } from "../Task";
 
 export type Process = "managed" | "sequential";
 
-type OptionalAgents<P> = P extends "sequential"
-  ? { agents?: never }
-  : { agents: Agent[] };
+type OptionalAgents<P> = P extends "sequential" ? { agents?: never } : { agents: Agent[] };
 
 export type CrewConstructor<P extends Process> = OptionalAgents<P> & {
   /** A list of tasks assigned to the crew. */
@@ -14,6 +12,6 @@ export type CrewConstructor<P extends Process> = OptionalAgents<P> & {
   /** A function that is called after each step of every agent. */
   stepCallback?: (output: any) => void;
   /** default model provider for the crew */
-  defaultModelProvider?: AbstractModelProvider;
+  defaultModelProvider?: Model;
   process: P;
 };

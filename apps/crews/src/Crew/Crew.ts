@@ -1,6 +1,6 @@
 import { Montelo } from "montelo";
 import type { Agent } from "../Agent";
-import type { AbstractModelProvider } from "../ModelProvider/ModelProvider";
+import type { Model } from "../Model";
 import type { Task } from "../Task";
 import type { ChatMessage } from "../types";
 import type { CrewConstructor, Process } from "./Crew.interface";
@@ -10,26 +10,14 @@ export class Crew<P extends Process> {
   private readonly agents?: Agent[] = [];
   private readonly tasks: Task[] = [];
   private readonly stepCallback?: (output: any) => void;
-  private readonly defaultModelProvider?: AbstractModelProvider;
+  private readonly defaultModelProvider?: Model;
   // private readonly tools: ToolInterface[] = [];
 
-  constructor({
-    agents,
-    tasks,
-    stepCallback,
-    defaultModelProvider,
-    process,
-  }: CrewConstructor<P>) {
+  constructor({ agents, tasks, stepCallback, defaultModelProvider, process }: CrewConstructor<P>) {
     if ((!agents?.length && process === "managed") || !tasks?.length)
-      throw new Error(
-        "Invalid parameters! Agents and tasks need to be defined!"
-      );
+      throw new Error("Invalid parameters! Agents and tasks need to be defined!");
 
-    this.agents =
-      agents ||
-      (tasks
-        .map((task) => task.agent)
-        .filter((agent) => agent !== undefined) as Agent[]);
+    this.agents = agents || (tasks.map((task) => task.agent).filter((agent) => agent !== undefined) as Agent[]);
     this.tasks = tasks;
     this.stepCallback = stepCallback;
     this.defaultModelProvider = defaultModelProvider;

@@ -1,4 +1,4 @@
-import { Agent, Crew, OpenAIModelProvider, Task } from "@montelo/crews";
+import { Agent, Crew, Model, Task } from "@montelo/crews";
 import dotenv from "dotenv";
 import { Montelo } from "montelo";
 
@@ -9,23 +9,18 @@ const main = async () => {
     montelo: { apiKey: process.env.MONTELO_API_KEY },
     openai: { apiKey: process.env.OPENAI_API_KEY },
   });
-
-  const modelProvider = new OpenAIModelProvider({
-    //Remove this
-    apiKey: process.env.OPENAI_API_KEY,
-    model: "gpt-3.5-turbo",
-  });
+  const model = new Model({ monteloClient, modelName: "gpt-3.5-turbo" });
 
   const comedian = new Agent({
     name: "Comedian",
     role: "You're a stand-up comedian. You're known for your quick wit and ability to make people laugh.",
     systemMessage: "Write a short hilarious joke about {topic}.",
-    modelProvider,
+    model,
   });
   const reviewer = new Agent({
     name: "Reviewer",
     role: "You're a critic. You're known for your ability to critique and analyze jokes.",
-    modelProvider,
+    model,
   });
 
   const task1 = new Task({

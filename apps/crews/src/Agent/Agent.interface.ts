@@ -1,4 +1,4 @@
-import type { AbstractModelProvider } from "../ModelProvider/ModelProvider";
+import type { Model } from "../Model";
 import { Task } from "../Task";
 import { ToolInterface } from "../Tool/Tool.interface";
 
@@ -12,7 +12,7 @@ export interface AgentInterface {
   /** Defines the goal this agent aims to achieve. This will guide its decision-making process */
   systemMessage?: string;
   /** The language model used by the agent to process and generate text (default: GPT-4) */
-  modelProvider: AbstractModelProvider;
+  model: Model;
   /** Functions that the agent can use to perform tasks */
   tools?: ToolInterface[];
   /** A function that is called after each step of the agent */
