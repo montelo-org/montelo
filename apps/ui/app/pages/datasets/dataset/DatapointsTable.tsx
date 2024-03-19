@@ -43,12 +43,22 @@ export const columns: ColumnDef<DatapointDto>[] = [
   {
     accessorKey: "input",
     header: "Input",
-    cell: ({ row }) => <div>{JSON.stringify(row.getValue("input"))}</div>,
+    cell: ({ row }) => {
+      const val = row.getValue("input") as object;
+      const stringified = JSON.stringify(val);
+      const short = stringified.slice(0, 100);
+      return <div>{short.length === stringified.length ? short : `${short}...`}</div>;
+    },
   },
   {
     accessorKey: "output",
     header: "Output",
-    cell: ({ row }) => <div>{JSON.stringify(row.getValue("output"))}</div>,
+    cell: ({ row }) => {
+      const val = row.getValue("output") as object;
+      const stringified = JSON.stringify(val);
+      const short = stringified.slice(0, 100);
+      return <div>{short.length === stringified.length ? short : `${short}...`}</div>;
+    },
   },
   {
     id: "actions",

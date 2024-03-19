@@ -1,7 +1,8 @@
+import { DatasetDto } from "@montelo/browser-client";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
 import { useFetcher, useParams } from "@remix-run/react";
 import { X } from "lucide-react";
-import { FC, FormEvent } from "react";
+import { FC, FormEvent, useEffect, useState } from "react";
 import { ValidatedForm, useField, useFieldArray, useFormContext, useIsSubmitting } from "remix-validated-form";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -87,19 +88,27 @@ export const SchemaField: React.FC<SchemaFieldProps> = ({ name, label }) => {
 };
 
 export const CreateDatasetForm: FC<{ onSubmit: () => void }> = ({ onSubmit }) => {
-  const fetcher = useFetcher();
+  const [error, setError] = useState("");
+  const fetcher = useFetcher<{ dataset?: DatasetDto; error?: string }>();
   const params = useParams();
 
   const handleSubmit = async (data: any, event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    console.log("submitting: ", data);
     fetcher.submit(data, {
       method: "post",
       action: Routes.actions.dataset.create,
-      encType: "application/json"
+      encType: "application/json",
     });
-    onSubmit();
   };
+
+  useEffect(() => {
+    if (fetcher.data?.error) {
+      setError(fetcher.data.error);
+    } else if (fetcher.data?.dataset) {
+      onSubmit();
+      setError("");
+    }
+  }, [fetcher.data]);
 
   return (
     <ValidatedForm
@@ -129,6 +138,7 @@ export const CreateDatasetForm: FC<{ onSubmit: () => void }> = ({ onSubmit }) =>
         <SchemaField name="outputSchema" label="Output Schema" />
       </div>
       <input type="hidden" name="envId" value={params.envId!} />
+      {error && <p className={"text-destructive flex justify-end"}>{error}</p>}
       <SubmitButton />
     </ValidatedForm>
   );
