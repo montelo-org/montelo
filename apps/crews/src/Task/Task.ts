@@ -30,6 +30,7 @@ export class Task implements TaskInterface {
     if (!agent) {
       throw new Error("No agent assigned for this task: " + this.description);
     }
+    tools = tools?.length ? tools : this.tools;
 
     return await agent.executeTask({
       task: this,

@@ -14,7 +14,9 @@
   ],
   "dependencies": {
     "montelo": "^1.1.64",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "zod": "^3.22.4",
+    "zod-to-json-schema": "^3.22.4"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",

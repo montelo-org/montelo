@@ -1,1 +1,2 @@
-export * from './Tool.interface';
+export * from "./Tool";
+export * from "./Tool.interface";

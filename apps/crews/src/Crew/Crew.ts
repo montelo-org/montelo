@@ -2,6 +2,7 @@ import { Montelo } from "montelo";
 import type { Agent } from "../Agent";
 import type { Model } from "../Model";
 import type { Task } from "../Task";
+import { Tool } from "../Tool";
 import type { ChatMessage } from "../types";
 import type { CrewConstructor, Process } from "./Crew.interface";
 
@@ -9,16 +10,17 @@ export class Crew<P extends Process> {
   private readonly globalChatHistory: ChatMessage[] = [];
   private readonly agents?: Agent[] = [];
   private readonly tasks: Task[] = [];
+  private readonly tools?: Tool[] = [];
   private readonly stepCallback?: (output: any) => void;
   private readonly defaultModelProvider?: Model;
-  // private readonly tools: ToolInterface[] = [];
 
-  constructor({ agents, tasks, stepCallback, defaultModelProvider, process }: CrewConstructor<P>) {
+  constructor({ agents, tasks, tools, stepCallback, defaultModelProvider, process }: CrewConstructor<P>) {
     if ((!agents?.length && process === "managed") || !tasks?.length)
       throw new Error("Invalid parameters! Agents and tasks need to be defined!");
 
     this.agents = agents || (tasks.map((task) => task.agent).filter((agent) => agent !== undefined) as Agent[]);
     this.tasks = tasks;
+    this.tools = tools;
     this.stepCallback = stepCallback;
     this.defaultModelProvider = defaultModelProvider;
   }
@@ -41,13 +43,11 @@ export class Crew<P extends Process> {
 
     for (const task of this.tasks) {
       trace.log({ name: task.getName(), input: promptInputs });
-      const output = await task.execute({ context, trace });
+      const output = await task.execute({ context, trace, tools: this.tools });
 
       context = output;
       taskOutputs.push(output);
     }
-
-    console.log("taskOutputs: ", taskOutputs);
 
     // const USER_AGENT = this.agents.find((agent) => agent.type === "user");
     // if (USER_AGENT === null || USER_AGENT === undefined) throw new Error("No UserAgent defined!");

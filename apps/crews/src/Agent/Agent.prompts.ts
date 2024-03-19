@@ -1,8 +1,4 @@
-export const AgentSystemPrompt = (
-  name: string,
-  role: string,
-  systemPrompt?: string
-) =>
+export const AgentSystemPrompt = (name: string, role: string, systemPrompt?: string) =>
   `You are: ${name}
 Your role is: ${role}
 ${systemPrompt ? `\n${systemPrompt}\n` : ""}
@@ -12,7 +8,7 @@ export const TaskPrompt = (task: string) =>
   `Your Task is:
 ${task}
 
-Begin! This is VERY important to you, use the tools available and give your best Final Answer, your job depends on it!
+Begin! This is VERY important to you, use any tools available and give your best final answer!
   `;
 
 // export const ToolsPrompt = (tools: string, toolNames: string[]) =>
