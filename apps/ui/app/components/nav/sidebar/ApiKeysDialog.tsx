@@ -53,7 +53,7 @@ export const ApiKeysDialog: FC<ApiKeysDialogProps> = ({ projectId }) => {
             </TableHeader>
             <TableBody>
               {sortedEnvironments.map((apiKey) => (
-                <ApiKeyRow key={apiKey.id} apiKey={apiKey} />
+                <ApiKeyRow key={apiKey.id} apiKey={apiKey} projectId={projectId} />
               ))}
             </TableBody>
           </Table>

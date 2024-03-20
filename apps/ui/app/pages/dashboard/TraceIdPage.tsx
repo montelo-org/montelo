@@ -9,6 +9,7 @@ import { BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } f
 import { useKey, useMount } from "~/hooks";
 import { useUpdateQueryWithoutNavigation } from "~/hooks/useUpdateQueryWithoutNavigation";
 import { Routes } from "~/routes";
+import { Button } from "~/components/ui/button";
 
 type TraceIdProps = {
   trace: TraceWithLogsDto;
@@ -70,6 +71,10 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
         <BreadcrumbSeparator />
         <BreadcrumbPage>{trace.name || "—"}</BreadcrumbPage>
       </PageBreadcrumbContainer>
+
+      <div className={"flex justify-end mb-4"}>
+        <Button>Add to dataset</Button>
+      </div>
 
       <div className={"flex flex-row gap-8"}>
         <LogAnalytics trace={trace} />

@@ -6,11 +6,10 @@ import { Button } from "~/components/ui/button";
 import { Dialog, DialogTrigger } from "~/components/ui/dialog";
 
 type OrgIdPageProps = {
-  orgId: string;
   projects?: FullProjectDto[];
 };
 
-export const OrgProjectsPage: FC<OrgIdPageProps> = ({ orgId, projects }) => {
+export const OrgProjectsPage: FC<OrgIdPageProps> = ({ projects }) => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   return (
@@ -21,7 +20,7 @@ export const OrgProjectsPage: FC<OrgIdPageProps> = ({ orgId, projects }) => {
             <DialogTrigger asChild>
               <Button>Create Project</Button>
             </DialogTrigger>
-            <CreateProjectDialog orgId={orgId} onClose={() => setIsDialogOpen(false)} />
+            <CreateProjectDialog onClose={() => setIsDialogOpen(false)} />
           </Dialog>
         </div>
         <div className={"grid grid-cols-2 gap-4"}>

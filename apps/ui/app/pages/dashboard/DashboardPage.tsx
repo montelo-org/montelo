@@ -1,4 +1,4 @@
-import { AnalyticsControllerGetForDashboardDateSelectionEnum } from "@montelo/browser-client";
+import { AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum } from "@montelo/browser-client";
 import { Await, useLoaderData, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
 import { AlertCircle, CircleSlash, DollarSign, GanttChart, Timer } from "lucide-react";
@@ -8,7 +8,7 @@ import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis 
 import { PageBreadcrumbContainer } from "~/components/PageBreadcrumbContainer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Badge } from "~/components/ui/badge";
-import { BreadcrumbItem, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
+import { BreadcrumbItem, BreadcrumbPage } from "~/components/ui/breadcrumb";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { DateSelector } from "~/pages/dashboard/DateSelector";
@@ -22,20 +22,20 @@ export const DashboardPage = () => {
   const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
 
   const selectedValue =
-    searchParams.get("dateSelection") || AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins;
+    searchParams.get("dateSelection") || AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum._30Mins;
 
   const formatXDates = (tickItem: string): string => {
     const date = dayjs(tickItem);
-    const formatMap: Record<AnalyticsControllerGetForDashboardDateSelectionEnum, string> = {
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins]: date.format("h:mm"),
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._1Hr]: date.format("h:mm"),
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._24Hrs]: date.format("h:mm"),
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._7Days]: date.format("MMM D"),
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._1Month]: date.format("MMM D"),
-      [AnalyticsControllerGetForDashboardDateSelectionEnum._3Months]: date.format("MMM D"),
-      [AnalyticsControllerGetForDashboardDateSelectionEnum.AllTime]: date.format("MMM YYYY"),
+    const formatMap: Record<AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum, string> = {
+      [AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum._30Mins]: date.format("h:mm"),
+      [AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum._1Hr]: date.format("h:mm"),
+      [AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum._24Hrs]: date.format("h:mm"),
+      [AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum._7Days]: date.format("MMM D"),
+      [AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum._1Month]: date.format("MMM D"),
+      [AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum._3Months]: date.format("MMM D"),
+      [AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum.AllTime]: date.format("MMM YYYY"),
     };
-    return formatMap[selectedValue as AnalyticsControllerGetForDashboardDateSelectionEnum];
+    return formatMap[selectedValue as AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum];
   };
 
   return (

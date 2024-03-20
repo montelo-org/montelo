@@ -1,44 +1,66 @@
-import { DatasetService, DeleteSuccessDto } from "@montelo/api-common";
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { ClerkAuthGuard } from "../../common/guards/auth.guard";
+import {
+  CreateDatasetInput,
+  DatasetDto,
+  DatasetService,
+  DeleteSuccessDto,
+  FullDatasetWithCountDto,
+} from "@montelo/api-common";
+import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
+import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
+import { UseAuthGuards } from "../../common/guards/guard";
 import { validateDatasetSchema } from "../../common/validations/validateDatasetSchema";
-import { CreateDatasetInput } from "./dto/create-dataset.input";
-import { DatasetDto } from "./dto/dataset.dto";
-import { FullDatasetDto } from "./dto/full-dataset.dto";
-
 
 @ApiTags("Dataset")
 @ApiBearerAuth()
+@UseAuthGuards()
 @Controller()
 export class DatasetController {
   constructor(private datasetService: DatasetService) {}
 
-  @UseGuards(ClerkAuthGuard)
   @Get("env/:envId/dataset")
-  async getAllDatasets(@Param("envId") envId: string): Promise<DatasetDto[]> {
+  async getAllDatasetsForEnv(@Param("envId") envId: string): Promise<DatasetDto[]> {
     const datasets = await this.datasetService.getAllDatasets(envId);
     return datasets.map(DatasetDto.fromDataset);
   }
 
-  @UseGuards(ClerkAuthGuard)
+  @ApiQuery({
+    name: "take",
+    type: String,
+    description: "How many traces to get. If undefined returns all.",
+    required: false,
+  })
+  @ApiQuery({
+    name: "skip",
+    type: String,
+    description: "How many traces to skip. If undefined starts from beginning.",
+    required: false,
+  })
   @Get("dataset/:datasetId")
-  async getFullDataset(@Param("datasetId") datasetId: string): Promise<FullDatasetDto> {
-    const fullDataset = await this.datasetService.getFullDatasetById(datasetId);
-    return FullDatasetDto.fromFullDataset(fullDataset);
+  async getDatasetWithDatapoints(
+    @Param("datasetId") datasetId: string,
+    @Query("take") take?: string,
+    @Query("skip") skip?: string,
+  ): Promise<FullDatasetWithCountDto> {
+    const options = {
+      take: take ? parseInt(take) : undefined,
+      skip: skip ? parseInt(skip) : undefined,
+    };
+    const fullDatasetWithCount = await this.datasetService.getFullDatasetById(datasetId, options);
+    return FullDatasetWithCountDto.fromFullDatasetWithCount(fullDatasetWithCount);
   }
 
-  @UseGuards(ClerkAuthGuard)
-  @Post("dataset")
-  async create(@Body() createDatasetInput: CreateDatasetInput): Promise<DatasetDto> {
+  @Post("env/:envId/dataset")
+  async createDataset(
+    @Param("envId") envId: string,
+    @Body() createDatasetInput: CreateDatasetInput,
+  ): Promise<DatasetDto> {
     validateDatasetSchema(createDatasetInput.inputSchema, createDatasetInput.outputSchema);
-    const dataset = await this.datasetService.create(createDatasetInput);
+    const dataset = await this.datasetService.create({ envId, ...createDatasetInput });
     return DatasetDto.fromDataset(dataset);
   }
 
-  @UseGuards(ClerkAuthGuard)
   @Delete("dataset/:datasetId")
-  async delete(@Param("datasetId") datasetId: string): Promise<DeleteSuccessDto> {
+  async deleteDataset(@Param("datasetId") datasetId: string): Promise<DeleteSuccessDto> {
     await this.datasetService.delete(datasetId);
     return { success: true };
   }

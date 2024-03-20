@@ -17,36 +17,30 @@ export const loader: LoaderFunction = async (args) => {
     return redirect(Routes.auth.login);
   }
 
+  const projectId = args.params.projectId;
+
   const configuration = new Configuration({
     basePath: env.SERVER_BASE_URL,
     accessToken: token,
     headers: {
       connection: "keep-alive",
+      "x-montelo-project-id": projectId || "",
     },
   });
   const api = new Api(configuration);
 
   const orgId = auth.orgId;
   const envId = args.params.envId;
-  const projectId = args.params.projectId;
 
   const environmentPromise = envId
-    ? api.environment.environmentControllerGet({
+    ? api.environment.environmentControllerGetEnv({
         envId,
       })
     : undefined;
 
-  const projectPromise = projectId
-    ? api.project.projectControllerGet({
-        projectId,
-      })
-    : undefined;
+  const projectPromise = projectId ? api.project.projectControllerGetProject() : undefined;
 
-  const allProjectsForOrgPromise = orgId
-    ? api.project.projectControllerGetAllForOrg({
-        orgId,
-      })
-    : undefined;
+  const allProjectsForOrgPromise = orgId ? api.project.projectControllerGetProjectsForOrg() : undefined;
 
   const [environment, project, allProjects] = await Promise.all([
     environmentPromise,

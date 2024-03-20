@@ -20,7 +20,13 @@ export const DatasetCard: FC<{ dataset: DatasetDto }> = ({ dataset }) => {
   const handleDeleteDataset: MouseEventHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    fetcher.submit({ datasetId: dataset.id }, { method: "post", action: Routes.actions.dataset.delete });
+    fetcher.submit(null, {
+      method: "DELETE",
+      action: Routes.actions.dataset.delete({
+        projectId: params.projectId!,
+        datasetId: dataset.id,
+      }),
+    });
   };
 
   const handleCardClick = () => {

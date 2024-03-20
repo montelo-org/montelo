@@ -8,9 +8,10 @@ import { RotateApiKey } from "./RotateApiKey";
 
 type ApiKeyRowProps = {
   apiKey: ApiKeyWithEnvDto;
+  projectId: string;
 };
 
-export const ApiKeyRow = ({ apiKey }: ApiKeyRowProps) => {
+export const ApiKeyRow = ({ apiKey, projectId }: ApiKeyRowProps) => {
   const revealFetcher = useFetcherWithReset<ApiKeyWithEnvDto>();
   const rotateFetcher = useFetcherWithReset<ApiKeyWithEnvDto>();
 
@@ -19,7 +20,10 @@ export const ApiKeyRow = ({ apiKey }: ApiKeyRowProps) => {
   const handleReveal = () => {
     revealFetcher.submit(null, {
       method: "POST",
-      action: Routes.actions.apiKeys.reveal(apiKey.id),
+      action: Routes.actions.apiKeys.reveal({
+        projectId,
+        apiKeyId: apiKey.id,
+      }),
     });
     rotateFetcher.reset();
   };
@@ -27,7 +31,10 @@ export const ApiKeyRow = ({ apiKey }: ApiKeyRowProps) => {
   const handleRotate = () => {
     rotateFetcher.submit(null, {
       method: "POST",
-      action: Routes.actions.apiKeys.rotate(apiKey.id),
+      action: Routes.actions.apiKeys.rotate({
+        projectId,
+        apiKeyId: apiKey.id,
+      }),
     });
     revealFetcher.reset();
   };

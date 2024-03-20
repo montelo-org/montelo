@@ -31,7 +31,11 @@ const main = async () => {
     },
   });
 
-  for (const { input, output } of localDataset) {
+  const repeatArray = <T>(array: T[], times: number): T[] => Array.from({ length: times }, () => array).flat();
+
+  const localDatasetRepeated = repeatArray(localDataset, 100);
+
+  for (const { input, output } of localDatasetRepeated) {
     await montelo.datapoints.create({
       dataset: dataset.slug,
       input,

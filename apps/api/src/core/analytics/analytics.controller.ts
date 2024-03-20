@@ -1,21 +1,22 @@
-import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { ClerkAuthGuard } from "../../common/guards/auth.guard";
+import { UseAuthGuards } from "../../common/guards/guard";
 import { DateSelection } from "./analytics.enum";
 import { AnalyticsService } from "./analytics.service";
 import { CostHistoryDto } from "./dto/cost-history.dto";
 import { DashboardAnalyticsDto } from "./dto/dashboard-analytics.dto";
 
+
 @ApiTags("Analytics")
 @ApiBearerAuth()
+@UseAuthGuards()
 @Controller("env/:envId/analytics")
 export class AnalyticsController {
   constructor(private analyticsService: AnalyticsService) {}
 
   @ApiQuery({ name: "dateSelection", enum: DateSelection })
-  @UseGuards(ClerkAuthGuard)
   @Get("dashboard")
-  async getForDashboard(
+  async getAnalyticsForEnv(
     @Param("envId") envId: string,
     @Query("dateSelection") dateSelection: DateSelection,
   ): Promise<DashboardAnalyticsDto> {
@@ -26,9 +27,8 @@ export class AnalyticsController {
   }
 
   @ApiQuery({ name: "dateSelection", enum: DateSelection })
-  @UseGuards(ClerkAuthGuard)
   @Get("cost-history")
-  async getCostHistory(
+  async getCostHistoryForEnv(
     @Param("envId") envId: string,
     @Query("dateSelection") dateSelection: DateSelection,
   ): Promise<CostHistoryDto> {

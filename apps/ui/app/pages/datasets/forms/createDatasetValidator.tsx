@@ -14,6 +14,5 @@ export const createDatasetValidator = withZod(
     description: z.string(),
     inputSchema: z.array(SchemaKeyValuePair),
     outputSchema: z.array(SchemaKeyValuePair),
-    envId: z.string().min(1, { message: "Environment is required" }),
   }),
 );

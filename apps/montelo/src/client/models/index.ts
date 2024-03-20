@@ -11,6 +11,7 @@ export * from './DeleteSuccessDto';
 export * from './EventQueuedDto';
 export * from './ExperimentDto';
 export * from './FullDatasetDto';
+export * from './FullDatasetWithCountDto';
 export * from './FullExperimentDto';
 export * from './HealthControllerCheck200Response';
 export * from './HealthControllerCheck200ResponseInfoValue';

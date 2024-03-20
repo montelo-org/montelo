@@ -48,7 +48,7 @@ export interface DatasetDto {
      * @type {string}
      * @memberof DatasetDto
      */
-    description: string | null;
+    description?: string;
     /**
      * 
      * @type {object}
@@ -72,7 +72,6 @@ export function instanceOfDatasetDto(value: object): boolean {
     isInstance = isInstance && "envId" in value;
     isInstance = isInstance && "slug" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "description" in value;
     isInstance = isInstance && "inputSchema" in value;
     isInstance = isInstance && "outputSchema" in value;
 
@@ -93,7 +92,7 @@ export function DatasetDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'envId': json['envId'],
         'slug': json['slug'],
         'name': json['name'],
-        'description': json['description'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'inputSchema': json['inputSchema'],
         'outputSchema': json['outputSchema'],
     };

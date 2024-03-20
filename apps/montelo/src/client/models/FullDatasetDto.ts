@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import type { DatapointDto } from './DatapointDto';
-import {
-    DatapointDtoFromJSON,
-    DatapointDtoFromJSONTyped,
-    DatapointDtoToJSON,
-} from './DatapointDto';
-
 /**
  * 
  * @export
@@ -52,10 +45,10 @@ export interface FullDatasetDto {
     name: string;
     /**
      * 
-     * @type {string}
+     * @type {object}
      * @memberof FullDatasetDto
      */
-    description: string | null;
+    description: object;
     /**
      * 
      * @type {object}
@@ -70,10 +63,10 @@ export interface FullDatasetDto {
     outputSchema: object;
     /**
      * 
-     * @type {Array<DatapointDto>}
+     * @type {Array<string>}
      * @memberof FullDatasetDto
      */
-    datapoints: Array<DatapointDto>;
+    datapoints: Array<string>;
 }
 
 /**
@@ -110,7 +103,7 @@ export function FullDatasetDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'description': json['description'],
         'inputSchema': json['inputSchema'],
         'outputSchema': json['outputSchema'],
-        'datapoints': ((json['datapoints'] as Array<any>).map(DatapointDtoFromJSON)),
+        'datapoints': json['datapoints'],
     };
 }
 
@@ -130,7 +123,7 @@ export function FullDatasetDtoToJSON(value?: FullDatasetDto | null): any {
         'description': value.description,
         'inputSchema': value.inputSchema,
         'outputSchema': value.outputSchema,
-        'datapoints': ((value.datapoints as Array<any>).map(DatapointDtoToJSON)),
+        'datapoints': value.datapoints,
     };
 }
 

@@ -1,12 +1,14 @@
-import { DatasetService, DeleteSuccessDto } from "@montelo/api-common";
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import {
+  CreateDatasetInput,
+  DatasetDto,
+  DatasetService,
+  DeleteSuccessDto,
+  FullDatasetWithCountDto,
+} from "@montelo/api-common";
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { EnvId } from "../auth/EnvId.decorator";
 import { BearerGuard } from "../auth/bearer.guard";
-import { CreateDatasetInput } from "./dto/create-dataset.input";
-import { DatasetDto } from "./dto/dataset.dto";
-import { FullDatasetDto } from "./dto/full-dataset.dto";
-
 
 @ApiTags("Dataset")
 @ApiBearerAuth()
@@ -22,11 +24,31 @@ export class DatasetController {
   }
 
   // this should live under datapoint controller
+  @ApiQuery({
+    name: "take",
+    type: String,
+    description: "How many traces to get. If undefined returns all.",
+    required: false,
+  })
+  @ApiQuery({
+    name: "skip",
+    type: String,
+    description: "How many traces to skip. If undefined starts from beginning.",
+    required: false,
+  })
   @UseGuards(BearerGuard)
   @Get(":datasetId")
-  async getFullDataset(@Param("datasetId") datasetId: string): Promise<FullDatasetDto> {
-    const fullDataset = await this.datasetService.getFullDatasetById(datasetId);
-    return FullDatasetDto.fromFullDataset(fullDataset);
+  async getFullDataset(
+    @Param("datasetId") datasetId: string,
+    @Query("take") take?: string,
+    @Query("skip") skip?: string,
+  ): Promise<FullDatasetWithCountDto> {
+    const options = {
+      take: take ? parseInt(take) : undefined,
+      skip: skip ? parseInt(skip) : undefined,
+    };
+    const fullDatasetWithCount = await this.datasetService.getFullDatasetById(datasetId, options);
+    return FullDatasetWithCountDto.fromFullDatasetWithCount(fullDatasetWithCount);
   }
 
   @UseGuards(BearerGuard)

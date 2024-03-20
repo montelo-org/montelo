@@ -22,7 +22,7 @@ import {
     LogsDtoToJSON,
 } from '../models/index';
 
-export interface LogControllerGetAllRequest {
+export interface LogControllerGetLogsForEnvironmentRequest {
     envId: string;
     take?: string;
     skip?: string;
@@ -40,9 +40,9 @@ export class LogApi extends runtime.BaseAPI {
 
     /**
      */
-    async logControllerGetAllRaw(requestParameters: LogControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LogsDto>> {
+    async logControllerGetLogsForEnvironmentRaw(requestParameters: LogControllerGetLogsForEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LogsDto>> {
         if (requestParameters.envId === null || requestParameters.envId === undefined) {
-            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling logControllerGetAll.');
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling logControllerGetLogsForEnvironment.');
         }
 
         const queryParameters: any = {};
@@ -97,8 +97,8 @@ export class LogApi extends runtime.BaseAPI {
 
     /**
      */
-    async logControllerGetAll(requestParameters: LogControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LogsDto> {
-        const response = await this.logControllerGetAllRaw(requestParameters, initOverrides);
+    async logControllerGetLogsForEnvironment(requestParameters: LogControllerGetLogsForEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<LogsDto> {
+        const response = await this.logControllerGetLogsForEnvironmentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

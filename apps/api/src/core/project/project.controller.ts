@@ -1,11 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
 import { DeleteSuccessDto } from "@montelo/api-common";
-import { ClerkAuthGuard } from "../../common/guards/auth.guard";
+import { Body, Controller, Delete, Get, Post, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ClerkAuthGuard } from "src/common/guards/auth.guard";
+import { GetAuth, GetAuthT } from "../../common/decorators/GetAuth.decorator";
+import { GetProject, GetProjectT } from "../../common/decorators/GetProject.decorator";
+import { UseAuthGuards } from "../../common/guards/guard";
 import { CreateProjectInput } from "./dto/create-project.input";
 import { FullProjectDto } from "./dto/full-project.dto";
 import { ProjectDto } from "./dto/project.dto";
 import { ProjectService } from "./project.service";
+
 
 @ApiTags("Project")
 @ApiBearerAuth()
@@ -14,33 +18,30 @@ export class ProjectController {
   constructor(private projectService: ProjectService) {}
 
   @UseGuards(ClerkAuthGuard)
-  @Get("org/:orgId")
-  async getAllForOrg(@Param("orgId") orgId: string): Promise<FullProjectDto[]> {
-    const fullProjects = await this.projectService.findAllForOrg(orgId);
+  @Get("org")
+  async getProjectsForOrg(@GetAuth() auth: GetAuthT): Promise<FullProjectDto[]> {
+    const fullProjects = await this.projectService.findAllForOrg(auth.orgId || "");
     return fullProjects.map(FullProjectDto.fromFullProject);
   }
 
-  @UseGuards(ClerkAuthGuard)
-  @Get(":projectId")
-  async get(@Param("projectId") projectId: string): Promise<FullProjectDto> {
-    const fullProject = await this.projectService.findById(projectId);
+  @UseAuthGuards()
+  @Get()
+  async getProject(@GetProject() project: GetProjectT): Promise<FullProjectDto> {
+    const fullProject = await this.projectService.findById(project.id);
     return FullProjectDto.fromFullProject(fullProject);
   }
 
-  @ApiBody({
-    type: CreateProjectInput,
-  })
   @UseGuards(ClerkAuthGuard)
   @Post()
-  async create(@Body() createProjectInput: CreateProjectInput): Promise<ProjectDto> {
-    const project = await this.projectService.create(createProjectInput);
+  async createProject(@GetAuth() auth: GetAuthT, @Body() createProjectInput: CreateProjectInput): Promise<ProjectDto> {
+    const project = await this.projectService.create(auth.orgId, createProjectInput);
     return ProjectDto.fromProject(project);
   }
 
-  @UseGuards(ClerkAuthGuard)
-  @Delete(":projectId")
-  async delete(@Param("projectId") projectId: string): Promise<DeleteSuccessDto> {
-    await this.projectService.delete(projectId);
+  @UseAuthGuards()
+  @Delete()
+  async deleteProject(@GetProject() project: GetProjectT): Promise<DeleteSuccessDto> {
+    await this.projectService.delete(project.id);
     return { success: true };
   }
 }

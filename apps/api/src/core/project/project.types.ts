@@ -2,7 +2,6 @@ import { Prisma } from "@montelo/db";
 
 export type CreateProjectInput = {
   name: string;
-  orgId: string;
   envNames: string[];
 };
 

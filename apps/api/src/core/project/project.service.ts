@@ -1,7 +1,7 @@
+import { DatabaseService } from "@montelo/api-common";
 import { Project } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import { capitalize } from "lodash";
-import { DatabaseService } from "@montelo/api-common";
 import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "../environment/environment.enums";
 import { CreateProjectInput, FullProject } from "./project.types";
@@ -36,7 +36,7 @@ export class ProjectService {
     });
   }
 
-  async create(params: CreateProjectInput): Promise<Project> {
+  async create(orgId: string, params: CreateProjectInput): Promise<Project> {
     const EnvironmentNames: string[] = Object.values(Environments);
     const isRestrictedEnvironmentUsed = params.envNames.some((el) => EnvironmentNames.includes(el));
     if (isRestrictedEnvironmentUsed) {
@@ -57,7 +57,7 @@ export class ProjectService {
     const createdProject = await this.db.project.create({
       data: {
         name: capitalize(params.name),
-        orgId: params.orgId,
+        orgId,
       },
     });
 

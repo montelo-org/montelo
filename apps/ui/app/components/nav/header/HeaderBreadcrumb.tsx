@@ -131,7 +131,7 @@ export const HeaderBreadcrumb: FC<AppLayoutLoader> = ({ org, allProjects, projec
           <Dialog open={isCreateProjectDialogOpen} onOpenChange={setIsCreateProjectDialogOpen}>
             <BreadcrumbSeparator />
             <ProjectBreadcrumb project={project} allProjects={allProjects} />
-            <CreateProjectDialog orgId={org.id} onClose={() => setIsCreateEnvDialogOpen(false)} />
+            <CreateProjectDialog onClose={() => setIsCreateEnvDialogOpen(false)} />
           </Dialog>
         )}
         {environment && project && (

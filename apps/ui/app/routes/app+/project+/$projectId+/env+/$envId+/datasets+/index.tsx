@@ -11,7 +11,7 @@ type LoaderType = {
 
 export const loader: LoaderFunction = withAuth(async ({ api, params }) => {
   const envId = params.envId!;
-  const datasets = await api.dataset.datasetControllerGetAllDatasets({
+  const datasets = await api.dataset.datasetControllerGetAllDatasetsForEnv({
     envId,
   });
   return json<LoaderType>({ datasets });

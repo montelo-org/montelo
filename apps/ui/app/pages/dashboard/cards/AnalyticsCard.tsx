@@ -1,6 +1,6 @@
 import { LucideIcon } from "lucide-react";
 import { ReactNode } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 type AnalyticsCardProps = {
   title: string;

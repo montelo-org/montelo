@@ -16,6 +16,7 @@ models/DeleteSuccessDto.ts
 models/EventQueuedDto.ts
 models/ExperimentDto.ts
 models/FullDatasetDto.ts
+models/FullDatasetWithCountDto.ts
 models/FullExperimentDto.ts
 models/HealthControllerCheck200Response.ts
 models/HealthControllerCheck200ResponseInfoValue.ts

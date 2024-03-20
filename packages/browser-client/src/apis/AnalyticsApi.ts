@@ -25,14 +25,14 @@ import {
     DashboardAnalyticsDtoToJSON,
 } from '../models/index';
 
-export interface AnalyticsControllerGetCostHistoryRequest {
+export interface AnalyticsControllerGetAnalyticsForEnvRequest {
     envId: string;
-    dateSelection: AnalyticsControllerGetCostHistoryDateSelectionEnum;
+    dateSelection: AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum;
 }
 
-export interface AnalyticsControllerGetForDashboardRequest {
+export interface AnalyticsControllerGetCostHistoryForEnvRequest {
     envId: string;
-    dateSelection: AnalyticsControllerGetForDashboardDateSelectionEnum;
+    dateSelection: AnalyticsControllerGetCostHistoryForEnvDateSelectionEnum;
 }
 
 /**
@@ -42,57 +42,13 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
     /**
      */
-    async analyticsControllerGetCostHistoryRaw(requestParameters: AnalyticsControllerGetCostHistoryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CostHistoryDto>> {
+    async analyticsControllerGetAnalyticsForEnvRaw(requestParameters: AnalyticsControllerGetAnalyticsForEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DashboardAnalyticsDto>> {
         if (requestParameters.envId === null || requestParameters.envId === undefined) {
-            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling analyticsControllerGetCostHistory.');
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling analyticsControllerGetAnalyticsForEnv.');
         }
 
         if (requestParameters.dateSelection === null || requestParameters.dateSelection === undefined) {
-            throw new runtime.RequiredError('dateSelection','Required parameter requestParameters.dateSelection was null or undefined when calling analyticsControllerGetCostHistory.');
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters.dateSelection !== undefined) {
-            queryParameters['dateSelection'] = requestParameters.dateSelection;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearer", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/env/{envId}/analytics/cost-history`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => CostHistoryDtoFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async analyticsControllerGetCostHistory(requestParameters: AnalyticsControllerGetCostHistoryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CostHistoryDto> {
-        const response = await this.analyticsControllerGetCostHistoryRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async analyticsControllerGetForDashboardRaw(requestParameters: AnalyticsControllerGetForDashboardRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DashboardAnalyticsDto>> {
-        if (requestParameters.envId === null || requestParameters.envId === undefined) {
-            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling analyticsControllerGetForDashboard.');
-        }
-
-        if (requestParameters.dateSelection === null || requestParameters.dateSelection === undefined) {
-            throw new runtime.RequiredError('dateSelection','Required parameter requestParameters.dateSelection was null or undefined when calling analyticsControllerGetForDashboard.');
+            throw new runtime.RequiredError('dateSelection','Required parameter requestParameters.dateSelection was null or undefined when calling analyticsControllerGetAnalyticsForEnv.');
         }
 
         const queryParameters: any = {};
@@ -123,8 +79,52 @@ export class AnalyticsApi extends runtime.BaseAPI {
 
     /**
      */
-    async analyticsControllerGetForDashboard(requestParameters: AnalyticsControllerGetForDashboardRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DashboardAnalyticsDto> {
-        const response = await this.analyticsControllerGetForDashboardRaw(requestParameters, initOverrides);
+    async analyticsControllerGetAnalyticsForEnv(requestParameters: AnalyticsControllerGetAnalyticsForEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DashboardAnalyticsDto> {
+        const response = await this.analyticsControllerGetAnalyticsForEnvRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async analyticsControllerGetCostHistoryForEnvRaw(requestParameters: AnalyticsControllerGetCostHistoryForEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CostHistoryDto>> {
+        if (requestParameters.envId === null || requestParameters.envId === undefined) {
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling analyticsControllerGetCostHistoryForEnv.');
+        }
+
+        if (requestParameters.dateSelection === null || requestParameters.dateSelection === undefined) {
+            throw new runtime.RequiredError('dateSelection','Required parameter requestParameters.dateSelection was null or undefined when calling analyticsControllerGetCostHistoryForEnv.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.dateSelection !== undefined) {
+            queryParameters['dateSelection'] = requestParameters.dateSelection;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/env/{envId}/analytics/cost-history`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CostHistoryDtoFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async analyticsControllerGetCostHistoryForEnv(requestParameters: AnalyticsControllerGetCostHistoryForEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CostHistoryDto> {
+        const response = await this.analyticsControllerGetCostHistoryForEnvRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -133,7 +133,7 @@ export class AnalyticsApi extends runtime.BaseAPI {
 /**
  * @export
  */
-export const AnalyticsControllerGetCostHistoryDateSelectionEnum = {
+export const AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum = {
     _30Mins: '30 mins',
     _1Hr: '1 hr',
     _24Hrs: '24 hrs',
@@ -142,11 +142,11 @@ export const AnalyticsControllerGetCostHistoryDateSelectionEnum = {
     _3Months: '3 months',
     AllTime: 'All Time'
 } as const;
-export type AnalyticsControllerGetCostHistoryDateSelectionEnum = typeof AnalyticsControllerGetCostHistoryDateSelectionEnum[keyof typeof AnalyticsControllerGetCostHistoryDateSelectionEnum];
+export type AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum = typeof AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum[keyof typeof AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum];
 /**
  * @export
  */
-export const AnalyticsControllerGetForDashboardDateSelectionEnum = {
+export const AnalyticsControllerGetCostHistoryForEnvDateSelectionEnum = {
     _30Mins: '30 mins',
     _1Hr: '1 hr',
     _24Hrs: '24 hrs',
@@ -155,4 +155,4 @@ export const AnalyticsControllerGetForDashboardDateSelectionEnum = {
     _3Months: '3 months',
     AllTime: 'All Time'
 } as const;
-export type AnalyticsControllerGetForDashboardDateSelectionEnum = typeof AnalyticsControllerGetForDashboardDateSelectionEnum[keyof typeof AnalyticsControllerGetForDashboardDateSelectionEnum];
+export type AnalyticsControllerGetCostHistoryForEnvDateSelectionEnum = typeof AnalyticsControllerGetCostHistoryForEnvDateSelectionEnum[keyof typeof AnalyticsControllerGetCostHistoryForEnvDateSelectionEnum];

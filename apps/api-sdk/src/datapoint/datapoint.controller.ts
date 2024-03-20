@@ -1,10 +1,8 @@
-import { DatapointService } from "@montelo/api-common";
+import { DatapointService, AddToDatasetInput, DatapointDto } from "@montelo/api-common";
 import { Body, Controller, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { EnvId } from "../auth/EnvId.decorator";
 import { BearerGuard } from "../auth/bearer.guard";
-import { AddToDatasetInput } from "./dto/add-to-dataset.input";
-import { DatapointDto } from "./dto/datapoint.dto";
 
 
 @ApiTags("Datapoint")

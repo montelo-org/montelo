@@ -45,10 +45,10 @@ export interface DatasetDto {
     name: string;
     /**
      * 
-     * @type {string}
+     * @type {object}
      * @memberof DatasetDto
      */
-    description: string | null;
+    description: object;
     /**
      * 
      * @type {object}

@@ -7,7 +7,13 @@ import { DatapointsTable } from "~/pages/datasets/dataset/DatapointsTable";
 import { DatasetSchemaDialog } from "~/pages/datasets/dataset/DatasetSchemaDialog";
 import { Routes } from "~/routes";
 
-export const DatasetIdPage: FC<{ dataset: FullDatasetDto }> = ({ dataset }) => {
+type DatasetIdPageProps = {
+  dataset: FullDatasetDto;
+  currentPage: number;
+  totalPages: number;
+};
+
+export const DatasetIdPage: FC<DatasetIdPageProps> = ({ dataset, currentPage, totalPages }) => {
   const params = useParams();
 
   return (
@@ -34,10 +40,10 @@ export const DatasetIdPage: FC<{ dataset: FullDatasetDto }> = ({ dataset }) => {
           <p>Slug ➯ {dataset.slug}</p>
           <p>{dataset.description}</p>
         </div>
-        <DatasetSchemaDialog inputSchema={dataset.inputSchema} outputSchema={dataset.outputSchema}/>
+        <DatasetSchemaDialog inputSchema={dataset.inputSchema} outputSchema={dataset.outputSchema} />
       </div>
 
-      <DatapointsTable datapoints={dataset.datapoints} />
+      <DatapointsTable datapoints={dataset.datapoints} currentPage={currentPage} totalPages={totalPages} />
     </div>
   );
 };

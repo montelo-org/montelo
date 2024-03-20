@@ -1,16 +1,16 @@
 import { Prisma } from "@montelo/db";
-import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { ClerkAuthGuard } from "../../common/guards/auth.guard";
+import { UseAuthGuards } from "../../common/guards/guard";
 import { LogsDto } from "./dto/logs.dto";
 import { LogService } from "./log.service";
 
 
 @ApiTags("Log")
 @ApiBearerAuth()
+@UseAuthGuards()
 @Controller("env/:envId/log")
 export class LogController {
-
   constructor(private logService: LogService) {}
 
   @ApiQuery({
@@ -55,9 +55,8 @@ export class LogController {
     description: "The timestamp of the last trace. If undefined starts from the latest trace.",
     required: false,
   })
-  @UseGuards(ClerkAuthGuard)
   @Get()
-  async getAll(
+  async getLogsForEnvironment(
     @Param("envId") envId: string,
     @Query("take") take?: string,
     @Query("skip") skip?: string,

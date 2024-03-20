@@ -16,7 +16,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import "react-json-view-lite/dist/index.css";
 import { PageBreadcrumbContainer } from "~/components/PageBreadcrumbContainer";
-import { BreadcrumbItem, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
+import { BreadcrumbItem, BreadcrumbPage } from "~/components/ui/breadcrumb";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { useDebounceValue } from "~/hooks/useDebounceValue";
 import Pagination from "../../components/pagination";

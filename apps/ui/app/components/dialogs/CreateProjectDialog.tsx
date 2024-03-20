@@ -1,3 +1,4 @@
+import { useOrganization } from "@clerk/remix";
 import { Form, useRevalidator } from "@remix-run/react";
 import { Trash } from "lucide-react";
 import { FormEventHandler, useState } from "react";
@@ -8,11 +9,11 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
 type CreateProjectDialogProps = {
-  orgId: string;
   onClose: () => void;
 };
 
-export const CreateProjectDialog = ({ orgId, onClose }: CreateProjectDialogProps) => {
+export const CreateProjectDialog = ({ onClose }: CreateProjectDialogProps) => {
+  const { organization } = useOrganization();
   const [environments, setEnvironments] = useState<string[]>([""]);
   const revalidator = useRevalidator();
 
@@ -34,13 +35,16 @@ export const CreateProjectDialog = ({ orgId, onClose }: CreateProjectDialogProps
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
+    if (!organization) {
+      return;
+    }
+
     const nameInput = event.currentTarget.elements.namedItem("name") as HTMLInputElement;
     if (!nameInput.value.trim()) {
       return;
     }
 
     const formData = new FormData(event.currentTarget);
-    formData.append("orgId", orgId);
 
     await fetch(Routes.actions.project.create, {
       method: "POST",
@@ -55,13 +59,12 @@ export const CreateProjectDialog = ({ orgId, onClose }: CreateProjectDialogProps
 
   return (
     <DialogContent className="sm:max-w-[425px]">
-      <Form method="post" action={Routes.actions.project.create} onSubmit={handleSubmit}>
+      <Form method="POST" action={Routes.actions.project.create} onSubmit={handleSubmit}>
         <DialogHeader>
           <DialogTitle>Create Project</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="flex-row items-center space-y-1">
-            <input type="hidden" name="orgId" value={orgId} />
             <Label htmlFor="name" className="text-right text-base font-bold">
               Project Name *
             </Label>

@@ -43,6 +43,12 @@ export interface DatapointDto {
      * @memberof DatapointDto
      */
     datasetId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DatapointDto
+     */
+    createdAt: string;
 }
 
 /**
@@ -54,6 +60,7 @@ export function instanceOfDatapointDto(value: object): boolean {
     isInstance = isInstance && "input" in value;
     isInstance = isInstance && "output" in value;
     isInstance = isInstance && "datasetId" in value;
+    isInstance = isInstance && "createdAt" in value;
 
     return isInstance;
 }
@@ -72,6 +79,7 @@ export function DatapointDtoFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'input': json['input'],
         'output': json['output'],
         'datasetId': json['datasetId'],
+        'createdAt': json['createdAt'],
     };
 }
 
@@ -88,6 +96,7 @@ export function DatapointDtoToJSON(value?: DatapointDto | null): any {
         'input': value.input,
         'output': value.output,
         'datasetId': value.datasetId,
+        'createdAt': value.createdAt,
     };
 }
 

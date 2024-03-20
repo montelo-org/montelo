@@ -31,20 +31,8 @@ import {
     ProjectDtoToJSON,
 } from '../models/index';
 
-export interface ProjectControllerCreateRequest {
+export interface ProjectControllerCreateProjectRequest {
     createProjectInput: CreateProjectInput;
-}
-
-export interface ProjectControllerDeleteRequest {
-    projectId: string;
-}
-
-export interface ProjectControllerGetRequest {
-    projectId: string;
-}
-
-export interface ProjectControllerGetAllForOrgRequest {
-    orgId: string;
 }
 
 /**
@@ -54,9 +42,9 @@ export class ProjectApi extends runtime.BaseAPI {
 
     /**
      */
-    async projectControllerCreateRaw(requestParameters: ProjectControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProjectDto>> {
+    async projectControllerCreateProjectRaw(requestParameters: ProjectControllerCreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProjectDto>> {
         if (requestParameters.createProjectInput === null || requestParameters.createProjectInput === undefined) {
-            throw new runtime.RequiredError('createProjectInput','Required parameter requestParameters.createProjectInput was null or undefined when calling projectControllerCreate.');
+            throw new runtime.RequiredError('createProjectInput','Required parameter requestParameters.createProjectInput was null or undefined when calling projectControllerCreateProject.');
         }
 
         const queryParameters: any = {};
@@ -86,18 +74,14 @@ export class ProjectApi extends runtime.BaseAPI {
 
     /**
      */
-    async projectControllerCreate(requestParameters: ProjectControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProjectDto> {
-        const response = await this.projectControllerCreateRaw(requestParameters, initOverrides);
+    async projectControllerCreateProject(requestParameters: ProjectControllerCreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProjectDto> {
+        const response = await this.projectControllerCreateProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async projectControllerDeleteRaw(requestParameters: ProjectControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling projectControllerDelete.');
-        }
-
+    async projectControllerDeleteProjectRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -111,7 +95,7 @@ export class ProjectApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/project/{projectId}`.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/project`,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -122,18 +106,14 @@ export class ProjectApi extends runtime.BaseAPI {
 
     /**
      */
-    async projectControllerDelete(requestParameters: ProjectControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
-        const response = await this.projectControllerDeleteRaw(requestParameters, initOverrides);
+    async projectControllerDeleteProject(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
+        const response = await this.projectControllerDeleteProjectRaw(initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async projectControllerGetRaw(requestParameters: ProjectControllerGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FullProjectDto>> {
-        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
-            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling projectControllerGet.');
-        }
-
+    async projectControllerGetProjectRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FullProjectDto>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -147,7 +127,7 @@ export class ProjectApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/project/{projectId}`.replace(`{${"projectId"}}`, encodeURIComponent(String(requestParameters.projectId))),
+            path: `/project`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -158,18 +138,14 @@ export class ProjectApi extends runtime.BaseAPI {
 
     /**
      */
-    async projectControllerGet(requestParameters: ProjectControllerGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FullProjectDto> {
-        const response = await this.projectControllerGetRaw(requestParameters, initOverrides);
+    async projectControllerGetProject(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FullProjectDto> {
+        const response = await this.projectControllerGetProjectRaw(initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async projectControllerGetAllForOrgRaw(requestParameters: ProjectControllerGetAllForOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<FullProjectDto>>> {
-        if (requestParameters.orgId === null || requestParameters.orgId === undefined) {
-            throw new runtime.RequiredError('orgId','Required parameter requestParameters.orgId was null or undefined when calling projectControllerGetAllForOrg.');
-        }
-
+    async projectControllerGetProjectsForOrgRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<FullProjectDto>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -183,7 +159,7 @@ export class ProjectApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/project/org/{orgId}`.replace(`{${"orgId"}}`, encodeURIComponent(String(requestParameters.orgId))),
+            path: `/project/org`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -194,8 +170,8 @@ export class ProjectApi extends runtime.BaseAPI {
 
     /**
      */
-    async projectControllerGetAllForOrg(requestParameters: ProjectControllerGetAllForOrgRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<FullProjectDto>> {
-        const response = await this.projectControllerGetAllForOrgRaw(requestParameters, initOverrides);
+    async projectControllerGetProjectsForOrg(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<FullProjectDto>> {
+        const response = await this.projectControllerGetProjectsForOrgRaw(initOverrides);
         return await response.value();
     }
 

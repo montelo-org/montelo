@@ -95,8 +95,11 @@ export const CreateDatasetForm: FC<{ onSubmit: () => void }> = ({ onSubmit }) =>
   const handleSubmit = async (data: any, event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     fetcher.submit(data, {
-      method: "post",
-      action: Routes.actions.dataset.create,
+      method: "POST",
+      action: Routes.actions.dataset.create({
+        projectId: params.projectId!,
+        envId: params.envId!,
+      }),
       encType: "application/json",
     });
   };
@@ -128,7 +131,6 @@ export const CreateDatasetForm: FC<{ onSubmit: () => void }> = ({ onSubmit }) =>
             key: "",
           },
         ],
-        envId: params.envId!,
       }}
     >
       <FormInput name="name" label="Name" />
@@ -137,7 +139,6 @@ export const CreateDatasetForm: FC<{ onSubmit: () => void }> = ({ onSubmit }) =>
         <SchemaField name="inputSchema" label="Input Schema" />
         <SchemaField name="outputSchema" label="Output Schema" />
       </div>
-      <input type="hidden" name="envId" value={params.envId!} />
       {error && <p className={"text-destructive flex justify-end"}>{error}</p>}
       <SubmitButton />
     </ValidatedForm>

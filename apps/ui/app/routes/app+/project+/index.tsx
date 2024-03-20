@@ -5,18 +5,15 @@ import { withAuth } from "~/auth/withAuth";
 import { OrgProjectsPage } from "~/pages/root/OrgProjectsPage";
 
 type LoaderType = {
-  orgId: string;
   projects: FullProjectDto[];
 };
 
-export const loader: LoaderFunction = withAuth(async ({ api, orgId }) => {
-  const projects = await api.project.projectControllerGetAllForOrg({
-    orgId,
-  });
-  return json<LoaderType>({ orgId, projects });
+export const loader: LoaderFunction = withAuth(async ({ api }) => {
+  const projects = await api.project.projectControllerGetProjectsForOrg();
+  return json<LoaderType>({ projects });
 });
 
 export default function OrgProjectsRoute() {
-  const { orgId, projects } = useLoaderData<LoaderType>();
-  return <OrgProjectsPage orgId={orgId} projects={projects} />;
+  const { projects } = useLoaderData<LoaderType>();
+  return <OrgProjectsPage projects={projects} />;
 }

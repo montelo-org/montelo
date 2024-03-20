@@ -23,7 +23,6 @@ import {
 } from '../models/index';
 
 export interface ExperimentControllerGetExperimentRequest {
-    datasetId: string;
     experimentId: string;
 }
 
@@ -39,10 +38,6 @@ export class ExperimentApi extends runtime.BaseAPI {
     /**
      */
     async experimentControllerGetExperimentRaw(requestParameters: ExperimentControllerGetExperimentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExperimentDto>> {
-        if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
-            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling experimentControllerGetExperiment.');
-        }
-
         if (requestParameters.experimentId === null || requestParameters.experimentId === undefined) {
             throw new runtime.RequiredError('experimentId','Required parameter requestParameters.experimentId was null or undefined when calling experimentControllerGetExperiment.');
         }
@@ -60,7 +55,7 @@ export class ExperimentApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/dataset/{datasetId}/experiment/{experimentId}`.replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))).replace(`{${"experimentId"}}`, encodeURIComponent(String(requestParameters.experimentId))),
+            path: `/experiment/{experimentId}`.replace(`{${"experimentId"}}`, encodeURIComponent(String(requestParameters.experimentId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,

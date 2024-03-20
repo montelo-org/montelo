@@ -1,6 +1,6 @@
 import type { DatapointDto } from "@montelo/browser-client";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useParams } from "@remix-run/react";
 import {
   ColumnDef,
   flexRender,
@@ -13,6 +13,7 @@ import {
 import { Trash } from "lucide-react";
 import * as React from "react";
 import { FC } from "react";
+import Pagination from "~/components/pagination";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -63,11 +64,18 @@ export const columns: ColumnDef<DatapointDto>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const params = useParams();
       const fetcher = useFetcher();
-      const { datasetId, id: datapointId } = row.original;
+      const { id: datapointId } = row.original;
 
       const handleDeleteDatapoint = () => {
-        fetcher.submit({ datasetId, datapointId }, { method: "POST", action: Routes.actions.datapoints.delete });
+        fetcher.submit(null, {
+          method: "DELETE",
+          action: Routes.actions.datapoints.delete({
+            projectId: params.projectId!,
+            datapointId,
+          }),
+        });
       };
 
       return (
@@ -89,10 +97,17 @@ export const columns: ColumnDef<DatapointDto>[] = [
   },
 ];
 
-export const DatapointsTable: FC<{ datapoints: DatapointDto[] }> = ({ datapoints }) => {
+type DatapointsTableProps = {
+  datapoints: DatapointDto[];
+  currentPage: number;
+  totalPages: number;
+};
+
+export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentPage, totalPages }) => {
   const table = useReactTable({
     data: datapoints,
     columns,
+    manualPagination: true,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -141,17 +156,7 @@ export const DatapointsTable: FC<{ datapoints: DatapointDto[] }> = ({ datapoints
           selected.
         </div>
         <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-            Next
-          </Button>
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
         </div>
       </div>
     </div>

@@ -36,26 +36,32 @@ const PATH_AUTH = {
 const PATH_ACTIONS = {
   setTheme: path(ROOT_ACTION, "/set-theme"),
   project: {
-    delete: path(ROOT_ACTION, "/project/delete"),
-    create: path(ROOT_ACTION, "/project/create"),
+    create: path(ROOT_ACTION, "/project"),
+    delete: (projectId: string) => path(ROOT_ACTION, `/project/${projectId}`),
     getAllApiKeys: (projectId: string) => path(ROOT_ACTION, `/project/${projectId}/api-keys`),
   },
   apiKeys: {
-    reveal: (apiKeyId: string) => path(ROOT_ACTION, `/api-keys/${apiKeyId}/reveal`),
-    rotate: (apiKeyId: string) => path(ROOT_ACTION, `/api-keys/${apiKeyId}/rotate`),
+    reveal: (params: { projectId: string; apiKeyId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/api-keys/${params.apiKeyId}/reveal`),
+    rotate: (params: { projectId: string; apiKeyId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/api-keys/${params.apiKeyId}/rotate`),
   },
   trace: {
-    delete: path(ROOT_ACTION, "/trace/delete"),
+    delete: (params: { projectId: string; traceId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/trace/${params.traceId}`),
   },
   env: {
-    create: path(ROOT_ACTION, "/env/create"),
+    create: (projectId: string) => path(ROOT_ACTION, `/project/${projectId}/env`),
   },
   dataset: {
-    create: path(ROOT_ACTION, "/dataset/create"),
-    delete: path(ROOT_ACTION, "/dataset/delete"),
+    create: (params: { projectId: string; envId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/env/${params.envId}/dataset`),
+    delete: (params: { projectId: string; datasetId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/dataset/${params.datasetId}`),
   },
   datapoints: {
-    delete: path(ROOT_ACTION, "/datapoint/delete"),
+    delete: (params: { projectId: string; datapointId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/datapoint/${params.datapointId}`),
   },
 };
 

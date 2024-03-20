@@ -23,12 +23,8 @@ export const DeleteProjectConfirmDialog = ({
   const handleDelete: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    formData.append("projectId", projectId);
-
-    await fetch(Routes.actions.project.delete, {
-      method: "POST",
-      body: formData,
+    await fetch(Routes.actions.project.delete(projectId), {
+      method: "DELETE",
     });
     revalidator.revalidate();
 
@@ -38,7 +34,7 @@ export const DeleteProjectConfirmDialog = ({
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogContent className="sm:max-w-[425px]">
-        <Form method="post" action={Routes.actions.project.delete} onSubmit={handleDelete}>
+        <Form onSubmit={handleDelete}>
           <DialogHeader>
             <DialogTitle>Delete Team {projectName}</DialogTitle>
           </DialogHeader>

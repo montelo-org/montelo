@@ -1,7 +1,7 @@
 import { Dataset, Prisma } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../database";
-import { CreateDatasetParams, DatasetWithDatapoints } from "./dataset.types";
+import { CreateDatasetParams, DatasetWithDatapoints, FullDatasetByIdOpts } from "./dataset.types";
 
 
 @Injectable()
@@ -16,15 +16,37 @@ export class DatasetService {
     });
   }
 
-  async getFullDatasetById(datasetId: string): Promise<DatasetWithDatapoints> {
-    return this.db.dataset.findUniqueOrThrow({
+  async getFullDatasetById(
+    datasetId: string,
+    options?: FullDatasetByIdOpts,
+  ): Promise<{
+    dataset: DatasetWithDatapoints;
+    totalCount: number;
+  }> {
+    const datasetPromise = this.db.dataset.findUniqueOrThrow({
       where: {
         id: datasetId,
       },
       include: {
-        datapoints: true,
+        datapoints: {
+          take: options?.take || 50,
+          skip: options?.skip || 0,
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
+
+    const totalCountPromise = this.db.datapoint.count({
+      where: {
+        datasetId,
+      },
+    });
+
+    const [dataset, totalCount] = await Promise.all([datasetPromise, totalCountPromise]);
+
+    return { dataset, totalCount };
   }
 
   async getByName(params: Prisma.DatasetSlugEnvIdCompoundUniqueInput): Promise<Dataset> {

@@ -16,11 +16,10 @@ export const CreateEnvDialog: FC<CreateEnvDialogProps> = ({ projectId, onClose }
   const handleCreateEnvironment = async () => {
     const payload = {
       envName,
-      projectId,
     };
     fetcher.submit(payload, {
       method: "POST",
-      action: Routes.actions.env.create,
+      action: Routes.actions.env.create(projectId),
     });
     onClose();
   };

@@ -1,5 +1,9 @@
 import { Prisma } from "@montelo/db";
 
+export type FullDatasetByIdOpts = {
+  take?: number;
+  skip?: number;
+};
 
 export type CreateDatasetParams = {
   name: string;

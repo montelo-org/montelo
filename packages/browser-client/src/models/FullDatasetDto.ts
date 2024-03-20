@@ -55,7 +55,7 @@ export interface FullDatasetDto {
      * @type {string}
      * @memberof FullDatasetDto
      */
-    description: string | null;
+    description?: string;
     /**
      * 
      * @type {object}
@@ -85,7 +85,6 @@ export function instanceOfFullDatasetDto(value: object): boolean {
     isInstance = isInstance && "envId" in value;
     isInstance = isInstance && "slug" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "description" in value;
     isInstance = isInstance && "inputSchema" in value;
     isInstance = isInstance && "outputSchema" in value;
     isInstance = isInstance && "datapoints" in value;
@@ -107,7 +106,7 @@ export function FullDatasetDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'envId': json['envId'],
         'slug': json['slug'],
         'name': json['name'],
-        'description': json['description'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'inputSchema': json['inputSchema'],
         'outputSchema': json['outputSchema'],
         'datapoints': ((json['datapoints'] as Array<any>).map(DatapointDtoFromJSON)),

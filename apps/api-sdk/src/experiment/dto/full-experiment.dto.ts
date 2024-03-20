@@ -1,7 +1,8 @@
+import { FullDatasetDto } from "@montelo/api-common";
 import { ApiProperty } from "@nestjs/swagger";
-import { FullDatasetDto } from "../../dataset/dto/full-dataset.dto";
 import { ExperimentWithDatapoints } from "../experiment.service.types";
 import { ExperimentDto } from "./experiment.dto";
+
 
 export class FullExperimentDto extends ExperimentDto {
   @ApiProperty()

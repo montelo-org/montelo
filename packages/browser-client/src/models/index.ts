@@ -15,6 +15,7 @@ export * from './DeleteSuccessDto';
 export * from './EnvironmentDto';
 export * from './ExperimentDto';
 export * from './FullDatasetDto';
+export * from './FullDatasetWithCountDto';
 export * from './FullProjectDto';
 export * from './HealthControllerCheck200Response';
 export * from './HealthControllerCheck200ResponseInfoValue';

@@ -25,6 +25,7 @@ models/DeleteSuccessDto.ts
 models/EnvironmentDto.ts
 models/ExperimentDto.ts
 models/FullDatasetDto.ts
+models/FullDatasetWithCountDto.ts
 models/FullProjectDto.ts
 models/HealthControllerCheck200Response.ts
 models/HealthControllerCheck200ResponseInfoValue.ts

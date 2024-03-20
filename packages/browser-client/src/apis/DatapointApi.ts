@@ -28,17 +28,12 @@ import {
     DeleteSuccessDtoToJSON,
 } from '../models/index';
 
-export interface DatapointControllerAddToDatasetRequest {
+export interface DatapointControllerCreateDatapointRequest {
     datasetId: string;
     addToDatasetInput: AddToDatasetInput;
 }
 
-export interface DatapointControllerGetAllRequest {
-    datasetId: string;
-}
-
-export interface DatapointControllerRemoveFromDatasetRequest {
-    datasetId: string;
+export interface DatapointControllerDeleteDatapointRequest {
     datapointId: string;
 }
 
@@ -49,13 +44,13 @@ export class DatapointApi extends runtime.BaseAPI {
 
     /**
      */
-    async datapointControllerAddToDatasetRaw(requestParameters: DatapointControllerAddToDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatapointDto>> {
+    async datapointControllerCreateDatapointRaw(requestParameters: DatapointControllerCreateDatapointRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatapointDto>> {
         if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
-            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datapointControllerAddToDataset.');
+            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datapointControllerCreateDatapoint.');
         }
 
         if (requestParameters.addToDatasetInput === null || requestParameters.addToDatasetInput === undefined) {
-            throw new runtime.RequiredError('addToDatasetInput','Required parameter requestParameters.addToDatasetInput was null or undefined when calling datapointControllerAddToDataset.');
+            throw new runtime.RequiredError('addToDatasetInput','Required parameter requestParameters.addToDatasetInput was null or undefined when calling datapointControllerCreateDatapoint.');
         }
 
         const queryParameters: any = {};
@@ -85,56 +80,16 @@ export class DatapointApi extends runtime.BaseAPI {
 
     /**
      */
-    async datapointControllerAddToDataset(requestParameters: DatapointControllerAddToDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatapointDto> {
-        const response = await this.datapointControllerAddToDatasetRaw(requestParameters, initOverrides);
+    async datapointControllerCreateDatapoint(requestParameters: DatapointControllerCreateDatapointRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatapointDto> {
+        const response = await this.datapointControllerCreateDatapointRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async datapointControllerGetAllRaw(requestParameters: DatapointControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatapointDto>>> {
-        if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
-            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datapointControllerGetAll.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearer", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/dataset/{datasetId}/datapoint`.replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DatapointDtoFromJSON));
-    }
-
-    /**
-     */
-    async datapointControllerGetAll(requestParameters: DatapointControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatapointDto>> {
-        const response = await this.datapointControllerGetAllRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async datapointControllerRemoveFromDatasetRaw(requestParameters: DatapointControllerRemoveFromDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
-        if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
-            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datapointControllerRemoveFromDataset.');
-        }
-
+    async datapointControllerDeleteDatapointRaw(requestParameters: DatapointControllerDeleteDatapointRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
         if (requestParameters.datapointId === null || requestParameters.datapointId === undefined) {
-            throw new runtime.RequiredError('datapointId','Required parameter requestParameters.datapointId was null or undefined when calling datapointControllerRemoveFromDataset.');
+            throw new runtime.RequiredError('datapointId','Required parameter requestParameters.datapointId was null or undefined when calling datapointControllerDeleteDatapoint.');
         }
 
         const queryParameters: any = {};
@@ -150,7 +105,7 @@ export class DatapointApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/dataset/{datasetId}/datapoint/{datapointId}`.replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))).replace(`{${"datapointId"}}`, encodeURIComponent(String(requestParameters.datapointId))),
+            path: `/datapoint/{datapointId}`.replace(`{${"datapointId"}}`, encodeURIComponent(String(requestParameters.datapointId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -161,8 +116,8 @@ export class DatapointApi extends runtime.BaseAPI {
 
     /**
      */
-    async datapointControllerRemoveFromDataset(requestParameters: DatapointControllerRemoveFromDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
-        const response = await this.datapointControllerRemoveFromDatasetRaw(requestParameters, initOverrides);
+    async datapointControllerDeleteDatapoint(requestParameters: DatapointControllerDeleteDatapointRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
+        const response = await this.datapointControllerDeleteDatapointRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

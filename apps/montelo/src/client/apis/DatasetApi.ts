@@ -18,7 +18,7 @@ import type {
   CreateDatasetInput,
   DatasetDto,
   DeleteSuccessDto,
-  FullDatasetDto,
+  FullDatasetWithCountDto,
 } from '../models/index';
 import {
     CreateDatasetInputFromJSON,
@@ -27,8 +27,8 @@ import {
     DatasetDtoToJSON,
     DeleteSuccessDtoFromJSON,
     DeleteSuccessDtoToJSON,
-    FullDatasetDtoFromJSON,
-    FullDatasetDtoToJSON,
+    FullDatasetWithCountDtoFromJSON,
+    FullDatasetWithCountDtoToJSON,
 } from '../models/index';
 
 export interface DatasetControllerCreateRequest {
@@ -41,6 +41,8 @@ export interface DatasetControllerDeleteRequest {
 
 export interface DatasetControllerGetFullDatasetRequest {
     datasetId: string;
+    take?: string;
+    skip?: string;
 }
 
 /**
@@ -157,12 +159,20 @@ export class DatasetApi extends runtime.BaseAPI {
 
     /**
      */
-    async datasetControllerGetFullDatasetRaw(requestParameters: DatasetControllerGetFullDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FullDatasetDto>> {
+    async datasetControllerGetFullDatasetRaw(requestParameters: DatasetControllerGetFullDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FullDatasetWithCountDto>> {
         if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
             throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datasetControllerGetFullDataset.');
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.take !== undefined) {
+            queryParameters['take'] = requestParameters.take;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -181,12 +191,12 @@ export class DatasetApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => FullDatasetDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FullDatasetWithCountDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async datasetControllerGetFullDataset(requestParameters: DatasetControllerGetFullDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FullDatasetDto> {
+    async datasetControllerGetFullDataset(requestParameters: DatasetControllerGetFullDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FullDatasetWithCountDto> {
         const response = await this.datasetControllerGetFullDatasetRaw(requestParameters, initOverrides);
         return await response.value();
     }
