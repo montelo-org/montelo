@@ -1,5 +1,13 @@
 # @montelo/fizz
 
+## 1.1.65
+
+### Patch Changes
+
+- Crews
+- Updated dependencies
+  - @montelo/common@1.1.65
+
 ## 1.1.64
 
 ### Patch Changes
