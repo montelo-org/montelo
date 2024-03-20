@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@wandb/sdk": "^0.5.1",
+    "@montelo/crews": "file:../apps/crews",
     "montelo": "file:../apps/montelo",
     "openai": "^4.26.0"
   }

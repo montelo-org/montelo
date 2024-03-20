@@ -2,7 +2,10 @@ import { Bot, Hammer, Settings2, User } from "lucide-react";
 import { FC } from "react";
 import { Title } from "./styles";
 
-export const RoleHeaderMap: Record<string, FC> = {
+type Props = {
+  toolName?: string;
+};
+export const RoleHeaderMap: Record<string, FC<Props>> = {
   system: () => (
     <Title>
       <Settings2 size={20} />
@@ -21,10 +24,10 @@ export const RoleHeaderMap: Record<string, FC> = {
       Assistant
     </Title>
   ),
-  tool: () => (
+  tool: ({ toolName }) => (
     <Title>
       <Hammer size={20} />
-      Tool
+      Tool<span className="text-muted-foreground text-base">({toolName})</span>
     </Title>
   ),
   function: () => (

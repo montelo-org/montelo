@@ -1,0 +1,28 @@
+{
+  "name": "@montelo/crews",
+  "version": "1.1.65",
+  "main": "dist/bundle.js/index.js",
+  "types": "dist/bundle.js/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "files": [
+    "dist",
+    "index.js",
+    "index.d.ts"
+  ],
+  "dependencies": {
+    "montelo": "^1.1.65",
+    "ts-node": "^10.9.2",
+    "zod": "^3.22.4",
+    "zod-to-json-schema": "^3.22.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "rollup": "^4.9.5",
+    "rollup-plugin-typescript2": "^0.36.0"
+  }
+}

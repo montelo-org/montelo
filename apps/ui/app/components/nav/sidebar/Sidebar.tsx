@@ -70,10 +70,7 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
     });
 
   return (
-    <aside
-      className="fixed top-16 flex w-48 flex-col justify-between pt-2"
-      style={{ height: "calc(100vh - 4rem - 0.5rem)" }}
-    >
+    <aside className="h-100vh fixed bottom-0 left-0 top-0 flex w-48 flex-col justify-between pt-[80px]">
       <div className="pb-4 pl-4 pr-4">
         <ul className="flex flex-col gap-1 space-y-1">
           <SidebarItemsComponent />

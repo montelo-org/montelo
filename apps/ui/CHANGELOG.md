@@ -1,5 +1,21 @@
 # @montelo/ui
 
+## 1.1.65
+
+### Patch Changes
+
+- Crews
+- Updated dependencies
+  - @montelo/browser-client@1.1.65
+
+## 1.1.64
+
+### Patch Changes
+
+- fix
+- Updated dependencies
+  - @montelo/browser-client@1.1.64
+
 ## 1.1.63
 
 ### Patch Changes
