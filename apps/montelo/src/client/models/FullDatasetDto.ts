@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { DatapointDto } from './DatapointDto';
+import {
+    DatapointDtoFromJSON,
+    DatapointDtoFromJSONTyped,
+    DatapointDtoToJSON,
+} from './DatapointDto';
+
 /**
  * 
  * @export
@@ -45,10 +52,10 @@ export interface FullDatasetDto {
     name: string;
     /**
      * 
-     * @type {object}
+     * @type {string}
      * @memberof FullDatasetDto
      */
-    description: object;
+    description?: string;
     /**
      * 
      * @type {object}
@@ -63,10 +70,10 @@ export interface FullDatasetDto {
     outputSchema: object;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<DatapointDto>}
      * @memberof FullDatasetDto
      */
-    datapoints: Array<string>;
+    datapoints: Array<DatapointDto>;
 }
 
 /**
@@ -78,7 +85,6 @@ export function instanceOfFullDatasetDto(value: object): boolean {
     isInstance = isInstance && "envId" in value;
     isInstance = isInstance && "slug" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "description" in value;
     isInstance = isInstance && "inputSchema" in value;
     isInstance = isInstance && "outputSchema" in value;
     isInstance = isInstance && "datapoints" in value;
@@ -100,10 +106,10 @@ export function FullDatasetDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'envId': json['envId'],
         'slug': json['slug'],
         'name': json['name'],
-        'description': json['description'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'inputSchema': json['inputSchema'],
         'outputSchema': json['outputSchema'],
-        'datapoints': json['datapoints'],
+        'datapoints': ((json['datapoints'] as Array<any>).map(DatapointDtoFromJSON)),
     };
 }
 
@@ -123,7 +129,7 @@ export function FullDatasetDtoToJSON(value?: FullDatasetDto | null): any {
         'description': value.description,
         'inputSchema': value.inputSchema,
         'outputSchema': value.outputSchema,
-        'datapoints': value.datapoints,
+        'datapoints': ((value.datapoints as Array<any>).map(DatapointDtoToJSON)),
     };
 }
 
