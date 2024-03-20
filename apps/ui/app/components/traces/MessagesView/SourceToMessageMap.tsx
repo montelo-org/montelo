@@ -5,7 +5,7 @@ import OpenAI from "openai";
 import { FC } from "react";
 import { CodeBlock } from "~/components/traces/MessagesView/CodeBlock";
 import { RoleHeaderMap } from "~/components/traces/MessagesView/RoleHeaderMap";
-import { Content, MessageContainer, Title } from "~/components/traces/MessagesView/styles";
+import { Content, Message, MessagesContainer, Title } from "~/components/traces/MessagesView/styles";
 
 type SourceToMessageMapType = {
   [key in LogDtoSourceEnum]: {
@@ -17,16 +17,16 @@ type SourceToMessageMapType = {
 export const SourceToMessageMap: SourceToMessageMapType = {
   [LogDtoSourceEnum.Manual]: {
     InputComponent: ({ value }) => (
-      <MessageContainer>
+      <Message>
         <Title>Input</Title>
         <CodeBlock value={JSON.stringify(value || {}, undefined, 2)} />
-      </MessageContainer>
+      </Message>
     ),
     OutputComponent: ({ value }) => (
-      <MessageContainer>
+      <Message>
         <Title>Output</Title>
         <CodeBlock value={JSON.stringify(value || {}, undefined, 2)} />
-      </MessageContainer>
+      </Message>
     ),
   },
   [LogDtoSourceEnum.Openai]: {
@@ -34,7 +34,7 @@ export const SourceToMessageMap: SourceToMessageMapType = {
       const typedValue = value as OpenAI.ChatCompletionCreateParams;
 
       return (
-        <MessageContainer>
+        <MessagesContainer>
           {typedValue.messages.map((value, index) => {
             const RoleHeader = RoleHeaderMap[value.role];
             // @ts-expect-error
@@ -44,13 +44,13 @@ export const SourceToMessageMap: SourceToMessageMapType = {
             const PrettyContent = typeof value.content === "string" ? <Content>{value.content}</Content> : CodeView;
 
             return (
-              <MessageContainer key={index}>
+              <Message key={index}>
                 <RoleHeader toolName={toolName} />
                 {jsonView ? CodeView : PrettyContent}
-              </MessageContainer>
+              </Message>
             );
           })}
-        </MessageContainer>
+        </MessagesContainer>
       );
     },
     OutputComponent: ({ value, jsonView }) => {
@@ -65,28 +65,28 @@ export const SourceToMessageMap: SourceToMessageMapType = {
       );
 
       return (
-        <MessageContainer>
+        <Message>
           <RoleHeader />
           {jsonView ? <CodeBlock value={JSON.stringify(value, undefined, 2)} /> : ContentRender}
-        </MessageContainer>
+        </Message>
       );
     },
   },
   [LogDtoSourceEnum.Mistral]: {
     InputComponent: ({ value, jsonView }) => (
-      <MessageContainer>
+      <MessagesContainer>
         {value.messages.map(({ role, content }: { role: string; content: string | string[] }, index: number) => {
           const RoleHeader = RoleHeaderMap[role];
           const strContent =
             typeof content === "string" ? content : content.reduce((acc, content) => acc + content, "");
           return (
-            <MessageContainer key={index}>
+            <Message key={index}>
               {<RoleHeader />}
               {jsonView ? <CodeBlock value={JSON.stringify(value, undefined, 2)} /> : <Content>{strContent}</Content>}
-            </MessageContainer>
+            </Message>
           );
         })}
-      </MessageContainer>
+      </MessagesContainer>
     ),
     OutputComponent: ({ value, jsonView }) => {
       const typedValue = value as ChatCompletionResponse;
@@ -95,10 +95,10 @@ export const SourceToMessageMap: SourceToMessageMapType = {
       const content = message.content;
 
       return (
-        <MessageContainer>
+        <Message>
           <RoleHeader />
           {jsonView ? <CodeBlock value={JSON.stringify(value, undefined, 2)} /> : <Content>{content}</Content>}
-        </MessageContainer>
+        </Message>
       );
     },
   },
@@ -107,7 +107,7 @@ export const SourceToMessageMap: SourceToMessageMapType = {
       const typedValue = value as Anthropic.MessageCreateParams;
 
       return (
-        <MessageContainer>
+        <MessagesContainer>
           {typedValue.messages.map((value, index) => {
             const RoleHeader = RoleHeaderMap[value.role];
 
@@ -115,13 +115,13 @@ export const SourceToMessageMap: SourceToMessageMapType = {
             const PrettyContent = typeof value.content === "string" ? <Content>{value.content}</Content> : CodeView;
 
             return (
-              <MessageContainer key={index}>
+              <Message key={index}>
                 <RoleHeader />
                 {jsonView ? CodeView : PrettyContent}
-              </MessageContainer>
+              </Message>
             );
           })}
-        </MessageContainer>
+        </MessagesContainer>
       );
     },
     OutputComponent: ({ value, jsonView }) => {
@@ -130,10 +130,10 @@ export const SourceToMessageMap: SourceToMessageMapType = {
       const stringOutput = typedValue.content.reduce((acc, content) => acc + content.text, "");
 
       return (
-        <MessageContainer>
+        <Message>
           <RoleHeader />
           {jsonView ? <CodeBlock value={JSON.stringify(value, undefined, 2)} /> : <Content>{stringOutput}</Content>}
-        </MessageContainer>
+        </Message>
       );
     },
   },

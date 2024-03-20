@@ -1,11 +1,10 @@
 import { LogDtoSourceEnum } from "@montelo/browser-client";
 import { FC, useState } from "react";
 import { SourceToMessageMap } from "~/components/traces/MessagesView/SourceToMessageMap";
-import { Container, MessageContainer, Title } from "~/components/traces/MessagesView/styles";
+import { Message, MessagesContainer, Title } from "~/components/traces/MessagesView/styles";
 import { Label } from "~/components/ui/label";
 import { Switch } from "~/components/ui/switch";
 import { CodeBlock } from "./CodeBlock";
-
 
 type MessagesViewProps = {
   input: any;
@@ -19,23 +18,19 @@ export const MessagesView: FC<MessagesViewProps> = ({ input, output, extra, sour
   const { InputComponent, OutputComponent } = SourceToMessageMap[source];
 
   return (
-    <MessageContainer>
+    <MessagesContainer>
       <div className="text-muted-foreground flex items-center justify-end space-x-2">
         <Switch id="json-view" checked={jsonView} onCheckedChange={setJsonView} />
         <Label htmlFor="json-view">{jsonView ? "Pretty" : "JSON"}</Label>
       </div>
-      <MessageContainer>
-        <Container>
-          <InputComponent value={input} jsonView={jsonView} />
-        </Container>
-        <Container>
-          <OutputComponent value={output} jsonView={jsonView} />
-        </Container>
-        <MessageContainer>
-          <Title>Extra</Title>
-          <CodeBlock value={JSON.stringify(extra || {}, undefined, 2)} />
-        </MessageContainer>
-      </MessageContainer>
-    </MessageContainer>
+
+      <InputComponent value={input} jsonView={jsonView} />
+      <OutputComponent value={output} jsonView={jsonView} />
+
+      <Message>
+        <Title>Extra</Title>
+        <CodeBlock value={JSON.stringify(extra || {}, undefined, 2)} />
+      </Message>
+    </MessagesContainer>
   );
 };
