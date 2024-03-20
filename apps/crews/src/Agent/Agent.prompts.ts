@@ -19,7 +19,8 @@ export const ManagerSystemPrompt = (
 Don't perform the tasks by yourself.
 MAKE SURE to only respond with the answers of your team members. Don't share your own answers or evaluations.
 
-Your team consists of: ${coworkers}
+Your team consists of:
+${coworkers}
 `;
 
 export const ManagerRole = "Manage the team to complete the task in the best way possible";

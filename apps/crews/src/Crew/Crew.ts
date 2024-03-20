@@ -109,7 +109,9 @@ export class Crew<P extends Process> {
   }
 
   private async runManaged({ promptInputs }: RunParams): Promise<RunResponse> {
-    const coworkers = (this.agents || []).map((agent) => agent.name.toLowerCase().trim()).join(", ");
+    const coworkers = (this.agents || [])
+      .map((agent) => `${agent.name.toLowerCase().trim()}: ${agent.role}`)
+      .join("\n");
 
     const manager = new Agent({
       name: "Manager",
