@@ -8,5 +8,6 @@ export const action: ActionFunction = withAuth(async ({ api, params }) => {
   const apiKey = await api.apiKey.apiKeyControllerRevealOne({
     apiKeyId,
   });
+
   return json<ApiKeyWithEnvDto>(apiKey);
 });

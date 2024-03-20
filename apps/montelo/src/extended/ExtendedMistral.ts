@@ -1,9 +1,18 @@
-import MistralClient, { ChatCompletionResponse, ChatCompletionResponseChunk, EmbeddingResponse, Function, ListModelsResponse, ResponseFormat, TokenUsage, ToolCalls, ToolChoice } from "@mistralai/mistralai";
+import MistralClient, {
+  ChatCompletionResponse,
+  ChatCompletionResponseChunk,
+  EmbeddingResponse,
+  Function,
+  ListModelsResponse,
+  ResponseFormat,
+  TokenUsage,
+  ToolCalls,
+  ToolChoice,
+} from "@mistralai/mistralai";
 import { MonteloClient } from "../MonteloClient";
 import { LogInput, LogInputSourceEnum } from "../client";
 import { MistralClientOptions } from "../types";
 import { MonteloLogExtend, separateExtend } from "./types";
-
 
 type MistralChatOptions = {
   model: string;

@@ -12,8 +12,10 @@ import { FullExperimentDto } from "./dto/full-experiment.dto";
 import { ExperimentService } from "./experiment.service";
 import { QExperimentInput, Queues } from "./types";
 
+
 @ApiTags("Experiment")
 @ApiBearerAuth()
+@UseGuards(BearerGuard)
 @Controller()
 export class ExperimentController {
   private logger = new Logger(ExperimentController.name);
@@ -23,14 +25,12 @@ export class ExperimentController {
     private experimentService: ExperimentService,
   ) {}
 
-  @UseGuards(BearerGuard)
-  @Get("dataset/experiment/:experimentId")
+  @Get("experiment/:experimentId")
   async getFullExperiment(@Param("experimentId") experimentId: string): Promise<FullExperimentDto> {
     const experimentWithDatapoints = await this.experimentService.getExperimentWithDatapoints(experimentId);
     return FullExperimentDto.fromFullExperiment(experimentWithDatapoints);
   }
 
-  @UseGuards(BearerGuard)
   @Post("dataset/:datasetSlug/experiment")
   async create(
     @EnvId() envId: string,
@@ -41,8 +41,7 @@ export class ExperimentController {
     return ExperimentDto.fromExperiment(experiment);
   }
 
-  @UseGuards(BearerGuard)
-  @Post("dataset/experiment/run")
+  @Post("experiment/run")
   async run(@Body() body: CreateRunInput): Promise<EventQueuedDto> {
     const queueInput: QExperimentInput = body;
     await this.experimentQueue.add(queueInput);

@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { useEffect } from 'react';
-import { isBrowser, off, on } from './misc/util';
+import { useEffect } from "react";
+import { isBrowser, off, on } from "./misc/util";
 
 export interface ListenerType1 {
   addEventListener(name: string, handler: (event?: any) => void, ...args: any[]);
@@ -25,11 +25,7 @@ const isListenerType2 = (target: any): target is ListenerType2 => {
   return !!target.on;
 };
 
-type AddEventListener<T> = T extends ListenerType1
-  ? T['addEventListener']
-  : T extends ListenerType2
-    ? T['on']
-    : never;
+type AddEventListener<T> = T extends ListenerType1 ? T["addEventListener"] : T extends ListenerType2 ? T["on"] : never;
 
 export type UseEventOptions<T> = Parameters<AddEventListener<T>>[2];
 
@@ -37,7 +33,7 @@ const useEvent = <T extends UseEventTarget>(
   name: Parameters<AddEventListener<T>>[0],
   handler?: null | undefined | Parameters<AddEventListener<T>>[1],
   target: null | T | Window = defaultTarget,
-  options?: UseEventOptions<T>
+  options?: UseEventOptions<T>,
 ) => {
   useEffect(() => {
     if (!handler) {

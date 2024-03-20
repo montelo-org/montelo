@@ -8,5 +8,6 @@ export * from './EnvironmentApi';
 export * from './ExperimentApi';
 export * from './HealthApi';
 export * from './LogApi';
+export * from './OrganizationApi';
 export * from './ProjectApi';
 export * from './TraceApi';

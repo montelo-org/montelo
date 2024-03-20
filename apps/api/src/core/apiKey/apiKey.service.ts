@@ -1,6 +1,6 @@
+import { DatabaseService, HashingService } from "@montelo/api-common";
 import { Injectable } from "@nestjs/common";
 import { randomBytes } from "crypto";
-import { DatabaseService, HashingService } from "@montelo/api-common";
 import { EnvApiKeyPrefixMap } from "../environment/environment.enums";
 import { ApiKeyWithEnvironment } from "./apiKey.types";
 

@@ -1,17 +1,16 @@
-import { DatapointService, AddToDatasetInput, DatapointDto } from "@montelo/api-common";
+import { AddToDatasetInput, DatapointDto, DatapointService } from "@montelo/api-common";
 import { Body, Controller, Param, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { EnvId } from "../auth/EnvId.decorator";
 import { BearerGuard } from "../auth/bearer.guard";
 
-
 @ApiTags("Datapoint")
 @ApiBearerAuth()
+@UseGuards(BearerGuard)
 @Controller("dataset/:datasetSlug/datapoint")
 export class DatapointController {
   constructor(private datapointService: DatapointService) {}
 
-  @UseGuards(BearerGuard)
   @Post()
   async addToDataset(
     @EnvId() envId: string,

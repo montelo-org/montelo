@@ -15,69 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-  CreateProjectInput,
   DeleteSuccessDto,
   FullProjectDto,
-  ProjectDto,
 } from '../models/index';
 import {
-    CreateProjectInputFromJSON,
-    CreateProjectInputToJSON,
     DeleteSuccessDtoFromJSON,
     DeleteSuccessDtoToJSON,
     FullProjectDtoFromJSON,
     FullProjectDtoToJSON,
-    ProjectDtoFromJSON,
-    ProjectDtoToJSON,
 } from '../models/index';
-
-export interface ProjectControllerCreateProjectRequest {
-    createProjectInput: CreateProjectInput;
-}
 
 /**
  * 
  */
 export class ProjectApi extends runtime.BaseAPI {
-
-    /**
-     */
-    async projectControllerCreateProjectRaw(requestParameters: ProjectControllerCreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProjectDto>> {
-        if (requestParameters.createProjectInput === null || requestParameters.createProjectInput === undefined) {
-            throw new runtime.RequiredError('createProjectInput','Required parameter requestParameters.createProjectInput was null or undefined when calling projectControllerCreateProject.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearer", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/project`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CreateProjectInputToJSON(requestParameters.createProjectInput),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ProjectDtoFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async projectControllerCreateProject(requestParameters: ProjectControllerCreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProjectDto> {
-        const response = await this.projectControllerCreateProjectRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
 
     /**
      */
@@ -140,38 +91,6 @@ export class ProjectApi extends runtime.BaseAPI {
      */
     async projectControllerGetProject(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FullProjectDto> {
         const response = await this.projectControllerGetProjectRaw(initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async projectControllerGetProjectsForOrgRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<FullProjectDto>>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearer", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/project/org`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(FullProjectDtoFromJSON));
-    }
-
-    /**
-     */
-    async projectControllerGetProjectsForOrg(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<FullProjectDto>> {
-        const response = await this.projectControllerGetProjectsForOrgRaw(initOverrides);
         return await response.value();
     }
 

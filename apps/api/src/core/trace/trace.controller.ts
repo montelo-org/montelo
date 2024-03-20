@@ -5,7 +5,6 @@ import { UseAuthGuards } from "../../common/guards/guard";
 import { TraceWithLogsDto } from "./dto/trace-with-logs.dto";
 import { TraceService } from "./trace.service";
 
-
 @ApiTags("Trace")
 @ApiBearerAuth()
 @UseAuthGuards()

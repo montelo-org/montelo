@@ -3,7 +3,6 @@ import { TimerIcon } from "@radix-ui/react-icons";
 import { FC } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 
-
 type DateSelectorProps = {
   selectedValue: string;
   setSearchParams: (fn: (prev: URLSearchParams) => URLSearchParams) => void;

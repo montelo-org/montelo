@@ -3,7 +3,6 @@ import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../database";
 import { AddToDatasetParams } from "./types";
 
-
 @Injectable()
 export class DatapointService {
   constructor(private db: DatabaseService) {}

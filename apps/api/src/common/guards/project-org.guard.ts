@@ -1,8 +1,6 @@
 import { SignedInAuthObject } from "@clerk/clerk-sdk-node";
 import { DatabaseService } from "@montelo/api-common";
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
-import { Request } from "express";
-
 
 @Injectable()
 export class ProjectOrgGuard implements CanActivate {

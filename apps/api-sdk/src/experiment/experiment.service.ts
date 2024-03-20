@@ -3,7 +3,6 @@ import { Experiment } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import { CreateExperimentParams, CreateRunParams, ExperimentWithDatapoints } from "./experiment.service.types";
 
-
 @Injectable()
 export class ExperimentService {
   constructor(private db: DatabaseService) {}

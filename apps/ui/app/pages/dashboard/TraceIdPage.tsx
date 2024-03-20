@@ -6,10 +6,10 @@ import { LogAnalytics } from "~/components/traces/LogAnalytics/LogAnalytics";
 import { LogView } from "~/components/traces/LogView";
 import { LogsTreeView } from "~/components/traces/LogsTreeView";
 import { BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
+import { Button } from "~/components/ui/button";
 import { useKey, useMount } from "~/hooks";
 import { useUpdateQueryWithoutNavigation } from "~/hooks/useUpdateQueryWithoutNavigation";
 import { Routes } from "~/routes";
-import { Button } from "~/components/ui/button";
 
 type TraceIdProps = {
   trace: TraceWithLogsDto;
@@ -72,7 +72,7 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
         <BreadcrumbPage>{trace.name || "—"}</BreadcrumbPage>
       </PageBreadcrumbContainer>
 
-      <div className={"flex justify-end mb-4"}>
+      <div className={"mb-4 flex justify-end"}>
         <Button>Add to dataset</Button>
       </div>
 

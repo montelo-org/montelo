@@ -9,7 +9,7 @@ type LoaderType = {
 };
 
 export const loader: LoaderFunction = withAuth(async ({ api }) => {
-  const projects = await api.project.projectControllerGetProjectsForOrg();
+  const projects = await api.organization.organizationControllerGetProjectsForOrg();
   return json<LoaderType>({ projects });
 });
 

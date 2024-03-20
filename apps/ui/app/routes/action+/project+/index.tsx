@@ -12,7 +12,7 @@ export const action: ActionFunction = withAuth(async ({ api, request }) => {
     const environments = formData.getAll("environments") as string[];
     const formattedEnvs = environments.map((env) => _.capitalize(env.toString())).filter((env) => env.length);
 
-    const project = await api.project.projectControllerCreateProject({
+    const project = await api.organization.organizationControllerCreateProject({
       createProjectInput: {
         name,
         envNames: formattedEnvs.length ? formattedEnvs : [],

@@ -4,7 +4,6 @@ import { Job } from "bull";
 import { ExperimentService } from "./experiment.service";
 import { QExperimentInput, Queues } from "./types";
 
-
 @Processor(Queues.experiments)
 export class ExperimentProcessor {
   private logger = new Logger(ExperimentProcessor.name);

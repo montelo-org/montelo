@@ -4,7 +4,6 @@ import { UseAuthGuards } from "../../common/guards/guard";
 import { ExperimentDto } from "./dto/experiment.dto";
 import { ExperimentService } from "./experiment.service";
 
-
 @ApiTags("Experiment")
 @ApiBearerAuth()
 @UseAuthGuards()

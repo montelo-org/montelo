@@ -99,9 +99,7 @@ export class MonteloClient {
     }
   }
 
-  public async getDatapointsByExperimentId(
-    experimentId: string,
-  ): Promise<FullExperimentDto | null> {
+  public async getDatapointsByExperimentId(experimentId: string): Promise<FullExperimentDto | null> {
     try {
       return await this.api.experiment.experimentControllerGetFullExperiment({
         experimentId,

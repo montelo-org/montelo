@@ -3,12 +3,11 @@ import { BullModule } from "@nestjs/bull";
 import { Module } from "@nestjs/common";
 import { LoggerModule } from "nestjs-pino";
 import { AuthModule } from "./auth/auth.module";
+import { DatapointModule } from "./datapoint/datapoint.module";
 import { DatasetModule } from "./dataset/dataset.module";
+import { ExperimentModule } from "./experiment/experiment.module";
 import { HealthModule } from "./health/health.module";
 import { LogsModule } from "./logs/logs.module";
-import { DatapointModule } from "./datapoint/datapoint.module";
-import { ExperimentModule } from "./experiment/experiment.module";
-
 
 @Module({
   imports: [
@@ -34,7 +33,7 @@ import { ExperimentModule } from "./experiment/experiment.module";
     LogsModule,
     DatasetModule,
     DatapointModule,
-    ExperimentModule
+    ExperimentModule,
   ],
 })
 export class AppModule {}

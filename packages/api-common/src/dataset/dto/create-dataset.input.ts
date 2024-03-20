@@ -8,7 +8,7 @@ export class CreateDatasetInput {
 
   @ApiProperty({
     required: false,
-    type: String
+    type: String,
   })
   description: string | null;
 

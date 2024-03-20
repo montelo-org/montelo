@@ -4,7 +4,6 @@ import { useLoaderData } from "@remix-run/react";
 import { withAuth } from "~/auth/withAuth";
 import { DatasetsPage } from "~/pages/datasets/DatasetsPage";
 
-
 type LoaderType = {
   datasets: DatasetDto[];
 };

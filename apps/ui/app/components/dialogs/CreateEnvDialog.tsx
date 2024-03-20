@@ -1,14 +1,14 @@
-import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~/components/ui/dialog";
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-import { Routes } from "~/routes";
 import { useFetcher } from "@remix-run/react";
 import { FC, useState } from "react";
+import { Button } from "~/components/ui/button";
+import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
+import { Routes } from "~/routes";
 
 type CreateEnvDialogProps = {
   projectId: string;
   onClose: () => void;
-}
+};
 export const CreateEnvDialog: FC<CreateEnvDialogProps> = ({ projectId, onClose }) => {
   const [envName, setEnvName] = useState<string>("");
   const fetcher = useFetcher();
@@ -28,9 +28,7 @@ export const CreateEnvDialog: FC<CreateEnvDialogProps> = ({ projectId, onClose }
     <DialogContent className={"w-96"}>
       <DialogHeader>
         <DialogTitle>Create Environment</DialogTitle>
-        <DialogDescription>
-          Create a new environment for the selected project.
-        </DialogDescription>
+        <DialogDescription>Create a new environment for the selected project.</DialogDescription>
       </DialogHeader>
       <Input
         className={"w-1/2"}

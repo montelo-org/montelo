@@ -22,7 +22,7 @@ export class DatasetDto {
 
   @ApiProperty({
     required: false,
-    type: String
+    type: String,
   })
   description: string | null;
 

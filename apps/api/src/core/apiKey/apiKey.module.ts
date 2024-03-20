@@ -3,7 +3,6 @@ import { Module } from "@nestjs/common";
 import { ApiKeyController } from "./apiKey.controller";
 import { ApiKeyService } from "./apiKey.service";
 
-
 @Module({
   imports: [DatabaseModule, HashingModule],
   controllers: [ApiKeyController],

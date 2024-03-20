@@ -1,6 +1,5 @@
 import { Pricing } from "../types";
 
-
 export const AnthropicCostMap: Record<string, Pricing> = {
   "claude-3-opus-20240229": {
     input1K: 0.015,

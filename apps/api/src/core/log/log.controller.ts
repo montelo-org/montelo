@@ -5,7 +5,6 @@ import { UseAuthGuards } from "../../common/guards/guard";
 import { LogsDto } from "./dto/logs.dto";
 import { LogService } from "./log.service";
 
-
 @ApiTags("Log")
 @ApiBearerAuth()
 @UseAuthGuards()

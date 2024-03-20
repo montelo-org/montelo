@@ -6,7 +6,6 @@ import { MonteloClient } from "../MonteloClient";
 import { LogInput, LogInputSourceEnum } from "../client";
 import { MonteloLogExtend, separateExtend } from "./types";
 
-
 class ExtendedMessages extends Anthropic.Messages {
   private monteloClient: MonteloClient;
 
@@ -86,7 +85,6 @@ class ExtendedMessages extends Anthropic.Messages {
         yield item;
       }
 
-      // Once all items are consumed, perform logging
       const endTime = new Date();
       const duration = ((endTime.getTime() - startTime.getTime()) / 1000).toFixed(2);
 

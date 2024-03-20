@@ -10,13 +10,13 @@ import { QLogsInput, Queues } from "./types";
 
 @ApiTags("Logs")
 @ApiBearerAuth()
+@UseGuards(BearerGuard)
 @Controller()
 export class LogsController {
   private logger = new Logger(LogsController.name);
 
   constructor(@InjectQueue(Queues.logs) private readonly logsQueue: Queue<QLogsInput>) {}
 
-  @UseGuards(BearerGuard)
   @Post("logs")
   async createLog(@Res() res: Response, @EnvId() envId: string, @Body() body: CreateLogInput): Promise<{}> {
     try {

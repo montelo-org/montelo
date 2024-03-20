@@ -6,6 +6,7 @@ apis/EnvironmentApi.ts
 apis/ExperimentApi.ts
 apis/HealthApi.ts
 apis/LogApi.ts
+apis/OrganizationApi.ts
 apis/ProjectApi.ts
 apis/TraceApi.ts
 apis/index.ts

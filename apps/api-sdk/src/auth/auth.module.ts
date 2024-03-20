@@ -1,6 +1,6 @@
+import { DatabaseModule, HashingModule } from "@montelo/api-common";
 import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
-import { DatabaseModule, HashingModule } from "@montelo/api-common";
 import { AuthService } from "./auth.service";
 import { BearerTokenStrategy } from "./bearer-token.strategy";
 

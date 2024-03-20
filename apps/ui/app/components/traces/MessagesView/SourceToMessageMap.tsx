@@ -56,7 +56,11 @@ export const SourceToMessageMap: SourceToMessageMapType = {
       const message = typedValue.choices[0].message;
       const RoleHeader = RoleHeaderMap[message.role];
       const isToolCall = !message.content && !!message.tool_calls?.length;
-      const ContentRender = isToolCall ? <CodeBlock value={JSON.stringify(message.tool_calls, undefined, 2)}></CodeBlock> : <Content>{message.content}</Content>;
+      const ContentRender = isToolCall ? (
+        <CodeBlock value={JSON.stringify(message.tool_calls, undefined, 2)}></CodeBlock>
+      ) : (
+        <Content>{message.content}</Content>
+      );
 
       return (
         <MessageContainer>

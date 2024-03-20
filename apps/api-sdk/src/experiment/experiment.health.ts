@@ -4,7 +4,6 @@ import { HealthCheckError, HealthIndicator, HealthIndicatorResult } from "@nestj
 import { Queue } from "bull";
 import { QExperimentInput, Queues } from "./types";
 
-
 @Injectable()
 export class ExperimentQueueHealthIndicator extends HealthIndicator {
   constructor(@InjectQueue(Queues.experiments) protected readonly experimentQueue: Queue<QExperimentInput>) {

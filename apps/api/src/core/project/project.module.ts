@@ -1,11 +1,10 @@
-import { Module } from "@nestjs/common";
 import { DatabaseModule } from "@montelo/api-common";
-import { ApiKeyModule } from "../apiKey/apiKey.module";
+import { Module } from "@nestjs/common";
 import { ProjectController } from "./project.controller";
 import { ProjectService } from "./project.service";
 
 @Module({
-  imports: [DatabaseModule, ApiKeyModule],
+  imports: [DatabaseModule],
   controllers: [ProjectController],
   providers: [ProjectService],
   exports: [ProjectService],

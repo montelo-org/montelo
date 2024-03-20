@@ -2,7 +2,6 @@ import { DatabaseService } from "@montelo/api-common";
 import { Experiment } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 
-
 @Injectable()
 export class ExperimentService {
   constructor(private db: DatabaseService) {}

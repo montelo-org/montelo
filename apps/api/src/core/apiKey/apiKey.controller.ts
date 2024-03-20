@@ -5,7 +5,6 @@ import { UseAuthGuards } from "../../common/guards/guard";
 import { ApiKeyService } from "./apiKey.service";
 import { ApiKeyWithEnvDto } from "./dto/apiKeyWithEnv.dto";
 
-
 @ApiTags("Api Key")
 @ApiBearerAuth()
 @UseAuthGuards()

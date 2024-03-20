@@ -6,7 +6,6 @@ import { Label } from "~/components/ui/label";
 import { Switch } from "~/components/ui/switch";
 import { CodeBlock } from "./CodeBlock";
 
-
 type MessagesViewProps = {
   input: any;
   output: any;
@@ -32,10 +31,12 @@ export const MessagesView: FC<MessagesViewProps> = ({ input, output, extra, sour
         <Container>
           <OutputComponent value={output} jsonView={jsonView} />
         </Container>
-        {extra && <MessageContainer>
-          <Title>Extra</Title>
-          <CodeBlock value={JSON.stringify(extra || {}, undefined, 2)} />
-        </MessageContainer>}
+        {extra && (
+          <MessageContainer>
+            <Title>Extra</Title>
+            <CodeBlock value={JSON.stringify(extra || {}, undefined, 2)} />
+          </MessageContainer>
+        )}
       </MessageContainer>
     </MessageContainer>
   );

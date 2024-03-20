@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { DatasetDto } from "./dataset.dto";
 import { DatapointDto } from "../../datapoint";
 import { DatasetWithDatapoints } from "../dataset.types";
+import { DatasetDto } from "./dataset.dto";
 
 export class FullDatasetDto extends DatasetDto {
   @ApiProperty({

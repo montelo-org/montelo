@@ -11,7 +11,7 @@ export default function DashboardLayout() {
   return (
     <div className="h-full">
       <Sidebar project={rootLayoutData.project!} />
-      <main className="ml-44 flex-1 pl-8 pr-4 pb-4">
+      <main className="ml-44 flex-1 pb-4 pl-8 pr-4">
         <Outlet />
       </main>
     </div>

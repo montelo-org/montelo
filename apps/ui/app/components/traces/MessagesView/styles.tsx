@@ -1,15 +1,11 @@
 import { FC, ReactNode } from "react";
 
 export const Title: FC<{ children: ReactNode }> = ({ children }) => {
-  return <h1 className={"text-xl flex flex-row gap-2 items-center"}>{children}</h1>;
+  return <h1 className={"flex flex-row items-center gap-2 text-xl"}>{children}</h1>;
 };
 
 export const Content: FC<{ children: ReactNode }> = ({ children }) => {
-  return (
-    <div className={"bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4"}>
-      {children}
-    </div>
-  );
+  return <div className={"bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4"}>{children}</div>;
 };
 
 export const Container: FC<{ children: ReactNode }> = ({ children }) => {

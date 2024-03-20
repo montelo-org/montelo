@@ -3,7 +3,6 @@ import { ApiProperty } from "@nestjs/swagger";
 import { ExperimentWithDatapoints } from "../experiment.service.types";
 import { ExperimentDto } from "./experiment.dto";
 
-
 export class FullExperimentDto extends ExperimentDto {
   @ApiProperty()
   dataset: FullDatasetDto;

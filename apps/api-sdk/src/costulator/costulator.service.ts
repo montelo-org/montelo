@@ -4,7 +4,6 @@ import { TraceWithLogs } from "../logs/types";
 import { LLMProvider, LogCostInput, LogCostOutput } from "./llm-provider.interface";
 import { TraceMetrics } from "./types";
 
-
 @Injectable()
 export class CostulatorService {
   private logger = new Logger(CostulatorService.name);
@@ -61,10 +60,7 @@ export class CostulatorService {
       return 0;
     }
 
-    // Determine the smallest significant decimal place
-    // Adjust precision based on the decimal place, without overly restricting it for small numbers
-    const precision = Math.ceil(-Math.log10(num % 1)); // Remove the cap to ensure small numbers are handled correctly
-
+    const precision = Math.ceil(-Math.log10(num % 1));
     const roundedNum = parseFloat(num.toFixed(precision));
 
     // Additional check to avoid returning 0 for very small numbers

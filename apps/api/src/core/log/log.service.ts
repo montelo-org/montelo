@@ -1,6 +1,6 @@
+import { DatabaseService } from "@montelo/api-common";
 import { Log, Prisma } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
-import { DatabaseService } from "@montelo/api-common";
 
 type FindAllForEnvOpts = {
   take?: number;
@@ -24,7 +24,7 @@ export class LogService {
           {
             name: { contains: options.searchQuery, mode: "insensitive" },
           },
-          // this no work, maybe try meilisearch
+          // this no work
           // {
           //   input: { string_contains: options.searchQuery },
           // },

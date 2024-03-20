@@ -40,7 +40,7 @@ export const loader: LoaderFunction = async (args) => {
 
   const projectPromise = projectId ? api.project.projectControllerGetProject() : undefined;
 
-  const allProjectsForOrgPromise = orgId ? api.project.projectControllerGetProjectsForOrg() : undefined;
+  const allProjectsForOrgPromise = orgId ? api.organization.organizationControllerGetProjectsForOrg() : undefined;
 
   const [environment, project, allProjects] = await Promise.all([
     environmentPromise,

@@ -1,5 +1,5 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { DatabaseService, HashingService } from "@montelo/api-common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 
 @Injectable()
 export class AuthService {

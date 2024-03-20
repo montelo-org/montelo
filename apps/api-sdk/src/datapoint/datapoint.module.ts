@@ -1,7 +1,6 @@
-import { Module } from "@nestjs/common";
 import { DatabaseModule, DatapointService } from "@montelo/api-common";
+import { Module } from "@nestjs/common";
 import { DatapointController } from "./datapoint.controller";
-
 
 @Module({
   imports: [DatabaseModule],

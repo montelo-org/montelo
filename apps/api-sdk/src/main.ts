@@ -1,9 +1,9 @@
+import { PrismaClientExceptionFilter } from "@montelo/api-common";
 import { Logger } from "@nestjs/common";
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { LoggerErrorInterceptor, Logger as PinoLogger } from "nestjs-pino";
 import { AppModule } from "./app.module";
-import { PrismaClientExceptionFilter } from "@montelo/api-common";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
@@ -19,7 +19,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === "development") {
     const config = new DocumentBuilder()
       .setTitle("Montelo API SDK")
-      .setDescription("This server handles creating traces and traces.")
+      .setDescription("This server handles creating traces and logs.")
       .setVersion("1.0")
       .addServer(`http://localhost:${process.env.PORT!}/`, "🟢 Local")
       .addBearerAuth()

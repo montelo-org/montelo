@@ -6,7 +6,6 @@ import { AnalyticsService } from "./analytics.service";
 import { CostHistoryDto } from "./dto/cost-history.dto";
 import { DashboardAnalyticsDto } from "./dto/dashboard-analytics.dto";
 
-
 @ApiTags("Analytics")
 @ApiBearerAuth()
 @UseAuthGuards()

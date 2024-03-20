@@ -8,7 +8,6 @@ import { ExperimentProcessor } from "./experiment.processor";
 import { ExperimentService } from "./experiment.service";
 import { Queues } from "./types";
 
-
 @Module({
   imports: [
     BullModule.registerQueue({
