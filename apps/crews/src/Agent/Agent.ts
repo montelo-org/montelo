@@ -30,11 +30,13 @@ export class Agent implements AgentInterface {
   }
 
   public async executeTask({ task, context, trace, tools }: AgentExecuteTaskParams): Promise<string> {
+    tools = tools?.length ? tools : this.tools || [];
+    const formattedTools = tools.map((tool) => tool.toJSON());
+    const availableTools = tools.map((tool) => tool.name).join("\n");
+
     const systemPrompt = AgentSystemPrompt(this.name, this.role, this.systemMessage);
     const taskPrompt = task.getPrompt(context);
-    const userPrompt = TaskPrompt(taskPrompt);
-    tools = tools?.length ? tools : this.tools;
-    const formattedTools = tools?.map((tool) => tool.toJSON()) || [];
+    const userPrompt = TaskPrompt(taskPrompt, availableTools);
 
     const messages: ChatMessage[] = [
       { role: "system", content: systemPrompt },
@@ -57,9 +59,15 @@ export class Agent implements AgentInterface {
 
     // If there are tool calls, handle them
     const toolCallResponses = await this.handleToolCalls(toolCalls, tools);
+
     const resultCompletion = await trace.openai.chat.completions.create({
-      name: `${task.getName()} / ${this.name} Tool Results`,
-      messages: [...messages, response, ...toolCallResponses],
+      name: `${task.getName()} / ${this.name} Response`,
+      messages: [
+        ...messages,
+        response,
+        ...toolCallResponses,
+        { role: "user", content: "Given the previous messages, what is the final answer for this task?" },
+      ],
       model: this.model.modelName,
     });
     const result = resultCompletion.choices[0].message.content || "";

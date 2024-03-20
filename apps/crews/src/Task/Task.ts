@@ -41,7 +41,12 @@ export class Task implements TaskInterface {
   }
 
   public getName(): string {
-    return `Task: ${this.name}`;
+    const names = this.name.split("/").map((n) => n.trim());
+    if (names.length === 1) return `Task: ${this.name}`;
+
+    const childTaskName = names.pop();
+    const parentTaskName = names.join(" / ");
+    return `${parentTaskName} / Task: ${childTaskName}`;
   }
 
   public getPrompt(context?: any): string {

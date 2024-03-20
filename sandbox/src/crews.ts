@@ -22,7 +22,7 @@ const formatJoke = async (params: TFunctionInput): Promise<string> =>
   `Setup:\n${params.setup}\n\nPunchline:\n${params.punchline}`;
 
 const formatJokeTool = new Tool({
-  name: "formatJoke",
+  name: "FormatJoke",
   function: formatJoke,
   description: "Format a pre-written joke with a setup and punchline.",
   schema: FunctionInput,
@@ -63,7 +63,13 @@ const main = async () => {
     expectedOutput: "Score: <only the number 1-10>\nReview: <a short review of the joke>",
     agent: reviewer,
   });
-  const crew = new Crew({ tasks: [task1, task2], process: "sequential" });
+  const crew = new Crew({
+    name: "Comedy Crew",
+    agents: [reviewer, comedian],
+    tasks: [task1, task2],
+    process: "managed",
+    managerModel: model,
+  });
 
   crew.start({ monteloClient, promptInputs: { topic: "cats" } });
   // console.log(comedian, crew, task);

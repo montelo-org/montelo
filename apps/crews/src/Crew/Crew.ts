@@ -1,52 +1,57 @@
-import { Montelo } from "montelo";
-import type { Agent } from "../Agent";
+import { Agent } from "../Agent";
+import { ManagerRole, ManagerSystemPrompt } from "../Agent/Agent.prompts";
 import type { Model } from "../Model";
-import type { Task } from "../Task";
+import { Task } from "../Task";
 import { Tool } from "../Tool";
 import type { ChatMessage } from "../types";
-import type { CrewConstructor, Process } from "./Crew.interface";
+import type { CrewConstructor, Process, RunParams, RunResponse, StartParams } from "./Crew.interface";
+import {
+  AskQuestionDescription,
+  AskQuestionInput,
+  DelegateWorkDescription,
+  DelegateWorkInput,
+  TAskQuestionInput,
+  TDelegateWorkInput,
+} from "./Crew.tools";
 
 export class Crew<P extends Process> {
   private readonly globalChatHistory: ChatMessage[] = [];
+  private readonly name: string = "Crew";
+  private readonly process: Process = "sequential";
   private readonly agents?: Agent[] = [];
   private readonly tasks: Task[] = [];
   private readonly tools?: Tool[] = [];
+  private readonly managerModel?: Model;
+  private trace: any;
+  private currentTaskName: string = "";
   private readonly stepCallback?: (output: any) => void;
-  private readonly defaultModelProvider?: Model;
 
-  constructor({ agents, tasks, tools, stepCallback, defaultModelProvider, process }: CrewConstructor<P>) {
-    if ((!agents?.length && process === "managed") || !tasks?.length)
-      throw new Error("Invalid parameters! Agents and tasks need to be defined!");
+  constructor({ name, agents, tasks, tools, stepCallback, managerModel, process }: CrewConstructor<P>) {
+    if (process === "managed" && (!agents?.length || !managerModel)) {
+      throw new Error("Invalid parameters! For a managed process, agents and a managerModel need to be defined!");
+    }
+    if (!tasks?.length) throw new Error("Invalid parameters! Tasks need to be defined!");
 
+    this.name = name || this.name;
     this.agents = agents || (tasks.map((task) => task.agent).filter((agent) => agent !== undefined) as Agent[]);
     this.tasks = tasks;
     this.tools = tools;
+    this.process = process;
     this.stepCallback = stepCallback;
-    this.defaultModelProvider = defaultModelProvider;
+    this.managerModel = managerModel;
   }
 
-  public async start({
-    promptInputs,
-    monteloClient,
-  }: {
-    promptInputs?: Record<string, any>;
-    monteloClient: Montelo;
-  }): Promise<string> {
-    const trace = monteloClient.trace({ name: "Crew" });
+  public async start({ promptInputs, monteloClient }: StartParams): Promise<RunResponse> {
+    this.trace = monteloClient.trace({ name: this.name });
 
     if (promptInputs && Object.keys(promptInputs).length > 0) {
-      this._injectInputsIntoPrompt(promptInputs);
+      this.injectInputsIntoPrompt(promptInputs);
     }
 
-    let context = "";
-    const taskOutputs = [] as any[];
-
-    for (const task of this.tasks) {
-      trace.log({ name: task.getName(), input: promptInputs });
-      const output = await task.execute({ context, trace, tools: this.tools });
-
-      context = output;
-      taskOutputs.push(output);
+    if (this.process === "sequential") {
+      return await this.runSequential({ promptInputs });
+    } else {
+      return await this.runManaged({ promptInputs });
     }
 
     // const USER_AGENT = this.agents.find((agent) => agent.type === "user");
@@ -85,12 +90,98 @@ export class Crew<P extends Process> {
     // }
 
     // Return final result after exiting the loop
-    return "Started!";
   }
 
-  private _injectInputsIntoPrompt(promptInputs: Record<string, any>): void {
+  private async runSequential({ promptInputs }: RunParams): Promise<RunResponse> {
+    let context = "";
+    const taskOutputs = [] as any[];
+
+    for (const task of this.tasks) {
+      this.currentTaskName = task.getName();
+      this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
+      const output = await task.execute({ context, trace: this.trace, tools: this.tools });
+
+      context = output;
+      taskOutputs.push(output);
+    }
+
+    return { taskOutputs };
+  }
+
+  private async runManaged({ promptInputs }: RunParams): Promise<RunResponse> {
+    const coworkers = (this.agents || []).map((agent) => agent.name.toLowerCase().trim()).join(", ");
+
+    const manager = new Agent({
+      name: "Manager",
+      role: ManagerRole,
+      systemMessage: ManagerSystemPrompt(coworkers),
+      model: this.managerModel!,
+      tools: this.getCollaborationTools(),
+    });
+
+    let context = "";
+    const taskOutputs = [] as any[];
+
+    for (const task of this.tasks) {
+      this.currentTaskName = task.getName();
+      this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
+      const output = await task.execute({ agent: manager, context, trace: this.trace, tools: manager.tools });
+
+      context = output;
+      taskOutputs.push(output);
+    }
+
+    return { taskOutputs };
+  }
+
+  private injectInputsIntoPrompt(promptInputs: Record<string, any>): void {
     this.agents?.forEach((agent) => agent.injectInputsIntoPrompt(promptInputs));
     this.tasks.forEach((task) => task.injectInputsIntoPrompt(promptInputs));
+  }
+
+  private getCollaborationTools(): Tool[] {
+    const coworkers = (this.agents || []).map((agent) => agent.name.toLowerCase().trim()).join(", ");
+
+    const delegateWorkTool = new Tool({
+      name: "DelegateWork",
+      function: this.delegateWork.bind(this),
+      description: DelegateWorkDescription(coworkers),
+      schema: DelegateWorkInput,
+    });
+
+    const askQuestionTool = new Tool({
+      name: "AskQuestion",
+      function: this.askQuestion.bind(this),
+      description: AskQuestionDescription(coworkers),
+      schema: AskQuestionInput,
+    });
+
+    return [delegateWorkTool, askQuestionTool];
+  }
+
+  private async delegateWork({ context, coworker, task }: TDelegateWorkInput): Promise<string> {
+    return this.executeTask.bind(this)(coworker, task, context);
+  }
+
+  private async askQuestion({ context, question, coworker }: TAskQuestionInput): Promise<string> {
+    return this.executeTask.bind(this)(coworker, question, context);
+  }
+
+  private async executeTask(coworker: string, task: string, context: string): Promise<string> {
+    const agent = this.agents?.find((agent) => agent.name.toLowerCase().trim() === coworker.toLowerCase().trim());
+    if (!agent) {
+      throw new Error(`Agent with name ${coworker} not found.`);
+    }
+
+    const taskObj = new Task({
+      name: `${this.currentTaskName} / Delegate Task`,
+      description: task,
+      agent,
+      expectedOutput: "Your best answer to your coworker asking you this, accounting for the context shared.",
+    });
+    await this.trace.log({ name: taskObj.getName(), input: { coworker, task, context } });
+
+    return agent.executeTask({ task: taskObj, context, trace: this.trace });
   }
 
   // private _getManagerPrompt(agents: AgentInterface[], chatHistory: ChatMessage[]): string {
