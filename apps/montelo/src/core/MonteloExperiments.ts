@@ -17,36 +17,39 @@ export class MonteloExperiments {
   public async run(params: RunExperimentInput): Promise<void> {
     const { experimentId, runner } = params;
 
-    process.env.MONTELO_EXPERIMENT_ID = experimentId;
-    console.log("Running experiment: ", process.env.MONTELO_EXPERIMENT_ID);
+    try {
+      process.env.MONTELO_EXPERIMENT_ID = experimentId;
 
-    // TODO: this should be paginated
-    const experiment = await this.monteloClient.getDatapointsByExperimentId(experimentId);
-    if (!experiment) {
-      console.error("No experiment found, skipping...");
-      return;
-    }
-
-    const datapoints = experiment.dataset.datapoints;
-    for (const datapoint of datapoints) {
-      try {
-        const output = await runner(datapoint.input);
-        await this.monteloClient.createRun({
-          experimentId,
-          input: datapoint.input,
-          output,
-        });
-      } catch (e: any) {
-        console.error("Error running experiment: ", e.toString());
-        await this.monteloClient.createRun({
-          experimentId,
-          input: datapoint.input,
-          output: { error: e.toString() },
-        });
+      // TODO: this should be paginated
+      const experiment = await this.monteloClient.getDatapointsByExperimentId(experimentId);
+      if (!experiment) {
+        console.error("No experiment found, skipping...");
+        return;
       }
-    }
 
-    delete process.env.MONTELO_EXPERIMENT_ID;
+      const datapoints = experiment.dataset.datapoints;
+      for (const datapoint of datapoints) {
+        try {
+          const output = await runner(datapoint.input);
+          await this.monteloClient.createRun({
+            experimentId,
+            input: datapoint.input,
+            output,
+          });
+        } catch (e: any) {
+          console.error(`Error running datapoint ${datapoint.id}: `, e.toString());
+          await this.monteloClient.createRun({
+            experimentId,
+            input: datapoint.input,
+            output: { error: e.toString() },
+          });
+        }
+      }
+    } catch (e: any) {
+      console.error("Error running experiment: ", e.toString());
+    } finally {
+      delete process.env.MONTELO_EXPERIMENT_ID;
+    }
   }
 
   public async createAndRun(params: CreateAndRunExperimentInput): Promise<void> {
