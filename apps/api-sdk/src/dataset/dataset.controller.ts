@@ -51,6 +51,7 @@ export class DatasetController {
 
   @Post()
   async create(@EnvId() envId: string, @Body() createDatasetInput: CreateDatasetInput): Promise<DatasetDto> {
+    console.log("Creating dataset with input: ", createDatasetInput);
     const dataset = await this.datasetService.create({ envId, ...createDatasetInput });
     return DatasetDto.fromDataset(dataset);
   }

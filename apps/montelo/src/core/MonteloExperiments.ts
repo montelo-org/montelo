@@ -45,6 +45,8 @@ export class MonteloExperiments {
         });
       }
     }
+
+    delete process.env.MONTELO_EXPERIMENT_ID;
   }
 
   public async createAndRun(params: CreateAndRunExperimentInput): Promise<void> {

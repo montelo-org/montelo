@@ -42,12 +42,15 @@ export class MonteloClient {
 
   public async createLog(log: LogInput): Promise<void> {
     try {
-      await this.api.log.logsControllerCreateLog({
-        createLogInput: {
-          log,
-          trace: this.trace,
-        },
-      });
+      const experimentId = process.env.MONTELO_EXPERIMENT_ID;
+      if (!experimentId) {
+        await this.api.log.logsControllerCreateLog({
+          createLogInput: {
+            log,
+            trace: this.trace,
+          },
+        });
+      }
     } catch (e: any) {
       console.error("Montelo Error when creating log: ", e.toString());
     }
