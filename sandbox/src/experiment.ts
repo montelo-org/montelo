@@ -31,11 +31,7 @@ const main = async () => {
     },
   });
 
-  const repeatArray = <T>(array: T[], times: number): T[] => Array.from({ length: times }, () => array).flat();
-
-  const localDatasetRepeated = repeatArray(localDataset, 100);
-
-  for (const { input, output } of localDatasetRepeated) {
+  for (const { input, output } of localDataset) {
     await montelo.datapoints.create({
       dataset: dataset.slug,
       input,
@@ -47,7 +43,7 @@ const main = async () => {
     name: "AI Articles Anthropic",
     description: "Find articles about AI",
     dataset: "topic-datasets",
-    runner: anthropicChat,
+    runner: openaiChat,
   });
 };
 

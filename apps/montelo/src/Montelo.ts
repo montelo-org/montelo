@@ -1,4 +1,4 @@
-import { createId } from "@paralleldrive/cuid2";
+import * as cuid from "@paralleldrive/cuid2";
 import { MonteloClient } from "./MonteloClient";
 import { LogInput, LogInputSourceEnum } from "./client";
 import { MonteloDatapoints, MonteloDatasets, MonteloExperiments } from "./core";
@@ -44,7 +44,7 @@ export class Montelo {
       throw new Error("Trace already set on this Montelo instance.");
     }
     const newMonteloInstance = new Montelo(this.constructorOptions);
-    newMonteloInstance.monteloClient.setTrace({ ...trace, id: createId() });
+    newMonteloInstance.monteloClient.setTrace({ ...trace, id: cuid.createId() });
     return newMonteloInstance;
   }
 }

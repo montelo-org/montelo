@@ -205,6 +205,7 @@ export class BaseAPI {
         try {
             response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
         } catch (e) {
+            console.error(e);
             for (const middleware of this.middleware) {
                 if (middleware.onError) {
                     response = await middleware.onError({

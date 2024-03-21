@@ -1,5 +1,3 @@
-import { omit, pick } from "lodash";
-
 export type MonteloLogExtend = {
   /**
    * [Montelo] A name for the log.
@@ -20,8 +18,8 @@ export const separateExtend = <T extends MonteloLogExtend>(
   extend: MonteloLogExtend;
 } => {
   // when `MonteloLogExtend` is updated, also update the keys
-  const keys = ["name", "extra"] as const;
-  const extend: MonteloLogExtend = pick(input, keys);
-  const base: Omit<T, keyof MonteloLogExtend> = omit(input, keys);
+  const { name, extra, ...rest } = input;
+  const extend: MonteloLogExtend = { name, extra };
+  const base: Omit<T, keyof MonteloLogExtend> = rest;
   return { base, extend };
 };
