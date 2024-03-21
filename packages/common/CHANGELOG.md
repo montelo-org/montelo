@@ -1,5 +1,11 @@
 # @montelo/common
 
+## 1.1.66
+
+### Patch Changes
+
+- y
+
 ## 1.1.65
 
 ### Patch Changes
