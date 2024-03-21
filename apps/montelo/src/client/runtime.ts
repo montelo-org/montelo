@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Montelo API SDK
- * This server handles creating traces and traces.
+ * This server handles creating traces and logs.
  *
  * The version of the OpenAPI document: 1.0
  * 
@@ -205,6 +205,7 @@ export class BaseAPI {
         try {
             response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
         } catch (e) {
+            console.error(e);
             for (const middleware of this.middleware) {
                 if (middleware.onError) {
                     response = await middleware.onError({

@@ -1,1 +1,1 @@
-export { Montelo } from "./Montelo";
+export * from "./Montelo";

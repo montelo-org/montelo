@@ -27,12 +27,6 @@ export interface CreateProjectInput {
     name: string;
     /**
      * 
-     * @type {string}
-     * @memberof CreateProjectInput
-     */
-    orgId: string;
-    /**
-     * 
      * @type {Array<string>}
      * @memberof CreateProjectInput
      */
@@ -45,7 +39,6 @@ export interface CreateProjectInput {
 export function instanceOfCreateProjectInput(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "orgId" in value;
     isInstance = isInstance && "envNames" in value;
 
     return isInstance;
@@ -62,7 +55,6 @@ export function CreateProjectInputFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'name': json['name'],
-        'orgId': json['orgId'],
         'envNames': json['envNames'],
     };
 }
@@ -77,7 +69,6 @@ export function CreateProjectInputToJSON(value?: CreateProjectInput | null): any
     return {
         
         'name': value.name,
-        'orgId': value.orgId,
         'envNames': value.envNames,
     };
 }

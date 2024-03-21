@@ -64,10 +64,10 @@ export const ProjectCard: FC<HomePageCardProps> = ({ project }) => {
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between">
+        <CardFooter className="justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant={"outline"}>
+              <Button variant={"ghost"}>
                 <MoreHorizontal />
               </Button>
             </DropdownMenuTrigger>

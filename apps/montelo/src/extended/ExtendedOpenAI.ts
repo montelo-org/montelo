@@ -7,7 +7,6 @@ import { MonteloClient } from "../MonteloClient";
 import { LogInput, LogInputSourceEnum } from "../client";
 import { MonteloLogExtend, separateExtend } from "./types";
 
-
 import ChatCompletion = Chat.ChatCompletion;
 
 class ExtendedChatCompletions extends OpenAI.Chat.Completions {

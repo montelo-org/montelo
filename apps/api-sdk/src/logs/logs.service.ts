@@ -1,10 +1,10 @@
+import { DatabaseService } from "@montelo/api-common";
 import { Prisma } from "@montelo/db";
 import { Injectable, Logger } from "@nestjs/common";
 import { omit } from "lodash";
 import { CostulatorService } from "../costulator/costulator.service";
 import { LLMProvider } from "../costulator/llm-provider.interface";
 import { NullableCost, TraceMetrics } from "../costulator/types";
-import { DatabaseService } from "../database";
 import { LogInput, TraceInput } from "./dto/create-log.input";
 import { TraceWithLogs } from "./types";
 

@@ -1,6 +1,6 @@
 import { createCookieSessionStorage } from "@remix-run/node";
 import { createThemeSessionResolver } from "remix-themes";
-import { env } from "../config/environment.server";
+import { env } from "~/config/environment.server";
 
 const isProduction = env.NODE_ENV === "production";
 

@@ -25,12 +25,6 @@ export interface CreateEnvInput {
      * @memberof CreateEnvInput
      */
     name: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CreateEnvInput
-     */
-    projectId: string;
 }
 
 /**
@@ -39,7 +33,6 @@ export interface CreateEnvInput {
 export function instanceOfCreateEnvInput(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "projectId" in value;
 
     return isInstance;
 }
@@ -55,7 +48,6 @@ export function CreateEnvInputFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'name': json['name'],
-        'projectId': json['projectId'],
     };
 }
 
@@ -69,7 +61,6 @@ export function CreateEnvInputToJSON(value?: CreateEnvInput | null): any {
     return {
         
         'name': value.name,
-        'projectId': value.projectId,
     };
 }
 

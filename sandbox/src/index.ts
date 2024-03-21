@@ -8,12 +8,6 @@ const montelo = new Montelo();
 const chat = async (): Promise<void> => {
   const trace = montelo.trace({ name: "Weather Chat" });
 
-  const messages = [
-    {
-      role: "user",
-      content: "What's the weather like in Boston today?",
-    },
-  ];
   const tools = [
     {
       type: "function" as const,
@@ -37,67 +31,25 @@ const chat = async (): Promise<void> => {
 
   await trace.log({ name: "Weather Agent" });
 
-  const stream = await trace.anthropic.messages.create({
+  await trace.anthropic.messages.create({
     name: "Weather Agent / Action 1",
     model: "claude-3-sonnet-20240229",
     messages: [{ role: "user", content: "say hi" }],
     max_tokens: 100,
-    // stream: true,
   });
 
-  const stream2 = await trace.mistral.chat({
+  await trace.mistral.chat({
     name: "Weather Agent / Action 2",
     model: "mistral-tiny",
     messages: [{ role: "user", content: "say hi" }],
   });
 
-  const res3 = await trace.openai.chat.completions.create({
+  await trace.openai.chat.completions.create({
     name: "Weather Agent / Action 3",
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: "what's the weather today in toronto" }],
     tools,
   });
-
-  const res3Message = res3.choices[0].message;
-
-  await trace.openai.chat.completions.create({
-    name: "Weather Agent / Action 4",
-    model: "gpt-3.5-turbo",
-    messages: [
-      { role: "user", content: "what's the weather today in toronto" },
-      res3Message,
-      {
-        tool_call_id: res3.choices[0].message.tool_calls[0].id,
-        role: "tool",
-        content: "23 degrees Celsius",
-      },
-    ],
-    tools,
-  });
-
-  // for await (const message of stream) {
-  //   console.log(message);
-  // }
-
-  // const message1 = response.choices[0].message;
-  // console.log(JSON.stringify(message1));
-  // const toolCallId = message1.tool_calls[0].id;
-  //
-  // messages.push(message1);
-  //
-  // messages.push({
-  //   role: "tool",
-  //   tool_call_id: toolCallId,
-  //   content: "23 degrees Celsius",
-  // });
-  //
-  // const secondResponse = await trace.openai.chat.completions.create({
-  //   name: "Weather Chat / Tool Response",
-  //   model: "gpt-3.5-turbo",
-  //   messages,
-  // });
-  //
-  // console.log(JSON.stringify(secondResponse.choices[0].message));
 };
 
 void chat();

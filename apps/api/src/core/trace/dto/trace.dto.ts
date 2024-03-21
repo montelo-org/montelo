@@ -43,7 +43,10 @@ export class TraceDto {
   @ApiProperty()
   duration: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
   userId: string | null;
 
   @ApiProperty()

@@ -20,17 +20,18 @@ export const MessagesView: FC<MessagesViewProps> = ({ input, output, extra, sour
   return (
     <MessagesContainer>
       <div className="text-muted-foreground flex items-center justify-end space-x-2">
+        <Label htmlFor="json-view">Pretty</Label>
         <Switch id="json-view" checked={jsonView} onCheckedChange={setJsonView} />
-        <Label htmlFor="json-view">{jsonView ? "Pretty" : "JSON"}</Label>
+        <Label htmlFor="json-view">JSON</Label>
       </div>
 
       <InputComponent value={input} jsonView={jsonView} />
       <OutputComponent value={output} jsonView={jsonView} />
 
-      <Message>
+      {extra && <Message>
         <Title>Extra</Title>
-        <CodeBlock value={JSON.stringify(extra || {}, undefined, 2)} />
-      </Message>
+        <CodeBlock value={JSON.stringify(extra, undefined, 2)} />
+      </Message>}
     </MessagesContainer>
   );
 };

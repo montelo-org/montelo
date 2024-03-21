@@ -1,0 +1,31 @@
+name: Deploy api-sdk
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/api-sdk/**"
+      - "packages/db/**"
+      - "packages/api-common/**"
+
+jobs:
+  deploy:
+    name: Deploy api-sdk
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy api-sdk
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_API_SDK }}
+        working-directory: ./apps/api-sdk
+      - name: Post to Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.25.0
+        with:
+          channel-id: "C06MVSMSKRV"
+          slack-message: "API-SDK Deploy Status: ${{ job.status }}\nCommit: ${{ github.event.head_commit.message }}\nURL: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

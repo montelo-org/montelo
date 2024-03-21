@@ -1,4 +1,4 @@
-import { AnalyticsControllerGetForDashboardDateSelectionEnum } from "@montelo/browser-client";
+import { AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum } from "@montelo/browser-client";
 import { defer } from "@remix-run/node";
 import { withAuth } from "~/auth/withAuth";
 import { DashboardPage } from "~/pages/dashboard/DashboardPage";
@@ -8,19 +8,19 @@ export const loader = withAuth(async ({ request, api, params }) => {
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
   const dateSelectionQuery = (searchParams.get("dateSelection") ||
-    AnalyticsControllerGetForDashboardDateSelectionEnum._30Mins) as AnalyticsControllerGetForDashboardDateSelectionEnum;
+    AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum._30Mins) as AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum;
 
-  const analyticsPromise = api.analytics.analyticsControllerGetForDashboard({
+  const analyticsPromise = api.analytics.analyticsControllerGetAnalyticsForEnv({
     envId,
     dateSelection: dateSelectionQuery,
   });
 
-  const costHistoryPromise = api.analytics.analyticsControllerGetCostHistory({
+  const costHistoryPromise = api.analytics.analyticsControllerGetCostHistoryForEnv({
     envId,
     dateSelection: dateSelectionQuery,
   });
 
-  const logs = await api.log.logControllerGetAll({
+  const logs = await api.log.logControllerGetLogsForEnvironment({
     envId,
     take: "25",
   });

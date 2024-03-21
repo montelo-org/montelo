@@ -1,4 +1,4 @@
-import { BadgeProps } from "../../../components/ui/badge";
+import { BadgeProps } from "~/components/ui/badge";
 
 export const idShortener = (id: string): { short: string; variant: BadgeProps["variant"] } => {
   const short = id.substring(id.length - 4);

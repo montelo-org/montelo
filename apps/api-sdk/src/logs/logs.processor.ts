@@ -4,7 +4,6 @@ import { Job } from "bull";
 import { LogsService } from "./logs.service";
 import { QLogsInput, Queues } from "./types";
 
-
 @Processor(Queues.logs)
 export class LogsProcessor {
   private logger = new Logger(LogsProcessor.name);

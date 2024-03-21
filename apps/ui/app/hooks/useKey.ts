@@ -1,20 +1,20 @@
-import { DependencyList, useMemo } from 'react';
-import useEvent, { UseEventOptions, UseEventTarget } from './useEvent';
+import { DependencyList, useMemo } from "react";
+import useEvent, { UseEventOptions, UseEventTarget } from "./useEvent";
 
 export type KeyPredicate = (event: KeyboardEvent) => boolean;
 export type KeyFilter = null | undefined | string | ((event: KeyboardEvent) => boolean);
 export type Handler = (event: KeyboardEvent) => void;
 
 export interface UseKeyOptions<T extends UseEventTarget> {
-  event?: 'keydown' | 'keypress' | 'keyup';
+  event?: "keydown" | "keypress" | "keyup";
   target?: T | null;
   options?: UseEventOptions<T>;
 }
 
 const createKeyPredicate = (keyFilter: KeyFilter): KeyPredicate =>
-  typeof keyFilter === 'function'
+  typeof keyFilter === "function"
     ? keyFilter
-    : typeof keyFilter === 'string'
+    : typeof keyFilter === "string"
       ? (event: KeyboardEvent) => event.key === keyFilter
       : keyFilter
         ? () => true
@@ -24,9 +24,9 @@ export const useKey = <T extends UseEventTarget>(
   key: KeyFilter,
   fn: Handler = () => {},
   opts: UseKeyOptions<T> = {},
-  deps: DependencyList = [key]
+  deps: DependencyList = [key],
 ) => {
-  const { event = 'keydown', target, options } = opts;
+  const { event = "keydown", target, options } = opts;
   const useMemoHandler = useMemo(() => {
     const predicate: KeyPredicate = createKeyPredicate(key);
     const handler: Handler = (handlerEvent) => {

@@ -25,11 +25,11 @@ import {
     TraceWithLogsDtoToJSON,
 } from '../models/index';
 
-export interface TraceControllerDeleteRequest {
+export interface TraceControllerDeleteTraceRequest {
     traceId: string;
 }
 
-export interface TraceControllerGetAllRequest {
+export interface TraceControllerGetTraceRequest {
     traceId: string;
 }
 
@@ -40,9 +40,9 @@ export class TraceApi extends runtime.BaseAPI {
 
     /**
      */
-    async traceControllerDeleteRaw(requestParameters: TraceControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
+    async traceControllerDeleteTraceRaw(requestParameters: TraceControllerDeleteTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeleteSuccessDto>> {
         if (requestParameters.traceId === null || requestParameters.traceId === undefined) {
-            throw new runtime.RequiredError('traceId','Required parameter requestParameters.traceId was null or undefined when calling traceControllerDelete.');
+            throw new runtime.RequiredError('traceId','Required parameter requestParameters.traceId was null or undefined when calling traceControllerDeleteTrace.');
         }
 
         const queryParameters: any = {};
@@ -69,16 +69,16 @@ export class TraceApi extends runtime.BaseAPI {
 
     /**
      */
-    async traceControllerDelete(requestParameters: TraceControllerDeleteRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
-        const response = await this.traceControllerDeleteRaw(requestParameters, initOverrides);
+    async traceControllerDeleteTrace(requestParameters: TraceControllerDeleteTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DeleteSuccessDto> {
+        const response = await this.traceControllerDeleteTraceRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async traceControllerGetAllRaw(requestParameters: TraceControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TraceWithLogsDto>> {
+    async traceControllerGetTraceRaw(requestParameters: TraceControllerGetTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TraceWithLogsDto>> {
         if (requestParameters.traceId === null || requestParameters.traceId === undefined) {
-            throw new runtime.RequiredError('traceId','Required parameter requestParameters.traceId was null or undefined when calling traceControllerGetAll.');
+            throw new runtime.RequiredError('traceId','Required parameter requestParameters.traceId was null or undefined when calling traceControllerGetTrace.');
         }
 
         const queryParameters: any = {};
@@ -105,8 +105,8 @@ export class TraceApi extends runtime.BaseAPI {
 
     /**
      */
-    async traceControllerGetAll(requestParameters: TraceControllerGetAllRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TraceWithLogsDto> {
-        const response = await this.traceControllerGetAllRaw(requestParameters, initOverrides);
+    async traceControllerGetTrace(requestParameters: TraceControllerGetTraceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TraceWithLogsDto> {
+        const response = await this.traceControllerGetTraceRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

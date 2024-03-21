@@ -1,8 +1,11 @@
+import { loggerConfig } from "@montelo/api-common";
 import { BullModule } from "@nestjs/bull";
 import { Module } from "@nestjs/common";
 import { LoggerModule } from "nestjs-pino";
 import { AuthModule } from "./auth/auth.module";
-import { loggerConfig } from "./common/configs/logger.config";
+import { DatapointModule } from "./datapoint/datapoint.module";
+import { DatasetModule } from "./dataset/dataset.module";
+import { ExperimentModule } from "./experiment/experiment.module";
 import { HealthModule } from "./health/health.module";
 import { LogsModule } from "./logs/logs.module";
 
@@ -28,6 +31,9 @@ import { LogsModule } from "./logs/logs.module";
     HealthModule,
     AuthModule,
     LogsModule,
+    DatasetModule,
+    DatapointModule,
+    ExperimentModule,
   ],
 })
 export class AppModule {}

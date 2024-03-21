@@ -34,6 +34,7 @@ export const withAuth = (func: AuthenticatedFunction): LoaderFunction | ActionFu
       accessToken: token,
       headers: {
         connection: "keep-alive",
+        "x-montelo-project-id": args.params.projectId || "",
       },
     });
     const api = new Api(configuration);

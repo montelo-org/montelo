@@ -29,7 +29,7 @@ export const TracesTableHeader = ({
   table,
 }: TracesTableHeaderProps) => {
   return (
-    <div className="flex items-center pb-4 pt-0.5 justify-between">
+    <div className="flex items-center justify-between pb-4 pt-0.5">
       <div className="relative w-1/4">
         <Input
           placeholder="Search by log name"

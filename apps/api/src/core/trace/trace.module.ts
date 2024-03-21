@@ -1,5 +1,5 @@
+import { DatabaseModule } from "@montelo/api-common";
 import { Module } from "@nestjs/common";
-import { DatabaseModule } from "../../database";
 import { TraceController } from "./trace.controller";
 import { TraceService } from "./trace.service";
 

@@ -1,32 +1,31 @@
-import { Controller, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Post } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { ClerkAuthGuard } from "../../common/guards/auth.guard";
+import { GetProject, GetProjectT } from "../../common/decorators/GetProject.decorator";
+import { UseAuthGuards } from "../../common/guards/guard";
 import { ApiKeyService } from "./apiKey.service";
 import { ApiKeyWithEnvDto } from "./dto/apiKeyWithEnv.dto";
 
 @ApiTags("Api Key")
 @ApiBearerAuth()
-@Controller()
+@UseAuthGuards()
+@Controller("api-keys")
 export class ApiKeyController {
   constructor(private apiKeyService: ApiKeyService) {}
 
-  @UseGuards(ClerkAuthGuard)
-  @Get("project/:projectId/api-keys")
-  async getAllForProject(@Param("projectId") projectId: string): Promise<ApiKeyWithEnvDto[]> {
-    const apiKeys = await this.apiKeyService.findAllForProject(projectId);
+  @Get()
+  async getApiKeysForProject(@GetProject() project: GetProjectT): Promise<ApiKeyWithEnvDto[]> {
+    const apiKeys = await this.apiKeyService.findAllForProject(project.id);
     return apiKeys.map(ApiKeyWithEnvDto.fromApiKeyWithEnv);
   }
 
-  @UseGuards(ClerkAuthGuard)
-  @Get("api-keys/:apiKeyId")
-  async reveal(@Param("apiKeyId") apiKeyId: string): Promise<ApiKeyWithEnvDto> {
+  @Get(":apiKeyId")
+  async revealOne(@Param("apiKeyId") apiKeyId: string): Promise<ApiKeyWithEnvDto> {
     const apiKey = await this.apiKeyService.reveal(apiKeyId);
     return ApiKeyWithEnvDto.fromApiKeyWithEnv(apiKey);
   }
 
-  @UseGuards(ClerkAuthGuard)
-  @Post("api-keys/:apiKeyId")
-  async rotate(@Param("apiKeyId") apiKeyId: string): Promise<ApiKeyWithEnvDto> {
+  @Post(":apiKeyId")
+  async rotateOne(@Param("apiKeyId") apiKeyId: string): Promise<ApiKeyWithEnvDto> {
     const apiKey = await this.apiKeyService.rotate(apiKeyId);
     return ApiKeyWithEnvDto.fromApiKeyWithEnv(apiKey);
   }

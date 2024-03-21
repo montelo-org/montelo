@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Skeleton } from "../../../components/ui/skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 
 type BaseCardProps = {
   title?: string;

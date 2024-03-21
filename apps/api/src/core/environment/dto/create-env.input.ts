@@ -5,8 +5,4 @@ export class CreateEnvInput {
   @ApiProperty()
   @IsString()
   name: string;
-
-  @ApiProperty()
-  @IsString()
-  projectId: string;
 }

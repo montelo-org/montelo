@@ -104,7 +104,8 @@ export const COLUMNS: ColumnDef<LogDto>[] = [
                   })}
                 >
                   <Badge>
-                    {short}{name ? ` —  ${name}` : ""}
+                    {short}
+                    {name ? ` —  ${name}` : ""}
                     {name?.length !== row.original.name?.length && "..."}
                   </Badge>
                 </Link>
@@ -174,11 +175,18 @@ export const COLUMNS: ColumnDef<LogDto>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
+      const params = useParams();
       const fetcher = useFetcher();
       const traceId = row.getValue("traceId") as string;
 
       const handleDelete = () => {
-        fetcher.submit({ traceId }, { method: "post", action: Routes.actions.trace.delete });
+        fetcher.submit(null, {
+          method: "DELETE",
+          action: Routes.actions.trace.delete({
+            projectId: params.projectId!,
+            traceId,
+          }),
+        });
       };
 
       return (

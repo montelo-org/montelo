@@ -45,6 +45,7 @@
   "dependencies": {
     "@clerk/clerk-sdk-node": "^4.13.11",
     "@logtail/pino": "^0.4.20",
+    "@montelo/api-common": "1.1.65",
     "@montelo/db": "1.1.65",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/common": "^10.3.3",

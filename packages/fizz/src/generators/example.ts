@@ -16,7 +16,7 @@ const getCurrentWeather = async (params: TFunctionInput): Promise<string> => {
   return \`The weather in \${params.location} is currently 22 degrees \${params.unit}.\`;
 };
 
-export default new AIFunction({
+const func = new AIFunction({
   name: "getCurrentWeather",
   function: getCurrentWeather,
   description: "Get the current weather in a given location.",

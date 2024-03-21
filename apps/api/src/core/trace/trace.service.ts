@@ -1,7 +1,6 @@
+import { DatabaseService } from "@montelo/api-common";
 import { Injectable } from "@nestjs/common";
-import { DatabaseService } from "../../database";
 import { TraceWithLogs } from "./trace.types";
-
 
 @Injectable()
 export class TraceService {

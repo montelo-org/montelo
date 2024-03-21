@@ -15,9 +15,11 @@ import {
 import * as React from "react";
 import { useEffect } from "react";
 import "react-json-view-lite/dist/index.css";
+import { PageBreadcrumbContainer } from "~/components/PageBreadcrumbContainer";
+import { BreadcrumbItem, BreadcrumbPage } from "~/components/ui/breadcrumb";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { useDebounceValue } from "~/hooks/useDebounceValue";
 import Pagination from "../../components/pagination";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { TracesTableHeader } from "./components/TracesTableHeader";
 import { COLUMNS } from "./constants";
 import { TimeFrames } from "./constants/timeframes";
@@ -114,6 +116,12 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
 
   return (
     <div className="w-full pt-2">
+      <PageBreadcrumbContainer>
+        <BreadcrumbItem>
+          <BreadcrumbPage className={"text-lg"}>Traces</BreadcrumbPage>
+        </BreadcrumbItem>
+      </PageBreadcrumbContainer>
+
       <TracesTableHeader
         searchQuery={searchQuery}
         onSearch={setSearchQuery}

@@ -10,6 +10,8 @@ const buildEnvPath = (params: EnvParams) => (sublink: string) =>
 // app pages
 const PATH_APP = {
   root: ROOT_APP,
+  org: path(ROOT_APP, "/org"),
+  account: path(ROOT_APP, "/account"),
   project: {
     all: path(ROOT_APP, "/project"),
     env: {
@@ -17,6 +19,9 @@ const PATH_APP = {
       traces: (params: EnvParams) => buildEnvPath(params)("traces"),
       traceId: (params: EnvParams & { traceId: string; logId?: string }) =>
         buildEnvPath(params)(`traces/${params.traceId}${params.logId ? `?logId=${params.logId}` : ""}`),
+      datasets: (params: EnvParams) => buildEnvPath(params)("datasets"),
+      datasetsId: (params: EnvParams & { datasetId: string }) => buildEnvPath(params)(`datasets/${params.datasetId}`),
+      experiments: (params: EnvParams) => buildEnvPath(params)("experiments"),
     },
   },
 };
@@ -31,19 +36,32 @@ const PATH_AUTH = {
 const PATH_ACTIONS = {
   setTheme: path(ROOT_ACTION, "/set-theme"),
   project: {
-    delete: path(ROOT_ACTION, "/project/delete"),
-    create: path(ROOT_ACTION, "/project/create"),
+    create: path(ROOT_ACTION, "/project"),
+    delete: (projectId: string) => path(ROOT_ACTION, `/project/${projectId}`),
     getAllApiKeys: (projectId: string) => path(ROOT_ACTION, `/project/${projectId}/api-keys`),
   },
   apiKeys: {
-    reveal: (apiKeyId: string) => path(ROOT_ACTION, `/api-keys/${apiKeyId}/reveal`),
-    rotate: (apiKeyId: string) => path(ROOT_ACTION, `/api-keys/${apiKeyId}/rotate`),
+    reveal: (params: { projectId: string; apiKeyId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/api-keys/${params.apiKeyId}/reveal`),
+    rotate: (params: { projectId: string; apiKeyId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/api-keys/${params.apiKeyId}/rotate`),
   },
   trace: {
-    delete: path(ROOT_ACTION, "/trace/delete"),
+    delete: (params: { projectId: string; traceId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/trace/${params.traceId}`),
   },
   env: {
-    create: path(ROOT_ACTION, "/env/create"),
+    create: (projectId: string) => path(ROOT_ACTION, `/project/${projectId}/env`),
+  },
+  dataset: {
+    create: (params: { projectId: string; envId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/env/${params.envId}/dataset`),
+    delete: (params: { projectId: string; datasetId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/dataset/${params.datasetId}`),
+  },
+  datapoints: {
+    delete: (params: { projectId: string; datapointId: string }) =>
+      path(ROOT_ACTION, `/project/${params.projectId}/datapoint/${params.datapointId}`),
   },
 };
 

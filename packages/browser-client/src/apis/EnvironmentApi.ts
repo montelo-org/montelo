@@ -25,11 +25,11 @@ import {
     EnvironmentDtoToJSON,
 } from '../models/index';
 
-export interface EnvironmentControllerCreateRequest {
+export interface EnvironmentControllerCreateEnvRequest {
     createEnvInput: CreateEnvInput;
 }
 
-export interface EnvironmentControllerGetRequest {
+export interface EnvironmentControllerGetEnvRequest {
     envId: string;
 }
 
@@ -40,9 +40,9 @@ export class EnvironmentApi extends runtime.BaseAPI {
 
     /**
      */
-    async environmentControllerCreateRaw(requestParameters: EnvironmentControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentDto>> {
+    async environmentControllerCreateEnvRaw(requestParameters: EnvironmentControllerCreateEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentDto>> {
         if (requestParameters.createEnvInput === null || requestParameters.createEnvInput === undefined) {
-            throw new runtime.RequiredError('createEnvInput','Required parameter requestParameters.createEnvInput was null or undefined when calling environmentControllerCreate.');
+            throw new runtime.RequiredError('createEnvInput','Required parameter requestParameters.createEnvInput was null or undefined when calling environmentControllerCreateEnv.');
         }
 
         const queryParameters: any = {};
@@ -72,16 +72,16 @@ export class EnvironmentApi extends runtime.BaseAPI {
 
     /**
      */
-    async environmentControllerCreate(requestParameters: EnvironmentControllerCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentDto> {
-        const response = await this.environmentControllerCreateRaw(requestParameters, initOverrides);
+    async environmentControllerCreateEnv(requestParameters: EnvironmentControllerCreateEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentDto> {
+        const response = await this.environmentControllerCreateEnvRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async environmentControllerGetRaw(requestParameters: EnvironmentControllerGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentDto>> {
+    async environmentControllerGetEnvRaw(requestParameters: EnvironmentControllerGetEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EnvironmentDto>> {
         if (requestParameters.envId === null || requestParameters.envId === undefined) {
-            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling environmentControllerGet.');
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling environmentControllerGetEnv.');
         }
 
         const queryParameters: any = {};
@@ -108,8 +108,8 @@ export class EnvironmentApi extends runtime.BaseAPI {
 
     /**
      */
-    async environmentControllerGet(requestParameters: EnvironmentControllerGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentDto> {
-        const response = await this.environmentControllerGetRaw(requestParameters, initOverrides);
+    async environmentControllerGetEnv(requestParameters: EnvironmentControllerGetEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EnvironmentDto> {
+        const response = await this.environmentControllerGetEnvRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

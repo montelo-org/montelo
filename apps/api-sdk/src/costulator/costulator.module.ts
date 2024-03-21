@@ -5,7 +5,6 @@ import { AnthropicCostulatorService } from "./providers/anthropic.costulator.ser
 import { MistralCostulatorService } from "./providers/mistral.costulator.service";
 import { OpenAICostulatorService } from "./providers/openai.costulator.service";
 
-
 @Module({
   providers: [
     OpenAICostulatorService,

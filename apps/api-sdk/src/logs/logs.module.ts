@@ -1,7 +1,7 @@
+import { DatabaseModule } from "@montelo/api-common";
 import { BullModule } from "@nestjs/bull";
 import { Module } from "@nestjs/common";
 import { CostulatorModule } from "../costulator/costulator.module";
-import { DatabaseModule } from "../database";
 import { LogsController } from "./logs.controller";
 import { LogQueueHealthIndicator } from "./logs.health";
 import { LogsProcessor } from "./logs.processor";

@@ -1,6 +1,5 @@
 import { Pricing } from "../types";
 
-
 export const MistralCostMap: Record<string, Pricing> = {
   "open-mistral-7b": {
     input1K: 0.00025,

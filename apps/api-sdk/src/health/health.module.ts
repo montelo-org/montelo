@@ -1,7 +1,8 @@
+import { DatabaseModule } from "@montelo/api-common";
 import { HttpModule } from "@nestjs/axios";
 import { Module } from "@nestjs/common";
 import { TerminusModule } from "@nestjs/terminus";
-import { DatabaseModule } from "../database";
+import { ExperimentModule } from "../experiment/experiment.module";
 import { LogsModule } from "../logs/logs.module";
 import { HealthController } from "./health.controller";
 
@@ -13,6 +14,7 @@ import { HealthController } from "./health.controller";
     HttpModule,
     DatabaseModule,
     LogsModule,
+    ExperimentModule,
   ],
   controllers: [HealthController],
 })

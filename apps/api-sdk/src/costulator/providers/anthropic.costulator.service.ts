@@ -4,7 +4,6 @@ import { Injectable, Logger } from "@nestjs/common";
 import { AnthropicCostMap, AnthropicCostMapKeys } from "../costMaps/anthropic.costmap";
 import { LLMProvider, LogCostInput, LogCostOutput } from "../llm-provider.interface";
 
-
 @Injectable()
 export class AnthropicCostulatorService implements LLMProvider {
   source = LogSources.ANTHROPIC;

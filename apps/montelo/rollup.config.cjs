@@ -1,4 +1,4 @@
-const resolve = require("@rollup/plugin-node-resolve").nodeResolve;
+const nodeResolve = require("@rollup/plugin-node-resolve");
 const commonjs = require("@rollup/plugin-commonjs");
 const typescript = require("rollup-plugin-typescript2");
 const json = require("@rollup/plugin-json");
@@ -10,23 +10,30 @@ module.exports = [
   {
     input: "src/index.ts",
     output: {
-      dir: "dist/bundle.js",
+      dir: "dist/bundle-node",
       format: "commonjs",
     },
     plugins: [
-      resolve(),
+      nodeResolve(),
       typescript(),
       commonjs(),
       json(),
     ],
   },
-  // Separate configuration for the CLI script
   {
-    input: "../../packages/cli/src/cli.ts",
+    input: "src/index.ts",
     output: {
-      file: "dist/cli.js",
+      dir: "dist/bundle-browser",
       format: "commonjs",
     },
-    plugins: [typescript()],
+    plugins: [
+      nodeResolve({
+        browser: true,
+        modulesOnly: true,
+      }),
+      typescript(),
+      commonjs(),
+      json(),
+    ],
   },
 ];

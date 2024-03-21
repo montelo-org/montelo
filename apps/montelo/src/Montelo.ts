@@ -1,6 +1,7 @@
-import { createId } from "@paralleldrive/cuid2";
+import * as cuid from "@paralleldrive/cuid2";
 import { MonteloClient } from "./MonteloClient";
 import { LogInput, LogInputSourceEnum } from "./client";
+import { MonteloDatapoints, MonteloDatasets, MonteloExperiments } from "./core";
 import { ExtendedAnthropic } from "./extended/ExtendedAnthropic";
 import { ExtendedMistral } from "./extended/ExtendedMistral";
 import { ExtendedOpenAI } from "./extended/ExtendedOpenAI";
@@ -16,6 +17,9 @@ export class Montelo {
   public readonly openai: ExtendedOpenAI;
   public readonly mistral: ExtendedMistral;
   public readonly anthropic: ExtendedAnthropic;
+  public readonly datasets: MonteloDatasets;
+  public readonly datapoints: MonteloDatapoints;
+  public readonly experiments: MonteloExperiments;
 
   constructor(options?: MonteloOptions) {
     this.constructorOptions = options;
@@ -23,11 +27,15 @@ export class Montelo {
     this.openai = new ExtendedOpenAI(this.monteloClient, options?.openai);
     this.mistral = new ExtendedMistral(this.monteloClient, options?.mistral);
     this.anthropic = new ExtendedAnthropic(this.monteloClient, options?.anthropic);
+    this.datasets = new MonteloDatasets(this.monteloClient);
+    this.datapoints = new MonteloDatapoints(this.monteloClient);
+    this.experiments = new MonteloExperiments(this.monteloClient);
   }
 
   public log(log: LogParams) {
-    const startTime = log.startTime || new Date().toISOString();
-    const endTime = log.endTime || new Date().toISOString();
+    const now = new Date().toISOString();
+    const startTime = log.startTime || now;
+    const endTime = log.endTime || now;
     void this.monteloClient.createLog({ ...log, startTime, endTime, source: LogInputSourceEnum.Manual });
   }
 
@@ -36,7 +44,7 @@ export class Montelo {
       throw new Error("Trace already set on this Montelo instance.");
     }
     const newMonteloInstance = new Montelo(this.constructorOptions);
-    newMonteloInstance.monteloClient.setTrace({ ...trace, id: createId() });
+    newMonteloInstance.monteloClient.setTrace({ ...trace, id: cuid.createId() });
     return newMonteloInstance;
   }
 }
