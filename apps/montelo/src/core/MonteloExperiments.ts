@@ -1,5 +1,5 @@
 import { MonteloClient } from "../MonteloClient";
-import { CreateAndRunExperimentinput, CreateExperimentInput, RunExperimentInput } from "./MonteloExperiments.types";
+import { CreateAndRunExperimentInput, CreateExperimentInput, RunExperimentInput } from "./MonteloExperiments.types";
 
 export class MonteloExperiments {
   private readonly monteloClient: MonteloClient;
@@ -17,6 +17,10 @@ export class MonteloExperiments {
   public async run(params: RunExperimentInput): Promise<void> {
     const { experimentId, runner } = params;
 
+    process.env.MONTELO_EXPERIMENT_ID = experimentId;
+    console.log("Running experiment: ", process.env.MONTELO_EXPERIMENT_ID);
+
+    // TODO: this should be paginated
     const experiment = await this.monteloClient.getDatapointsByExperimentId(experimentId);
     if (!experiment) {
       console.error("No experiment found, skipping...");
@@ -43,7 +47,7 @@ export class MonteloExperiments {
     }
   }
 
-  public async createAndRun(params: CreateAndRunExperimentinput): Promise<void> {
+  public async createAndRun(params: CreateAndRunExperimentInput): Promise<void> {
     const createdExperiment = await this.create({
       name: params.name,
       description: params.description,

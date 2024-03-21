@@ -24,4 +24,4 @@ export type RunExperimentInput = {
   runner: (params: Record<string, any>) => Promise<Record<string, any>>;
 };
 
-export type CreateAndRunExperimentinput = CreateExperimentInput & Omit<RunExperimentInput, "experimentId">;
+export type CreateAndRunExperimentInput = CreateExperimentInput & Omit<RunExperimentInput, "experimentId">;

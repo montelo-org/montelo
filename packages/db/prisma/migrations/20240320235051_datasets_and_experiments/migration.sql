@@ -2,6 +2,7 @@
 CREATE TABLE "dataset" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "description" TEXT,
     "input_schema" JSONB NOT NULL,
     "output_schema" JSONB NOT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE "datapoint" (
 CREATE TABLE "experiment" (
     "id" TEXT NOT NULL,
     "dataset_id" TEXT NOT NULL,
-    "name" TEXT,
+    "name" TEXT NOT NULL,
     "description" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
@@ -49,13 +50,16 @@ CREATE TABLE "experiment_run" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "dataset_name_env_id_key" ON "dataset"("name", "env_id");
+CREATE UNIQUE INDEX "dataset_slug_env_id_key" ON "dataset"("slug", "env_id");
 
 -- AddForeignKey
 ALTER TABLE "dataset" ADD CONSTRAINT "dataset_env_id_fkey" FOREIGN KEY ("env_id") REFERENCES "environment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "datapoint" ADD CONSTRAINT "datapoint_dataset_id_fkey" FOREIGN KEY ("dataset_id") REFERENCES "dataset"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "datapoint" ADD CONSTRAINT "datapoint_dataset_id_fkey" FOREIGN KEY ("dataset_id") REFERENCES "dataset"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "experiment" ADD CONSTRAINT "experiment_dataset_id_fkey" FOREIGN KEY ("dataset_id") REFERENCES "dataset"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "experiment_run" ADD CONSTRAINT "experiment_run_experiment_id_fkey" FOREIGN KEY ("experiment_id") REFERENCES "experiment"("id") ON DELETE CASCADE ON UPDATE CASCADE;

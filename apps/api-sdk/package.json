@@ -38,7 +38,7 @@
     "@anthropic-ai/sdk": "^0.17.1",
     "@logtail/pino": "^0.4.21",
     "@mistralai/mistralai": "^0.1.3",
-    "@montelo/api-common": "1.1.63",
+    "@montelo/api-common": "1.1.65",
     "@montelo/db": "1.1.65",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/bull": "^10.0.1",

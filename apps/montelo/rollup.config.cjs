@@ -1,7 +1,8 @@
-const resolve = require("@rollup/plugin-node-resolve").nodeResolve;
+const nodeResolve = require("@rollup/plugin-node-resolve");
 const commonjs = require("@rollup/plugin-commonjs");
 const typescript = require("rollup-plugin-typescript2");
 const json = require("@rollup/plugin-json");
+const replace = require("@rollup/plugin-replace");
 
 /**
  * @type {import("rollup").RollupOptions[]}
@@ -10,23 +11,19 @@ module.exports = [
   {
     input: "src/index.ts",
     output: {
-      dir: "dist/bundle.js",
+      dir: "dist/bundle",
       format: "commonjs",
     },
     plugins: [
-      resolve(),
+      // Mistral: Replace node-fetch with cross-fetch/polyfill, to make it work w/ Vercel
+      replace({
+        preventAssignment: true,
+        "node-fetch": "cross-fetch/polyfill",
+      }),
+      nodeResolve(),
       typescript(),
       commonjs(),
       json(),
     ],
-  },
-  // Separate configuration for the CLI script
-  {
-    input: "../../packages/cli/src/cli.ts",
-    output: {
-      file: "dist/cli.js",
-      format: "commonjs",
-    },
-    plugins: [typescript()],
   },
 ];
