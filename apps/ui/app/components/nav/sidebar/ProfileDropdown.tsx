@@ -1,6 +1,8 @@
-import { useClerk, useUser } from "@clerk/remix";
+import { useClerk } from "@clerk/remix";
+import { User } from "@clerk/remix/api.server";
 import { Link, useNavigate } from "@remix-run/react";
 import { Check, LogOut, Palette, UserRound } from "lucide-react";
+import { FC } from "react";
 import { Theme, useTheme } from "remix-themes";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
@@ -18,17 +20,15 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { Routes } from "~/routes";
 
-export const ProfileDropdown = () => {
+export const ProfileDropdown: FC<{ user: User }> = ({ user }) => {
   const navigate = useNavigate();
   const { signOut } = useClerk();
-  const { isLoaded, user } = useUser();
   const [theme, setTheme] = useTheme();
   const isDarkMode = theme === Theme.DARK;
 
-  const userInitials =
-    isLoaded && user ? `${user.firstName?.charAt(0).toUpperCase()}${user.lastName?.charAt(0).toUpperCase()}` : "";
-  const userFullName = isLoaded && user ? user.fullName : "";
-  const userEmail = isLoaded && user ? user.primaryEmailAddress?.emailAddress : "";
+  const userInitials = `${user.firstName?.charAt(0).toUpperCase()}${user.lastName?.charAt(0).toUpperCase()}`;
+  const userFullName = `${user.firstName} ${user.lastName}`;
+  const userEmail = user.emailAddresses[0].emailAddress;
 
   const handleLogout = () => {
     signOut(() => navigate(Routes.auth.login));
@@ -40,11 +40,11 @@ export const ProfileDropdown = () => {
         className={"hover:bg-muted flex items-center rounded-xl px-3 py-2 focus:outline-none dark:hover:bg-[#151218]"}
       >
         <Avatar className="ml-[2px] h-6 w-6">
-          {isLoaded && user?.hasImage && <AvatarImage src={user.imageUrl} />}
+          {user.hasImage && <AvatarImage src={user.imageUrl} />}
           <AvatarFallback>{userInitials}</AvatarFallback>
         </Avatar>
 
-        {user?.fullName && <span className="text-muted-foreground ml-2.5 text-sm">{user.fullName}</span>}
+        <span className="text-muted-foreground ml-2.5 text-sm">{userFullName}</span>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="w-56">

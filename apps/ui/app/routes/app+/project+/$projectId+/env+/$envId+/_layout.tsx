@@ -1,3 +1,4 @@
+import { User } from "@clerk/remix/api.server";
 import { getAuth } from "@clerk/remix/ssr.server";
 import { Configuration } from "@montelo/browser-client";
 import { LoaderFunction, json, redirect } from "@remix-run/node";
@@ -48,28 +49,35 @@ export const loader: LoaderFunction = async (args) => {
 
   const allProjectsForOrgPromise = api.organization.organizationControllerGetProjectsForOrg();
 
-  const [environment, project, allProjects] = await Promise.all([
+  const orgPromise = clerkClient.organizations.getOrganization({ organizationId: orgId, slug: auth.orgSlug! });
+  const userPromise = clerkClient.users.getUser(auth.userId);
+  const orgMembershipsPromise = clerkClient.users.getOrganizationMembershipList({ userId: auth.userId });
+
+  const [environment, project, allProjects, org, user, orgMemberships] = await Promise.all([
     environmentPromise,
     projectPromise,
     allProjectsForOrgPromise,
+    orgPromise,
+    userPromise,
+    orgMembershipsPromise,
   ]);
 
-  const organization = await clerkClient.organizations.getOrganization({ organizationId: orgId, slug: auth.orgSlug! });
-
-  return json<AppLayoutLoader>({ environment, project, allProjects, org: organization });
+  return json<AppLayoutLoader>({ environment, project, allProjects, org, user, orgMemberships });
 };
 
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const loaderData = useLoaderData<AppLayoutLoader>();
+  const { project, allProjects, environment, org, user, orgMemberships } = useLoaderData<AppLayoutLoader>();
+
+  const userAsUser = user as User;
 
   return (
     <div className="flex h-full gap-5">
       <div
         className={`fixed bottom-0 overflow-hidden transition-all ${isSidebarOpen ? "left-0" : "left-[-220px]"} top-0 box-border flex w-[220px] flex-col gap-4 rounded border-r-2 px-2 pt-4`}
       >
-        <Header {...loaderData} closeSidebar={() => setIsSidebarOpen(false)} />
-        <Sidebar project={loaderData.project} />
+        <Header orgMemberships={orgMemberships} org={org} closeSidebar={() => setIsSidebarOpen(false)} />
+        <Sidebar project={project} user={userAsUser} />
       </div>
 
       <main className={`${isSidebarOpen ? "ml-[230px]" : ""} flex flex-1 flex-col gap-1 transition-all`}>
@@ -79,7 +87,7 @@ export default function DashboardLayout() {
               <PanelRightClose size={18} />
             </button>
           )}
-          <PageBreadcrumb {...loaderData} />
+          <PageBreadcrumb project={project} allProjects={allProjects} environment={environment} />
         </div>
         <Outlet />
       </main>

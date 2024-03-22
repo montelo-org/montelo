@@ -30,7 +30,7 @@
     :root[class~="dark"] {
         --background: #09090b;
         --foreground: #E1DFE3;
-        --card: hsla(0, 0%, 4%, .5);
+        --card: #0A0A0A;
         --card-foreground: #E1DFE3;
         --popover: #09090b;
         --popover-foreground: #E1DFE3;
@@ -180,5 +180,22 @@ html {
 }
 
 .cl-formFieldInput {
+    color: var(--muted-foreground);
+}
+
+.cl-organizationSwitcher-root {
+    height: 30px;
+}
+
+.cl-organizationPreviewAvatarBox {
+    height: 24px;
+    width: 24px;
+}
+
+.cl-organizationSwitcherTriggerIcon {
+    visibility: hidden;
+}
+
+.cl-organizationPreviewMainIdentifier {
     color: var(--muted-foreground);
 }

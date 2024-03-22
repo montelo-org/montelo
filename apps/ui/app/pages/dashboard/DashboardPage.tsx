@@ -165,31 +165,31 @@ export const DashboardPage = () => {
                     <AreaChart data={costHistory.costHistory}>
                       <defs>
                         <linearGradient id="area-gradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.5} />
-                          <stop offset="90%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                          <stop offset="0%" stopColor="var(--primary)" stopOpacity={0.5} />
+                          <stop offset="90%" stopColor="var(--primary)" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <XAxis
                         dataKey="intervalStart"
                         type={"category"}
                         tickFormatter={formatXDates}
-                        stroke={"hsl(var(--border))"}
-                        tick={{ fill: "hsl(var(--muted-foreground))" }}
+                        stroke={"var(--border)"}
+                        tick={{ fill: "var(--muted-foreground)" }}
                       />
                       <YAxis
-                        stroke={"hsl(var(--border))"}
-                        tick={{ fill: "hsl(var(--muted-foreground))" }}
+                        stroke={"var(--border)"}
+                        tick={{ fill: "var(--muted-foreground)" }}
                         tickFormatter={(value) => `$${value}`}
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "hsl(var(--popover))",
+                          backgroundColor: "var(--popover)",
                           borderRadius: "8px",
-                          borderColor: "hsl(var(--border))",
+                          borderColor: "var(--border)",
                         }}
                         formatter={(value) => [`$${value}`, "Total Cost"]}
                         labelFormatter={(date) => dayjs(date).format("MMM D YYYY H:mm:ss")}
-                        cursor={{ stroke: "hsl(var(--muted-foreground))", strokeWidth: 2 }}
+                        cursor={{ stroke: "var(--muted-foreground)", strokeWidth: 2 }}
                       />
                       <Area
                         isAnimationActive={false}
@@ -198,7 +198,7 @@ export const DashboardPage = () => {
                         dot={false}
                         legendType={"none"}
                         strokeWidth={3}
-                        stroke={"hsl(var(--primary))"}
+                        stroke={"var(--primary)"}
                         fill={"url(#area-gradient)"}
                       />
                     </AreaChart>

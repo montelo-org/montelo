@@ -14,9 +14,14 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Routes } from "~/routes";
-import { AppLayoutLoader } from "~/types/AppLayoutLoader.types";
 
-export const PageBreadcrumb: FC<AppLayoutLoader> = ({ project, allProjects, environment }) => {
+type PageBreadcrumbProps = {
+  project: FullProjectDto;
+  allProjects: FullProjectDto[];
+  environment: EnvironmentDto;
+};
+
+export const PageBreadcrumb: FC<PageBreadcrumbProps> = ({ project, allProjects, environment }) => {
   const [isCreateEnvDialogOpen, setIsCreateEnvDialogOpen] = useState<boolean>(false);
   const [isCreateProjectDialogOpen, setIsCreateProjectDialogOpen] = useState<boolean>(false);
 

@@ -1,3 +1,4 @@
+import { User } from "@clerk/remix/api.server";
 import { FullProjectDto } from "@montelo/browser-client";
 import { Link, useLocation, useParams } from "@remix-run/react";
 import { BookOpen, Database, FlaskConical, GanttChart, HelpCircle, LayoutDashboard } from "lucide-react";
@@ -5,6 +6,7 @@ import { ComponentProps, FC } from "react";
 import { Routes } from "~/routes";
 import { ApiKeysDialog } from "./ApiKeysDialog";
 import { ProfileDropdown } from "./ProfileDropdown";
+
 
 type ClassName = ComponentProps<"div">["className"];
 
@@ -70,8 +72,9 @@ const SidebarLink = ({ name, href, Icon, params }: SidebarLinkProps) => {
 
 type SidebarProps = {
   project: FullProjectDto;
+  user: User;
 };
-export const Sidebar: FC<SidebarProps> = ({ project }) => {
+export const Sidebar: FC<SidebarProps> = ({ project, user }) => {
   const { envId } = useParams();
   const params = { envId, projectId: project.id };
 
@@ -95,7 +98,7 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
           Icon={BookOpen}
           params={params}
         />
-        <ProfileDropdown />
+        <ProfileDropdown user={user} />
       </div>
     </aside>
   );
