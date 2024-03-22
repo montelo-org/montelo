@@ -1,6 +1,7 @@
 import { AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum } from "@montelo/browser-client";
 import { defer } from "@remix-run/node";
 import { withAuth } from "~/auth/withAuth";
+import { DashboardContentLayout } from "~/components/layouts/DashboardContentLayout";
 import { DashboardPage } from "~/pages/dashboard/DashboardPage";
 import { DeferredDashboardLoader } from "~/types/DashboardLoader.types";
 

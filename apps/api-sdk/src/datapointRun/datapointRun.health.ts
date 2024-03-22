@@ -5,15 +5,15 @@ import { Queue } from "bull";
 import { QExperimentInput, Queues } from "./types";
 
 @Injectable()
-export class ExperimentQueueHealthIndicator extends HealthIndicator {
-  constructor(@InjectQueue(Queues.experiments) protected readonly experimentQueue: Queue<QExperimentInput>) {
+export class DatapointRunQueueHealthIndicator extends HealthIndicator {
+  constructor(@InjectQueue(Queues.datapointRun) protected readonly datapointRunQueue: Queue<QExperimentInput>) {
     super();
   }
 
   async isHealthy(): Promise<HealthIndicatorResult> {
     // Check if the queue itself is ready
-    const key = `queue-${Queues.experiments}`;
-    const queueIsReady = !!(await this.experimentQueue.isReady());
+    const key = `queue-${Queues.datapointRun}`;
+    const queueIsReady = !!(await this.datapointRunQueue.isReady());
     const queueResult = this.getStatus(key, queueIsReady);
 
     // Attempt to ping Redis with a timeout
@@ -41,7 +41,7 @@ export class ExperimentQueueHealthIndicator extends HealthIndicator {
       // eslint-disable-next-line no-async-promise-executor
       const ping = new Promise<boolean>(async (resolve) => {
         try {
-          const client = this.experimentQueue.client;
+          const client = this.datapointRunQueue.client;
           const pingResult = await client.ping();
           resolve(pingResult === "PONG");
         } catch (error) {

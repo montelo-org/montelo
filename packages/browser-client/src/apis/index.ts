@@ -3,6 +3,7 @@
 export * from './AnalyticsApi';
 export * from './ApiKeyApi';
 export * from './DatapointApi';
+export * from './DatapointRunApi';
 export * from './DatasetApi';
 export * from './EnvironmentApi';
 export * from './ExperimentApi';

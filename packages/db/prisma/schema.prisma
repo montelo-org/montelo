@@ -149,6 +149,9 @@ model Trace {
   // relations
   logs Log[]
 
+  datapointRun   DatapointRun? @relation(fields: [datapointRunId], references: [id], onDelete: Cascade)
+  datapointRunId String?       @unique @map("datapoint_run_id")
+
   // dates
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -191,12 +194,14 @@ model Datapoint {
   id String @id @default(cuid())
 
   // properties
-  input  Json?
-  output Json?
+  input          Json?
+  expectedOutput Json?
 
   // relations
   datasetId String  @map("dataset_id")
   dataset   Dataset @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+
+  datapointRuns DatapointRun[]
 
   // dates
   createdAt DateTime @default(now()) @map("created_at")
@@ -216,8 +221,8 @@ model Experiment {
   description String?
 
   // relations
-  dataset       Dataset         @relation(fields: [datasetId], references: [id], onDelete: Cascade)
-  ExperimentRun ExperimentRun[]
+  dataset       Dataset        @relation(fields: [datasetId], references: [id], onDelete: Cascade)
+  datapointRuns DatapointRun[]
 
   // dates
   createdAt DateTime @default(now()) @map("created_at")
@@ -227,22 +232,26 @@ model Experiment {
   @@map("experiment")
 }
 
-model ExperimentRun {
+model DatapointRun {
   // id
   id String @id @default(cuid())
 
   // properties
-  input  Json?
   output Json?
 
   // relations
   experimentId String     @map("experiment_id")
   experiment   Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
 
+  datapointId String    @map("datapoint_id")
+  datapoint   Datapoint @relation(fields: [datapointId], references: [id], onDelete: Cascade)
+
+  trace Trace?
+
   // dates
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // rename
-  @@map("experiment_run")
+  @@map("datapoint_run")
 }

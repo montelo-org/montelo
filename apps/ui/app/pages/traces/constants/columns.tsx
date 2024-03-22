@@ -203,7 +203,7 @@ export const COLUMNS: ColumnDef<LogDto>[] = [
               <Eye size={16} /> Quick View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className={"gap-2 text-red-600"} onClick={handleDelete}>
+            <DropdownMenuItem className={"gap-2 text-destructive"} onClick={handleDelete}>
               <Trash size={16} /> Delete Trace
             </DropdownMenuItem>
           </DropdownMenuContent>

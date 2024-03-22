@@ -115,7 +115,7 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
   });
 
   return (
-    <div className="w-full pt-2">
+    <div className="w-full">
       <PageBreadcrumbContainer>
         <BreadcrumbItem>
           <BreadcrumbPage className={"text-lg"}>Traces</BreadcrumbPage>

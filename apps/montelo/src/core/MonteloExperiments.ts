@@ -18,9 +18,7 @@ export class MonteloExperiments {
     const { experimentId, runner } = params;
 
     try {
-      process.env.MONTELO_EXPERIMENT_ID = experimentId;
-
-      // TODO: this should be paginated
+      // TODO: looping over the datapoints should be paginated
       const experiment = await this.monteloClient.getDatapointsByExperimentId(experimentId);
       if (!experiment) {
         console.error("No experiment found, skipping...");
@@ -30,19 +28,24 @@ export class MonteloExperiments {
       const datapoints = experiment.dataset.datapoints;
       for (const datapoint of datapoints) {
         try {
-          const output = await runner(datapoint.input);
-          await this.monteloClient.createRun({
+          const datapointRunObj = await this.monteloClient.createDatapointRun({
+            datapointId: datapoint.id,
             experimentId,
-            input: datapoint.input,
+          });
+          if (!datapointRunObj) {
+            throw new Error("Error creating datapoint run");
+          }
+
+          process.env.MONTELO_DATAPOINT_RUN_ID = datapointRunObj.id;
+          const output = await runner(datapoint.input);
+
+          await this.monteloClient.updateDatapointRun({
+            datapointRunId: datapointRunObj.id,
             output,
           });
         } catch (e: any) {
           console.error(`Error running datapoint ${datapoint.id}: `, e.toString());
-          await this.monteloClient.createRun({
-            experimentId,
-            input: datapoint.input,
-            output: { error: e.toString() },
-          });
+          // TODO should still add to db
         }
       }
     } catch (e: any) {

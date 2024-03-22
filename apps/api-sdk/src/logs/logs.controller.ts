@@ -23,6 +23,7 @@ export class LogsController {
       this.logger.debug(`Received log for ${envId}`);
       const queueInput: QLogsInput = {
         envId,
+        datapointRunId: body.datapointRunId,
         trace: body.trace,
         log: body.log,
       };

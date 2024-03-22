@@ -18,7 +18,14 @@ export class ExperimentDto {
   @ApiProperty()
   description: string | null;
 
+  @ApiProperty()
+  createdAt: string;
+
   static fromExperiment(experiment: Experiment): ExperimentDto {
-    return pick(experiment, ["id", "datasetId", "name", "description"]);
+    const base = pick(experiment, ["id", "datasetId", "name", "description"]);
+    return {
+      ...base,
+      createdAt: experiment.createdAt.toISOString(),
+    };
   }
 }

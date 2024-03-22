@@ -58,30 +58,30 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
 
       const isActive = pathname.startsWith(item.href(params));
       return (
-        <li key={item.name} className={`${isActive ? "bg-muted/50" : ""} hover:bg-muted/50 group rounded`}>
-          <Link to={item.href(params)} prefetch={"intent"} className={"flex items-center py-1"}>
+        <li key={item.name} className={`${isActive ? "bg-muted font-medium" : "hover:bg-[#151218]"} rounded-xl`}>
+          <Link to={item.href(params)} prefetch={"intent"} className={"flex items-center px-2.5 py-2"}>
             <div className={"flex w-8 justify-center"}>
-              {<item.icon className={"group-hover:text-foreground text-muted-foreground"} />}
+              {<item.icon className={`${isActive ? "text-[#7f32b0]" : "text-muted-foreground"}`} />}
             </div>
-            <span className="text-muted-foreground ml-1 whitespace-nowrap">{item.name}</span>
+            <span className={`ml-1.5 whitespace-nowrap ${isActive ? "text-[#7f32b0]" : "text-muted-foreground"}`}>
+              {item.name}
+            </span>
           </Link>
         </li>
       );
     });
 
   return (
-    <aside className="h-100vh fixed bottom-0 left-0 top-0 flex w-48 flex-col justify-between pt-[80px]">
-      <div className="pb-4 pl-4 pr-4">
-        <ul className="flex flex-col gap-1 space-y-1">
-          <SidebarItemsComponent />
-          <ApiKeysDialog projectId={project.id} />
-        </ul>
-      </div>
+    <aside className="flex flex-col h-full justify-between">
+      <ul className="flex flex-col gap-1">
+        <SidebarItemsComponent />
+        <ApiKeysDialog projectId={project.id} />
+      </ul>
       <div className="flex flex-row justify-between p-4">
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className={"hover:bg-muted/50 group rounded"}>
+              <div className={"hover:bg-muted group rounded"}>
                 <Link to={Routes.external.slack} target={"_blank"}>
                   <HelpCircle size={20} className={"group-hover:text-foreground text-muted-foreground"} />
                 </Link>
@@ -96,7 +96,7 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <div className={"hover:bg-muted/50 group rounded"}>
+              <div className={"hover:bg-muted group rounded"}>
                 <Link to={Routes.external.documentation} target={"_blank"}>
                   <BookOpen size={20} className={"group-hover:text-foreground text-muted-foreground"} />
                 </Link>

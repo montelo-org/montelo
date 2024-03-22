@@ -5,7 +5,7 @@ export const Title: FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export const Content: FC<{ children: ReactNode }> = ({ children }) => {
-  return <div className={"bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4"}>{children}</div>;
+  return <div className={"bg-secondary whitespace-pre-wrap rounded-xl px-8 py-4"}>{children}</div>;
 };
 
 export const MessagesContainer: FC<{ children: ReactNode }> = ({ children }) => {

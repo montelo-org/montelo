@@ -1,4 +1,4 @@
 export type AddToDatasetParams = {
   input: any;
-  output: any;
+  expectedOutput: any;
 };

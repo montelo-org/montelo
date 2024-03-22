@@ -72,10 +72,6 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
         <BreadcrumbPage>{trace.name || "—"}</BreadcrumbPage>
       </PageBreadcrumbContainer>
 
-      <div className={"mb-4 flex justify-end"}>
-        <Button>Add to dataset</Button>
-      </div>
-
       <div className={"flex flex-row gap-8"}>
         <LogAnalytics trace={trace} />
       </div>

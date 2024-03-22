@@ -1,3 +1,4 @@
+// TODO add this and the log.dto from api-sdk to the api-common package
 import { Log, LogSources } from "@montelo/db";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";

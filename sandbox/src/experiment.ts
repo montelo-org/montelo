@@ -35,12 +35,12 @@ const main = async () => {
     await montelo.datapoints.create({
       dataset: dataset.slug,
       input,
-      output,
+      expectedOutput: output,
     });
   }
 
   await montelo.experiments.createAndRun({
-    name: "AI Articles Anthropic",
+    name: "AI Articles OpenAI",
     description: "Find articles about AI",
     dataset: "topic-datasets",
     runner: openaiChat,

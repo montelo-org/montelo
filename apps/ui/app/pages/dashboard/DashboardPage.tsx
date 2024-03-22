@@ -1,7 +1,7 @@
 import { AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum } from "@montelo/browser-client";
 import { Await, useLoaderData, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
-import { AlertCircle, CircleSlash, DollarSign, GanttChart, Timer } from "lucide-react";
+import { AlertCircle, CircleSlash, DollarSign, FlaskConical, GanttChart, Timer } from "lucide-react";
 import numbro from "numbro";
 import { Suspense } from "react";
 import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -38,8 +38,24 @@ export const DashboardPage = () => {
     return formatMap[selectedValue as AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum];
   };
 
+  const NoData = () => {
+    return (
+      <div className={"flex h-full items-center justify-center rounded-lg border"}>
+        <Alert className={"flex w-fit flex-row items-center justify-start gap-4 p-4"}>
+          <div>
+            <CircleSlash size={20} />
+          </div>
+          <div className={"flex flex-col"}>
+            <AlertTitle>No Data</AlertTitle>
+            <AlertDescription>Try another date filter.</AlertDescription>
+          </div>
+        </Alert>
+      </div>
+    );
+  };
+
   return (
-    <div className={"flex flex-col pt-2"}>
+    <div className={"flex flex-col"}>
       <PageBreadcrumbContainer>
         <BreadcrumbItem>
           <BreadcrumbPage className={"text-lg"}>Dashboard</BreadcrumbPage>
@@ -92,9 +108,9 @@ export const DashboardPage = () => {
             </Await>
           </Suspense>
         </AnalyticsCard>
-        <AnalyticsCard title={"Prompts & Tools"} icon={AlertCircle}>
+        <AnalyticsCard title={"Experiments"} icon={FlaskConical}>
           <Suspense fallback={<BaseContentSkeleton />}>
-            <Await resolve={analytics}>{(analytics) => <BaseContent title={"Coming soon"} />}</Await>
+            <Await resolve={analytics}>{(analytics) => <BaseContent title={"Implement"} />}</Await>
           </Suspense>
         </AnalyticsCard>
       </div>
@@ -103,7 +119,7 @@ export const DashboardPage = () => {
         {/*Recent Logs Section*/}
         <div className="col-span-2">
           <h1 className={"mb-4 text-2xl font-medium"}>Recent Logs</h1>
-          <ScrollArea className="h-[32rem] rounded-lg border" type={"scroll"}>
+          {logs.length ? <ScrollArea className="h-[32rem] rounded-lg border" type={"scroll"}>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -120,7 +136,7 @@ export const DashboardPage = () => {
                 ))}
               </TableBody>
             </Table>
-          </ScrollArea>
+          </ScrollArea> : <NoData />}
         </div>
 
         {/*Cost History Section*/}
@@ -137,19 +153,7 @@ export const DashboardPage = () => {
             <Await resolve={costHistory}>
               {(costHistory) => {
                 if (!costHistory.costHistory.length) {
-                  return (
-                    <div className={"flex h-full items-center justify-center rounded-lg border"}>
-                      <Alert className={"flex w-1/3 flex-row items-center justify-start gap-4 p-4"}>
-                        <div>
-                          <CircleSlash size={20} />
-                        </div>
-                        <div className={"flex flex-col"}>
-                          <AlertTitle>No Data</AlertTitle>
-                          <AlertDescription>Try another date filter.</AlertDescription>
-                        </div>
-                      </Alert>
-                    </div>
-                  );
+                  return NoData();
                 }
 
                 return (

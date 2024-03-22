@@ -5,5 +5,5 @@ export class AddToDatasetInput {
   input: any;
 
   @ApiProperty()
-  output: any;
+  expectedOutput: any;
 }

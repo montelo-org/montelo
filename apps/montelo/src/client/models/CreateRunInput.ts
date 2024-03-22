@@ -40,7 +40,7 @@ export interface CreateRunInput {
 }
 
 /**
- * Check if a given object implements the CreateRunInput interface.
+ * Check if a given object implements the CreateDatapointRunInput interface.
  */
 export function instanceOfCreateRunInput(value: object): boolean {
     let isInstance = true;

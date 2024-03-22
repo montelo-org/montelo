@@ -52,10 +52,10 @@ export const columns: ColumnDef<DatapointDto>[] = [
     },
   },
   {
-    accessorKey: "output",
-    header: "Output",
+    accessorKey: "expectedOutput",
+    header: "Expected Output",
     cell: ({ row }) => {
-      const val = row.getValue("output") as object;
+      const val = row.getValue("expectedOutput") as object;
       const stringified = JSON.stringify(val);
       const short = stringified.slice(0, 100);
       return <div>{short.length === stringified.length ? short : `${short}...`}</div>;
@@ -87,7 +87,7 @@ export const columns: ColumnDef<DatapointDto>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className={"gap-2 text-red-600"} onClick={handleDeleteDatapoint}>
+            <DropdownMenuItem className={"gap-2 text-destructive"} onClick={handleDeleteDatapoint}>
               <Trash size={16} /> Delete
             </DropdownMenuItem>
           </DropdownMenuContent>

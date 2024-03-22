@@ -34,6 +34,12 @@ import {
 export interface CreateLogInput {
     /**
      * 
+     * @type {string}
+     * @memberof CreateLogInput
+     */
+    datapointRunId?: string;
+    /**
+     * 
      * @type {LogInput}
      * @memberof CreateLogInput
      */
@@ -66,6 +72,7 @@ export function CreateLogInputFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
+        'datapointRunId': !exists(json, 'datapointRunId') ? undefined : json['datapointRunId'],
         'log': LogInputFromJSON(json['log']),
         'trace': !exists(json, 'trace') ? undefined : TraceInputFromJSON(json['trace']),
     };
@@ -80,6 +87,7 @@ export function CreateLogInputToJSON(value?: CreateLogInput | null): any {
     }
     return {
         
+        'datapointRunId': value.datapointRunId,
         'log': LogInputToJSON(value.log),
         'trace': TraceInputToJSON(value.trace),
     };

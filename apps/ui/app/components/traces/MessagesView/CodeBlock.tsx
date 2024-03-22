@@ -3,7 +3,7 @@ import { FC } from "react";
 const RawHTML: FC<{ html: string }> = ({ html }) => {
   return (
     <pre
-      className={"bg-secondary dark:bg-secondary/25 whitespace-pre-wrap rounded-xl px-8 py-4 text-sm"}
+      className={"bg-secondary whitespace-pre-wrap rounded-xl px-8 py-4 text-sm"}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

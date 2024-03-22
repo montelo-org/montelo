@@ -111,6 +111,12 @@ export class TraceInput {
 }
 
 export class CreateLogInput {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  datapointRunId: string;
+
   @ApiProperty()
   log: LogInput;
 

@@ -8,6 +8,7 @@ import { NullableCost, TraceMetrics } from "../costulator/types";
 import { LogInput, TraceInput } from "./dto/create-log.input";
 import { TraceWithLogs } from "./types";
 
+
 @Injectable()
 export class LogsService {
   private logger = new Logger(LogsService.name);
@@ -17,7 +18,8 @@ export class LogsService {
     private costulatorService: CostulatorService,
   ) {}
 
-  async create(envId: string, log: LogInput, trace?: TraceInput): Promise<void> {
+  async create(envId: string, datapointRunId: string | undefined, log: LogInput, trace?: TraceInput): Promise<void> {
+    console.log("CREATING LOG: ", log, trace);
     // get the existing trace from the db if it exists
     const dbTrace = trace?.id
       ? await this.db.trace.findUnique({
@@ -72,6 +74,13 @@ export class LogsService {
       envId,
       id: trace?.id,
       name: trace?.name || "",
+      ...(datapointRunId && {
+        datapointRun: {
+          connect: {
+            id: datapointRunId,
+          },
+        },
+      }),
     };
 
     const traceArg: Prisma.TraceCreateNestedOneWithoutLogsInput = trace

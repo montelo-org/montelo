@@ -12,7 +12,7 @@ export class DatapointController {
   constructor(private datapointService: DatapointService) {}
 
   @Post()
-  async addToDataset(
+  async addToDatasetBySlug(
     @EnvId() envId: string,
     @Param("datasetSlug") datasetSlug: string,
     @Body() addToDatasetInput: AddToDatasetInput,

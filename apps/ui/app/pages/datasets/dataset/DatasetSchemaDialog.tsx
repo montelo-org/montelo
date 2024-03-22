@@ -50,7 +50,7 @@ export const DatasetSchemaDialog: FC<{ inputSchema: object; outputSchema: object
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>View Schema</Button>
+        <Button>View Schemas</Button>
       </DialogTrigger>
       <DialogContent className={"max-w-[48rem]"}>
         <DialogHeader>
@@ -71,7 +71,7 @@ export const DatasetSchemaDialog: FC<{ inputSchema: object; outputSchema: object
             <p className={"font-medium"}>TypeScript Code</p>
             <CodeBlock value={combinedTypeDefinition} />
             <Icon
-              className={"text-muted-foreground hover:text-foreground fixed right-1 mr-10 mt-12 hover:cursor-pointer"}
+              className={"text-muted-foreground hover:text-foreground fixed right-1 mr-10 mt-12 cursor-pointer"}
               onClick={() => {
                 copyToClipboard(combinedTypeDefinition);
               }}

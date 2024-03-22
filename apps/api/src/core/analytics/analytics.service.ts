@@ -42,11 +42,13 @@ export class AnalyticsService {
 
     // Construct the query using string concatenation for the interval
     const queryString = `
-        SELECT DATE_TRUNC('${interval}', start_time) AS "intervalStart",
-               SUM(total_cost)    AS "totalCost"
-        FROM "log"
-        WHERE env_id = $1
-          AND start_time >= $2::timestamp
+        SELECT DATE_TRUNC('${interval}', log.start_time) AS "intervalStart",
+               SUM(log.total_cost)    AS "totalCost"
+        FROM log
+        JOIN trace ON log.trace_id = trace.id
+        WHERE log.env_id = $1
+          AND log.start_time >= $2::timestamp
+          AND trace.datapoint_run_id IS NULL
         GROUP BY "intervalStart"
         ORDER BY "intervalStart";
     `;
@@ -112,6 +114,7 @@ export class AnalyticsService {
       where: {
         envId,
         startTime: dateSelectionMap[dateSelection],
+        datapointRunId: null
       },
       _count: true,
       _avg: {
@@ -130,6 +133,7 @@ export class AnalyticsService {
       where: {
         envId,
         startTime: prevDateSelectionMap[dateSelection],
+        datapointRunId: null,
       },
       _count: true,
       _avg: {

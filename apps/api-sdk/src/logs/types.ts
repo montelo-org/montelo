@@ -7,7 +7,8 @@ export enum Queues {
 
 export type QLogsInput = {
   envId: string;
-  trace?: TraceInput;
+  datapointRunId: string | undefined;
+  trace: TraceInput | undefined;
   log: LogInput;
 };
 

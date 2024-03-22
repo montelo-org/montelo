@@ -36,7 +36,7 @@ export interface DatapointDto {
      * @type {object}
      * @memberof DatapointDto
      */
-    output: object;
+    expectedOutput: object;
     /**
      * 
      * @type {string}
@@ -58,7 +58,7 @@ export function instanceOfDatapointDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "input" in value;
-    isInstance = isInstance && "output" in value;
+    isInstance = isInstance && "expectedOutput" in value;
     isInstance = isInstance && "datasetId" in value;
     isInstance = isInstance && "createdAt" in value;
 
@@ -77,7 +77,7 @@ export function DatapointDtoFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'id': json['id'],
         'input': json['input'],
-        'output': json['output'],
+        'expectedOutput': json['expectedOutput'],
         'datasetId': json['datasetId'],
         'createdAt': json['createdAt'],
     };
@@ -94,7 +94,7 @@ export function DatapointDtoToJSON(value?: DatapointDto | null): any {
         
         'id': value.id,
         'input': value.input,
-        'output': value.output,
+        'expectedOutput': value.expectedOutput,
         'datasetId': value.datasetId,
         'createdAt': value.createdAt,
     };

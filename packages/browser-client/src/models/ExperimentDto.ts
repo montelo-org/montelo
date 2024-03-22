@@ -43,6 +43,12 @@ export interface ExperimentDto {
      * @memberof ExperimentDto
      */
     description: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExperimentDto
+     */
+    createdAt: string;
 }
 
 /**
@@ -54,6 +60,7 @@ export function instanceOfExperimentDto(value: object): boolean {
     isInstance = isInstance && "datasetId" in value;
     isInstance = isInstance && "name" in value;
     isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "createdAt" in value;
 
     return isInstance;
 }
@@ -72,6 +79,7 @@ export function ExperimentDtoFromJSONTyped(json: any, ignoreDiscriminator: boole
         'datasetId': json['datasetId'],
         'name': json['name'],
         'description': json['description'],
+        'createdAt': json['createdAt'],
     };
 }
 
@@ -88,6 +96,7 @@ export function ExperimentDtoToJSON(value?: ExperimentDto | null): any {
         'datasetId': value.datasetId,
         'name': value.name,
         'description': value.description,
+        'createdAt': value.createdAt,
     };
 }
 

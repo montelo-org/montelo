@@ -11,7 +11,7 @@ export const RevealApiKey = ({ onClick }: ViewApiKeyProps) => {
         <TooltipTrigger asChild>
           <Eye
             size={20}
-            className="cursor-pointer hover:scale-110 hover:text-blue-500 hover:shadow-md"
+            className="cursor-pointer hover:scale-110"
             onClick={onClick}
           />
         </TooltipTrigger>

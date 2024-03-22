@@ -16,18 +16,12 @@
 import * as runtime from '../runtime';
 import type {
   CreateExperimentInput,
-  CreateRunInput,
-  EventQueuedDto,
   ExperimentDto,
   FullExperimentDto,
 } from '../models/index';
 import {
     CreateExperimentInputFromJSON,
     CreateExperimentInputToJSON,
-    CreateRunInputFromJSON,
-    CreateRunInputToJSON,
-    EventQueuedDtoFromJSON,
-    EventQueuedDtoToJSON,
     ExperimentDtoFromJSON,
     ExperimentDtoToJSON,
     FullExperimentDtoFromJSON,
@@ -41,10 +35,6 @@ export interface ExperimentControllerCreateRequest {
 
 export interface ExperimentControllerGetFullExperimentRequest {
     experimentId: string;
-}
-
-export interface ExperimentControllerRunRequest {
-    createRunInput: CreateRunInput;
 }
 
 /**
@@ -128,45 +118,6 @@ export class ExperimentApi extends runtime.BaseAPI {
      */
     async experimentControllerGetFullExperiment(requestParameters: ExperimentControllerGetFullExperimentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FullExperimentDto> {
         const response = await this.experimentControllerGetFullExperimentRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async experimentControllerRunRaw(requestParameters: ExperimentControllerRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<EventQueuedDto>> {
-        if (requestParameters.createRunInput === null || requestParameters.createRunInput === undefined) {
-            throw new runtime.RequiredError('createRunInput','Required parameter requestParameters.createRunInput was null or undefined when calling experimentControllerRun.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        headerParameters['Content-Type'] = 'application/json';
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearer", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/experiment/run`,
-            method: 'POST',
-            headers: headerParameters,
-            query: queryParameters,
-            body: CreateRunInputToJSON(requestParameters.createRunInput),
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => EventQueuedDtoFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async experimentControllerRun(requestParameters: ExperimentControllerRunRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<EventQueuedDto> {
-        const response = await this.experimentControllerRunRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

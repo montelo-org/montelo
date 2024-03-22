@@ -12,7 +12,7 @@ export class DatapointDto {
   input: any;
 
   @ApiProperty()
-  output: any;
+  expectedOutput: any;
 
   @ApiProperty()
   @IsString()
@@ -23,7 +23,7 @@ export class DatapointDto {
   createdAt: string;
 
   static fromDatapoint(datapoint: Datapoint): DatapointDto {
-    const base = pick(datapoint, ["id", "input", "output", "datasetId"]);
+    const base = pick(datapoint, ["id", "input", "expectedOutput", "datasetId"]);
     return {
       ...base,
       createdAt: datapoint.createdAt.toISOString(),

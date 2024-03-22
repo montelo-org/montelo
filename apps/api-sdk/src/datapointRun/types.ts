@@ -1,9 +1,8 @@
 export enum Queues {
-  experiments = "experiments",
+  datapointRun = "datapointRun",
 }
 
 export type QExperimentInput = {
-  experimentId: string;
-  input: Record<string, any>;
+  datapointRunId: string;
   output: Record<string, any>;
 };
