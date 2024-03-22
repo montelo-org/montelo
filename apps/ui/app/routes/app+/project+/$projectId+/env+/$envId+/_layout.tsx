@@ -2,6 +2,8 @@ import { getAuth } from "@clerk/remix/ssr.server";
 import { Configuration } from "@montelo/browser-client";
 import { LoaderFunction, json, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
+import { PanelRightClose } from "lucide-react";
+import { useState } from "react";
 import { Api } from "~/api";
 import { PageBreadcrumb } from "~/components/nav/header/PageBreadcrumb";
 import { Header } from "~/components/nav/sidebar/Header";
@@ -58,19 +60,28 @@ export const loader: LoaderFunction = async (args) => {
 };
 
 export default function DashboardLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const loaderData = useLoaderData<AppLayoutLoader>();
 
   return (
-    <div className={"grid h-full w-full grid-cols-6 gap-6"}>
-      <div className={"col-span-1 flex flex-col gap-4 rounded border-r-2 pr-6"}>
-        <Header {...loaderData} />
+    <div className="flex h-full gap-5">
+      <div
+        className={`fixed bottom-0 overflow-hidden transition-all ${isSidebarOpen ? "left-0" : "left-[-220px]"} top-0 box-border flex w-[220px] flex-col gap-4 rounded border-r-2 px-2 pt-4`}
+      >
+        <Header {...loaderData} closeSidebar={() => setIsSidebarOpen(false)} />
         <Sidebar project={loaderData.project} />
       </div>
-      <main className={"col-span-5"}>
-        <div className={"flex flex-col gap-4 "}>
+
+      <main className={`${isSidebarOpen ? "ml-[230px]" : ""} flex flex-1 flex-col gap-1 transition-all`}>
+        <div className="flex gap-2">
+          {!isSidebarOpen && (
+            <button className="opacity-40 hover:opacity-70" onClick={() => setIsSidebarOpen(true)}>
+              <PanelRightClose size={18} />
+            </button>
+          )}
           <PageBreadcrumb {...loaderData} />
-          <Outlet />
         </div>
+        <Outlet />
       </main>
     </div>
   );

@@ -23,11 +23,11 @@ export const ApiKeysDialog: FC<ApiKeysDialogProps> = ({ projectId }) => {
   return (
     <Dialog>
       <DialogTrigger asChild onMouseEnter={prefetchApiKeys}>
-        <div className={"hover:bg-[#151218] flex cursor-pointer items-center rounded-xl px-2.5 py-2"}>
-          <div className={"flex w-8 justify-center"}>
-            {<KeyRound size={20} className={"text-muted-foreground"} />}
-          </div>
-          <span className="text-muted-foreground ml-1.5 whitespace-nowrap">API Keys</span>
+        <div
+          className={"hover:bg-muted flex cursor-pointer items-center rounded-xl px-2.5 py-2 dark:hover:bg-[#151218]"}
+        >
+          <div className={"flex w-8 justify-center"}>{<KeyRound className={"text-muted-foreground h-4 w-4"} />}</div>
+          <span className="text-muted-foreground ml-1.5 whitespace-nowrap text-sm">API Keys</span>
         </div>
       </DialogTrigger>
       <DialogContent className="min-w-[600px]">
@@ -37,7 +37,7 @@ export const ApiKeysDialog: FC<ApiKeysDialogProps> = ({ projectId }) => {
         <div>
           <Alert variant="destructive" className={"mb-4"}>
             <AlertDescription>
-              <div className={"flex flex-row items-center gap-4 text-destructive-foreground"}>
+              <div className={"text-destructive-foreground flex flex-row items-center gap-4"}>
                 <AlertTriangle />
                 API keys are only revealed once and will be hidden after.
               </div>

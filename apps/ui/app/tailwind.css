@@ -166,7 +166,9 @@ html {
 .cl-organizationSwitcher-root {
     height: 32px;
 }
-
+.cl-organizationSwitcherTrigger {
+    width: 175px;
+}
 .cl-headerTitle {
     color: var(--muted-foreground);
 }

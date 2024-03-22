@@ -92,7 +92,7 @@ export const PageBreadcrumb: FC<AppLayoutLoader> = ({ project, allProjects, envi
   };
 
   return (
-    <div className={"flex h-8 items-center gap-2"}>
+    <div className={"text-muted-foreground flex h-8 items-center gap-2 text-sm font-semibold"}>
       <Dialog open={isCreateProjectDialogOpen} onOpenChange={setIsCreateProjectDialogOpen}>
         <ProjectBreadcrumb project={project} allProjects={allProjects} />
         <CreateProjectDialog onClose={() => setIsCreateEnvDialogOpen(false)} />

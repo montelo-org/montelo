@@ -36,12 +36,17 @@ export const ProfileDropdown = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className={"focus:outline-none"}>
-        <Avatar>
+      <DropdownMenuTrigger
+        className={"hover:bg-muted flex items-center rounded-xl px-3 py-2 focus:outline-none dark:hover:bg-[#151218]"}
+      >
+        <Avatar className="ml-[2px] h-6 w-6">
           {isLoaded && user?.hasImage && <AvatarImage src={user.imageUrl} />}
           <AvatarFallback>{userInitials}</AvatarFallback>
         </Avatar>
+
+        {user?.fullName && <span className="text-muted-foreground ml-2.5 text-sm">{user.fullName}</span>}
       </DropdownMenuTrigger>
+
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel className={"pb-0"}>{userFullName}</DropdownMenuLabel>
         <DropdownMenuLabel className={"text-muted-foreground pt-0 text-sm font-light"}>{userEmail}</DropdownMenuLabel>

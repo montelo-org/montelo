@@ -1,7 +1,7 @@
 import { AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum } from "@montelo/browser-client";
 import { Await, useLoaderData, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
-import { AlertCircle, CircleSlash, DollarSign, FlaskConical, GanttChart, Timer } from "lucide-react";
+import { CircleSlash, DollarSign, FlaskConical, GanttChart, Timer } from "lucide-react";
 import numbro from "numbro";
 import { Suspense } from "react";
 import { Area, AreaChart, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -55,7 +55,7 @@ export const DashboardPage = () => {
   };
 
   return (
-    <div className={"flex flex-col"}>
+    <div className={"flex flex-1 flex-col"}>
       <PageBreadcrumbContainer>
         <BreadcrumbItem>
           <BreadcrumbPage className={"text-lg"}>Dashboard</BreadcrumbPage>
@@ -119,24 +119,28 @@ export const DashboardPage = () => {
         {/*Recent Logs Section*/}
         <div className="col-span-2">
           <h1 className={"mb-4 text-2xl font-medium"}>Recent Logs</h1>
-          {logs.length ? <ScrollArea className="h-[32rem] rounded-lg border" type={"scroll"}>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Timestamp</TableHead>
-                  <TableHead className={"min-w-28"}>Trace / Log </TableHead>
-                  <TableHead>Log Name</TableHead>
-                  <TableHead>Latency</TableHead>
-                  <TableHead>Cost</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {logs.map((log) => (
-                  <RecentLog key={log.id} log={log} />
-                ))}
-              </TableBody>
-            </Table>
-          </ScrollArea> : <NoData />}
+          {logs.length ? (
+            <ScrollArea className="h-[32rem] rounded-lg border" type={"scroll"}>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Timestamp</TableHead>
+                    <TableHead className={"min-w-28"}>Trace / Log </TableHead>
+                    <TableHead>Log Name</TableHead>
+                    <TableHead>Latency</TableHead>
+                    <TableHead>Cost</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {logs.map((log) => (
+                    <RecentLog key={log.id} log={log} />
+                  ))}
+                </TableBody>
+              </Table>
+            </ScrollArea>
+          ) : (
+            <NoData />
+          )}
         </div>
 
         {/*Cost History Section*/}
