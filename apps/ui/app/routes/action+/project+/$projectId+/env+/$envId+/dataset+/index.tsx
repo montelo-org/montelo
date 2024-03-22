@@ -33,7 +33,6 @@ export const action: ActionFunction = withAuth(async ({ api, request, params }) 
     if (e.response.status === 409) {
       return json<ActionOutput>({ error: "Dataset with this slug already exists" });
     }
-    console.log(e.response);
     return json<ActionOutput>({ error: "Failed to create dataset" });
   }
 });

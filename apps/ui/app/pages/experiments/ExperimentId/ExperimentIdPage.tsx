@@ -18,8 +18,6 @@ type ExperimentsPageProps = {
 export const ExperimentIdPage: FC<ExperimentsPageProps> = ({ fullExperiment }) => {
   const params = useParams();
 
-  console.log(fullExperiment);
-
   return (
     <div className={"mt-2 flex flex-col"}>
       <PageBreadcrumbContainer>

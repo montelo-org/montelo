@@ -40,7 +40,7 @@ export const DatasetIdPage: FC<DatasetIdPageProps> = ({ dataset, currentPage, to
           <p>Slug ➯ {dataset.slug}</p>
           <p>{dataset.description}</p>
         </div>
-        <DatasetSchemaDialog inputSchema={dataset.inputSchema} outputSchema={dataset.outputSchema} />
+        <DatasetSchemaDialog slug={dataset.slug} inputSchema={dataset.inputSchema} outputSchema={dataset.outputSchema} />
       </div>
 
       <DatapointsTable datapoints={dataset.datapoints} currentPage={currentPage} totalPages={totalPages} />

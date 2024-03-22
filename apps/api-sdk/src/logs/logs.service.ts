@@ -19,7 +19,6 @@ export class LogsService {
   ) {}
 
   async create(envId: string, datapointRunId: string | undefined, log: LogInput, trace?: TraceInput): Promise<void> {
-    console.log("CREATING LOG: ", log, trace);
     // get the existing trace from the db if it exists
     const dbTrace = trace?.id
       ? await this.db.trace.findUnique({

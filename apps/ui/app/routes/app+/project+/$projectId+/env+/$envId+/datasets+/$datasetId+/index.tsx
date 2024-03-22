@@ -24,8 +24,6 @@ export const loader: LoaderFunction = withAuth(async ({ api, params, request }) 
     skip: skipAmount.toString(),
   });
 
-  console.log(dataset);
-
   return json<LoaderType>({
     dataset,
     currentPage: parseInt(page),
