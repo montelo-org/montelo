@@ -1,3 +1,4 @@
+import { Trace } from "montelo";
 import { Agent } from "../Agent";
 import { ManagerRole, ManagerSystemPrompt } from "../Agent/Agent.prompts";
 import type { Model } from "../Model";
@@ -22,7 +23,7 @@ export class Crew<P extends Process> {
   private readonly tasks: Task[] = [];
   private readonly tools?: Tool[] = [];
   private readonly managerModel?: Model;
-  private trace: any;
+  private trace: Trace;
   private currentTaskName: string = "";
   private readonly stepCallback?: (output: any) => void;
 
@@ -98,9 +99,12 @@ export class Crew<P extends Process> {
 
     for (const task of this.tasks) {
       this.currentTaskName = task.getName();
-      await this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
+      const log = await this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
 
       const output = await task.execute({ context, trace: this.trace, tools: this.tools });
+
+      await log.end({ output: { output }, endTime: new Date().toISOString() });
+      if (this.stepCallback) this.stepCallback(output);
 
       context = output;
       taskOutputs.push(output);

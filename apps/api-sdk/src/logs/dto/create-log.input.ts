@@ -25,6 +25,13 @@ export class LogInput {
   @ApiProperty({
     type: String,
     required: false,
+    example: "clsj9nupk000108jp9pxdcx5c",
+  })
+  id?: string;
+
+  @ApiProperty({
+    type: String,
+    required: false,
     example: "Agent X",
   })
   name?: string;
@@ -125,4 +132,25 @@ export class CreateLogInput {
     },
   })
   trace?: TraceInput;
+}
+
+export class EndLogInput {
+  @ApiProperty({
+    example: "I am an AI. I do not have a name.",
+    required: false,
+  })
+  output?: LogInput["output"];
+
+  @ApiProperty({
+    type: String,
+    example: "2024-02-12T03:56:29.161Z",
+    required: false,
+  })
+  endTime?: LogInput["endTime"];
+
+  @ApiProperty({
+    type: "object",
+    required: false,
+  })
+  extra?: LogInput["extra"];
 }

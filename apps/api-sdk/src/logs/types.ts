@@ -5,11 +5,19 @@ export enum Queues {
   logs = "logs",
 }
 
-export type QLogsInput = {
-  envId: string;
-  trace?: TraceInput;
-  log: LogInput;
-};
+export type QLogsInput =
+  | {
+      action: "create";
+      envId: string;
+      trace?: TraceInput;
+      log: LogInput;
+    }
+  | {
+      action: "end";
+      envId: string;
+      logId: string;
+      payload: Pick<LogInput, "output" | "endTime" | "extra">;
+    };
 
 const traceWithLogs = Prisma.validator<Prisma.TraceDefaultArgs>()({
   include: {

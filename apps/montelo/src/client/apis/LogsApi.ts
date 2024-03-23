@@ -16,14 +16,22 @@
 import * as runtime from '../runtime';
 import type {
   CreateLogInput,
+  EndLogInput,
 } from '../models/index';
 import {
     CreateLogInputFromJSON,
     CreateLogInputToJSON,
+    EndLogInputFromJSON,
+    EndLogInputToJSON,
 } from '../models/index';
 
 export interface LogsControllerCreateLogRequest {
     createLogInput: CreateLogInput;
+}
+
+export interface LogsControllerEndLogRequest {
+    logId: string;
+    endLogInput: EndLogInput;
 }
 
 /**
@@ -67,6 +75,48 @@ export class LogsApi extends runtime.BaseAPI {
      */
     async logsControllerCreateLog(requestParameters: LogsControllerCreateLogRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.logsControllerCreateLogRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async logsControllerEndLogRaw(requestParameters: LogsControllerEndLogRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.logId === null || requestParameters.logId === undefined) {
+            throw new runtime.RequiredError('logId','Required parameter requestParameters.logId was null or undefined when calling logsControllerEndLog.');
+        }
+
+        if (requestParameters.endLogInput === null || requestParameters.endLogInput === undefined) {
+            throw new runtime.RequiredError('endLogInput','Required parameter requestParameters.endLogInput was null or undefined when calling logsControllerEndLog.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/logs/{logId}/end`.replace(`{${"logId"}}`, encodeURIComponent(String(requestParameters.logId))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: EndLogInputToJSON(requestParameters.endLogInput),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async logsControllerEndLog(requestParameters: LogsControllerEndLogRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.logsControllerEndLogRaw(requestParameters, initOverrides);
     }
 
 }

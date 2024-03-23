@@ -17,7 +17,7 @@ export class LogsService {
     private costulatorService: CostulatorService,
   ) {}
 
-  async create(envId: string, log: LogInput, trace?: TraceInput): Promise<void> {
+  public async create(envId: string, log: LogInput, trace?: TraceInput): Promise<void> {
     // get the existing trace from the db if it exists
     const dbTrace = trace?.id
       ? await this.db.trace.findUnique({
@@ -120,6 +120,19 @@ export class LogsService {
     this.logger.debug(`Updated trace with id ${createdLog.traceId}`);
   }
 
+  public async end(logId: string, payload: Pick<LogInput, "output" | "endTime" | "extra">): Promise<void> {
+    if (!logId) throw new Error("Log ID is required");
+
+    const updatedLog = await this.db.log.update({
+      where: {
+        id: logId,
+      },
+      data: payload,
+    });
+    if (!updatedLog) throw new Error(`Log with ID ${logId} not found`);
+    this.logger.debug(`Updated log with id ${logId}`);
+  }
+
   private async calculateTraceMetricsOrDefault({
     dbTrace,
     logCost,
@@ -173,7 +186,7 @@ export class LogsService {
   private calculateLogCostOrDefault(
     provider: LLMProvider | undefined,
     params: {
-      model?: string;
+      model?: string | null;
       inputTokens?: number;
       outputTokens?: number;
     },
