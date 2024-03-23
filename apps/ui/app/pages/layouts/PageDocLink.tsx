@@ -5,7 +5,7 @@ export const PageDocLink: FC<{ to: string; children: ReactNode }> = ({ to, child
   return (
     <Link to={to} target={"_blank"}>
       <span
-        className={"text-primary-foreground decoration-primary font-bold underline decoration-2 underline-offset-2"}
+        className={"text-primary dark:text-primary-foreground decoration-primary font-bold underline decoration-2 underline-offset-2"}
       >
         {children}
       </span>

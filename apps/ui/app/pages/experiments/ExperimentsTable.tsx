@@ -12,7 +12,7 @@ type ExperimentsTableProps = {
 };
 
 export const ExperimentsTable: FC<ExperimentsTableProps> = ({ experiments, currentPage, totalCount, totalPages }) => {
-  const showPagination = totalCount && currentPage && totalPages;
+  const showPagination = !!totalCount && currentPage && totalPages;
   return (
     <div>
       {showPagination && (

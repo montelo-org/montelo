@@ -49,13 +49,13 @@ export const DashboardPage: FC = () => {
     return <PageSubtitle>High-level overview of your traces and experiments.</PageSubtitle>;
   };
 
-  return (
-    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
-      <div className={"flex flex-1 flex-col"}>
-        <div className={"mb-4 flex justify-end"}>
-          <DateSelector selectedValue={selectedValue} setSearchParams={setSearchParams} />
-        </div>
+  const action = () => {
+    return <DateSelector selectedValue={selectedValue} setSearchParams={setSearchParams} />;
+  };
 
+  return (
+    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle} action={action}>
+      <div className={"flex flex-1 flex-col"}>
         {/*Analytics Section*/}
         <div className={"flex flex-grow flex-row gap-8"}>
           <AnalyticsCard title={"Cost"} icon={DollarSign}>
