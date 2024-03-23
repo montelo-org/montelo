@@ -1,4 +1,4 @@
-name: Deploy api-sdk
+name: Deploy API-SDK
 
 on:
   push:

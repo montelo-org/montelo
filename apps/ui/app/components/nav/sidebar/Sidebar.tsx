@@ -82,7 +82,7 @@ export const Sidebar: FC<SidebarProps> = ({ project }) => {
           <Tooltip>
             <TooltipTrigger asChild>
               <div className={"hover:bg-muted/50 group rounded"}>
-                <Link to={Routes.external.slack} target={"_blank"}>
+                <Link to={Routes.external.discord} target={"_blank"}>
                   <HelpCircle size={20} className={"group-hover:text-foreground text-muted-foreground"} />
                 </Link>
               </div>

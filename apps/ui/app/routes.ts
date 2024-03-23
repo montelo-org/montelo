@@ -68,7 +68,7 @@ const PATH_ACTIONS = {
 // external pages
 const PATH_EXTERNAL = {
   documentation: "https://docs.montelo.ai",
-  slack: "https://join.slack.com/t/montelo/shared_invite/zt-2e2n0d68m-1Ib_qDeGavkrBIxFaIpjgg",
+  discord: "https://discord.gg/ZBjGgJkF",
 };
 
 // routes object to use in files
