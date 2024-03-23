@@ -12,6 +12,7 @@ import { DateSelector } from "~/pages/dashboard/DateSelector";
 import { PageLayout } from "~/pages/layouts/PageLayout";
 import { LayoutBreadcrumb } from "~/pages/layouts/types";
 import { DashboardLoader } from "~/types/DashboardLoader.types";
+import { PageSubtitle } from "../layouts/PageSubtitle";
 import { NoData } from "./NoData";
 import { RecentLog } from "./RecentLog";
 import { AnalyticsCard } from "./cards/AnalyticsCard";
@@ -44,8 +45,12 @@ export const DashboardPage: FC = () => {
     },
   ];
 
+  const subtitle = () => {
+    return <PageSubtitle>High-level overview of your traces and experiments.</PageSubtitle>;
+  };
+
   return (
-    <PageLayout breadcrumbs={breadcrumbs}>
+    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
       <div className={"flex flex-1 flex-col"}>
         <div className={"mb-4 flex justify-end"}>
           <DateSelector selectedValue={selectedValue} setSearchParams={setSearchParams} />
@@ -95,7 +100,7 @@ export const DashboardPage: FC = () => {
           </AnalyticsCard>
           <AnalyticsCard title={"Experiments"} icon={FlaskConical}>
             <Suspense fallback={<BaseContentSkeleton />}>
-              <Await resolve={analytics}>{(analytics) => <BaseContent title={"Implement"} />}</Await>
+              <Await resolve={analytics}>{(analytics) => <BaseContent title={`${analytics.experimentCount}`} />}</Await>
             </Suspense>
           </AnalyticsCard>
         </div>

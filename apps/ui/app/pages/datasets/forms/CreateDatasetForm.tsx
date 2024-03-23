@@ -120,7 +120,6 @@ export const CreateDatasetForm: FC = () => {
         <SchemaField name="inputSchema" label="Input Schema" />
         <SchemaField name="outputSchema" label="Output Schema" />
       </div>
-      {/*{error && <p className={"text-destructive flex justify-end"}>{error}</p>}*/}
       <SubmitButton />
     </ValidatedForm>
   );

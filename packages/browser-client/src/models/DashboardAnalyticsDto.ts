@@ -62,6 +62,12 @@ export interface DashboardAnalyticsDto {
      * @memberof DashboardAnalyticsDto
      */
     changes: ChangesDto;
+    /**
+     * 
+     * @type {number}
+     * @memberof DashboardAnalyticsDto
+     */
+    experimentCount: number;
 }
 
 /**
@@ -74,6 +80,7 @@ export function instanceOfDashboardAnalyticsDto(value: object): boolean {
     isInstance = isInstance && "traces" in value;
     isInstance = isInstance && "max" in value;
     isInstance = isInstance && "changes" in value;
+    isInstance = isInstance && "experimentCount" in value;
 
     return isInstance;
 }
@@ -93,6 +100,7 @@ export function DashboardAnalyticsDtoFromJSONTyped(json: any, ignoreDiscriminato
         'traces': json['traces'],
         'max': MaxDtoFromJSON(json['max']),
         'changes': ChangesDtoFromJSON(json['changes']),
+        'experimentCount': json['experimentCount'],
     };
 }
 
@@ -110,6 +118,7 @@ export function DashboardAnalyticsDtoToJSON(value?: DashboardAnalyticsDto | null
         'traces': value.traces,
         'max': MaxDtoToJSON(value.max),
         'changes': ChangesDtoToJSON(value.changes),
+        'experimentCount': value.experimentCount,
     };
 }
 

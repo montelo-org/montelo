@@ -5,6 +5,7 @@ import * as dayjs from "dayjs";
 import { DateSelection } from "./analytics.enum";
 import { CostHistory, DashboardAnalytics, GetCostHistoryParams, GetDashboardAnalyticsParams } from "./analytics.types";
 
+
 @Injectable()
 export class AnalyticsService {
   constructor(private db: DatabaseService) {}
@@ -43,9 +44,9 @@ export class AnalyticsService {
     // Construct the query using string concatenation for the interval
     const queryString = `
         SELECT DATE_TRUNC('${interval}', log.start_time) AS "intervalStart",
-               SUM(log.total_cost)    AS "totalCost"
+               SUM(log.total_cost)                       AS "totalCost"
         FROM log
-        JOIN trace ON log.trace_id = trace.id
+                 JOIN trace ON log.trace_id = trace.id
         WHERE log.env_id = $1
           AND log.start_time >= $2::timestamp
           AND trace.datapoint_run_id IS NULL
@@ -60,7 +61,7 @@ export class AnalyticsService {
   async getDashboardAnalytics({ envId, dateSelection }: GetDashboardAnalyticsParams): Promise<DashboardAnalytics> {
     const now = dayjs();
 
-    const dateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter<"Trace">> = {
+    const dateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter> = {
       [DateSelection.ThirtyMinutes]: {
         gte: now.subtract(30, "minute").toISOString(),
       },
@@ -82,7 +83,7 @@ export class AnalyticsService {
       [DateSelection.AllTime]: {},
     };
 
-    const prevDateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter<"Trace">> = {
+    const prevDateSelectionMap: Record<DateSelection, Prisma.DateTimeFilter> = {
       [DateSelection.ThirtyMinutes]: {
         gte: now.subtract(60, "minute").toISOString(),
         lt: now.subtract(30, "minute").toISOString(),
@@ -114,7 +115,7 @@ export class AnalyticsService {
       where: {
         envId,
         startTime: dateSelectionMap[dateSelection],
-        datapointRunId: null
+        datapointRunId: null,
       },
       _count: true,
       _avg: {
@@ -144,7 +145,16 @@ export class AnalyticsService {
       },
     });
 
-    const [currAggregation, prevAggregation] = await Promise.all([currAggregationPromise, prevAggregationPromise]);
+    const experimentCountPromise = this.db.experiment.count({
+      where: {
+        dataset: {
+          envId,
+        },
+        createdAt: dateSelectionMap[dateSelection],
+      },
+    });
+
+    const [currAggregation, prevAggregation, experimentCount] = await Promise.all([currAggregationPromise, prevAggregationPromise, experimentCountPromise]);
 
     const currTotalCost = currAggregation._sum?.totalCost ?? 0;
     const prevTotalCost = prevAggregation._sum?.totalCost ?? 0;
@@ -170,6 +180,7 @@ export class AnalyticsService {
         latency: this.calculateChange(currAvgDuration, prevAvgDuration),
         traces: this.calculateChange(currTraceCount, prevTraceCount),
       },
+      experimentCount,
     };
   }
 
