@@ -14,9 +14,17 @@ import { Routes } from "~/routes";
 
 type ExperimentsPageProps = {
   fullExperiment: FullExperimentDto;
+  totalDatapointRuns: number;
+  currentPage: number;
+  totalPages: number;
 };
 
-export const ExperimentIdPage: FC<ExperimentsPageProps> = ({ fullExperiment }) => {
+export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
+  fullExperiment,
+  totalDatapointRuns,
+  currentPage,
+  totalPages,
+}) => {
   const params = useParams();
 
   const breadcrumbs: LayoutBreadcrumb[] = [
@@ -50,7 +58,7 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({ fullExperiment }) =
       <div className="grid grid-cols-3 gap-8">
         <TopCard
           title={"Experiment"}
-          description={() => (
+          content={() => (
             <div>
               <p>{fullExperiment.description}</p>
               <p>Started on {dayjs(fullExperiment.createdAt).format("MMMM D, h:mm a")}</p>
@@ -59,7 +67,7 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({ fullExperiment }) =
         />
         <TopCard
           title={"Dataset"}
-          description={() => (
+          content={() => (
             <div>
               <p className={"flex items-center"}>
                 {fullExperiment.dataset.name}
@@ -81,9 +89,9 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({ fullExperiment }) =
         />
         <TopCard
           title={"Analytics"}
-          description={() => (
+          content={() => (
             <div>
-              <p>{fullExperiment.datapointRuns.length} datapoints ran</p>
+              <p>{totalDatapointRuns} runs</p>
               <p>0 failures</p>
             </div>
           )}
@@ -97,7 +105,11 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({ fullExperiment }) =
           Each run is a datapoint from the dataset that was executed in this experiment.{" "}
           <PageDocLink to={Routes.external.documentation}>Run Docs.</PageDocLink>
         </p>
-        <DatapointRunsTable datapointRuns={fullExperiment.datapointRuns} />
+        <DatapointRunsTable
+          datapointRuns={fullExperiment.datapointRuns}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
       </div>
     </PageLayout>
   );

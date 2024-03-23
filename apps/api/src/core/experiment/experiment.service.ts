@@ -1,7 +1,7 @@
 import { DatabaseService } from "@montelo/api-common";
 import { Experiment } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
-import { FullExperiment, GetExperimentsOpts, PaginatedExperiments } from "./experiment.types";
+import { GetExperimentsOpts, PaginatedExperiments, PaginatedFullExperiment } from "./experiment.types";
 
 
 @Injectable()
@@ -42,15 +42,31 @@ export class ExperimentService {
     return { experiments, totalCount };
   }
 
-  async getFullExperiment(experimentId: string): Promise<FullExperiment> {
-    return this.db.experiment.findUniqueOrThrow({
+  async getFullExperiment(experimentId: string, options?: GetExperimentsOpts): Promise<PaginatedFullExperiment> {
+    const experimentPromise = this.db.experiment.findUniqueOrThrow({
       where: {
         id: experimentId,
       },
       include: {
         dataset: true,
-        datapointRuns: true,
+        datapointRuns: {
+          orderBy: {
+            createdAt: "asc",
+          },
+          take: options?.take,
+          skip: options?.skip,
+        },
       },
     });
+
+    const totalDatapointRunsPromise = this.db.datapointRun.count({
+      where: {
+        experimentId,
+      },
+    });
+
+    const [experiment, totalDatapointRuns] = await Promise.all([experimentPromise, totalDatapointRunsPromise]);
+
+    return { experiment, totalDatapointRuns };
   }
 }

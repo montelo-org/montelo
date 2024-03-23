@@ -8,15 +8,21 @@ type ExperimentsTableProps = {
   experiments: ExperimentDto[];
   totalCount?: number;
   currentPage?: number;
+  totalPages?: number;
 };
 
-export const ExperimentsTable: FC<ExperimentsTableProps> = ({ experiments, currentPage, totalCount }) => {
-  const showPagination = totalCount && currentPage;
+export const ExperimentsTable: FC<ExperimentsTableProps> = ({ experiments, currentPage, totalCount, totalPages }) => {
+  const showPagination = totalCount && currentPage && totalPages;
   return (
     <div>
       {showPagination && (
-        <div className={"mb-4 flex justify-end"}>
-          <Pagination currentPage={currentPage} totalPages={totalCount} />
+        <div className={"mb-2 flex justify-between"}>
+          <div>
+            <span className={"text-muted-foreground text-sm"}>
+              {totalCount} experiment{totalCount >= 2 ? "s" : ""}
+            </span>
+          </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
         </div>
       )}
       <Table>

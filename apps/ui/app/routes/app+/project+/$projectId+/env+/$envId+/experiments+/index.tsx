@@ -8,6 +8,7 @@ type LoaderType = {
   experiments: ExperimentDto[];
   totalCount: number;
   currentPage: number;
+  totalPages: number;
 };
 
 export const loader: LoaderFunction = withAuth(async ({ request, api, params }) => {
@@ -23,10 +24,13 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
     take: pageSize.toString(),
     skip: skipAmount.toString(),
   });
-  return json<LoaderType>({ experiments, totalCount, currentPage });
+
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  return json<LoaderType>({ experiments, totalCount, currentPage, totalPages });
 });
 
 export default function ExperimentsRoute() {
-  const { experiments, totalCount, currentPage } = useLoaderData<LoaderType>();
-  return <ExperimentsPage experiments={experiments} totalCount={totalCount} currentPage={currentPage} />;
+  const { experiments, totalCount, currentPage, totalPages } = useLoaderData<LoaderType>();
+  return <ExperimentsPage experiments={experiments} totalCount={totalCount} currentPage={currentPage} totalPages={totalPages} />;
 }

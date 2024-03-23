@@ -14,6 +14,7 @@ export const loader: LoaderFunction = withAuth(async ({ api, params }) => {
   const trace = await api.trace.traceControllerGetTrace({
     traceId,
   });
+
   return json<LoaderType>({ trace });
 });
 

@@ -11,9 +11,10 @@ type ExperimentsPageProps = {
   experiments: ExperimentDto[];
   totalCount: number;
   currentPage: number;
+  totalPages: number;
 };
 
-export const ExperimentsPage: FC<ExperimentsPageProps> = ({ experiments, totalCount, currentPage }) => {
+export const ExperimentsPage: FC<ExperimentsPageProps> = ({ experiments, totalCount, currentPage, totalPages }) => {
   const breadcrumbs: LayoutBreadcrumb[] = [
     {
       label: "Experiments",
@@ -31,11 +32,7 @@ export const ExperimentsPage: FC<ExperimentsPageProps> = ({ experiments, totalCo
 
   return (
     <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
-      <ExperimentsTable
-        experiments={experiments}
-        totalCount={totalCount}
-        currentPage={currentPage}
-      />
+      <ExperimentsTable experiments={experiments} totalCount={totalCount} currentPage={currentPage} totalPages={totalPages} />
     </PageLayout>
   );
 };

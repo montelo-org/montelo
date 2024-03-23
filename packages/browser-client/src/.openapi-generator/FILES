@@ -39,6 +39,7 @@ models/LogDto.ts
 models/LogsDto.ts
 models/MaxDto.ts
 models/PaginatedExperimentsDto.ts
+models/PaginatedFullExperimentDto.ts
 models/ProjectDto.ts
 models/TraceWithLogsDto.ts
 models/index.ts

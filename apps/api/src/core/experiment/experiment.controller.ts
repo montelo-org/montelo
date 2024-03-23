@@ -2,8 +2,8 @@ import { Controller, Get, Param, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { UseAuthGuards } from "../../common/guards/guard";
 import { ExperimentDto } from "./dto/experiment.dto";
-import { FullExperimentDto } from "./dto/full-experiment.dto";
 import { PaginatedExperimentsDto } from "./dto/paginated-experiments.dto";
+import { PaginatedFullExperimentDto } from "./dto/paginated-full-experiment.dto";
 import { ExperimentService } from "./experiment.service";
 import { GetExperimentsOpts } from "./experiment.types";
 
@@ -45,9 +45,27 @@ export class ExperimentController {
     return PaginatedExperimentsDto.fromPaginatedExperiments(paginated);
   }
 
+  @ApiQuery({
+    name: "take",
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
+    name: "skip",
+    type: String,
+    required: false,
+  })
   @Get("experiment/:experimentId")
-  async getFullExperiment(@Param("experimentId") experimentId: string): Promise<FullExperimentDto> {
-    const fullExperiment = await this.experimentService.getFullExperiment(experimentId);
-    return FullExperimentDto.fromFullExperiment(fullExperiment);
+  async getPaginatedFullExperiment(
+    @Param("experimentId") experimentId: string,
+    @Query("take") take?: string,
+    @Query("skip") skip?: string,
+  ): Promise<PaginatedFullExperimentDto> {
+    const options: GetExperimentsOpts = {
+      take: take ? parseInt(take) : undefined,
+      skip: skip ? parseInt(skip) : undefined,
+    };
+    const paginatedFullExperiment = await this.experimentService.getFullExperiment(experimentId, options);
+    return PaginatedFullExperimentDto.fromPaginatedFullExperiment(paginatedFullExperiment);
   }
 }

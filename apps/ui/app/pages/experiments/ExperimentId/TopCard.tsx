@@ -1,24 +1,22 @@
 import { FC } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 type TopCardProps = {
   title: string;
-  description: FC;
-  content?: FC;
+  content: FC;
 };
 
-export const TopCard: FC<TopCardProps> = ({ title, description: Description, content: Content }) => {
+export const TopCard: FC<TopCardProps> = ({ title, content: Content }) => {
   return (
     <Card>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription>
-          <Description />
-        </CardDescription>
       </CardHeader>
-      {Content && <CardContent>
-        <Content />
-      </CardContent>}
+      {Content && (
+        <CardContent className={"text-muted-foreground"}>
+          <Content />
+        </CardContent>
+      )}
     </Card>
   );
 };
