@@ -1,30 +1,19 @@
 import type { DatapointDto } from "@montelo/browser-client";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useFetcher, useParams } from "@remix-run/react";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { Trash } from "lucide-react";
+import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { CircleDotDashed, Trash } from "lucide-react";
 import * as React from "react";
 import { FC } from "react";
 import Pagination from "~/components/pagination";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
+import { PageDocLink } from "~/pages/layouts/PageDocLink";
 import { idShortener } from "~/pages/traces/utils";
 import { Routes } from "~/routes";
+
 
 export const columns: ColumnDef<DatapointDto>[] = [
   {
@@ -87,7 +76,7 @@ export const columns: ColumnDef<DatapointDto>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className={"gap-2 text-destructive"} onClick={handleDeleteDatapoint}>
+            <DropdownMenuItem className={"text-destructive gap-2"} onClick={handleDeleteDatapoint}>
               <Trash size={16} /> Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -116,7 +105,15 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
 
   return (
     <div className="w-full">
-      <div className="rounded-md border">
+      <p className={"text-xl font-semibold flex gap-2 items-center"}>
+        <CircleDotDashed size={20} />
+        Datapoints
+      </p>
+      <p className={"text-muted-foreground mb-4"}>
+        Each datapoint is a single input and expected output pair.{" "}
+        <PageDocLink to={Routes.external.documentation}>Datapoints Docs.</PageDocLink>
+      </p>
+      <div className="rounded-md border mb-2">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -150,7 +147,7 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2">
         <div className="text-muted-foreground flex-1 text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
           selected.

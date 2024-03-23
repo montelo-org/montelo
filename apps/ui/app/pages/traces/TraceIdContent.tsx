@@ -1,23 +1,14 @@
 import { TraceWithLogsDto } from "@montelo/browser-client";
-import { Link, useParams, useSearchParams } from "@remix-run/react";
-import { useState } from "react";
-import { PageBreadcrumbContainer } from "~/components/PageBreadcrumbContainer";
+import { useSearchParams } from "@remix-run/react";
+import { FC, useState } from "react";
 import { LogAnalytics } from "~/components/traces/LogAnalytics/LogAnalytics";
 import { LogView } from "~/components/traces/LogView";
 import { LogsTreeView } from "~/components/traces/LogsTreeView";
-import { BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
-import { Button } from "~/components/ui/button";
 import { useKey, useMount } from "~/hooks";
 import { useUpdateQueryWithoutNavigation } from "~/hooks/useUpdateQueryWithoutNavigation";
-import { Routes } from "~/routes";
 
-type TraceIdProps = {
-  trace: TraceWithLogsDto;
-};
-
-export const TraceIdPage = ({ trace }: TraceIdProps) => {
+export const TraceIdContent: FC<{ trace: TraceWithLogsDto }> = ({ trace }) => {
   const queryKey = "logId";
-  const params = useParams();
   const [searchParams] = useSearchParams();
   const [selectedId, setSelectedId] = useState<string>(searchParams.get(queryKey) ?? "");
   useUpdateQueryWithoutNavigation(queryKey, selectedId);
@@ -54,34 +45,17 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
   useKey("ArrowLeft", handleArrowLeft, { event: "keyup" }, [selectedId]);
 
   return (
-    <div className={"mt-2"}>
-      <PageBreadcrumbContainer>
-        <BreadcrumbItem>
-          <BreadcrumbLink asChild>
-            <Link
-              to={Routes.app.project.env.traces({
-                projectId: params.projectId!,
-                envId: trace.envId,
-              })}
-            >
-              Traces
-            </Link>
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbPage>{trace.name || "—"}</BreadcrumbPage>
-      </PageBreadcrumbContainer>
-
+    <>
       <div className={"flex flex-row gap-8"}>
         <LogAnalytics trace={trace} />
       </div>
 
-      <div className={"mt-8 grid grid-cols-7 gap-4"}>
+      <div className={"mt-2 grid grid-cols-7 gap-4"}>
         <div className="col-span-2">
           <LogsTreeView logs={trace.logs} selectedId={selectedId} handleSelect={handleSelect} />
         </div>
         <div className="col-span-5">{selectedLog && <LogView log={selectedLog} />}</div>
       </div>
-    </div>
+    </>
   );
 };

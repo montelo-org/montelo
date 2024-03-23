@@ -20,7 +20,7 @@ export class LogService {
     const whereQuery: Prisma.LogWhereInput = {
       envId,
       trace: {
-        datapointRunId: null,
+        datapointRunId: null
       },
       ...(options?.searchQuery && {
         OR: [
@@ -53,6 +53,8 @@ export class LogService {
       skip: options?.skip || 0,
       cursor: options?.cursor ? { id: options.cursor } : undefined,
     });
+
+    console.log("CHECK logs: ", logs);
 
     // Get the total count of logs for the given envId
     const totalCount = await this.db.log.count({ where: whereQuery });

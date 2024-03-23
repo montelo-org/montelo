@@ -3,13 +3,14 @@ import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { Link, useParams } from "@remix-run/react";
 import dayjs from "dayjs";
 import { FC } from "react";
-import { PageBreadcrumbContainer } from "~/components/PageBreadcrumbContainer";
-import { BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { Button } from "~/components/ui/button";
 import { DatapointRunsTable } from "~/pages/experiments/ExperimentId/DatapointRunsTable";
 import { TopCard } from "~/pages/experiments/ExperimentId/TopCard";
+import { PageDocLink } from "~/pages/layouts/PageDocLink";
+import { PageLayout } from "~/pages/layouts/PageLayout";
+import { PageSubtitle } from "~/pages/layouts/PageSubtitle";
+import { LayoutBreadcrumb } from "~/pages/layouts/types";
 import { Routes } from "~/routes";
-
 
 type ExperimentsPageProps = {
   fullExperiment: FullExperimentDto;
@@ -18,24 +19,35 @@ type ExperimentsPageProps = {
 export const ExperimentIdPage: FC<ExperimentsPageProps> = ({ fullExperiment }) => {
   const params = useParams();
 
-  return (
-    <div className={"mt-2 flex flex-col"}>
-      <PageBreadcrumbContainer>
-        <BreadcrumbItem>
-          <BreadcrumbLink
-            href={Routes.app.project.env.experiments({
-              envId: params.envId!,
-              projectId: params.projectId!,
-            })}
-          >
-            Experiments
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbPage>{fullExperiment.name}</BreadcrumbPage>
-      </PageBreadcrumbContainer>
+  const breadcrumbs: LayoutBreadcrumb[] = [
+    {
+      label: "Experiments",
+      to: Routes.app.project.env.experiments({
+        envId: params.envId!,
+        projectId: params.projectId!,
+      }),
+    },
+    {
+      label: fullExperiment.name || "—",
+    },
+  ];
 
-      <div className="mt-8 grid grid-cols-3 gap-8">
+  const subtitle = () => {
+    return (
+      <PageSubtitle>
+        Run experiments from your codebase to validate your system.{" "}
+        <PageDocLink to={Routes.external.documentation}>Experiments Docs.</PageDocLink>
+      </PageSubtitle>
+    );
+  };
+
+  const action = () => {
+    return <Button>View Code</Button>;
+  };
+
+  return (
+    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle} action={action}>
+      <div className="grid grid-cols-3 gap-8">
         <TopCard
           title={"Experiment"}
           description={() => (
@@ -77,15 +89,16 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({ fullExperiment }) =
           )}
         />
       </div>
-      
-      <div className={"flex justify-end mt-8"}>
-        <Button>View Schemas</Button>
-      </div>
 
       {/* datapoint runs*/}
-      <div className={""}>
+      <div>
+        <p className={"text-xl font-semibold"}>Runs</p>
+        <p className={"text-muted-foreground mb-4"}>
+          Each run is a datapoint from the dataset that was executed in this experiment.{" "}
+          <PageDocLink to={Routes.external.documentation}>Run Docs.</PageDocLink>
+        </p>
         <DatapointRunsTable datapointRuns={fullExperiment.datapointRuns} />
       </div>
-    </div>
+    </PageLayout>
   );
 };

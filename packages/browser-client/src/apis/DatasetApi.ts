@@ -18,6 +18,7 @@ import type {
   CreateDatasetInput,
   DatasetDto,
   DeleteSuccessDto,
+  ExperimentDto,
   FullDatasetWithCountDto,
 } from '../models/index';
 import {
@@ -27,6 +28,8 @@ import {
     DatasetDtoToJSON,
     DeleteSuccessDtoFromJSON,
     DeleteSuccessDtoToJSON,
+    ExperimentDtoFromJSON,
+    ExperimentDtoToJSON,
     FullDatasetWithCountDtoFromJSON,
     FullDatasetWithCountDtoToJSON,
 } from '../models/index';
@@ -42,6 +45,10 @@ export interface DatasetControllerDeleteDatasetRequest {
 
 export interface DatasetControllerGetAllDatasetsForEnvRequest {
     envId: string;
+}
+
+export interface DatasetControllerGetDatasetRecentExperimentsRequest {
+    datasetId: string;
 }
 
 export interface DatasetControllerGetDatasetWithDatapointsRequest {
@@ -167,6 +174,42 @@ export class DatasetApi extends runtime.BaseAPI {
      */
     async datasetControllerGetAllDatasetsForEnv(requestParameters: DatasetControllerGetAllDatasetsForEnvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatasetDto>> {
         const response = await this.datasetControllerGetAllDatasetsForEnvRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async datasetControllerGetDatasetRecentExperimentsRaw(requestParameters: DatasetControllerGetDatasetRecentExperimentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ExperimentDto>>> {
+        if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
+            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling datasetControllerGetDatasetRecentExperiments.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/dataset/{datasetId}/experiments`.replace(`{${"datasetId"}}`, encodeURIComponent(String(requestParameters.datasetId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ExperimentDtoFromJSON));
+    }
+
+    /**
+     */
+    async datasetControllerGetDatasetRecentExperiments(requestParameters: DatasetControllerGetDatasetRecentExperimentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ExperimentDto>> {
+        const response = await this.datasetControllerGetDatasetRecentExperimentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -103,7 +103,7 @@ export const COLUMNS: ColumnDef<LogDto>[] = [
                     logId,
                   })}
                 >
-                  <Badge>
+                  <Badge variant={"white"}>
                     {short}
                     {name ? ` —  ${name}` : ""}
                     {name?.length !== row.original.name?.length && "..."}

@@ -11,6 +11,7 @@ export * from './CreateProjectInput';
 export * from './DashboardAnalyticsDto';
 export * from './DatapointDto';
 export * from './DatapointRunDto';
+export * from './DatapointRunWithExperimentDto';
 export * from './DatasetDto';
 export * from './DeleteSuccessDto';
 export * from './EnvironmentDto';

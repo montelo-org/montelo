@@ -5,6 +5,11 @@ export type FullDatasetByIdOpts = {
   skip?: number;
 };
 
+export type ExperimentsByIdOpts = {
+  take?: number;
+  skip?: number;
+};
+
 export type CreateDatasetParams = {
   name: string;
   description: string | null;

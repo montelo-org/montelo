@@ -9,6 +9,7 @@ import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/commo
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { UseAuthGuards } from "../../common/guards/guard";
 import { validateDatasetSchema } from "../../common/validations/validateDatasetSchema";
+import { ExperimentDto } from "../experiment/dto/experiment.dto";
 
 @ApiTags("Dataset")
 @ApiBearerAuth()
@@ -47,6 +48,15 @@ export class DatasetController {
     };
     const fullDatasetWithCount = await this.datasetService.getFullDatasetById(datasetId, options);
     return FullDatasetWithCountDto.fromFullDatasetWithCount(fullDatasetWithCount);
+  }
+
+  @Get("dataset/:datasetId/experiments")
+  async getDatasetRecentExperiments(@Param("datasetId") datasetId: string): Promise<ExperimentDto[]> {
+    const options = {
+      take: 10,
+    };
+    const experiments = await this.datasetService.getDatasetExperiments(datasetId, options);
+    return experiments.map(ExperimentDto.fromExperiment);
   }
 
   @Post("env/:envId/dataset")

@@ -23,6 +23,7 @@ models/CreateProjectInput.ts
 models/DashboardAnalyticsDto.ts
 models/DatapointDto.ts
 models/DatapointRunDto.ts
+models/DatapointRunWithExperimentDto.ts
 models/DatasetDto.ts
 models/DeleteSuccessDto.ts
 models/EnvironmentDto.ts

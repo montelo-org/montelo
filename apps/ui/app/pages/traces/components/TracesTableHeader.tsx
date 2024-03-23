@@ -1,48 +1,44 @@
 import { LogDto } from "@montelo/browser-client";
-import { ChevronDownIcon, TimerIcon } from "@radix-ui/react-icons";
+import { TimerIcon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 import { SearchIcon } from "lucide-react";
+import { FC } from "react";
 import "react-json-view-lite/dist/index.css";
-import { Button } from "~/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+import Pagination from "~/components/pagination";
 import { Input } from "~/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { TimeFrames } from "../constants/timeframes";
 
 type TracesTableHeaderProps = {
-  table: Table<LogDto>;
   searchQuery: string;
   selectedDate: TimeFrames;
   onSearch: (search: string) => void;
   onDateChange: (date: TimeFrames) => void;
+  currentPage: number;
+  totalPages: number;
 };
-export const TracesTableHeader = ({
+export const TracesTableHeader: FC<TracesTableHeaderProps> = ({
   searchQuery,
   onSearch,
   selectedDate,
   onDateChange,
-  table,
-}: TracesTableHeaderProps) => {
+  currentPage,
+  totalPages,
+}) => {
   return (
-    <div className="flex items-center justify-between pb-4 pt-0.5">
-      <div className="relative w-1/4">
-        <Input
-          placeholder="Search by log name"
-          value={searchQuery}
-          onChange={(e) => onSearch(e.target.value)}
-          className="w-full rounded border py-2 pl-10 pr-4"
-        />
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-          <SearchIcon className="h-4 w-4 text-gray-500" />
+    <div className="flex items-center justify-between mb-4">
+      <div className={"flex gap-4"}>
+        <div className="relative">
+          <Input
+            placeholder="Search by log name"
+            value={searchQuery}
+            onChange={(e) => onSearch(e.target.value)}
+            className="w-full rounded border py-2 pl-10 pr-4"
+          />
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3">
+            <SearchIcon className="h-4 w-4 text-gray-500" />
+          </div>
         </div>
-      </div>
-
-      <div className="flex flex-row gap-2">
         <div>
           <Select value={selectedDate} onValueChange={onDateChange}>
             <SelectTrigger className="w-[120px]">
@@ -65,31 +61,14 @@ export const TracesTableHeader = ({
             </SelectContent>
           </Select>
         </div>
+      </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={column.toggleVisibility}
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex flex-row gap-2">
+        <div className="flex items-center justify-end space-x-2">
+          <div className="space-x-2">
+            <Pagination currentPage={currentPage} totalPages={totalPages} />
+          </div>
+        </div>
       </div>
     </div>
   );

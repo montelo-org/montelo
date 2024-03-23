@@ -2,6 +2,7 @@ import { AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum } from "@montelo
 import { defer } from "@remix-run/node";
 import { withAuth } from "~/auth/withAuth";
 import { DashboardPage } from "~/pages/dashboard/DashboardPage";
+import { PageLayout } from "~/pages/layouts/PageLayout";
 import { DeferredDashboardLoader } from "~/types/DashboardLoader.types";
 
 export const loader = withAuth(async ({ request, api, params }) => {
