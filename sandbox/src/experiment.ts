@@ -60,10 +60,10 @@ const main = async () => {
   // }
 
   await montelo.experiments.createAndRun({
-    name: "AI Articles w/ OpenAI",
+    name: "AI Articles w/ Anthropic",
     description: "Find articles about AI",
     dataset: "topic-datasets-v2",
-    runner: openaiChat,
+    runner: anthropicChat,
   });
 };
 

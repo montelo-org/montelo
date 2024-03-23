@@ -10,14 +10,14 @@ import { PageLayout } from "../layouts/PageLayout";
 import { idShortener } from "~/pages/traces/utils";
 
 type DatasetRunIdPageProps = {
-  trace: TraceWithLogsDto;
-  datapointRun: DatapointRunWithExperimentDto;
+  trace: TraceWithLogsDto | null;
+  datapointRun: DatapointRunWithExperimentDto | null;
 };
 
 export const DatasetRunIdPage: FC<DatasetRunIdPageProps> = ({ trace, datapointRun }) => {
   const params = useParams();
 
-  const { short } = idShortener(datapointRun.id);
+  const { short } = idShortener(datapointRun?.id || "");
 
   const breadcrumbs: LayoutBreadcrumb[] = [
     {
@@ -28,7 +28,7 @@ export const DatasetRunIdPage: FC<DatasetRunIdPageProps> = ({ trace, datapointRu
       }),
     },
     {
-      label: datapointRun.experiment.name || "—",
+      label: datapointRun?.experiment.name || "—",
       to: Routes.app.project.env.experimentsId({
         envId: params.envId!,
         projectId: params.projectId!,
@@ -51,7 +51,7 @@ export const DatasetRunIdPage: FC<DatasetRunIdPageProps> = ({ trace, datapointRu
 
   return (
     <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
-      <TraceIdContent trace={trace} />
+      {trace ? <TraceIdContent trace={trace} /> : <p>No Trace on this run.</p>}
     </PageLayout>
   );
 };

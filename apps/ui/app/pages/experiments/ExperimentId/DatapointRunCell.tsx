@@ -34,7 +34,7 @@ export const DatapointRunCell: FC<{ datapointRun: FullDatapointRunDto }> = ({ da
       <TableCell className={"w-1/12"}>
         <Badge variant={variant}>{short}</Badge>
       </TableCell>
-      <TableCell className={"w-1/6"}>{dayjs(datapointRun.createdAt).format("h:mm:ss a")}</TableCell>
+      <TableCell className={"w-1/12"}>{dayjs(datapointRun.createdAt).format("h:mm:ss a")}</TableCell>
       <TableCell>{JSON.stringify(datapointRun.datapoint.input)}</TableCell>
       <TableCell>{JSON.stringify(datapointRun.datapoint.expectedOutput)}</TableCell>
       <TableCell>{JSON.stringify(datapointRun.output)}</TableCell>

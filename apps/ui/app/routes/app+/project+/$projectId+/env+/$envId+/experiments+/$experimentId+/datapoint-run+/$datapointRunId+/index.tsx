@@ -5,8 +5,8 @@ import { withAuth } from "~/auth/withAuth";
 import { DatasetRunIdPage } from "~/pages/datasetRuns/DatasetRunIdPage";
 
 type LoaderType = {
-  trace: TraceWithLogsDto;
-  datapointRun: DatapointRunWithExperimentDto;
+  trace: TraceWithLogsDto | null;
+  datapointRun: DatapointRunWithExperimentDto | null;
 };
 
 export const loader: LoaderFunction = withAuth(async ({ api, params, request }) => {
@@ -20,7 +20,10 @@ export const loader: LoaderFunction = withAuth(async ({ api, params, request }) 
     datapointRunId,
   });
 
-  const [datapointRun, trace] = await Promise.all([datapointRunPromise, tracePromise]);
+  const [datapointRunRes, traceRes] = await Promise.allSettled([datapointRunPromise, tracePromise]);
+
+  const trace = traceRes.status === "fulfilled" ? traceRes.value : null;
+  const datapointRun = datapointRunRes.status === "fulfilled" ? datapointRunRes.value : null;
 
   return json<LoaderType>({ trace, datapointRun });
 });

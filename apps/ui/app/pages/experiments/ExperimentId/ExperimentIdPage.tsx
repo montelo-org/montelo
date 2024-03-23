@@ -54,7 +54,7 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
   };
 
   return (
-    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle} action={action}>
+    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
       <div className="grid grid-cols-3 gap-8">
         <TopCard
           title={"Experiment"}
