@@ -24,7 +24,6 @@ import { Routes } from "~/routes";
 import { PageLayout } from "../layouts/PageLayout";
 import { TracesTableHeader } from "./components/TracesTableHeader";
 import { COLUMNS } from "./constants";
-import { TimeFrames } from "./constants/timeframes";
 
 type TracesPageProps = {
   logs: LogDto[];
@@ -34,9 +33,6 @@ type TracesPageProps = {
 
 export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedDate, setSelectedDate] = React.useState<TimeFrames>(
-    (searchParams.get("date") as TimeFrames) || TimeFrames.LAST_HOUR,
-  );
   const [searchQuery, setSearchQuery] = React.useState(searchParams.get("q") || "");
   const [debouncedSearchQuery] = useDebounceValue(searchQuery, 300);
 
@@ -54,14 +50,6 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
     outputCost: false,
   });
   const [rowSelection, setRowSelection] = React.useState({});
-
-  const onDateChange = (value: TimeFrames) => {
-    setSelectedDate(value);
-    setSearchParams((prev) => {
-      prev.set("date", value);
-      return prev;
-    });
-  };
 
   const onSortingChange: OnChangeFn<SortingState> = (updaterOrValue) => {
     setSorting((oldSorting) => {
@@ -137,8 +125,6 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
         <TracesTableHeader
           searchQuery={searchQuery}
           onSearch={setSearchQuery}
-          onDateChange={onDateChange}
-          selectedDate={selectedDate}
           currentPage={currentPage}
           totalPages={totalPages}
         />

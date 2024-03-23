@@ -3,8 +3,6 @@ import { LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { withAuth } from "~/auth/withAuth";
 import { TracesPage } from "~/pages/traces";
-import { TimeFrames } from "~/pages/traces/constants/timeframes";
-import { formatDate } from "~/utils/formatDate";
 
 type LoaderType = {
   logs: LogDto[];
@@ -19,7 +17,6 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
   const sortColumn = searchParams.get("sortColumn");
   const sortDirection = searchParams.get("sortDirection");
   const searchQuery = searchParams.get("q");
-  const startDate = formatDate(searchParams.get("date") as TimeFrames | undefined);
 
   const pageSize = 20;
   const skipAmount = (page - 1) * pageSize;
@@ -31,7 +28,6 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
     sortColumn: sortColumn && sortColumn !== "undefined" ? sortColumn : undefined,
     sortDirection: sortDirection && sortDirection !== "undefined" ? sortDirection : undefined,
     searchQuery: searchQuery && searchQuery !== "undefined" ? searchQuery : undefined,
-    startDate: startDate ? startDate : undefined,
   });
   const { logs, totalCount } = response;
 
