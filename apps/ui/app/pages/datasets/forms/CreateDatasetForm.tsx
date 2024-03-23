@@ -1,6 +1,6 @@
 import { DatasetDto } from "@montelo/browser-client";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import { useFetcher, useParams } from "@remix-run/react";
+import { FetcherWithComponents, useParams } from "@remix-run/react";
 import { X } from "lucide-react";
 import { FC, FormEvent, useEffect, useState } from "react";
 import { ValidatedForm, useField, useFieldArray, useFormContext, useIsSubmitting } from "remix-validated-form";
@@ -17,7 +17,7 @@ type FormInputProps = {
   placeholder?: string;
 };
 
-const FormInput: FC<FormInputProps> = ({ name, label, placeholder }) => {
+export const FormInput: FC<FormInputProps> = ({ name, label, placeholder }) => {
   const { error, getInputProps } = useField(name);
   return (
     <div>
@@ -28,7 +28,7 @@ const FormInput: FC<FormInputProps> = ({ name, label, placeholder }) => {
   );
 };
 
-const SubmitButton = () => {
+export const SubmitButton = () => {
   const { isValid } = useFormContext();
   const isSubmitting = useIsSubmitting();
   const disabled = isValid ? isSubmitting : true;
@@ -87,36 +87,17 @@ export const SchemaField: React.FC<SchemaFieldProps> = ({ name, label }) => {
   );
 };
 
-export const CreateDatasetForm: FC<{ onSubmit: () => void }> = ({ onSubmit }) => {
-  const [error, setError] = useState("");
-  const fetcher = useFetcher<{ dataset?: DatasetDto; error?: string }>();
+export const CreateDatasetForm: FC = () => {
   const params = useParams();
-
-  const handleSubmit = async (data: any, event: FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault();
-    fetcher.submit(data, {
-      method: "POST",
-      action: Routes.actions.dataset.create({
-        projectId: params.projectId!,
-        envId: params.envId!,
-      }),
-      encType: "application/json",
-    });
-  };
-
-  useEffect(() => {
-    if (fetcher.data?.error) {
-      setError(fetcher.data.error);
-    } else if (fetcher.data?.dataset) {
-      onSubmit();
-      setError("");
-    }
-  }, [fetcher.data]);
 
   return (
     <ValidatedForm
       validator={createDatasetValidator}
-      onSubmit={handleSubmit}
+      method={"post"}
+      action={Routes.actions.dataset.create({
+        projectId: params.projectId!,
+        envId: params.envId!,
+      })}
       className={"flex flex-col gap-2"}
       defaultValues={{
         name: "",
@@ -139,7 +120,7 @@ export const CreateDatasetForm: FC<{ onSubmit: () => void }> = ({ onSubmit }) =>
         <SchemaField name="inputSchema" label="Input Schema" />
         <SchemaField name="outputSchema" label="Output Schema" />
       </div>
-      {error && <p className={"text-destructive flex justify-end"}>{error}</p>}
+      {/*{error && <p className={"text-destructive flex justify-end"}>{error}</p>}*/}
       <SubmitButton />
     </ValidatedForm>
   );

@@ -6,10 +6,6 @@ import { CreateDatasetForm } from "~/pages/datasets/forms/CreateDatasetForm";
 export const CreateDatasetDialog: FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const closeDialog = () => {
-    setIsDialogOpen(false);
-  };
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
@@ -19,7 +15,7 @@ export const CreateDatasetDialog: FC = () => {
         <DialogHeader>
           <DialogTitle>Create Dataset</DialogTitle>
         </DialogHeader>
-        <CreateDatasetForm onSubmit={closeDialog} />
+        <CreateDatasetForm />
       </DialogContent>
     </Dialog>
   );

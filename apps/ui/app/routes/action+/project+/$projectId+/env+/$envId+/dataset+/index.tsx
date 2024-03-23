@@ -1,8 +1,9 @@
 import { DatasetDto } from "@montelo/browser-client";
-import { ActionFunction, json } from "@remix-run/node";
+import { ActionFunction, json, redirect } from "@remix-run/node";
 import { validationError } from "remix-validated-form";
 import { withAuth } from "~/auth/withAuth";
 import { createDatasetValidator } from "~/pages/datasets/forms/createDatasetValidator";
+import { Routes } from "~/routes";
 
 type ActionOutput = {
   dataset?: DatasetDto;
@@ -12,7 +13,7 @@ type ActionOutput = {
 export const action: ActionFunction = withAuth(async ({ api, request, params }) => {
   const envId = params.envId!;
 
-  const formData = await request.json();
+  const formData = await request.formData();
   const validated = await createDatasetValidator.validate(formData);
   if (validated.error) {
     return validationError(validated.error);
@@ -35,4 +36,16 @@ export const action: ActionFunction = withAuth(async ({ api, request, params }) 
     }
     return json<ActionOutput>({ error: "Failed to create dataset" });
   }
+});
+
+export const loader = withAuth(async ({ params }) => {
+  const projectId = params.projectId!;
+  const envId = params.envId!;
+
+  return redirect(
+    Routes.app.project.env.datasets({
+      projectId,
+      envId,
+    }),
+  );
 });

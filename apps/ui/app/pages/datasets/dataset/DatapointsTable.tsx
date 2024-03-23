@@ -113,7 +113,14 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
         Each datapoint is a single input and expected output pair.{" "}
         <PageDocLink to={Routes.external.documentation}>Datapoints Docs.</PageDocLink>
       </p>
-      <div className="rounded-md border mb-2">
+
+      <div className="flex items-center justify-end mb-2">
+        <div className="space-x-2">
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
+      </div>
+
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -146,15 +153,6 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2">
-        <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
-          selected.
-        </div>
-        <div className="space-x-2">
-          <Pagination currentPage={currentPage} totalPages={totalPages} />
-        </div>
       </div>
     </div>
   );

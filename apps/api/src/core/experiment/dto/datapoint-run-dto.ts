@@ -15,7 +15,14 @@ export class DatapointRunDto {
   @ApiProperty()
   datapointId: string;
 
+  @ApiProperty()
+  createdAt: string;
+
   static fromDatapointRun(datapointRun: DatapointRun): DatapointRunDto {
-    return pick(datapointRun, ["id", "datapointId", "experimentId", "output"]);
+    const base = pick(datapointRun, ["id", "datapointId", "experimentId", "output"]);
+    return {
+      ...base,
+      createdAt: datapointRun.createdAt.toISOString(),
+    };
   }
 }

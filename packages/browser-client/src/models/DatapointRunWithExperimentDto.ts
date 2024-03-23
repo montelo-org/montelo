@@ -13,63 +13,70 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import type { ExperimentDto } from './ExperimentDto';
+import {
+    ExperimentDtoFromJSON,
+    ExperimentDtoFromJSONTyped,
+    ExperimentDtoToJSON,
+} from './ExperimentDto';
+
 /**
  * 
  * @export
- * @interface DatapointRunDto
+ * @interface DatapointRunWithExperimentDto
  */
-export interface DatapointRunDto {
+export interface DatapointRunWithExperimentDto {
     /**
      * 
      * @type {string}
-     * @memberof DatapointRunDto
+     * @memberof DatapointRunWithExperimentDto
      */
     id: string;
     /**
      * 
      * @type {object}
-     * @memberof DatapointRunDto
+     * @memberof DatapointRunWithExperimentDto
      */
     output: object;
     /**
      * 
      * @type {string}
-     * @memberof DatapointRunDto
+     * @memberof DatapointRunWithExperimentDto
      */
     experimentId: string;
     /**
      * 
      * @type {string}
-     * @memberof DatapointRunDto
+     * @memberof DatapointRunWithExperimentDto
      */
     datapointId: string;
     /**
      * 
-     * @type {string}
-     * @memberof DatapointRunDto
+     * @type {ExperimentDto}
+     * @memberof DatapointRunWithExperimentDto
      */
-    createdAt: string;
+    experiment: ExperimentDto;
 }
 
 /**
- * Check if a given object implements the DatapointRunDto interface.
+ * Check if a given object implements the DatapointRunWithExperimentDto interface.
  */
-export function instanceOfDatapointRunDto(value: object): boolean {
+export function instanceOfDatapointRunWithExperimentDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "output" in value;
     isInstance = isInstance && "experimentId" in value;
     isInstance = isInstance && "datapointId" in value;
-    isInstance = isInstance && "createdAt" in value;
+    isInstance = isInstance && "experiment" in value;
 
     return isInstance;
 }
 
-export function DatapointRunDtoFromJSON(json: any): DatapointRunDto {
-    return DatapointRunDtoFromJSONTyped(json, false);
+export function DatapointRunWithExperimentDtoFromJSON(json: any): DatapointRunWithExperimentDto {
+    return DatapointRunWithExperimentDtoFromJSONTyped(json, false);
 }
 
-export function DatapointRunDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): DatapointRunDto {
+export function DatapointRunWithExperimentDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): DatapointRunWithExperimentDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -79,11 +86,11 @@ export function DatapointRunDtoFromJSONTyped(json: any, ignoreDiscriminator: boo
         'output': json['output'],
         'experimentId': json['experimentId'],
         'datapointId': json['datapointId'],
-        'createdAt': json['createdAt'],
+        'experiment': ExperimentDtoFromJSON(json['experiment']),
     };
 }
 
-export function DatapointRunDtoToJSON(value?: DatapointRunDto | null): any {
+export function DatapointRunWithExperimentDtoToJSON(value?: DatapointRunWithExperimentDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -96,7 +103,7 @@ export function DatapointRunDtoToJSON(value?: DatapointRunDto | null): any {
         'output': value.output,
         'experimentId': value.experimentId,
         'datapointId': value.datapointId,
-        'createdAt': value.createdAt,
+        'experiment': ExperimentDtoToJSON(value.experiment),
     };
 }
 
