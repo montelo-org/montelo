@@ -26,5 +26,6 @@ export * from './HealthControllerCheck503Response';
 export * from './LogDto';
 export * from './LogsDto';
 export * from './MaxDto';
+export * from './PaginatedExperimentsDto';
 export * from './ProjectDto';
 export * from './TraceWithLogsDto';

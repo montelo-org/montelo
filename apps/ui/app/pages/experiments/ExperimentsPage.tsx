@@ -9,9 +9,11 @@ import { Routes } from "~/routes";
 
 type ExperimentsPageProps = {
   experiments: ExperimentDto[];
+  totalCount: number;
+  currentPage: number;
 };
 
-export const ExperimentsPage: FC<ExperimentsPageProps> = ({ experiments }) => {
+export const ExperimentsPage: FC<ExperimentsPageProps> = ({ experiments, totalCount, currentPage }) => {
   const breadcrumbs: LayoutBreadcrumb[] = [
     {
       label: "Experiments",
@@ -29,7 +31,11 @@ export const ExperimentsPage: FC<ExperimentsPageProps> = ({ experiments }) => {
 
   return (
     <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
-      <ExperimentsTable experiments={experiments} />
+      <ExperimentsTable
+        experiments={experiments}
+        totalCount={totalCount}
+        currentPage={currentPage}
+      />
     </PageLayout>
   );
 };
