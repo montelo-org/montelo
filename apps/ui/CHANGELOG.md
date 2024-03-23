@@ -1,5 +1,13 @@
 # @montelo/ui
 
+## 1.1.67
+
+### Patch Changes
+
+- Crews & Logs End Method
+- Updated dependencies
+  - @montelo/browser-client@1.1.67
+
 ## 1.1.66
 
 ### Patch Changes
