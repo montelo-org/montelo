@@ -19,6 +19,10 @@ type TSearchInput = z.infer<typeof SearchInput>;
  * Function
  */
 const googleSearch = async ({ query }: TSearchInput): Promise<string> => {
+  if (!process.env.SERP_API_KEY) {
+    throw new Error("Please set a SERP_API_KEY in your environment variables.");
+  }
+
   const result = await getJson({
     engine: "google",
     api_key: process.env.SERP_API_KEY,
