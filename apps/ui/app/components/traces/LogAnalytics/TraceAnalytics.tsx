@@ -16,7 +16,7 @@ import { formatDate, formatNumber } from "./utils";
 type Props = {
   trace: TraceWithLogsDto;
 };
-export const LogAnalytics: FC<Props> = ({ trace }) => {
+export const TraceAnalytics: FC<Props> = ({ trace }) => {
   return (
     <AnalyticsContainer>
       <SingleContainer className={"bg-background rounded-l-xl"}>

@@ -32,6 +32,7 @@ const LogTreeNode: FC<{
   return (
     <div
       className={`
+      rounded-xl
       hover:bg-secondary
       cursor-pointer 
       px-4

@@ -1,6 +1,4 @@
-import { LogDto } from "@montelo/browser-client";
 import { TimerIcon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
 import { SearchIcon } from "lucide-react";
 import { FC } from "react";
 import "react-json-view-lite/dist/index.css";
@@ -26,7 +24,7 @@ export const TracesTableHeader: FC<TracesTableHeaderProps> = ({
   totalPages,
 }) => {
   return (
-    <div className="flex items-center justify-between mb-4">
+    <div className="mb-4 flex items-center justify-between">
       <div className={"flex gap-4"}>
         <div className="relative">
           <Input

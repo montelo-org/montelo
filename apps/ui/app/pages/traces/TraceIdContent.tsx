@@ -1,7 +1,7 @@
 import { TraceWithLogsDto } from "@montelo/browser-client";
 import { useSearchParams } from "@remix-run/react";
 import { FC, useState } from "react";
-import { LogAnalytics } from "~/components/traces/LogAnalytics/LogAnalytics";
+import { TraceAnalytics } from "~/components/traces/LogAnalytics/TraceAnalytics";
 import { LogView } from "~/components/traces/LogView";
 import { LogsTreeView } from "~/components/traces/LogsTreeView";
 import { useKey, useMount } from "~/hooks";
@@ -46,8 +46,9 @@ export const TraceIdContent: FC<{ trace: TraceWithLogsDto }> = ({ trace }) => {
 
   return (
     <>
-      <div className={"flex flex-row gap-8"}>
-        <LogAnalytics trace={trace} />
+      <div className={"flex flex-col gap-1"}>
+        <h1 className={"text-xl"}>Trace Analytics</h1>
+        <TraceAnalytics trace={trace} />
       </div>
 
       <div className={"mt-2 grid grid-cols-7 gap-4"}>
