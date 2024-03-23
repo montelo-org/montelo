@@ -1,4 +1,4 @@
-import { FullExperimentDto } from "@montelo/browser-client";
+import { ExperimentWithDatapointRunsDto } from "@montelo/browser-client";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { Link, useParams } from "@remix-run/react";
 import dayjs from "dayjs";
@@ -13,14 +13,14 @@ import { LayoutBreadcrumb } from "~/pages/layouts/types";
 import { Routes } from "~/routes";
 
 type ExperimentsPageProps = {
-  fullExperiment: FullExperimentDto;
+  experiment: ExperimentWithDatapointRunsDto;
   totalDatapointRuns: number;
   currentPage: number;
   totalPages: number;
 };
 
 export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
-  fullExperiment,
+  experiment,
   totalDatapointRuns,
   currentPage,
   totalPages,
@@ -36,7 +36,7 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
       }),
     },
     {
-      label: fullExperiment.name || "—",
+      label: experiment.name || "—",
     },
   ];
 
@@ -60,8 +60,8 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
           title={"Experiment"}
           content={() => (
             <div>
-              <p>{fullExperiment.description}</p>
-              <p>Started on {dayjs(fullExperiment.createdAt).format("MMMM D, h:mm a")}</p>
+              <p>{experiment.description}</p>
+              <p>Started on {dayjs(experiment.createdAt).format("MMMM D, h:mm a")}</p>
             </div>
           )}
         />
@@ -70,20 +70,20 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
           content={() => (
             <div>
               <p className={"flex items-center"}>
-                {fullExperiment.dataset.name}
+                {experiment.dataset.name}
                 <Link
                   className={"hover:text-accent-foreground pl-1"}
                   to={Routes.app.project.env.datasetsId({
                     projectId: params.projectId!,
                     envId: params.envId!,
-                    datasetId: fullExperiment.dataset.id,
+                    datasetId: experiment.dataset.id,
                   })}
                   prefetch={"intent"}
                 >
                   <ExternalLinkIcon />
                 </Link>
               </p>
-              <p>{fullExperiment.dataset.description}</p>
+              <p>{experiment.dataset.description}</p>
             </div>
           )}
         />
@@ -106,7 +106,7 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
           <PageDocLink to={Routes.external.documentation}>Run Docs.</PageDocLink>
         </p>
         <DatapointRunsTable
-          datapointRuns={fullExperiment.datapointRuns}
+          datapointRuns={experiment.datapointRuns}
           currentPage={currentPage}
           totalPages={totalPages}
         />

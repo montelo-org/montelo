@@ -2,14 +2,13 @@ import {
   CreateDatasetInput,
   DatasetDto,
   DatasetService,
-  DeleteSuccessDto,
+  DeleteSuccessDto, ExperimentDto,
   FullDatasetWithCountDto,
 } from "@montelo/api-common";
 import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { UseAuthGuards } from "../../common/guards/guard";
 import { validateDatasetSchema } from "../../common/validations/validateDatasetSchema";
-import { ExperimentDto } from "../experiment/dto/experiment.dto";
 
 @ApiTags("Dataset")
 @ApiBearerAuth()

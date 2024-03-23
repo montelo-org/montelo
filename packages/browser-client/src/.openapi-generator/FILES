@@ -22,15 +22,15 @@ models/CreateEnvInput.ts
 models/CreateProjectInput.ts
 models/DashboardAnalyticsDto.ts
 models/DatapointDto.ts
-models/DatapointRunDto.ts
 models/DatapointRunWithExperimentDto.ts
 models/DatasetDto.ts
 models/DeleteSuccessDto.ts
 models/EnvironmentDto.ts
 models/ExperimentDto.ts
+models/ExperimentWithDatapointRunsDto.ts
+models/FullDatapointRunDto.ts
 models/FullDatasetDto.ts
 models/FullDatasetWithCountDto.ts
-models/FullExperimentDto.ts
 models/FullProjectDto.ts
 models/HealthControllerCheck200Response.ts
 models/HealthControllerCheck200ResponseInfoValue.ts
@@ -38,8 +38,8 @@ models/HealthControllerCheck503Response.ts
 models/LogDto.ts
 models/LogsDto.ts
 models/MaxDto.ts
+models/PaginatedExperimentWithDatapointRunsDto.ts
 models/PaginatedExperimentsDto.ts
-models/PaginatedFullExperimentDto.ts
 models/ProjectDto.ts
 models/TraceWithLogsDto.ts
 models/index.ts

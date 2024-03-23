@@ -1,12 +1,13 @@
+import {
+  ExperimentDto,
+  ExperimentService,
+  GetExperimentsOpts,
+  PaginatedExperimentsDto,
+  PaginatedExperimentWithDatapointRunsDto,
+} from "@montelo/api-common";
 import { Controller, Get, Param, Query } from "@nestjs/common";
 import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { UseAuthGuards } from "../../common/guards/guard";
-import { ExperimentDto } from "./dto/experiment.dto";
-import { PaginatedExperimentsDto } from "./dto/paginated-experiments.dto";
-import { PaginatedFullExperimentDto } from "./dto/paginated-full-experiment.dto";
-import { ExperimentService } from "./experiment.service";
-import { GetExperimentsOpts } from "./experiment.types";
-
 
 @ApiTags("Experiment")
 @ApiBearerAuth()
@@ -56,16 +57,16 @@ export class ExperimentController {
     required: false,
   })
   @Get("experiment/:experimentId")
-  async getPaginatedFullExperiment(
+  async getPaginatedExperimentWithDatapointRuns(
     @Param("experimentId") experimentId: string,
     @Query("take") take?: string,
     @Query("skip") skip?: string,
-  ): Promise<PaginatedFullExperimentDto> {
+  ): Promise<PaginatedExperimentWithDatapointRunsDto> {
     const options: GetExperimentsOpts = {
       take: take ? parseInt(take) : undefined,
       skip: skip ? parseInt(skip) : undefined,
     };
-    const paginatedFullExperiment = await this.experimentService.getFullExperiment(experimentId, options);
-    return PaginatedFullExperimentDto.fromPaginatedFullExperiment(paginatedFullExperiment);
+    const paginated = await this.experimentService.getExperimentWithDatapointRuns(experimentId, options);
+    return PaginatedExperimentWithDatapointRunsDto.fromPaginatedExperimentWithDatapointRuns(paginated);
   }
 }

@@ -13,6 +13,9 @@ export class DatasetService {
       where: {
         envId,
       },
+      orderBy: {
+        createdAt: "desc",
+      }
     });
   }
 

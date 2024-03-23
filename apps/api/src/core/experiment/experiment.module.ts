@@ -1,7 +1,7 @@
-import { DatabaseModule } from "@montelo/api-common";
+import { DatabaseModule, ExperimentService } from "@montelo/api-common";
 import { Module } from "@nestjs/common";
 import { ExperimentController } from "./experiment.controller";
-import { ExperimentService } from "./experiment.service";
+
 
 @Module({
   imports: [DatabaseModule],

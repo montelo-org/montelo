@@ -1,4 +1,4 @@
-import { DatapointRunDto } from "@montelo/browser-client";
+import { FullDatapointRunDto } from "@montelo/browser-client";
 import { useNavigate, useParams } from "@remix-run/react";
 import dayjs from "dayjs";
 import { FC } from "react";
@@ -7,13 +7,13 @@ import { TableCell, TableRow } from "~/components/ui/table";
 import { idShortener } from "~/pages/traces/utils";
 import { Routes } from "~/routes";
 
-export const DatapointRunCell: FC<{ datapointRun: DatapointRunDto }> = ({ datapointRun }) => {
+export const DatapointRunCell: FC<{ datapointRun: FullDatapointRunDto }> = ({ datapointRun }) => {
   const navigate = useNavigate();
   const params = useParams();
 
   const { short, variant } = idShortener(datapointRun.id);
 
-  const onCellClick = (datapointRun: DatapointRunDto) => {
+  const onCellClick = (datapointRun: FullDatapointRunDto) => {
     navigate(
       Routes.app.project.env.datapointRunId({
         projectId: params.projectId!,
@@ -34,7 +34,9 @@ export const DatapointRunCell: FC<{ datapointRun: DatapointRunDto }> = ({ datapo
       <TableCell className={"w-1/12"}>
         <Badge variant={variant}>{short}</Badge>
       </TableCell>
-      <TableCell className={"w-1/6"}>{dayjs(datapointRun.createdAt).format("MMM D YY / h:mm:ss a")}</TableCell>
+      <TableCell className={"w-1/6"}>{dayjs(datapointRun.createdAt).format("h:mm:ss a")}</TableCell>
+      <TableCell>{JSON.stringify(datapointRun.datapoint.input)}</TableCell>
+      <TableCell>{JSON.stringify(datapointRun.datapoint.expectedOutput)}</TableCell>
       <TableCell>{JSON.stringify(datapointRun.output)}</TableCell>
     </TableRow>
   );

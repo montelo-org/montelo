@@ -12,10 +12,16 @@ export class ExperimentDto {
   @IsString()
   datasetId: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    required: false,
+  })
   name: string | null;
 
-  @ApiProperty()
+  @ApiProperty({
+    type: String,
+    required: false,
+  })
   description: string | null;
 
   @ApiProperty()

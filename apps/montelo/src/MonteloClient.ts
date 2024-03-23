@@ -10,8 +10,7 @@ import {
   DatasetDto,
   EventQueuedDto,
   ExperimentDto,
-  FullExperimentDto,
-  type LogInput,
+  type LogInput, type PaginatedExperimentWithDatapointsDto,
   type TraceInput,
   UpdateDatapointRunInput,
 } from "./client";
@@ -115,10 +114,18 @@ export class MonteloClient {
     }
   }
 
-  public async getDatapointsByExperimentId(experimentId: string): Promise<FullExperimentDto | null> {
+  public async getDatapointsByExperimentId(
+    experimentId: string,
+    options: {
+      take: number;
+      skip: number;
+    },
+  ): Promise<PaginatedExperimentWithDatapointsDto | null> {
     try {
-      return await this.api.experiment.experimentControllerGetFullExperiment({
+      return await this.api.experiment.experimentControllerGetPaginatedDatapointsForExperiment({
         experimentId,
+        take: options.take.toString(),
+        skip: options.skip.toString(),
       });
     } catch (e: any) {
       console.error("Montelo Error when getting datapoints by experiment id: ", e.toString());

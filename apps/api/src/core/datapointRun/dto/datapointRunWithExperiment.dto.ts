@@ -1,5 +1,5 @@
+import { ExperimentDto } from "@montelo/api-common";
 import { ApiProperty } from "@nestjs/swagger";
-import { ExperimentDto } from "../../experiment/dto/experiment.dto";
 import { DatapointRunWithExperiment } from "../datapointRun.types";
 import { DatapointRunDto } from "./datapointRun.dto";
 

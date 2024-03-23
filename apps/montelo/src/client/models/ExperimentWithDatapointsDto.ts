@@ -23,60 +23,65 @@ import {
 /**
  * 
  * @export
- * @interface FullExperimentDto
+ * @interface ExperimentWithDatapointsDto
  */
-export interface FullExperimentDto {
+export interface ExperimentWithDatapointsDto {
     /**
      * 
      * @type {string}
-     * @memberof FullExperimentDto
+     * @memberof ExperimentWithDatapointsDto
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof FullExperimentDto
+     * @memberof ExperimentWithDatapointsDto
      */
     datasetId: string;
     /**
      * 
      * @type {string}
-     * @memberof FullExperimentDto
+     * @memberof ExperimentWithDatapointsDto
      */
-    name: string | null;
+    name?: string;
     /**
      * 
      * @type {string}
-     * @memberof FullExperimentDto
+     * @memberof ExperimentWithDatapointsDto
      */
-    description: string | null;
+    description?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExperimentWithDatapointsDto
+     */
+    createdAt: string;
     /**
      * 
      * @type {FullDatasetDto}
-     * @memberof FullExperimentDto
+     * @memberof ExperimentWithDatapointsDto
      */
     dataset: FullDatasetDto;
 }
 
 /**
- * Check if a given object implements the FullExperimentDto interface.
+ * Check if a given object implements the ExperimentWithDatapointsDto interface.
  */
-export function instanceOfFullExperimentDto(value: object): boolean {
+export function instanceOfExperimentWithDatapointsDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "datasetId" in value;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "description" in value;
+    isInstance = isInstance && "createdAt" in value;
     isInstance = isInstance && "dataset" in value;
 
     return isInstance;
 }
 
-export function FullExperimentDtoFromJSON(json: any): FullExperimentDto {
-    return FullExperimentDtoFromJSONTyped(json, false);
+export function ExperimentWithDatapointsDtoFromJSON(json: any): ExperimentWithDatapointsDto {
+    return ExperimentWithDatapointsDtoFromJSONTyped(json, false);
 }
 
-export function FullExperimentDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): FullExperimentDto {
+export function ExperimentWithDatapointsDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): ExperimentWithDatapointsDto {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -84,13 +89,14 @@ export function FullExperimentDtoFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'id': json['id'],
         'datasetId': json['datasetId'],
-        'name': json['name'],
-        'description': json['description'],
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
+        'createdAt': json['createdAt'],
         'dataset': FullDatasetDtoFromJSON(json['dataset']),
     };
 }
 
-export function FullExperimentDtoToJSON(value?: FullExperimentDto | null): any {
+export function ExperimentWithDatapointsDtoToJSON(value?: ExperimentWithDatapointsDto | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -103,6 +109,7 @@ export function FullExperimentDtoToJSON(value?: FullExperimentDto | null): any {
         'datasetId': value.datasetId,
         'name': value.name,
         'description': value.description,
+        'createdAt': value.createdAt,
         'dataset': FullDatasetDtoToJSON(value.dataset),
     };
 }
