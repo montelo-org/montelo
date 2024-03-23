@@ -32,11 +32,11 @@ export class Montelo {
     this.experiments = new MonteloExperiments(this.monteloClient);
   }
 
-  public log(log: LogParams) {
+  public async log(log: LogParams) {
     const now = new Date().toISOString();
     const startTime = log.startTime || now;
     const endTime = log.endTime || now;
-    void this.monteloClient.createLog({ ...log, startTime, endTime, source: LogInputSourceEnum.Manual });
+    await this.monteloClient.createLog({ ...log, startTime, endTime, source: LogInputSourceEnum.Manual });
   }
 
   public trace(trace: TraceParams): Trace {

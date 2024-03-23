@@ -98,7 +98,8 @@ export class Crew<P extends Process> {
 
     for (const task of this.tasks) {
       this.currentTaskName = task.getName();
-      this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
+      await this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
+
       const output = await task.execute({ context, trace: this.trace, tools: this.tools });
 
       context = output;
@@ -126,7 +127,7 @@ export class Crew<P extends Process> {
 
     for (const task of this.tasks) {
       this.currentTaskName = task.getName();
-      this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
+      await this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
       const output = await task.execute({ agent: manager, context, trace: this.trace, tools: manager.tools });
 
       context = output;

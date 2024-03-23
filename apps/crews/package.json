@@ -14,6 +14,7 @@
   ],
   "dependencies": {
     "montelo": "^1.1.66",
+    "serpapi": "^2.1.0",
     "ts-node": "^10.9.2",
     "zod": "^3.22.4",
     "zod-to-json-schema": "^3.22.4"

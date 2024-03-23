@@ -66,7 +66,11 @@ export class Agent implements AgentInterface {
         ...messages,
         response,
         ...toolCallResponses,
-        { role: "user", content: "Given the previous messages, what is the final answer for this task?" },
+        {
+          role: "user",
+          content:
+            "Given the results from the tools, the task given to you, and the expected format, what is the final answer for this task?",
+        },
       ],
       model: this.model.modelName,
     });
