@@ -53,7 +53,7 @@ export class DatasetController {
   @Get("dataset/:datasetId/experiments")
   async getDatasetRecentExperiments(@Param("datasetId") datasetId: string): Promise<ExperimentDto[]> {
     const options = {
-      take: 10,
+      take: 5,
     };
     const experiments = await this.datasetService.getDatasetExperiments(datasetId, options);
     return experiments.map(ExperimentDto.fromExperiment);

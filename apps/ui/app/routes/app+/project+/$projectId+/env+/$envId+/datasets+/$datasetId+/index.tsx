@@ -9,15 +9,16 @@ type LoaderType = {
   currentPage: number;
   totalPages: number;
   experiments: ExperimentDto[];
+  totalCount: number;
 };
 
 export const loader: LoaderFunction = withAuth(async ({ api, params, request }) => {
   const datasetId = params.datasetId!;
 
   const { searchParams } = new URL(request.url);
-  const page = searchParams.get("page") || "1";
-  const pageSize = 20;
-  const skipAmount = page ? parseInt(page) - 1 : 0;
+  const page = parseInt(searchParams.get("page") || "1");
+  const pageSize = 5;
+  const skipAmount = (page - 1) * pageSize;
 
   const datasetPromise = api.dataset.datasetControllerGetDatasetWithDatapoints({
     datasetId,
@@ -34,13 +35,14 @@ export const loader: LoaderFunction = withAuth(async ({ api, params, request }) 
 
   return json<LoaderType>({
     dataset,
-    currentPage: parseInt(page),
+    currentPage: page,
     totalPages: totalCount ? Math.ceil(totalCount / pageSize) : 0,
     experiments,
+    totalCount,
   });
 });
 
 export default function DatasetIdRoute() {
-  const { dataset, currentPage, totalPages, experiments } = useLoaderData<LoaderType>();
-  return <DatasetIdPage dataset={dataset} currentPage={currentPage} totalPages={totalPages} experiments={experiments} />;
+  const { dataset, currentPage, totalPages, experiments, totalCount } = useLoaderData<LoaderType>();
+  return <DatasetIdPage dataset={dataset} currentPage={currentPage} totalPages={totalPages} experiments={experiments} totalCount={totalCount}/>;
 }

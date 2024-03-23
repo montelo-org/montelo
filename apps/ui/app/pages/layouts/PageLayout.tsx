@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,8 +17,8 @@ export const PageLayout: FC<PageLayoutProps> = ({ breadcrumbs, subtitle: Subtitl
           <Breadcrumb>
             <BreadcrumbList className={"text-lg"}>
               {breadcrumbs.map((breadcrumb, index) => (
-                <>
-                  <BreadcrumbItem key={index}>
+                <Fragment key={index}>
+                  <BreadcrumbItem>
                     {breadcrumb.to ? (
                       <BreadcrumbLink href={breadcrumb.to}>{breadcrumb.label}</BreadcrumbLink>
                     ) : (
@@ -26,7 +26,7 @@ export const PageLayout: FC<PageLayoutProps> = ({ breadcrumbs, subtitle: Subtitl
                     )}
                   </BreadcrumbItem>
                   {index !== breadcrumbs.length - 1 && <BreadcrumbSeparator />}
-                </>
+                </Fragment>
               ))}
             </BreadcrumbList>
           </Breadcrumb>

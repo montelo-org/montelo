@@ -16,9 +16,10 @@ type DatasetIdPageProps = {
   currentPage: number;
   totalPages: number;
   experiments: ExperimentDto[];
+  totalCount: number;
 };
 
-export const DatasetIdPage: FC<DatasetIdPageProps> = ({ dataset, currentPage, totalPages, experiments }) => {
+export const DatasetIdPage: FC<DatasetIdPageProps> = ({ dataset, currentPage, totalPages, experiments, totalCount }) => {
   const params = useParams();
 
   const breadcrumbs: LayoutBreadcrumb[] = [
@@ -56,7 +57,7 @@ export const DatasetIdPage: FC<DatasetIdPageProps> = ({ dataset, currentPage, to
         <p>Slug ➯ {dataset.slug}</p>
       </div>
 
-      <DatapointsTable datapoints={dataset.datapoints} currentPage={currentPage} totalPages={totalPages} />
+      <DatapointsTable datapoints={dataset.datapoints} currentPage={currentPage} totalPages={totalPages} totalCount={totalCount} />
       <RecentExperimentsTable experiments={experiments} />
     </PageLayout>
   );

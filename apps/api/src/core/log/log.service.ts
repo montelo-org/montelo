@@ -54,8 +54,6 @@ export class LogService {
       cursor: options?.cursor ? { id: options.cursor } : undefined,
     });
 
-    console.log("CHECK logs: ", logs);
-
     // Get the total count of logs for the given envId
     const totalCount = await this.db.log.count({ where: whereQuery });
 

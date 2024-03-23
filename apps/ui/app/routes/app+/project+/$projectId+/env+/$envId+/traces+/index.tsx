@@ -15,14 +15,14 @@ type LoaderType = {
 export const loader: LoaderFunction = withAuth(async ({ request, api, params }) => {
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
-  const page = searchParams.get("page") || "1";
+  const page = parseInt(searchParams.get("page") || "1");
   const sortColumn = searchParams.get("sortColumn");
   const sortDirection = searchParams.get("sortDirection");
   const searchQuery = searchParams.get("q");
   const startDate = formatDate(searchParams.get("date") as TimeFrames | undefined);
 
   const pageSize = 20;
-  const skipAmount = page ? parseInt(page) - 1 : 0;
+  const skipAmount = (page - 1) * pageSize;
 
   const response = await api.log.logControllerGetLogsForEnvironment({
     envId,
@@ -37,7 +37,7 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
 
   return json<LoaderType>({
     logs,
-    currentPage: parseInt(page),
+    currentPage: page,
     totalPages: totalCount ? Math.ceil(totalCount / pageSize) : 0,
   });
 });

@@ -90,9 +90,10 @@ type DatapointsTableProps = {
   datapoints: DatapointDto[];
   currentPage: number;
   totalPages: number;
+  totalCount: number;
 };
 
-export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentPage, totalPages }) => {
+export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentPage, totalPages, totalCount }) => {
   const table = useReactTable({
     data: datapoints,
     columns,
@@ -120,7 +121,7 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
         </div>
       </div>
 
-      <div className="rounded-md border">
+      <div className="mb-2 rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -147,12 +148,16 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  No data points.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
+      </div>
+
+      <div className="text-muted-foreground flex flex-1 justify-end text-sm">
+        {table.getFilteredRowModel().rows.length} datapoints.
       </div>
     </div>
   );

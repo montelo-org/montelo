@@ -72,7 +72,7 @@ await montelo.experiments.createAndRun({
       <DialogTrigger asChild>
         <Button>View Code</Button>
       </DialogTrigger>
-      <DialogContent className={"max-w-[52rem] max-h-[750px] overflow-y-scroll"}>
+      <DialogContent className={"max-h-[750px] max-w-[52rem] overflow-y-scroll"}>
         <DialogHeader>
           <DialogTitle>Dataset Schemas</DialogTitle>
         </DialogHeader>
@@ -88,7 +88,8 @@ await montelo.experiments.createAndRun({
           {/*  </div>*/}
           {/*</div>*/}
           <div className={"flex flex-col gap-2"}>
-            <p className={"font-medium text-lg"}>TypeScript Code</p>
+            <p className={"text-lg font-medium"}>TypeScript Code</p>
+            <p>Copy the following TypeScript code to upload datapoints and run experiments against this dataset.</p>
             <CodeBlock value={combinedTypeDefinition} />
             <Icon
               className={"text-muted-foreground hover:text-foreground fixed right-1 mr-10 mt-12 cursor-pointer"}
