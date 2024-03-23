@@ -8,6 +8,7 @@ import {
   DatapointDto,
   DatapointRunDto,
   DatasetDto,
+  EndLogInput,
   EventQueuedDto,
   ExperimentDto,
   type LogInput, type PaginatedExperimentWithDatapointsDto,
@@ -54,6 +55,20 @@ export class MonteloClient {
       });
     } catch (e: any) {
       console.error("Montelo Error when creating log: ", e.toString());
+    }
+  }
+
+  public async endLog(id: string, log: EndLogInput): Promise<void> {
+    try {
+      const experimentId = process.env.MONTELO_EXPERIMENT_ID;
+      if (!experimentId) {
+        await this.api.log.logsControllerEndLog({
+          logId: id,
+          endLogInput: log,
+        });
+      }
+    } catch (e: any) {
+      console.error("Montelo Error when ending log: ", id, e.toString());
     }
   }
 

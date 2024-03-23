@@ -1,6 +1,6 @@
 {
   "name": "montelo",
-  "version": "1.1.66",
+  "version": "1.1.67",
   "main": "dist/bundle-node/index.js",
   "types": "dist/bundle-node/index.d.ts",
   "module": "dist/bundle-node/index.js",

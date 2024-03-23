@@ -9,6 +9,7 @@ export * from './DatapointDto';
 export * from './DatapointRunDto';
 export * from './DatasetDto';
 export * from './DeleteSuccessDto';
+export * from './EndLogInput';
 export * from './EventQueuedDto';
 export * from './ExperimentDto';
 export * from './ExperimentWithDatapointsDto';

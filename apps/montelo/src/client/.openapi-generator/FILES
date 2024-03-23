@@ -15,6 +15,7 @@ models/DatapointDto.ts
 models/DatapointRunDto.ts
 models/DatasetDto.ts
 models/DeleteSuccessDto.ts
+models/EndLogInput.ts
 models/EventQueuedDto.ts
 models/ExperimentDto.ts
 models/ExperimentWithDatapointsDto.ts

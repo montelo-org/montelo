@@ -1,5 +1,11 @@
 # @montelo/db
 
+## 1.1.67
+
+### Patch Changes
+
+- Crews & Logs End Method
+
 ## 1.1.66
 
 ### Patch Changes

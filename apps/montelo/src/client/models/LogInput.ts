@@ -31,6 +31,12 @@ export interface LogInput {
      * @type {string}
      * @memberof LogInput
      */
+    id?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LogInput
+     */
     name?: string;
     /**
      * 
@@ -122,6 +128,7 @@ export function LogInputFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
+        'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'source': json['source'],
         'model': !exists(json, 'model') ? undefined : json['model'],
@@ -144,6 +151,7 @@ export function LogInputToJSON(value?: LogInput | null): any {
     }
     return {
         
+        'id': value.id,
         'name': value.name,
         'source': value.source,
         'model': value.model,

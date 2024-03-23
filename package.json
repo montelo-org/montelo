@@ -9,11 +9,11 @@
     "build": "turbo build",
     "dev": "turbo dev --concurrency 12",
     "format": "prettier --write \"**/*.{ts,tsx,md}\" --log-level warn",
-    "lint": "turbo lint"
+    "lint": "turbo lint",
+    "clean": "find . -type d \\( -name 'dist' -o -name 'node_modules' -o -name '.turbo' -o -name 'build' -o -name '.cache' \\) -exec rm -rf {} +"
   },
   "dependencies": {
-    "@changesets/cli": "^2.27.1",
-    "openai": "^4.28.4"
+    "@changesets/cli": "^2.27.1"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",

@@ -1,3 +1,4 @@
+import { Trace } from "montelo";
 import type { Agent } from "../Agent";
 import type { Tool } from "../Tool";
 
@@ -19,7 +20,7 @@ export interface TaskInterface {
 export interface TaskConstructor extends Omit<TaskInterface, "id"> {}
 
 export interface TaskExecuteParams {
-  trace: any;
+  trace: Trace;
   agent?: Agent;
   context?: any;
   tools?: Tool[];

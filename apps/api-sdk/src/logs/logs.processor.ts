@@ -12,10 +12,21 @@ export class LogsProcessor {
 
   @Process()
   async handleLog(job: Job<QLogsInput>) {
-    const {
-      data: { envId, datapointRunId, trace, log },
-    } = job;
-    this.logger.debug(`Handling job for envId ${envId}`);
-    await this.logsService.create(envId, datapointRunId, log, trace);
+    const { data } = job;
+    const { envId, action } = data;
+    this.logger.debug(`Handling ${action} job for envId ${envId}`);
+
+    switch (action) {
+      case "create": {
+        const { log, trace, datapointRunId } = data;
+        await this.logsService.create(envId, datapointRunId, log, trace);
+        break;
+      }
+      case "end": {
+        const { logId, payload } = data;
+        await this.logsService.end(logId, payload);
+        break;
+      }
+    }
   }
 }

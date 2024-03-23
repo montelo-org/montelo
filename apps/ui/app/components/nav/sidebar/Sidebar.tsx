@@ -7,7 +7,6 @@ import { Routes } from "~/routes";
 import { ApiKeysDialog } from "./ApiKeysDialog";
 import { ProfileDropdown } from "./ProfileDropdown";
 
-
 type ClassName = ComponentProps<"div">["className"];
 
 type BaseSidebarItem = {
@@ -91,7 +90,7 @@ export const Sidebar: FC<SidebarProps> = ({ project, user }) => {
       </ul>
 
       <div className="flex flex-col gap-1 pb-2">
-        <SidebarLink name={"Support"} href={() => Routes.external.slack} Icon={HelpCircle} params={params} />
+        <SidebarLink name={"Support"} href={() => Routes.external.discord} Icon={HelpCircle} params={params} />
         <SidebarLink
           name={"Documentation"}
           href={() => Routes.external.documentation}
