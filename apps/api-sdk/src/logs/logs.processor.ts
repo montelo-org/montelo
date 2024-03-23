@@ -18,8 +18,8 @@ export class LogsProcessor {
 
     switch (action) {
       case "create": {
-        const { log, trace } = data;
-        await this.logsService.create(envId, log, trace);
+        const { log, trace, datapointRunId } = data;
+        await this.logsService.create(envId, datapointRunId, log, trace);
         break;
       }
       case "end": {

@@ -30,7 +30,7 @@ export interface AddToDatasetInput {
      * @type {object}
      * @memberof AddToDatasetInput
      */
-    output: object;
+    expectedOutput: object;
 }
 
 /**
@@ -39,7 +39,7 @@ export interface AddToDatasetInput {
 export function instanceOfAddToDatasetInput(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "input" in value;
-    isInstance = isInstance && "output" in value;
+    isInstance = isInstance && "expectedOutput" in value;
 
     return isInstance;
 }
@@ -55,7 +55,7 @@ export function AddToDatasetInputFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'input': json['input'],
-        'output': json['output'],
+        'expectedOutput': json['expectedOutput'],
     };
 }
 
@@ -69,7 +69,7 @@ export function AddToDatasetInputToJSON(value?: AddToDatasetInput | null): any {
     return {
         
         'input': value.input,
-        'output': value.output,
+        'expectedOutput': value.expectedOutput,
     };
 }
 

@@ -24,6 +24,7 @@ export class LogsController {
       const queueInput: QLogsInput = {
         action: "create",
         envId,
+        datapointRunId: body.datapointRunId,
         trace: body.trace,
         log: body.log,
       };

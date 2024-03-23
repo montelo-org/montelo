@@ -4,6 +4,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { EnvId } from "../auth/EnvId.decorator";
 import { BearerGuard } from "../auth/bearer.guard";
 
+
 @ApiTags("Datapoint")
 @ApiBearerAuth()
 @UseGuards(BearerGuard)
@@ -12,7 +13,7 @@ export class DatapointController {
   constructor(private datapointService: DatapointService) {}
 
   @Post()
-  async addToDataset(
+  async addToDatasetBySlug(
     @EnvId() envId: string,
     @Param("datasetSlug") datasetSlug: string,
     @Body() addToDatasetInput: AddToDatasetInput,

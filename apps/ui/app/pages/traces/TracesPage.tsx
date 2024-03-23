@@ -15,11 +15,13 @@ import {
 import * as React from "react";
 import { useEffect } from "react";
 import "react-json-view-lite/dist/index.css";
-import { PageBreadcrumbContainer } from "~/components/PageBreadcrumbContainer";
-import { BreadcrumbItem, BreadcrumbPage } from "~/components/ui/breadcrumb";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { useDebounceValue } from "~/hooks/useDebounceValue";
-import Pagination from "../../components/pagination";
+import { PageDocLink } from "~/pages/layouts/PageDocLink";
+import { PageSubtitle } from "~/pages/layouts/PageSubtitle";
+import { LayoutBreadcrumb } from "~/pages/layouts/types";
+import { Routes } from "~/routes";
+import { PageLayout } from "../layouts/PageLayout";
 import { TracesTableHeader } from "./components/TracesTableHeader";
 import { COLUMNS } from "./constants";
 import { TimeFrames } from "./constants/timeframes";
@@ -114,76 +116,86 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
     },
   });
 
+  const breadcrumbs: LayoutBreadcrumb[] = [
+    {
+      label: "Traces",
+    },
+  ];
+
+  const subtitle = () => {
+    return (
+      <PageSubtitle>
+        Traces group several logs under a single entity.{" "}
+        <PageDocLink to={Routes.external.documentation}>Trace Docs.</PageDocLink>
+      </PageSubtitle>
+    );
+  };
+
   return (
-    <div className="w-full pt-2">
-      <PageBreadcrumbContainer>
-        <BreadcrumbItem>
-          <BreadcrumbPage className={"text-lg"}>Traces</BreadcrumbPage>
-        </BreadcrumbItem>
-      </PageBreadcrumbContainer>
+    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
+      <div>
+        <TracesTableHeader
+          searchQuery={searchQuery}
+          onSearch={setSearchQuery}
+          onDateChange={onDateChange}
+          selectedDate={selectedDate}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
 
-      <TracesTableHeader
-        searchQuery={searchQuery}
-        onSearch={setSearchQuery}
-        onDateChange={onDateChange}
-        selectedDate={selectedDate}
-        table={table}
-      />
-
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  const isSorted = header.column.getIsSorted();
-                  return (
-                    <TableHead
-                      className={header.column.getCanSort() ? "hover:text-accent-foreground cursor-pointer" : ""}
-                      key={header.id}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      <div className={"flex items-center gap-1" + (isSorted ? " font-semibold" : "")}>
-                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                        <span>
-                          {isSorted &&
-                            (header.column.getIsSorted() === "desc" ? <ChevronDownIcon /> : <ChevronUpIcon />)}
-                        </span>
-                      </div>
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                  ))}
+        <div className="mb-2 rounded-md border">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    const isSorted = header.column.getIsSorted();
+                    return (
+                      <TableHead
+                        className={header.column.getCanSort() ? "hover:text-accent-foreground cursor-pointer" : ""}
+                        key={header.id}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        <div className={"flex items-center gap-1" + (isSorted ? " font-semibold" : "")}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(header.column.columnDef.header, header.getContext())}
+                          <span>
+                            {isSorted &&
+                              (header.column.getIsSorted() === "desc" ? <ChevronDownIcon /> : <ChevronUpIcon />)}
+                          </span>
+                        </div>
+                      </TableHead>
+                    );
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={COLUMNS.length} className="h-24 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="text-muted-foreground flex-1 text-sm">
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={COLUMNS.length} className="h-24 text-center">
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="text-muted-foreground flex flex-1 justify-end text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
           selected.
         </div>
-        <div className="space-x-2">
-          <Pagination currentPage={currentPage} totalPages={totalPages} />
-        </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }

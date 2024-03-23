@@ -16,18 +16,32 @@
 import * as runtime from '../runtime';
 import type {
   ExperimentDto,
+  PaginatedExperimentWithDatapointRunsDto,
+  PaginatedExperimentsDto,
 } from '../models/index';
 import {
     ExperimentDtoFromJSON,
     ExperimentDtoToJSON,
+    PaginatedExperimentWithDatapointRunsDtoFromJSON,
+    PaginatedExperimentWithDatapointRunsDtoToJSON,
+    PaginatedExperimentsDtoFromJSON,
+    PaginatedExperimentsDtoToJSON,
 } from '../models/index';
 
-export interface ExperimentControllerGetExperimentRequest {
-    experimentId: string;
+export interface ExperimentControllerGetExperimentsForDatasetRequest {
+    datasetId: string;
 }
 
-export interface ExperimentControllerGetExperimentsRequest {
-    datasetId: string;
+export interface ExperimentControllerGetPaginatedExperimentWithDatapointRunsRequest {
+    experimentId: string;
+    take?: string;
+    skip?: string;
+}
+
+export interface ExperimentControllerGetPaginatedExperimentsForEnvironmentRequest {
+    envId: string;
+    take?: string;
+    skip?: string;
 }
 
 /**
@@ -37,45 +51,9 @@ export class ExperimentApi extends runtime.BaseAPI {
 
     /**
      */
-    async experimentControllerGetExperimentRaw(requestParameters: ExperimentControllerGetExperimentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExperimentDto>> {
-        if (requestParameters.experimentId === null || requestParameters.experimentId === undefined) {
-            throw new runtime.RequiredError('experimentId','Required parameter requestParameters.experimentId was null or undefined when calling experimentControllerGetExperiment.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = await token("bearer", []);
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/experiment/{experimentId}`.replace(`{${"experimentId"}}`, encodeURIComponent(String(requestParameters.experimentId))),
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => ExperimentDtoFromJSON(jsonValue));
-    }
-
-    /**
-     */
-    async experimentControllerGetExperiment(requestParameters: ExperimentControllerGetExperimentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ExperimentDto> {
-        const response = await this.experimentControllerGetExperimentRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     */
-    async experimentControllerGetExperimentsRaw(requestParameters: ExperimentControllerGetExperimentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ExperimentDto>>> {
+    async experimentControllerGetExperimentsForDatasetRaw(requestParameters: ExperimentControllerGetExperimentsForDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ExperimentDto>>> {
         if (requestParameters.datasetId === null || requestParameters.datasetId === undefined) {
-            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling experimentControllerGetExperiments.');
+            throw new runtime.RequiredError('datasetId','Required parameter requestParameters.datasetId was null or undefined when calling experimentControllerGetExperimentsForDataset.');
         }
 
         const queryParameters: any = {};
@@ -102,8 +80,96 @@ export class ExperimentApi extends runtime.BaseAPI {
 
     /**
      */
-    async experimentControllerGetExperiments(requestParameters: ExperimentControllerGetExperimentsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ExperimentDto>> {
-        const response = await this.experimentControllerGetExperimentsRaw(requestParameters, initOverrides);
+    async experimentControllerGetExperimentsForDataset(requestParameters: ExperimentControllerGetExperimentsForDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ExperimentDto>> {
+        const response = await this.experimentControllerGetExperimentsForDatasetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async experimentControllerGetPaginatedExperimentWithDatapointRunsRaw(requestParameters: ExperimentControllerGetPaginatedExperimentWithDatapointRunsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedExperimentWithDatapointRunsDto>> {
+        if (requestParameters.experimentId === null || requestParameters.experimentId === undefined) {
+            throw new runtime.RequiredError('experimentId','Required parameter requestParameters.experimentId was null or undefined when calling experimentControllerGetPaginatedExperimentWithDatapointRuns.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.take !== undefined) {
+            queryParameters['take'] = requestParameters.take;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/experiment/{experimentId}`.replace(`{${"experimentId"}}`, encodeURIComponent(String(requestParameters.experimentId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedExperimentWithDatapointRunsDtoFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async experimentControllerGetPaginatedExperimentWithDatapointRuns(requestParameters: ExperimentControllerGetPaginatedExperimentWithDatapointRunsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedExperimentWithDatapointRunsDto> {
+        const response = await this.experimentControllerGetPaginatedExperimentWithDatapointRunsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async experimentControllerGetPaginatedExperimentsForEnvironmentRaw(requestParameters: ExperimentControllerGetPaginatedExperimentsForEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedExperimentsDto>> {
+        if (requestParameters.envId === null || requestParameters.envId === undefined) {
+            throw new runtime.RequiredError('envId','Required parameter requestParameters.envId was null or undefined when calling experimentControllerGetPaginatedExperimentsForEnvironment.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.take !== undefined) {
+            queryParameters['take'] = requestParameters.take;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearer", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/env/{envId}/experiment`.replace(`{${"envId"}}`, encodeURIComponent(String(requestParameters.envId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedExperimentsDtoFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async experimentControllerGetPaginatedExperimentsForEnvironment(requestParameters: ExperimentControllerGetPaginatedExperimentsForEnvironmentRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedExperimentsDto> {
+        const response = await this.experimentControllerGetPaginatedExperimentsForEnvironmentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

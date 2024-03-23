@@ -32,11 +32,12 @@ const LogTreeNode: FC<{
   return (
     <div
       className={`
-      hover:bg-secondary dark:hover:bg-secondary/25
+      rounded-xl
+      hover:bg-secondary
       cursor-pointer 
       px-4
       py-2
-      ${isNodeSelected ? "bg-secondary dark:bg-secondary/25" : ""} 
+      ${isNodeSelected ? "bg-secondary" : ""} 
       `}
       style={{
         paddingLeft: depth ? `${moveRightBy}px` : "",

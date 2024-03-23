@@ -25,7 +25,7 @@ import {
     DatapointDtoToJSON,
 } from '../models/index';
 
-export interface DatapointControllerAddToDatasetRequest {
+export interface DatapointControllerAddToDatasetBySlugRequest {
     datasetSlug: string;
     addToDatasetInput: AddToDatasetInput;
 }
@@ -37,13 +37,13 @@ export class DatapointApi extends runtime.BaseAPI {
 
     /**
      */
-    async datapointControllerAddToDatasetRaw(requestParameters: DatapointControllerAddToDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatapointDto>> {
+    async datapointControllerAddToDatasetBySlugRaw(requestParameters: DatapointControllerAddToDatasetBySlugRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DatapointDto>> {
         if (requestParameters.datasetSlug === null || requestParameters.datasetSlug === undefined) {
-            throw new runtime.RequiredError('datasetSlug','Required parameter requestParameters.datasetSlug was null or undefined when calling datapointControllerAddToDataset.');
+            throw new runtime.RequiredError('datasetSlug','Required parameter requestParameters.datasetSlug was null or undefined when calling datapointControllerAddToDatasetBySlug.');
         }
 
         if (requestParameters.addToDatasetInput === null || requestParameters.addToDatasetInput === undefined) {
-            throw new runtime.RequiredError('addToDatasetInput','Required parameter requestParameters.addToDatasetInput was null or undefined when calling datapointControllerAddToDataset.');
+            throw new runtime.RequiredError('addToDatasetInput','Required parameter requestParameters.addToDatasetInput was null or undefined when calling datapointControllerAddToDatasetBySlug.');
         }
 
         const queryParameters: any = {};
@@ -73,8 +73,8 @@ export class DatapointApi extends runtime.BaseAPI {
 
     /**
      */
-    async datapointControllerAddToDataset(requestParameters: DatapointControllerAddToDatasetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatapointDto> {
-        const response = await this.datapointControllerAddToDatasetRaw(requestParameters, initOverrides);
+    async datapointControllerAddToDatasetBySlug(requestParameters: DatapointControllerAddToDatasetBySlugRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DatapointDto> {
+        const response = await this.datapointControllerAddToDatasetBySlugRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

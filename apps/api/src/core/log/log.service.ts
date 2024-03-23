@@ -19,6 +19,9 @@ export class LogService {
   async findAllForEnv(envId: string, options?: FindAllForEnvOpts): Promise<{ logs: Log[]; totalCount: number }> {
     const whereQuery: Prisma.LogWhereInput = {
       envId,
+      trace: {
+        datapointRunId: null
+      },
       ...(options?.searchQuery && {
         OR: [
           {

@@ -1,7 +1,8 @@
-import { Dataset, Prisma } from "@montelo/db";
+import { Dataset, Experiment, Prisma } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../database";
-import { CreateDatasetParams, DatasetWithDatapoints, FullDatasetByIdOpts } from "./dataset.types";
+import { CreateDatasetParams, DatasetWithDatapoints, ExperimentsByIdOpts, FullDatasetByIdOpts } from "./dataset.types";
+
 
 @Injectable()
 export class DatasetService {
@@ -12,6 +13,9 @@ export class DatasetService {
       where: {
         envId,
       },
+      orderBy: {
+        createdAt: "desc",
+      }
     });
   }
 
@@ -46,6 +50,19 @@ export class DatasetService {
     const [dataset, totalCount] = await Promise.all([datasetPromise, totalCountPromise]);
 
     return { dataset, totalCount };
+  }
+
+  async getDatasetExperiments(datasetId: string, options?: ExperimentsByIdOpts): Promise<Experiment[]> {
+    return this.db.experiment.findMany({
+      where: {
+        datasetId,
+      },
+      take: options?.take,
+      skip: options?.skip,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
   }
 
   async getByName(params: Prisma.DatasetSlugEnvIdCompoundUniqueInput): Promise<Dataset> {

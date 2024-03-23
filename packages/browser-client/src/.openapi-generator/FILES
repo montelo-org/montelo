@@ -1,6 +1,7 @@
 apis/AnalyticsApi.ts
 apis/ApiKeyApi.ts
 apis/DatapointApi.ts
+apis/DatapointRunApi.ts
 apis/DatasetApi.ts
 apis/EnvironmentApi.ts
 apis/ExperimentApi.ts
@@ -21,10 +22,13 @@ models/CreateEnvInput.ts
 models/CreateProjectInput.ts
 models/DashboardAnalyticsDto.ts
 models/DatapointDto.ts
+models/DatapointRunWithExperimentDto.ts
 models/DatasetDto.ts
 models/DeleteSuccessDto.ts
 models/EnvironmentDto.ts
 models/ExperimentDto.ts
+models/ExperimentWithDatapointRunsDto.ts
+models/FullDatapointRunDto.ts
 models/FullDatasetDto.ts
 models/FullDatasetWithCountDto.ts
 models/FullProjectDto.ts
@@ -34,6 +38,8 @@ models/HealthControllerCheck503Response.ts
 models/LogDto.ts
 models/LogsDto.ts
 models/MaxDto.ts
+models/PaginatedExperimentWithDatapointRunsDto.ts
+models/PaginatedExperimentsDto.ts
 models/ProjectDto.ts
 models/TraceWithLogsDto.ts
 models/index.ts

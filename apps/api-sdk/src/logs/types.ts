@@ -9,7 +9,8 @@ export type QLogsInput =
   | {
       action: "create";
       envId: string;
-      trace?: TraceInput;
+      datapointRunId: string | undefined;
+      trace: TraceInput | undefined;
       log: LogInput;
     }
   | {

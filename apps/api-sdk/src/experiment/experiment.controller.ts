@@ -1,35 +1,21 @@
-import { InjectQueue } from "@nestjs/bull";
-import { Body, Controller, Get, Logger, Param, Post, UseGuards } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { Queue } from "bull";
+import {
+  ExperimentDto,
+  ExperimentService,
+  GetExperimentsOpts,
+  PaginatedExperimentWithDatapointsDto,
+} from "@montelo/api-common";
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
+import { ApiBearerAuth, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { EnvId } from "../auth/EnvId.decorator";
 import { BearerGuard } from "../auth/bearer.guard";
 import { CreateExperimentInput } from "./dto/create-experiment.input";
-import { CreateRunInput } from "./dto/create-run.input";
-import { EventQueuedDto } from "./dto/event-queued.dto";
-import { ExperimentDto } from "./dto/experiment.dto";
-import { FullExperimentDto } from "./dto/full-experiment.dto";
-import { ExperimentService } from "./experiment.service";
-import { QExperimentInput, Queues } from "./types";
-
 
 @ApiTags("Experiment")
 @ApiBearerAuth()
 @UseGuards(BearerGuard)
 @Controller()
 export class ExperimentController {
-  private logger = new Logger(ExperimentController.name);
-
-  constructor(
-    @InjectQueue(Queues.experiments) private readonly experimentQueue: Queue<QExperimentInput>,
-    private experimentService: ExperimentService,
-  ) {}
-
-  @Get("experiment/:experimentId")
-  async getFullExperiment(@Param("experimentId") experimentId: string): Promise<FullExperimentDto> {
-    const experimentWithDatapoints = await this.experimentService.getExperimentWithDatapoints(experimentId);
-    return FullExperimentDto.fromFullExperiment(experimentWithDatapoints);
-  }
+  constructor(private experimentService: ExperimentService) {}
 
   @Post("dataset/:datasetSlug/experiment")
   async create(
@@ -41,11 +27,27 @@ export class ExperimentController {
     return ExperimentDto.fromExperiment(experiment);
   }
 
-  @Post("experiment/run")
-  async run(@Body() body: CreateRunInput): Promise<EventQueuedDto> {
-    const queueInput: QExperimentInput = body;
-    await this.experimentQueue.add(queueInput);
-    this.logger.debug(`Added experiment ${body.experimentId} to queue`);
-    return { success: true };
+  @ApiQuery({
+    name: "take",
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
+    name: "skip",
+    type: String,
+    required: false,
+  })
+  @Get("experiment/:experimentId/datapoints")
+  async getPaginatedDatapointsForExperiment(
+    @Param("experimentId") experimentId: string,
+    @Query("take") take?: string,
+    @Query("skip") skip?: string,
+  ): Promise<PaginatedExperimentWithDatapointsDto> {
+    const options: GetExperimentsOpts = {
+      take: take ? parseInt(take) : undefined,
+      skip: skip ? parseInt(skip) : undefined,
+    };
+    const paginated = await this.experimentService.getExperimentWithDatapoints(experimentId, options);
+    return PaginatedExperimentWithDatapointsDto.fromPaginatedExperimentWithDatapoints(paginated);
   }
 }

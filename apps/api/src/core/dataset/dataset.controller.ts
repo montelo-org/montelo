@@ -2,7 +2,7 @@ import {
   CreateDatasetInput,
   DatasetDto,
   DatasetService,
-  DeleteSuccessDto,
+  DeleteSuccessDto, ExperimentDto,
   FullDatasetWithCountDto,
 } from "@montelo/api-common";
 import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
@@ -47,6 +47,15 @@ export class DatasetController {
     };
     const fullDatasetWithCount = await this.datasetService.getFullDatasetById(datasetId, options);
     return FullDatasetWithCountDto.fromFullDatasetWithCount(fullDatasetWithCount);
+  }
+
+  @Get("dataset/:datasetId/experiments")
+  async getDatasetRecentExperiments(@Param("datasetId") datasetId: string): Promise<ExperimentDto[]> {
+    const options = {
+      take: 5,
+    };
+    const experiments = await this.datasetService.getDatasetExperiments(datasetId, options);
+    return experiments.map(ExperimentDto.fromExperiment);
   }
 
   @Post("env/:envId/dataset")

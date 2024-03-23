@@ -1,10 +1,11 @@
+import { User } from "@clerk/remix/api.server";
 import { FullProjectDto } from "@montelo/browser-client";
 import { Link, useLocation, useParams } from "@remix-run/react";
 import { BookOpen, Database, FlaskConical, GanttChart, HelpCircle, LayoutDashboard } from "lucide-react";
 import { ComponentProps, FC } from "react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip";
 import { Routes } from "~/routes";
 import { ApiKeysDialog } from "./ApiKeysDialog";
+import { ProfileDropdown } from "./ProfileDropdown";
 
 type ClassName = ComponentProps<"div">["className"];
 
@@ -21,92 +22,82 @@ const SidebarItems: LinkItem[] = [
   {
     name: "Dashboard",
     href: Routes.app.project.env.dashboard,
-    icon: ({ className }) => <LayoutDashboard size={20} className={className} />,
+    icon: ({ className }) => <LayoutDashboard className={className} />,
   },
   {
     name: "Traces",
     href: Routes.app.project.env.traces,
-    icon: ({ className }) => <GanttChart size={20} className={className} />,
+    icon: ({ className }) => <GanttChart className={className} />,
   },
   {
     name: "Datasets",
     href: Routes.app.project.env.datasets,
-    icon: ({ className }) => <Database size={20} className={className} />,
+    icon: ({ className }) => <Database className={className} />,
   },
   {
     name: "Experiments",
     href: Routes.app.project.env.experiments,
-    icon: ({ className }) => <FlaskConical size={20} className={className} />,
+    icon: ({ className }) => <FlaskConical className={className} />,
   },
 ];
 
-type SidebarProps = {
-  project: FullProjectDto;
+type SidebarLinkProps = {
+  name: string;
+  href: (params: any) => string;
+  Icon: FC<{ className: ClassName }>;
+  params: any;
 };
-
-export const Sidebar: FC<SidebarProps> = ({ project }) => {
+const SidebarLink = ({ name, href, Icon, params }: SidebarLinkProps) => {
   const { pathname } = useLocation();
-  const params = useParams();
-  const envId = params.envId!;
+  const isActive = pathname.startsWith(href(params));
 
-  const SidebarItemsComponent = () =>
-    SidebarItems.map((item) => {
-      const params = {
-        envId,
-        projectId: project.id,
-      };
-
-      const isActive = pathname.startsWith(item.href(params));
-      return (
-        <li key={item.name} className={`${isActive ? "bg-muted/50" : ""} hover:bg-muted/50 group rounded`}>
-          <Link to={item.href(params)} prefetch={"intent"} className={"flex items-center py-1"}>
-            <div className={"flex w-8 justify-center"}>
-              {<item.icon className={"group-hover:text-foreground text-muted-foreground"} />}
-            </div>
-            <span className="text-muted-foreground ml-1 whitespace-nowrap">{item.name}</span>
-          </Link>
-        </li>
-      );
-    });
+  const activeWrapperStyle = isActive ? "bg-muted font-medium" : "hover:bg-muted dark:hover:bg-[#151218]";
+  const activeIconStyle = isActive ? "text-[#7f32b0]" : "text-muted-foreground";
+  const activeSpanStyle = isActive ? "text-[#7f32b0]" : "text-muted-foreground";
 
   return (
-    <aside className="h-100vh fixed bottom-0 left-0 top-0 flex w-48 flex-col justify-between pt-[80px]">
-      <div className="pb-4 pl-4 pr-4">
-        <ul className="flex flex-col gap-1 space-y-1">
-          <SidebarItemsComponent />
-          <ApiKeysDialog projectId={project.id} />
-        </ul>
+    <Link
+      to={href(params)}
+      prefetch={"intent"}
+      className={`flex items-center rounded-xl px-2.5 py-2 ${activeWrapperStyle}`}
+    >
+      <div className={"flex w-8 justify-center"}>
+        <Icon className={`h-4 w-4 ${activeIconStyle}`} />
       </div>
-      <div className="flex flex-row justify-between p-4">
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className={"hover:bg-muted/50 group rounded"}>
-                <Link to={Routes.external.discord} target={"_blank"}>
-                  <HelpCircle size={20} className={"group-hover:text-foreground text-muted-foreground"} />
-                </Link>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Help & Support</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+      <span className={`ml-1.5 whitespace-nowrap text-sm ${activeSpanStyle}`}>{name}</span>
+    </Link>
+  );
+};
 
-        <TooltipProvider delayDuration={0}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className={"hover:bg-muted/50 group rounded"}>
-                <Link to={Routes.external.documentation} target={"_blank"}>
-                  <BookOpen size={20} className={"group-hover:text-foreground text-muted-foreground"} />
-                </Link>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Documentation</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+type SidebarProps = {
+  project: FullProjectDto;
+  user: User;
+};
+export const Sidebar: FC<SidebarProps> = ({ project, user }) => {
+  const { envId } = useParams();
+  const params = { envId, projectId: project.id };
+
+  const SidebarLinks = () =>
+    SidebarItems.map((item) => (
+      <SidebarLink key={item.name} name={item.name} href={item.href} Icon={item.icon} params={params} />
+    ));
+
+  return (
+    <aside className="flex h-full flex-col justify-between">
+      <ul className="flex flex-col gap-1">
+        <SidebarLinks />
+        <ApiKeysDialog projectId={project.id} />
+      </ul>
+
+      <div className="flex flex-col gap-1 pb-2">
+        <SidebarLink name={"Support"} href={() => Routes.external.discord} Icon={HelpCircle} params={params} />
+        <SidebarLink
+          name={"Documentation"}
+          href={() => Routes.external.documentation}
+          Icon={BookOpen}
+          params={params}
+        />
+        <ProfileDropdown user={user} />
       </div>
     </aside>
   );

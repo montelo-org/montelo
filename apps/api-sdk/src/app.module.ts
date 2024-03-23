@@ -4,10 +4,12 @@ import { Module } from "@nestjs/common";
 import { LoggerModule } from "nestjs-pino";
 import { AuthModule } from "./auth/auth.module";
 import { DatapointModule } from "./datapoint/datapoint.module";
+import { DatapointRunModule } from "./datapointRun/datapointRun.module";
 import { DatasetModule } from "./dataset/dataset.module";
 import { ExperimentModule } from "./experiment/experiment.module";
 import { HealthModule } from "./health/health.module";
 import { LogsModule } from "./logs/logs.module";
+
 
 @Module({
   imports: [
@@ -34,6 +36,7 @@ import { LogsModule } from "./logs/logs.module";
     DatasetModule,
     DatapointModule,
     ExperimentModule,
+    DatapointRunModule,
   ],
 })
 export class AppModule {}

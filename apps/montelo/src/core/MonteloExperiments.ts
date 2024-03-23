@@ -18,33 +18,55 @@ export class MonteloExperiments {
     const { experimentId, runner } = params;
 
     try {
-      process.env.MONTELO_EXPERIMENT_ID = experimentId;
+      const options = {
+        take: 100,
+        skip: 0,
+      };
 
-      // TODO: this should be paginated
-      const experiment = await this.monteloClient.getDatapointsByExperimentId(experimentId);
-      if (!experiment) {
-        console.error("No experiment found, skipping...");
-        return;
-      }
-
-      const datapoints = experiment.dataset.datapoints;
-      for (const datapoint of datapoints) {
-        try {
-          const output = await runner(datapoint.input);
-          await this.monteloClient.createRun({
-            experimentId,
-            input: datapoint.input,
-            output,
-          });
-        } catch (e: any) {
-          console.error(`Error running datapoint ${datapoint.id}: `, e.toString());
-          await this.monteloClient.createRun({
-            experimentId,
-            input: datapoint.input,
-            output: { error: e.toString() },
-          });
+      let hasMoreDatapoints = true;
+      let datapointsProcessed = 0;
+      while (hasMoreDatapoints) {
+        const response = await this.monteloClient.getDatapointsByExperimentId(experimentId, options);
+        if (!response) {
+          console.error("No experiment found, returning...");
+          return;
         }
+        const { experiment, totalDatapoints } = response;
+
+        const datapoints = experiment.dataset.datapoints;
+        for (const datapoint of datapoints) {
+          try {
+            const percent = Math.floor((datapointsProcessed / totalDatapoints) * 100);
+            console.log(`Running datapoint ${datapoint.id}\tProgress ${datapointsProcessed + 1}/${totalDatapoints}\t${percent}%`);
+            const datapointRunObj = await this.monteloClient.createDatapointRun({
+              datapointId: datapoint.id,
+              experimentId,
+            });
+            if (!datapointRunObj) {
+              throw new Error("Error creating datapoint run");
+            }
+
+            process.env.MONTELO_DATAPOINT_RUN_ID = datapointRunObj.id;
+            const output = await runner(datapoint.input);
+
+            await this.monteloClient.updateDatapointRun({
+              datapointRunId: datapointRunObj.id,
+              output,
+            });
+
+            datapointsProcessed++;
+          } catch (e: any) {
+            console.error(`Error running datapoint ${datapoint.id}: `, e.toString());
+            // TODO should still add to db
+          }
+        }
+
+        options.skip += options.take;
+        hasMoreDatapoints = options.skip < totalDatapoints;
       }
+
+      // TODO add link here to the experiment page!
+      console.log("Experiment completed successfully!");
     } catch (e: any) {
       console.error("Error running experiment: ", e.toString());
     } finally {
@@ -59,7 +81,7 @@ export class MonteloExperiments {
       dataset: params.dataset,
     });
     if (!createdExperiment.id) {
-      console.error("No experiment created, skipping run");
+      console.error("Error creating experiment, returning...");
       return;
     }
 

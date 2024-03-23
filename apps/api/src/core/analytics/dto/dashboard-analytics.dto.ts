@@ -43,4 +43,7 @@ export class DashboardAnalyticsDto {
 
   @ApiProperty({ type: ChangesDto })
   changes: ChangesDto;
+
+  @ApiProperty()
+  experimentCount: number;
 }

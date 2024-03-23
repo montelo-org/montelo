@@ -28,4 +28,5 @@ export type DashboardAnalytics = {
     latency: string;
     traces: string;
   };
+  experimentCount: number;
 };

@@ -8,7 +8,7 @@ export type CreateDatapointInput = {
    */
   input: Record<string, any>;
   /**
-   * The output data for the datapoint
+   * The expected output data for the datapoint
    */
-  output: Record<string, any>;
+  expectedOutput: Record<string, any>;
 };

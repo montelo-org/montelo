@@ -21,25 +21,25 @@ import { Routes } from "~/routes";
 import { idShortener } from "../utils/idShortener";
 
 export const COLUMNS: ColumnDef<LogDto>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: "startTime",
     header: "Timestamp",
@@ -103,7 +103,7 @@ export const COLUMNS: ColumnDef<LogDto>[] = [
                     logId,
                   })}
                 >
-                  <Badge>
+                  <Badge variant={"white"}>
                     {short}
                     {name ? ` —  ${name}` : ""}
                     {name?.length !== row.original.name?.length && "..."}
@@ -203,7 +203,7 @@ export const COLUMNS: ColumnDef<LogDto>[] = [
               <Eye size={16} /> Quick View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className={"gap-2 text-red-600"} onClick={handleDelete}>
+            <DropdownMenuItem className={"gap-2 text-destructive"} onClick={handleDelete}>
               <Trash size={16} /> Delete Trace
             </DropdownMenuItem>
           </DropdownMenuContent>

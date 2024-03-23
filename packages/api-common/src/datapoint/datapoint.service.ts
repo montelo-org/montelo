@@ -26,8 +26,8 @@ export class DatapointService {
   async addToDatasetById(datasetId: string, params: AddToDatasetParams): Promise<Datapoint> {
     return this.db.datapoint.create({
       data: {
-        datasetId,
         ...params,
+        datasetId,
       },
     });
   }

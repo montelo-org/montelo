@@ -12,7 +12,7 @@ type ChildrenPropsWithClassName = {
 
 export const AnalyticsContainer: FC<ChildrenPropsWithClassName> = ({ className, children }) => {
   return (
-    <div className={`bg-secondary dark:bg-secondary/25 flex w-full divide-x rounded-xl border ${className || ""}`}>
+    <div className={`bg-secondary dark:bg-secondary flex w-full divide-x rounded-xl border ${className || ""}`}>
       {children}
     </div>
   );

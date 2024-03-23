@@ -22,6 +22,14 @@ const PATH_APP = {
       datasets: (params: EnvParams) => buildEnvPath(params)("datasets"),
       datasetsId: (params: EnvParams & { datasetId: string }) => buildEnvPath(params)(`datasets/${params.datasetId}`),
       experiments: (params: EnvParams) => buildEnvPath(params)("experiments"),
+      experimentsId: (params: EnvParams & { experimentId: string }) =>
+        buildEnvPath(params)(`experiments/${params.experimentId}`),
+      datapointRunId: (
+        params: EnvParams & {
+          experimentId: string;
+          datapointRunId: string;
+        },
+      ) => buildEnvPath(params)(`experiments/${params.experimentId}/datapoint-run/${params.datapointRunId}`),
     },
   },
 };

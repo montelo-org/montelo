@@ -3,6 +3,7 @@ import {
   ApiKeyApi,
   Configuration,
   DatapointApi,
+  DatapointRunApi,
   DatasetApi,
   EnvironmentApi,
   ExperimentApi,
@@ -12,10 +13,12 @@ import {
   TraceApi,
 } from "@montelo/browser-client";
 
+
 export class Api {
   public readonly analytics: AnalyticsApi;
   public readonly apiKey: ApiKeyApi;
   public readonly datapoint: DatapointApi;
+  public readonly datapointRun: DatapointRunApi;
   public readonly dataset: DatasetApi;
   public readonly environment: EnvironmentApi;
   public readonly experiment: ExperimentApi;
@@ -28,6 +31,7 @@ export class Api {
     this.analytics = new AnalyticsApi(configuration);
     this.apiKey = new ApiKeyApi(configuration);
     this.datapoint = new DatapointApi(configuration);
+    this.datapointRun = new DatapointRunApi(configuration);
     this.dataset = new DatasetApi(configuration);
     this.environment = new EnvironmentApi(configuration);
     this.experiment = new ExperimentApi(configuration);

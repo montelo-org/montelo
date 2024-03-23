@@ -1,30 +1,19 @@
 import type { DatapointDto } from "@montelo/browser-client";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useFetcher, useParams } from "@remix-run/react";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import { Trash } from "lucide-react";
+import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import { CircleDotDashed, Trash } from "lucide-react";
 import * as React from "react";
 import { FC } from "react";
 import Pagination from "~/components/pagination";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
+import { PageDocLink } from "~/pages/layouts/PageDocLink";
 import { idShortener } from "~/pages/traces/utils";
 import { Routes } from "~/routes";
+
 
 export const columns: ColumnDef<DatapointDto>[] = [
   {
@@ -52,10 +41,10 @@ export const columns: ColumnDef<DatapointDto>[] = [
     },
   },
   {
-    accessorKey: "output",
-    header: "Output",
+    accessorKey: "expectedOutput",
+    header: "Expected Output",
     cell: ({ row }) => {
-      const val = row.getValue("output") as object;
+      const val = row.getValue("expectedOutput") as object;
       const stringified = JSON.stringify(val);
       const short = stringified.slice(0, 100);
       return <div>{short.length === stringified.length ? short : `${short}...`}</div>;
@@ -87,7 +76,7 @@ export const columns: ColumnDef<DatapointDto>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem className={"gap-2 text-red-600"} onClick={handleDeleteDatapoint}>
+            <DropdownMenuItem className={"text-destructive gap-2"} onClick={handleDeleteDatapoint}>
               <Trash size={16} /> Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -101,9 +90,10 @@ type DatapointsTableProps = {
   datapoints: DatapointDto[];
   currentPage: number;
   totalPages: number;
+  totalCount: number;
 };
 
-export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentPage, totalPages }) => {
+export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentPage, totalPages, totalCount }) => {
   const table = useReactTable({
     data: datapoints,
     columns,
@@ -116,7 +106,22 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
 
   return (
     <div className="w-full">
-      <div className="rounded-md border">
+      <p className={"text-xl font-semibold flex gap-2 items-center"}>
+        <CircleDotDashed size={20} />
+        Datapoints
+      </p>
+      <p className={"text-muted-foreground mb-4"}>
+        Each datapoint is a single input and expected output pair.{" "}
+        <PageDocLink to={Routes.external.documentation}>Datapoints Docs.</PageDocLink>
+      </p>
+
+      <div className="flex items-center justify-end mb-2">
+        <div className="space-x-2">
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
+      </div>
+
+      <div className="mb-2 rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -143,21 +148,16 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  No data points.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
-          selected.
-        </div>
-        <div className="space-x-2">
-          <Pagination currentPage={currentPage} totalPages={totalPages} />
-        </div>
+
+      <div className="text-muted-foreground flex flex-1 justify-end text-sm">
+        {table.getFilteredRowModel().rows.length} datapoints.
       </div>
     </div>
   );

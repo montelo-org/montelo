@@ -72,8 +72,8 @@ export const ProjectCard: FC<HomePageCardProps> = ({ project }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-36">
-              <DropdownMenuItem className={"text-red-600"} onClick={() => setIsDialogOpen(true)}>
-                <Delete size={16} className={"text-red-600"} />
+              <DropdownMenuItem className={"text-destructive"} onClick={() => setIsDialogOpen(true)}>
+                <Delete size={16} className={"text-destructive"} />
                 &nbsp; Delete
               </DropdownMenuItem>
             </DropdownMenuContent>

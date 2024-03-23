@@ -8,7 +8,7 @@ export default function RootRoute() {
   const isDarkMode = theme === Theme.DARK;
 
   return (
-    <div className={"flex w-full justify-center"}>
+    <div className={"flex w-full h-full justify-center"}>
       <OrganizationList
         hidePersonal={true}
         afterCreateOrganizationUrl={() => Routes.app.project.all}
