@@ -41,7 +41,7 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
   };
 
   return (
-    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle} action={action}>
+    <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
       <TraceIdContent trace={trace} />
     </PageLayout>
   );
