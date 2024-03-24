@@ -31,7 +31,7 @@ export const TraceIdPage = ({ trace }: TraceIdProps) => {
   const subtitle = () => {
     return (
       <PageSubtitle>
-        A single trace can group LLM API calls, vector db calls, and anything else. <PageDocLink to={Routes.external.documentation}>Trace Docs.</PageDocLink>
+        A single trace can group LLM API calls, vector db calls, and anything else. <PageDocLink to={Routes.external.docs.traces}>Trace Docs.</PageDocLink>
       </PageSubtitle>
     );
   };

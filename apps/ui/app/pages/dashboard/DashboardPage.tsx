@@ -105,9 +105,9 @@ export const DashboardPage: FC = () => {
           </AnalyticsCard>
         </div>
 
-        <div className={"mt-8 grid grid-cols-5 gap-8"}>
+        <div className={"mt-8 grid grid-cols-2 gap-8"}>
           {/*Recent Logs Section*/}
-          <div className="col-span-2">
+          <div>
             <h1 className={"mb-4 text-2xl font-medium"}>Recent Logs</h1>
             {logs.length ? (
               <ScrollArea className="h-[32rem] rounded-lg border" type={"scroll"}>
@@ -115,7 +115,7 @@ export const DashboardPage: FC = () => {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Timestamp</TableHead>
-                      <TableHead className={"min-w-28"}>Trace / Log </TableHead>
+                      <TableHead className={"min-w-32"}>Trace / Log </TableHead>
                       <TableHead>Log Name</TableHead>
                       <TableHead>Latency</TableHead>
                       <TableHead>Cost</TableHead>
@@ -134,7 +134,7 @@ export const DashboardPage: FC = () => {
           </div>
 
           {/*Cost History Section*/}
-          <div className="col-span-3 h-[32rem]">
+          <div className=" h-[32rem]">
             <h1 className={"mb-4 text-2xl font-medium"}>Cost History</h1>
 
             <Suspense

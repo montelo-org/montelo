@@ -57,7 +57,7 @@ export const RecentExperimentsTable: FC<{ experiments: ExperimentDto[] }> = ({ e
       </p>
       <p className={"text-muted-foreground mb-4"}>
         Recent experiments ran against this dataset.{" "}
-        <PageDocLink to={Routes.external.documentation}>Experiments Docs.</PageDocLink>
+        <PageDocLink to={Routes.external.docs.experiments}>Experiments Docs.</PageDocLink>
       </p>
       <div className="rounded-md border">
         <ExperimentsTable experiments={experiments} />

@@ -112,7 +112,7 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
       </p>
       <p className={"text-muted-foreground mb-4"}>
         Each datapoint is a single input and expected output pair.{" "}
-        <PageDocLink to={Routes.external.documentation}>Datapoints Docs.</PageDocLink>
+        <PageDocLink to={Routes.external.docs.datapoints}>Datapoints Docs.</PageDocLink>
       </p>
 
       <div className="flex items-center justify-end mb-2">

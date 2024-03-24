@@ -44,7 +44,7 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
     return (
       <PageSubtitle>
         Run experiments from your codebase to validate your system.{" "}
-        <PageDocLink to={Routes.external.documentation}>Experiments Docs.</PageDocLink>
+        <PageDocLink to={Routes.external.docs.experiments}>Experiments Docs.</PageDocLink>
       </PageSubtitle>
     );
   };
@@ -103,7 +103,7 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
         <p className={"text-xl font-semibold"}>Runs</p>
         <p className={"text-muted-foreground mb-4"}>
           Each run is a datapoint from the dataset that was executed in this experiment.{" "}
-          <PageDocLink to={Routes.external.documentation}>Run Docs.</PageDocLink>
+          <PageDocLink to={Routes.external.docs.runs}>Run Docs.</PageDocLink>
         </p>
         <DatapointRunsTable
           datapointRuns={experiment.datapointRuns}

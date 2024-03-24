@@ -7,7 +7,6 @@ import { LayoutBreadcrumb } from "~/pages/layouts/types";
 import { TraceIdContent } from "~/pages/traces/TraceIdContent";
 import { Routes } from "~/routes";
 import { PageLayout } from "../layouts/PageLayout";
-import { idShortener } from "~/pages/traces/utils";
 
 type DatasetRunIdPageProps = {
   trace: TraceWithLogsDto | null;
@@ -16,8 +15,6 @@ type DatasetRunIdPageProps = {
 
 export const DatasetRunIdPage: FC<DatasetRunIdPageProps> = ({ trace, datapointRun }) => {
   const params = useParams();
-
-  const { short } = idShortener(datapointRun?.id || "");
 
   const breadcrumbs: LayoutBreadcrumb[] = [
     {
@@ -36,7 +33,7 @@ export const DatasetRunIdPage: FC<DatasetRunIdPageProps> = ({ trace, datapointRu
       }),
     },
     {
-      label: `Run ${short}`,
+      label: "Run",
     },
   ];
 
@@ -44,7 +41,7 @@ export const DatasetRunIdPage: FC<DatasetRunIdPageProps> = ({ trace, datapointRu
     return (
       <PageSubtitle>
         Each run generates a trace to help you debug.{" "}
-        <PageDocLink to={Routes.external.documentation}>Run Docs.</PageDocLink>
+        <PageDocLink to={Routes.external.docs.runs}>Run Docs.</PageDocLink>
       </PageSubtitle>
     );
   };

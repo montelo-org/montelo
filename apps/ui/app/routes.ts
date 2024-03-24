@@ -75,6 +75,13 @@ const PATH_ACTIONS = {
 // external pages
 const PATH_EXTERNAL = {
   documentation: "https://docs.montelo.ai",
+  docs: {
+    traces: "https://docs.montelo.ai/traces/traces",
+    datasets: "https://docs.montelo.ai/datasets/datasets",
+    datapoints: "https://docs.montelo.ai/datapoints/datapoints",
+    experiments: "https://docs.montelo.ai/experiments/experiments",
+    runs: "https://docs.montelo.ai/runs/runs",
+  },
   discord: "https://discord.gg/ZBjGgJkF",
 };
 

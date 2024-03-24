@@ -19,7 +19,7 @@ export const DatasetsPage: FC<{ datasets: DatasetDto[] }> = ({ datasets }) => {
     return (
       <PageSubtitle>
         Create datasets to validate your pipelines.{" "}
-        <PageDocLink to={Routes.external.documentation}>Datasets Docs.</PageDocLink>
+        <PageDocLink to={Routes.external.docs.datasets}>Datasets Docs.</PageDocLink>
       </PageSubtitle>
     );
   };

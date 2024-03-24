@@ -114,7 +114,7 @@ export function TracesPage({ logs, currentPage, totalPages }: TracesPageProps) {
     return (
       <PageSubtitle>
         Traces group several logs under a single entity.{" "}
-        <PageDocLink to={Routes.external.documentation}>Trace Docs.</PageDocLink>
+        <PageDocLink to={Routes.external.docs.traces}>Trace Docs.</PageDocLink>
       </PageSubtitle>
     );
   };

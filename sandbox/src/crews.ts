@@ -5,10 +5,7 @@ import { Montelo } from "montelo";
 dotenv.config();
 
 const main = async () => {
-  const monteloClient = new Montelo({
-    montelo: { apiKey: process.env.MONTELO_API_KEY },
-    openai: { apiKey: process.env.OPENAI_API_KEY },
-  });
+  const monteloClient = new Montelo();
   const model = new Model({ monteloClient, modelName: "gpt-3.5-turbo" });
 
   const researcher = new Agent({
@@ -50,4 +47,4 @@ const main = async () => {
   });
 };
 
-main();
+void main();

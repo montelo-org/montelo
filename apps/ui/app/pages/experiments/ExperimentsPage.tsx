@@ -25,7 +25,7 @@ export const ExperimentsPage: FC<ExperimentsPageProps> = ({ experiments, totalCo
     return (
       <PageSubtitle>
         Run experiments from your codebase to validate your system.{" "}
-        <PageDocLink to={Routes.external.documentation}>Experiments Docs.</PageDocLink>
+        <PageDocLink to={Routes.external.docs.experiments}>Experiments Docs.</PageDocLink>
       </PageSubtitle>
     );
   };

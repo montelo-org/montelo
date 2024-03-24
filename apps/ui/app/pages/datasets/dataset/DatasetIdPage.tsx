@@ -39,7 +39,7 @@ export const DatasetIdPage: FC<DatasetIdPageProps> = ({ dataset, currentPage, to
     return (
       <PageSubtitle>
         Datasets consist of datapoints that adhere to an input/expected output schema.{" "}
-        <PageDocLink to={Routes.external.documentation}>Datasets Docs.</PageDocLink>
+        <PageDocLink to={Routes.external.docs.datasets}>Datasets Docs.</PageDocLink>
       </PageSubtitle>
     );
   };
