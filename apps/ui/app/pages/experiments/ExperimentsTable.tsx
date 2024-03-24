@@ -1,7 +1,7 @@
 import { ExperimentDto } from "@montelo/browser-client";
 import { FC } from "react";
 import Pagination from "~/components/pagination";
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "~/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { ExperimentCell } from "~/pages/experiments/ExperimentCell";
 
 type ExperimentsTableProps = {
@@ -35,9 +35,15 @@ export const ExperimentsTable: FC<ExperimentsTableProps> = ({ experiments, curre
           </TableRow>
         </TableHeader>
         <TableBody>
-          {experiments.map((experiment) => (
-            <ExperimentCell key={experiment.id} experiment={experiment} />
-          ))}
+          {experiments.length ? (
+            experiments.map((experiment) => <ExperimentCell key={experiment.id} experiment={experiment} />)
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4} className="h-24 text-center">
+                No experiments.
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </div>

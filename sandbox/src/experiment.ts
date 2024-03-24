@@ -40,24 +40,24 @@ const localDataset: Array<{ input: DInput; output: DOutput }> = [
 ];
 
 const main = async () => {
-  // const dataset = await montelo.datasets.createProject({
-  //   name: "Topic Datasets v2",
-  //   description: "Datasets for AI articles v2.",
-  //   inputSchema: {
-  //     topic: "string",
-  //   },
-  //   outputSchema: {
-  //     article: "string",
-  //   },
-  // });
-  //
-  // for (const { input, output } of [...localDataset, ...localDataset, ...localDataset]) {
-  //   await montelo.datapoints.createProject({
-  //     dataset: dataset.slug,
-  //     input,
-  //     expectedOutput: output,
-  //   });
-  // }
+  const dataset = await montelo.datasets.create({
+    name: "Topic Datasets v2",
+    description: "Datasets for AI articles v2.",
+    inputSchema: {
+      topic: "string",
+    },
+    outputSchema: {
+      article: "string",
+    },
+  });
+
+  for (const { input, output } of [...localDataset, ...localDataset, ...localDataset]) {
+    await montelo.datapoints.create({
+      dataset: dataset.slug,
+      input,
+      expectedOutput: output,
+    });
+  }
 
   await montelo.experiments.createAndRun({
     name: "AI Articles w/ Anthropic",
