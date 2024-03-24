@@ -52,8 +52,8 @@ const SidebarLink = ({ name, href, Icon, params }: SidebarLinkProps) => {
   const isActive = pathname.startsWith(href(params));
 
   const activeWrapperStyle = isActive ? "bg-muted font-medium" : "hover:bg-muted dark:hover:bg-[#151218]";
-  const activeIconStyle = isActive ? "text-[#7f32b0]" : "text-muted-foreground";
-  const activeSpanStyle = isActive ? "text-[#7f32b0]" : "text-muted-foreground";
+  const activeIconStyle = isActive ? "text-primary" : "text-muted-foreground";
+  const activeSpanStyle = isActive ? "text-primary" : "text-muted-foreground";
 
   return (
     <Link
