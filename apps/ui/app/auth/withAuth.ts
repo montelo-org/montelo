@@ -26,6 +26,7 @@ export const withAuth = (func: AuthenticatedFunction): LoaderFunction | ActionFu
 
     const orgId = auth.orgId;
     if (!orgId) {
+      console.log("No orgId found in session.")
       return redirect(Routes.app.root);
     }
 

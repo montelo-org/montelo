@@ -9,7 +9,7 @@ import { envSchema } from "./env";
 
 async function bootstrap() {
   const env = envSchema.parse(process.env);
-  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const app = await NestFactory.create(AppModule, { bufferLogs: true, rawBody: true });
   app.useLogger(app.get(PinoLogger));
   const logger = new Logger("App");
 

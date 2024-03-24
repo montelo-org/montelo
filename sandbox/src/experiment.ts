@@ -40,7 +40,7 @@ const localDataset: Array<{ input: DInput; output: DOutput }> = [
 ];
 
 const main = async () => {
-  // const dataset = await montelo.datasets.create({
+  // const dataset = await montelo.datasets.createProject({
   //   name: "Topic Datasets v2",
   //   description: "Datasets for AI articles v2.",
   //   inputSchema: {
@@ -52,7 +52,7 @@ const main = async () => {
   // });
   //
   // for (const { input, output } of [...localDataset, ...localDataset, ...localDataset]) {
-  //   await montelo.datapoints.create({
+  //   await montelo.datapoints.createProject({
   //     dataset: dataset.slug,
   //     input,
   //     expectedOutput: output,

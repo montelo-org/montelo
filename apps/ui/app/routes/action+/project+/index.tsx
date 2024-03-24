@@ -4,7 +4,7 @@ import _ from "lodash";
 import { withAuth } from "~/auth/withAuth";
 
 export const action: ActionFunction = withAuth(async ({ api, request }) => {
-  // create project
+  // createProject project
   if (request.method === "POST") {
     const formData = await request.formData();
     const name = formData.get("name")!.toString();

@@ -5,6 +5,7 @@ export const envSchema = z.object({
   PORT: z.coerce.number(),
   DATABASE_URL: z.string(),
   CLERK_SECRET_KEY: z.string(),
+  CLERK_WEBHOOK_SECRET: z.string(),
 });
 
 export type Env = z.infer<typeof envSchema>;

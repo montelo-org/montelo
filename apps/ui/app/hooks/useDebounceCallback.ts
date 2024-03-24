@@ -51,7 +51,7 @@ export interface DebouncedState<T extends (...args: any) => ReturnType<T>> exten
 }
 
 /**
- * Hook to create a debounced version of a callback function.
+ * Hook to createProject a debounced version of a callback function.
  * @template T - Type of the original callback function.
  * @param {T} func - The callback function to be debounced.
  * @param {number} delay - The delay in milliseconds before the callback is invoked (default is `500` milliseconds).

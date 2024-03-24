@@ -64,7 +64,7 @@ export const Header: FC<HeaderProps> = ({ org, orgMemberships, closeSidebar }) =
                     if (!isLoaded) {
                       return;
                     }
-                    const beforeEmit = () => navigate(Routes.app.project.all);
+                    const beforeEmit = () => navigate(Routes.app.root);
                     setActive({ organization: membership.organization.id, beforeEmit });
                   };
 
@@ -108,7 +108,7 @@ export const Header: FC<HeaderProps> = ({ org, orgMemberships, closeSidebar }) =
           </DropdownMenu>
           <DialogContent>
             <CreateOrganization
-              afterCreateOrganizationUrl={Routes.app.project.all}
+              afterCreateOrganizationUrl={Routes.app.root}
               appearance={{
                 baseTheme: dark,
               }}

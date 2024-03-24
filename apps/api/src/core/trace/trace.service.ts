@@ -30,4 +30,19 @@ export class TraceService {
       },
     });
   }
+
+  // async createDefaultTrace() {
+  //   await this.db.trace.create({
+  //     data: {
+  //       logs: {
+  //         createMany: [
+  //           {
+  //
+  //           }
+  //         ]
+  //       },
+  //
+  //     },
+  //   });
+  // }
 }

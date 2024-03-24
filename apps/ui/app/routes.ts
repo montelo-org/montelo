@@ -13,7 +13,6 @@ const PATH_APP = {
   org: path(ROOT_APP, "/org"),
   account: path(ROOT_APP, "/account"),
   project: {
-    all: path(ROOT_APP, "/project"),
     env: {
       dashboard: (params: EnvParams) => buildEnvPath(params)("dashboard"),
       traces: (params: EnvParams) => buildEnvPath(params)("traces"),

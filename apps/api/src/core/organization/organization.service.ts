@@ -1,11 +1,12 @@
 import { DatabaseService } from "@montelo/api-common";
-import { Project } from "@montelo/db";
+import { Environment, Project } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
-import { capitalize } from "lodash";
+import { upperFirst } from "lodash";
 import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "../environment/environment.enums";
 import { FullProject } from "../project/project.types";
 import { CreateProjectInput } from "./organization.types";
+
 
 @Injectable()
 export class OrganizationService {
@@ -25,7 +26,7 @@ export class OrganizationService {
     });
   }
 
-  async create(orgId: string, params: CreateProjectInput): Promise<Project> {
+  async createProject(orgId: string, params: CreateProjectInput): Promise<{ project: Project; environments: Environment[] }> {
     const EnvironmentNames: string[] = Object.values(Environments);
     const isRestrictedEnvironmentUsed = params.envNames.some((el) => EnvironmentNames.includes(el));
     if (isRestrictedEnvironmentUsed) {
@@ -45,7 +46,7 @@ export class OrganizationService {
 
     const createdProject = await this.db.project.create({
       data: {
-        name: capitalize(params.name),
+        name: upperFirst(params.name),
         orgId,
       },
     });
@@ -73,7 +74,7 @@ export class OrganizationService {
     const envCreatePromises = allEnvs.map(createEnvironment);
     const dbEnvs = await Promise.all(envCreatePromises);
 
-    return this.db.project.update({
+    const updatedProject = await this.db.project.update({
       where: {
         id: createdProject.id,
       },
@@ -85,5 +86,7 @@ export class OrganizationService {
         },
       },
     });
+
+    return { project: updatedProject, environments: dbEnvs };
   }
 }

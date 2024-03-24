@@ -14,6 +14,7 @@ import { ProjectModule } from "./core/project/project.module";
 import { TraceModule } from "./core/trace/trace.module";
 import { EnvModule, envSchema } from "./env";
 import { HealthModule } from "./health/health.module";
+import { WebhookModule } from "./core/webhook/webhook.module";
 
 
 @Module({
@@ -26,6 +27,7 @@ import { HealthModule } from "./health/health.module";
     }),
     EnvModule,
     HealthModule,
+    WebhookModule,
     OrganizationModule,
     ProjectModule,
     EnvironmentModule,

@@ -95,7 +95,7 @@ export class LogsService {
           create: baseCreateTrace,
         };
 
-    // define the LOG create
+    // define the LOG createProject
     const logWithoutTokens = omit(log, "tokens");
     const logCreateInput: Prisma.LogCreateInput = {
       ...logWithoutTokens,
@@ -118,7 +118,7 @@ export class LogsService {
     });
     this.logger.debug(`Created log with id ${createdLog.id}`);
 
-    // update the trace metrics after we create the log
+    // update the trace metrics after we createProject the log
     await this.db.trace.update({
       where: {
         id: createdLog.traceId,

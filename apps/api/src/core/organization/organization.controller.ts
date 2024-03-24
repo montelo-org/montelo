@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ClerkAuthGuard } from "src/common/guards/auth.guard";
 import { GetAuth, GetAuthT } from "../../common/decorators/GetAuth.decorator";
@@ -6,6 +6,7 @@ import { FullProjectDto } from "../project/dto/full-project.dto";
 import { ProjectDto } from "../project/dto/project.dto";
 import { CreateProjectInput } from "./dto/create-project.input";
 import { OrganizationService } from "./organization.service";
+
 
 @ApiTags("Organization")
 @ApiBearerAuth()
@@ -16,13 +17,16 @@ export class OrganizationController {
 
   @Get()
   async getProjectsForOrg(@GetAuth() auth: GetAuthT): Promise<FullProjectDto[]> {
-    const fullProjects = await this.organizationService.findAllForOrg(auth.orgId || "");
+    if (!auth.orgId) {
+      throw new UnauthorizedException();
+    }
+    const fullProjects = await this.organizationService.findAllForOrg(auth.orgId);
     return fullProjects.map(FullProjectDto.fromFullProject);
   }
 
   @Post()
   async createProject(@GetAuth() auth: GetAuthT, @Body() createProjectInput: CreateProjectInput): Promise<ProjectDto> {
-    const project = await this.organizationService.create(auth.orgId, createProjectInput);
+    const { project } = await this.organizationService.createProject(auth.orgId, createProjectInput);
     return ProjectDto.fromProject(project);
   }
 }

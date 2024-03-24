@@ -2,7 +2,7 @@ import { User } from "@clerk/remix/api.server";
 import { getAuth } from "@clerk/remix/ssr.server";
 import { Configuration } from "@montelo/browser-client";
 import { LoaderFunction, json, redirect } from "@remix-run/node";
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Outlet, unstable_useViewTransitionState, useLoaderData, useParams } from "@remix-run/react";
 import { PanelRightClose } from "lucide-react";
 import { useState } from "react";
 import { Api } from "~/api";
@@ -71,26 +71,32 @@ export default function DashboardLayout() {
 
   const userAsUser = user as User;
 
-  return (
-    <div className="flex h-full gap-5">
-      <div
-        className={`fixed bottom-0 overflow-hidden transition-all ${isSidebarOpen ? "left-0" : "left-[-220px]"} top-0 box-border flex w-[220px] flex-col gap-4 rounded border-r-2 px-2 pt-4`}
-      >
-        <Header orgMemberships={orgMemberships} org={org} closeSidebar={() => setIsSidebarOpen(false)} />
-        <Sidebar project={project} user={userAsUser} />
-      </div>
+  const { projectId, envId } = useParams();
+  const to = `/app/project/${projectId}/env/${envId}/dashboard`;
+  const isViewTransition = unstable_useViewTransitionState(to);
 
-      <main className={`${isSidebarOpen ? "ml-[230px]" : ""} flex flex-1 flex-col gap-1 transition-all`}>
-        <div className="flex gap-2">
-          {!isSidebarOpen && (
-            <button className="opacity-40 hover:opacity-70" onClick={() => setIsSidebarOpen(true)}>
-              <PanelRightClose size={18} />
-            </button>
-          )}
-          <PageBreadcrumb project={project} allProjects={allProjects} environment={environment} />
+  return (
+    <div className={`${isViewTransition ? "transition-opacity duration-1000 ease-in-out" : ""}`}>
+      <div className="flex h-full gap-5">
+        <div
+          className={`fixed bottom-0 overflow-hidden transition-all ${isSidebarOpen ? "left-0" : "left-[-220px]"} top-0 box-border flex w-[220px] flex-col gap-4 rounded border-r-2 px-2 pt-4`}
+        >
+          <Header orgMemberships={orgMemberships} org={org} closeSidebar={() => setIsSidebarOpen(false)} />
+          <Sidebar project={project} user={userAsUser} />
         </div>
-        <Outlet />
-      </main>
+
+        <main className={`${isSidebarOpen ? "ml-[230px]" : ""} flex flex-1 flex-col gap-1 transition-all`}>
+          <div className="flex gap-2">
+            {!isSidebarOpen && (
+              <button className="opacity-40 hover:opacity-70" onClick={() => setIsSidebarOpen(true)}>
+                <PanelRightClose size={18} />
+              </button>
+            )}
+            <PageBreadcrumb project={project} allProjects={allProjects} environment={environment} />
+          </div>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
