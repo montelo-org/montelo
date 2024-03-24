@@ -1,5 +1,5 @@
 import { Trace } from "montelo";
-import { Agent } from "../Agent";
+import { Agent, AgentCallback } from "../Agent";
 import { ManagerRole, ManagerSystemPrompt } from "../Agent/Agent.prompts";
 import type { Model } from "../Model";
 import { Task } from "../Task";
@@ -25,7 +25,7 @@ export class Crew<P extends Process> {
   private readonly managerModel?: Model;
   private trace: Trace;
   private currentTaskName: string = "";
-  private readonly stepCallback?: (output: any) => void;
+  private readonly stepCallback?: AgentCallback;
 
   constructor({ name, agents, tasks, tools, stepCallback, managerModel, process }: CrewConstructor<P>) {
     if (!tasks?.length || !agents.length) throw new Error("Invalid parameters! Tasks and Agents need to be defined!");
@@ -47,6 +47,12 @@ export class Crew<P extends Process> {
 
     if (promptInputs && Object.keys(promptInputs).length > 0) {
       this.injectInputsIntoPrompt(promptInputs);
+    }
+
+    if (this.stepCallback) {
+      for (const agent of this.agents) {
+        agent.callbacks.push(this.stepCallback);
+      }
     }
 
     if (this.process === "sequential") {
@@ -76,7 +82,6 @@ export class Crew<P extends Process> {
       const output = await task.execute({ context, trace: this.trace, tools: this.tools });
 
       await log.end({ output: { output }, endTime: new Date().toISOString() });
-      if (this.stepCallback) this.stepCallback(output);
 
       context = output;
       taskOutputs.push(output);

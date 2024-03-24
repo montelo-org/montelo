@@ -10,17 +10,17 @@ export class Task implements TaskInterface {
   public description: TaskInterface["description"];
   public expectedOutput: TaskInterface["expectedOutput"];
   public tools: Tool[];
-  // public callback?: TaskInterface["callback"];
+  public callback?: TaskInterface["callback"];
   public allowDelegation: TaskInterface["allowDelegation"];
 
-  constructor({ name, description, agent, expectedOutput, tools, allowDelegation }: TaskConstructor) {
+  constructor({ name, description, agent, expectedOutput, tools, allowDelegation, callback }: TaskConstructor) {
     this.id = generateId("task");
     this.name = name;
     this.description = description;
     this.agent = agent;
     this.expectedOutput = expectedOutput;
     this.tools = tools || [];
-    // this.callback = callback;
+    this.callback = callback;
     this.allowDelegation = allowDelegation || false;
   }
 
@@ -37,12 +37,18 @@ export class Task implements TaskInterface {
     }
     tools = tools?.length ? tools : this.tools;
 
-    return await agent.executeTask({
+    const agentResponse = await agent.executeTask({
       task: this,
       context,
       tools,
       trace,
     });
+
+    if (this.callback) {
+      this.callback(agentResponse);
+    }
+
+    return agentResponse;
   }
 
   public getName(): string {

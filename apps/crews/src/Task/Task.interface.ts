@@ -15,6 +15,8 @@ export interface TaskInterface {
   agent: Agent;
   /** functions or capabilities the agent can utilize to perform the task */
   tools?: Tool[];
+  /** A function that is called after the task is complete */
+  callback?: (output: string) => Promise<void>;
   /** If true, the task can be delegated to other agents */
   allowDelegation?: boolean;
 }

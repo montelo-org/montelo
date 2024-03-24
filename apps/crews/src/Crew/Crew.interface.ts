@@ -1,4 +1,4 @@
-import type { Agent } from "../Agent";
+import type { Agent, AgentCallback } from "../Agent";
 import type { Model } from "../Model";
 import type { Task } from "../Task";
 import { Tool } from "../Tool";
@@ -24,7 +24,7 @@ export type CrewConstructor<P extends Process> = OptionalManagerModel<P> & {
   /** A list of tools that the crew has access to. */
   tools?: Tool[];
   /** A function that is called after each step of every agent. */
-  stepCallback?: (output: any) => void;
+  stepCallback?: AgentCallback;
 };
 
 export type StartParams = {

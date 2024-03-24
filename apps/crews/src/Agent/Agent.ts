@@ -2,7 +2,7 @@ import { ChatCompletionMessageToolCall, ChatCompletionToolMessageParam } from "o
 import { ChatMessage } from "../Model";
 import { Tool } from "../Tool";
 import { generateId, injectParameters } from "../utils";
-import type { AgentConstructor, AgentExecuteTaskParams, AgentInterface } from "./Agent.interface";
+import type { AgentCallback, AgentConstructor, AgentExecuteTaskParams, AgentInterface } from "./Agent.interface";
 import { AgentSystemPrompt, TaskPrompt } from "./Agent.prompts";
 
 export class Agent implements AgentInterface {
@@ -12,14 +12,16 @@ export class Agent implements AgentInterface {
   public role: AgentInterface["role"];
   public systemMessage: AgentInterface["systemMessage"];
   public tools: Tool[] = [];
+  public callbacks: AgentCallback[] = [];
 
-  constructor({ name, role, systemMessage, tools, model }: AgentConstructor) {
+  constructor({ name, role, systemMessage, tools, model, callback }: AgentConstructor) {
     this.id = generateId("agent");
     this.name = name;
     this.role = role;
     this.systemMessage = systemMessage;
     this.model = model;
     this.tools = tools || [];
+    if (callback) this.callbacks = [callback];
   }
 
   public injectInputsIntoPrompt(promptInputs: Record<string, any>): void {
@@ -75,6 +77,8 @@ export class Agent implements AgentInterface {
       model: this.model.modelName,
     });
     const result = resultCompletion.choices[0].message.content || "";
+
+    this.callbacks.forEach(async (callback) => await callback(result, this.name));
 
     return result;
   }
