@@ -1,5 +1,6 @@
 import { Clerk, WebhookEvent, createClerkClient } from "@clerk/clerk-sdk-node";
 import { Controller, Get, Post, RawBodyRequest, Req, Res, UnauthorizedException } from "@nestjs/common";
+import { Client, Snowflake } from "discord.js";
 import { Request, Response } from "express";
 import { Webhook } from "svix";
 import { EnvService } from "../../env";
@@ -10,6 +11,7 @@ import { TraceService } from "../trace/trace.service";
 @Controller("webhook")
 export class WebhookController {
   private clerkClient: ReturnType<typeof Clerk>;
+  private discordClient: Client;
 
   constructor(
     private envService: EnvService,
@@ -19,6 +21,11 @@ export class WebhookController {
     this.clerkClient = createClerkClient({
       secretKey: envService.get("CLERK_SECRET_KEY"),
     });
+
+    this.discordClient = new Client({
+      intents: ["Guilds", "GuildMessages"],
+    });
+    this.discordClient.login(envService.get("DISCORD_TOKEN"));
   }
 
   @Get("clerk")
@@ -120,6 +127,13 @@ export class WebhookController {
           defaultEnvId: devEnv.id,
         },
       });
+
+      // new users channel
+      const channel = await this.discordClient.channels.fetch("1221562587288965189" as Snowflake);
+      if (channel && channel.isTextBased()) {
+        const formattedMessage = `🎉 **${firstName}** just signed up! 🎉\n\n**Org Name:** ${orgName}\n**Org Slug:** ${orgSlug}\n**User ID:** ${userId}\n**Org ID:** ${org.id}\n**Project ID:** ${project.id}\n**Development Env ID:** ${devEnv.id}`;
+        await channel.send(formattedMessage);
+      }
     }
 
     return res.status(200).json({

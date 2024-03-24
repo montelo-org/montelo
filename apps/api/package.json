@@ -61,6 +61,7 @@
     "cookie-parser": "^1.4.6",
     "cookies": "^0.9.1",
     "dayjs": "^1.11.10",
+    "discord.js": "^14.14.1",
     "dotenv-cli": "^7.3.0",
     "nestjs-pino": "^4.0.0",
     "passport": "^0.7.0",
