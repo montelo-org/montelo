@@ -30,12 +30,18 @@ const main = async () => {
     expectedOutput: "A summary of all the findings about {topic}.",
     agent: writer,
     allowDelegation: true,
+    callback: async () => {
+      console.log("[ResearchTask] Task Done!");
+    },
   });
 
   const crew = new Crew({
     agents: [researcher, writer],
     tasks: [researchTask],
     process: "sequential",
+    stepCallback: async (_, agentName) => {
+      console.log(`[${agentName}] Agent Done!`);
+    },
   });
 
   await crew.start({
