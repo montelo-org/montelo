@@ -92,7 +92,7 @@ await montelo.experiments.createAndRun({
             <p>Copy the following TypeScript code to upload datapoints and run experiments against this dataset.</p>
             <CodeBlock value={combinedTypeDefinition} />
             <Icon
-              className={"text-muted-foreground hover:text-foreground fixed right-1 mr-10 mt-12 cursor-pointer"}
+              className={"text-muted-foreground hover:text-foreground fixed right-1 mr-10 mt-20 cursor-pointer"}
               onClick={() => {
                 copyToClipboard(combinedTypeDefinition);
               }}
