@@ -1,6 +1,5 @@
-import { Agent, Crew, Model, Task, Tools } from "@montelo/crews";
 import dotenv from "dotenv";
-import { Montelo } from "montelo";
+import { Agent, Crew, Model, Montelo, Task, Tools } from "montelo";
 
 dotenv.config();
 

@@ -1,4 +1,4 @@
-import { Trace } from "montelo";
+import { Trace } from "@montelo/core";
 import { Agent, AgentCallback } from "../Agent";
 import { ManagerRole, ManagerSystemPrompt } from "../Agent/Agent.prompts";
 import type { Model } from "../Model";

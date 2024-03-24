@@ -1,44 +1,28 @@
-# @montelo/cli
+# montelo
 
 ## 1.1.69
 
 ### Patch Changes
 
 - y
-- Updated dependencies
-  - @montelo/config@1.1.69
-  - @montelo/fizz@1.1.69
-  - @montelo/promptfile@1.1.69
 
 ## 1.1.68
 
 ### Patch Changes
 
 - y
-- Updated dependencies
-  - @montelo/config@1.1.68
-  - @montelo/fizz@1.1.68
-  - @montelo/promptfile@1.1.68
 
 ## 1.1.67
 
 ### Patch Changes
 
 - Crews & Logs End Method
-- Updated dependencies
-  - @montelo/config@1.1.67
-  - @montelo/fizz@1.1.67
-  - @montelo/promptfile@1.1.67
 
 ## 1.1.66
 
 ### Patch Changes
 
 - y
-- Updated dependencies
-  - @montelo/fizz@1.1.66
-  - @montelo/config@1.1.66
-  - @montelo/promptfile@1.1.66
 
 ## 1.1.65
 
@@ -46,7 +30,8 @@
 
 - Crews
 - Updated dependencies
-  - @montelo/config@1.1.65
+  - @montelo/cli@1.1.65
+  - @montelo/common@1.1.65
   - @montelo/fizz@1.1.65
   - @montelo/promptfile@1.1.65
 
@@ -56,7 +41,8 @@
 
 - fix
 - Updated dependencies
-  - @montelo/config@1.1.64
+  - @montelo/cli@1.1.64
+  - @montelo/common@1.1.64
   - @montelo/fizz@1.1.64
   - @montelo/promptfile@1.1.64
 
@@ -66,7 +52,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.63
+  - @montelo/cli@1.1.63
+  - @montelo/common@1.1.63
   - @montelo/fizz@1.1.63
   - @montelo/promptfile@1.1.63
 
@@ -76,7 +63,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.62
+  - @montelo/cli@1.1.62
+  - @montelo/common@1.1.62
   - @montelo/fizz@1.1.62
   - @montelo/promptfile@1.1.62
 
@@ -86,7 +74,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.61
+  - @montelo/cli@1.1.61
+  - @montelo/common@1.1.61
   - @montelo/fizz@1.1.61
   - @montelo/promptfile@1.1.61
 
@@ -96,7 +85,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.60
+  - @montelo/cli@1.1.60
+  - @montelo/common@1.1.60
   - @montelo/fizz@1.1.60
   - @montelo/promptfile@1.1.60
 
@@ -106,7 +96,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.59
+  - @montelo/cli@1.1.59
+  - @montelo/common@1.1.59
   - @montelo/fizz@1.1.59
   - @montelo/promptfile@1.1.59
 
@@ -116,7 +107,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.58
+  - @montelo/cli@1.1.58
+  - @montelo/common@1.1.58
   - @montelo/fizz@1.1.58
   - @montelo/promptfile@1.1.58
 
@@ -126,7 +118,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.57
+  - @montelo/cli@1.1.57
+  - @montelo/common@1.1.57
   - @montelo/fizz@1.1.57
   - @montelo/promptfile@1.1.57
 
@@ -134,9 +127,9 @@
 
 ### Patch Changes
 
-- Logs Route Updates
 - Updated dependencies
-  - @montelo/config@1.1.56
+  - @montelo/cli@1.1.56
+  - @montelo/common@1.1.56
   - @montelo/fizz@1.1.56
   - @montelo/promptfile@1.1.56
 
@@ -146,7 +139,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.55
+  - @montelo/cli@1.1.55
+  - @montelo/common@1.1.55
   - @montelo/fizz@1.1.55
   - @montelo/promptfile@1.1.55
 
@@ -156,7 +150,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.54
+  - @montelo/cli@1.1.54
+  - @montelo/common@1.1.54
   - @montelo/fizz@1.1.54
   - @montelo/promptfile@1.1.54
 
@@ -167,8 +162,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.53
-  - @montelo/config@1.1.53
+  - @montelo/common@1.1.53
   - @montelo/fizz@1.1.53
+  - @montelo/cli@1.1.53
 
 ## 1.1.52
 
@@ -176,7 +172,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.52
+  - @montelo/cli@1.1.52
+  - @montelo/common@1.1.52
   - @montelo/fizz@1.1.52
   - @montelo/promptfile@1.1.52
 
@@ -185,20 +182,12 @@
 ### Patch Changes
 
 - y
-- Updated dependencies
-  - @montelo/promptfile@1.1.51
-  - @montelo/config@1.1.51
-  - @montelo/fizz@1.1.51
 
 ## 1.1.50
 
 ### Patch Changes
 
 - y
-- Updated dependencies
-  - @montelo/config@1.1.50
-  - @montelo/fizz@1.1.50
-  - @montelo/promptfile@1.1.50
 
 ## 1.1.49
 
@@ -206,7 +195,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.49
+  - @montelo/cli@1.1.49
+  - @montelo/common@1.1.49
   - @montelo/fizz@1.1.49
   - @montelo/promptfile@1.1.49
 
@@ -217,8 +207,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.48
-  - @montelo/config@1.1.48
+  - @montelo/common@1.1.48
   - @montelo/fizz@1.1.48
+  - @montelo/cli@1.1.48
 
 ## 1.1.47
 
@@ -227,8 +218,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.47
-  - @montelo/config@1.1.47
+  - @montelo/common@1.1.47
   - @montelo/fizz@1.1.47
+  - @montelo/cli@1.1.47
 
 ## 1.1.46
 
@@ -237,8 +229,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.46
-  - @montelo/config@1.1.46
+  - @montelo/common@1.1.46
   - @montelo/fizz@1.1.46
+  - @montelo/cli@1.1.46
 
 ## 1.1.45
 
@@ -247,8 +240,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.45
-  - @montelo/config@1.1.45
+  - @montelo/common@1.1.45
   - @montelo/fizz@1.1.45
+  - @montelo/cli@1.1.45
 
 ## 1.1.44
 
@@ -257,8 +251,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.44
-  - @montelo/config@1.1.44
+  - @montelo/common@1.1.44
   - @montelo/fizz@1.1.44
+  - @montelo/cli@1.1.44
 
 ## 1.1.43
 
@@ -267,8 +262,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.43
-  - @montelo/config@1.1.43
+  - @montelo/common@1.1.43
   - @montelo/fizz@1.1.43
+  - @montelo/cli@1.1.43
 
 ## 1.1.42
 
@@ -277,7 +273,8 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.42
-  - @montelo/config@1.1.42
+  - @montelo/common@1.1.42
+  - @montelo/cli@1.1.42
   - @montelo/fizz@1.1.42
 
 ## 1.1.41
@@ -287,8 +284,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.41
-  - @montelo/config@1.1.41
+  - @montelo/common@1.1.41
   - @montelo/fizz@1.1.41
+  - @montelo/cli@1.1.41
 
 ## 1.1.40
 
@@ -296,7 +294,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.40
+  - @montelo/cli@1.1.40
+  - @montelo/common@1.1.40
   - @montelo/fizz@1.1.40
   - @montelo/promptfile@1.1.40
 
@@ -306,7 +305,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.39
+  - @montelo/cli@1.1.39
+  - @montelo/common@1.1.39
   - @montelo/fizz@1.1.39
   - @montelo/promptfile@1.1.39
 
@@ -316,7 +316,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.38
+  - @montelo/cli@1.1.38
+  - @montelo/common@1.1.38
   - @montelo/fizz@1.1.38
   - @montelo/promptfile@1.1.38
 
@@ -326,7 +327,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.37
+  - @montelo/cli@1.1.37
+  - @montelo/common@1.1.37
   - @montelo/fizz@1.1.37
   - @montelo/promptfile@1.1.37
 
@@ -336,7 +338,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.36
+  - @montelo/cli@1.1.36
+  - @montelo/common@1.1.36
   - @montelo/fizz@1.1.36
   - @montelo/promptfile@1.1.36
 
@@ -346,7 +349,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.35
+  - @montelo/cli@1.1.35
+  - @montelo/common@1.1.35
   - @montelo/fizz@1.1.35
   - @montelo/promptfile@1.1.35
 
@@ -356,7 +360,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.34
+  - @montelo/cli@1.1.34
+  - @montelo/common@1.1.34
   - @montelo/fizz@1.1.34
   - @montelo/promptfile@1.1.34
 
@@ -367,8 +372,9 @@
 - y
 - Updated dependencies
   - @montelo/promptfile@1.1.33
-  - @montelo/config@1.1.33
+  - @montelo/common@1.1.33
   - @montelo/fizz@1.1.33
+  - @montelo/cli@1.1.33
 
 ## 1.1.32
 
@@ -376,7 +382,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.32
+  - @montelo/cli@1.1.32
+  - @montelo/common@1.1.32
   - @montelo/fizz@1.1.32
   - @montelo/promptfile@1.1.32
 
@@ -386,7 +393,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.31
+  - @montelo/cli@1.1.31
+  - @montelo/common@1.1.31
   - @montelo/fizz@1.1.31
   - @montelo/promptfile@1.1.31
 
@@ -396,7 +404,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.30
+  - @montelo/cli@1.1.30
+  - @montelo/common@1.1.30
   - @montelo/fizz@1.1.30
   - @montelo/promptfile@1.1.30
 
@@ -406,7 +415,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.29
+  - @montelo/cli@1.1.29
+  - @montelo/common@1.1.29
   - @montelo/fizz@1.1.29
   - @montelo/promptfile@1.1.29
 
@@ -416,7 +426,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.28
+  - @montelo/cli@1.1.28
+  - @montelo/common@1.1.28
   - @montelo/fizz@1.1.28
   - @montelo/promptfile@1.1.28
 
@@ -426,7 +437,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.27
+  - @montelo/cli@1.1.27
+  - @montelo/common@1.1.27
   - @montelo/fizz@1.1.27
   - @montelo/promptfile@1.1.27
 
@@ -436,7 +448,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.26
+  - @montelo/cli@1.1.26
+  - @montelo/common@1.1.26
   - @montelo/fizz@1.1.26
   - @montelo/promptfile@1.1.26
 
@@ -446,7 +459,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.25
+  - @montelo/cli@1.1.25
+  - @montelo/common@1.1.25
   - @montelo/fizz@1.1.25
   - @montelo/promptfile@1.1.25
 
@@ -456,7 +470,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.24
+  - @montelo/cli@1.1.24
+  - @montelo/common@1.1.24
   - @montelo/fizz@1.1.24
   - @montelo/promptfile@1.1.24
 
@@ -466,7 +481,8 @@
 
 - g
 - Updated dependencies
-  - @montelo/config@1.1.23
+  - @montelo/cli@1.1.23
+  - @montelo/common@1.1.23
   - @montelo/fizz@1.1.23
   - @montelo/promptfile@1.1.23
 
@@ -476,7 +492,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.22
+  - @montelo/cli@1.1.22
+  - @montelo/common@1.1.22
   - @montelo/fizz@1.1.22
   - @montelo/promptfile@1.1.22
 
@@ -486,7 +503,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.21
+  - @montelo/cli@1.1.21
+  - @montelo/common@1.1.21
   - @montelo/fizz@1.1.21
   - @montelo/promptfile@1.1.21
 
@@ -496,7 +514,8 @@
 
 - y
 - Updated dependencies
-  - @montelo/config@1.1.20
+  - @montelo/cli@1.1.20
+  - @montelo/common@1.1.20
   - @montelo/fizz@1.1.20
   - @montelo/promptfile@1.1.20
 
@@ -506,7 +525,8 @@
 
 - ummary
 - Updated dependencies
-  - @montelo/config@1.1.19
+  - @montelo/cli@1.1.19
+  - @montelo/common@1.1.19
   - @montelo/fizz@1.1.19
   - @montelo/promptfile@1.1.19
 
@@ -516,7 +536,8 @@
 
 - patch
 - Updated dependencies
-  - @montelo/config@1.1.18
+  - @montelo/cli@1.1.18
+  - @montelo/common@1.1.18
   - @montelo/fizz@1.1.18
   - @montelo/promptfile@1.1.18
 
@@ -526,7 +547,8 @@
 
 - first working one E2E
 - Updated dependencies
-  - @montelo/config@1.1.17
+  - @montelo/cli@1.1.17
+  - @montelo/common@1.1.17
   - @montelo/fizz@1.1.17
   - @montelo/promptfile@1.1.17
 
@@ -537,8 +559,9 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.16
-  - @montelo/config@1.1.16
+  - @montelo/common@1.1.16
   - @montelo/fizz@1.1.16
+  - @montelo/cli@1.1.16
 
 ## 1.1.15
 
@@ -547,8 +570,9 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.15
-  - @montelo/config@1.1.15
+  - @montelo/common@1.1.15
   - @montelo/fizz@1.1.15
+  - @montelo/cli@1.1.15
 
 ## 1.1.14
 
@@ -557,8 +581,9 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.14
-  - @montelo/config@1.1.14
+  - @montelo/common@1.1.14
   - @montelo/fizz@1.1.14
+  - @montelo/cli@1.1.14
 
 ## 1.1.13
 
@@ -568,7 +593,8 @@
 - Updated dependencies
   - @montelo/promptfile@1.1.13
   - @montelo/fizz@1.1.13
-  - @montelo/config@1.1.13
+  - @montelo/cli@1.1.13
+  - @montelo/common@1.1.13
 
 ## 1.1.12
 
@@ -577,8 +603,9 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.12
-  - @montelo/config@1.1.12
+  - @montelo/common@1.1.12
   - @montelo/fizz@1.1.12
+  - @montelo/cli@1.1.12
 
 ## 1.1.11
 
@@ -586,7 +613,8 @@
 
 - patch
 - Updated dependencies
-  - @montelo/config@1.1.11
+  - @montelo/cli@1.1.11
+  - @montelo/common@1.1.11
   - @montelo/fizz@1.1.11
   - @montelo/promptfile@1.1.11
 
@@ -599,8 +627,8 @@
 - Updated dependencies
 - Updated dependencies
   - @montelo/promptfile@1.1.10
-  - @montelo/config@1.1.10
   - @montelo/fizz@1.1.10
+  - @montelo/cli@1.1.10
 
 ## 1.1.9
 
@@ -609,8 +637,8 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.9
-  - @montelo/config@1.1.9
   - @montelo/fizz@1.1.9
+  - @montelo/cli@1.1.9
 
 ## 1.1.8
 
@@ -619,8 +647,8 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.8
-  - @montelo/config@1.1.8
   - @montelo/fizz@1.1.8
+  - @montelo/cli@1.1.8
 
 ## 1.1.7
 
@@ -630,7 +658,7 @@
 - Updated dependencies
   - @montelo/promptfile@1.1.7
   - @montelo/fizz@1.1.7
-  - @montelo/config@1.1.7
+  - @montelo/cli@1.1.7
 
 ## 1.1.6
 
@@ -639,8 +667,8 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.6
-  - @montelo/config@1.1.6
   - @montelo/fizz@1.1.6
+  - @montelo/cli@1.1.6
 
 ## 1.1.5
 
@@ -649,8 +677,8 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.5
-  - @montelo/config@1.1.5
   - @montelo/fizz@1.1.5
+  - @montelo/cli@1.1.5
 
 ## 1.1.4
 
@@ -659,8 +687,8 @@
 - c
 - Updated dependencies
   - @montelo/promptfile@1.1.4
-  - @montelo/config@1.1.4
   - @montelo/fizz@1.1.4
+  - @montelo/cli@1.1.4
 
 ## 1.1.3
 
@@ -669,8 +697,8 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.3
-  - @montelo/config@1.1.3
   - @montelo/fizz@1.1.3
+  - @montelo/cli@1.1.3
 
 ## 1.1.2
 
@@ -679,8 +707,8 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.2
-  - @montelo/config@1.1.2
   - @montelo/fizz@1.1.2
+  - @montelo/cli@1.1.2
 
 ## 1.1.1
 
@@ -689,8 +717,8 @@
 - patch
 - Updated dependencies
   - @montelo/promptfile@1.1.1
-  - @montelo/config@1.1.1
   - @montelo/fizz@1.1.1
+  - @montelo/cli@1.1.1
 
 ## 1.1.0
 

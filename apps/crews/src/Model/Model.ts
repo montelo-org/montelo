@@ -1,4 +1,4 @@
-import { Montelo } from "montelo";
+import { Montelo } from "@montelo/core";
 import OpenAI from "openai";
 
 type OpenAIModels = OpenAI.ChatCompletionCreateParamsNonStreaming["model"];

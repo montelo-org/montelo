@@ -7,7 +7,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@montelo/crews": "file:../apps/crews",
     "montelo": "file:../apps/montelo"
   }
 }

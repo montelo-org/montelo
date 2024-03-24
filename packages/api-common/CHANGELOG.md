@@ -1,5 +1,13 @@
 # @montelo/cli
 
+## 1.1.69
+
+### Patch Changes
+
+- y
+- Updated dependencies
+  - @montelo/db@1.1.69
+
 ## 1.1.68
 
 ### Patch Changes

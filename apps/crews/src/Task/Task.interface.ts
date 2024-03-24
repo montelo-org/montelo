@@ -1,4 +1,4 @@
-import { Trace } from "montelo";
+import { Trace } from "@montelo/core";
 import type { Agent } from "../Agent";
 import type { Tool } from "../Tool";
 

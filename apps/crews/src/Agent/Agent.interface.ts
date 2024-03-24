@@ -1,4 +1,4 @@
-import { Trace } from "montelo";
+import { Trace } from "@montelo/core";
 import type { Model } from "../Model";
 import { Task } from "../Task";
 import { Tool } from "../Tool";

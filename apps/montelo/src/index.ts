@@ -1,1 +1,2 @@
-export * from "./Montelo";
+export * from "@montelo/core";
+export * from "@montelo/crews";
