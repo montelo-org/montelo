@@ -111,10 +111,8 @@ export class WebhookController {
         envNames: [],
       });
 
-      // TODO create default trace on the dev env
       const devEnv = environments.find((env) => env.name === "Development")!;
       await this.traceService.createDefaultTrace(devEnv.id);
-
 
       await this.clerkClient.organizations.updateOrganizationMetadata(org.id, {
         publicMetadata: {
