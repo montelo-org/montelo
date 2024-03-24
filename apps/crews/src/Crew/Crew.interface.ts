@@ -5,7 +5,6 @@ import { Tool } from "../Tool";
 
 export type Process = "managed" | "sequential";
 
-type OptionalAgents<P> = P extends "sequential" ? { agents?: never } : { agents: Agent[] };
 type OptionalManagerModel<P> = P extends "sequential"
   ? { managerModel?: never }
   : {
@@ -13,19 +12,20 @@ type OptionalManagerModel<P> = P extends "sequential"
       managerModel: Model;
     };
 
-export type CrewConstructor<P extends Process> = OptionalAgents<P> &
-  OptionalManagerModel<P> & {
-    /** name of the crew */
-    name?: string;
-    /** The process that the crew follows. "Sequential" or "Managed" */
-    process: P;
-    /** A list of tasks assigned to the crew. */
-    tasks: Task[];
-    /** A list of tools that the crew has access to. */
-    tools?: Tool[];
-    /** A function that is called after each step of every agent. */
-    stepCallback?: (output: any) => void;
-  };
+export type CrewConstructor<P extends Process> = OptionalManagerModel<P> & {
+  /** name of the crew */
+  name?: string;
+  /** list of theagents in the crew */
+  agents: Agent[];
+  /** The process that the crew follows. "Sequential" or "Managed" */
+  process: P;
+  /** A list of tasks assigned to the crew. */
+  tasks: Task[];
+  /** A list of tools that the crew has access to. */
+  tools?: Tool[];
+  /** A function that is called after each step of every agent. */
+  stepCallback?: (output: any) => void;
+};
 
 export type StartParams = {
   /** The inputs for the crew's process. */

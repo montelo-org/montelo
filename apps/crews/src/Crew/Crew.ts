@@ -19,7 +19,7 @@ export class Crew<P extends Process> {
   private readonly globalChatHistory: ChatMessage[] = [];
   private readonly name: string = "Crew";
   private readonly process: Process = "sequential";
-  private readonly agents?: Agent[] = [];
+  private readonly agents: Agent[] = [];
   private readonly tasks: Task[] = [];
   private readonly tools?: Tool[] = [];
   private readonly managerModel?: Model;
@@ -28,10 +28,10 @@ export class Crew<P extends Process> {
   private readonly stepCallback?: (output: any) => void;
 
   constructor({ name, agents, tasks, tools, stepCallback, managerModel, process }: CrewConstructor<P>) {
-    if (process === "managed" && (!agents?.length || !managerModel)) {
-      throw new Error("Invalid parameters! For a managed process, agents and a managerModel need to be defined!");
+    if (!tasks?.length || !agents.length) throw new Error("Invalid parameters! Tasks and Agents need to be defined!");
+    if (process === "managed" && !managerModel) {
+      throw new Error("Invalid parameters! For a managed process a managerModel must be defined!");
     }
-    if (!tasks?.length) throw new Error("Invalid parameters! Tasks need to be defined!");
 
     this.name = name || this.name;
     this.agents = agents || (tasks.map((task) => task.agent).filter((agent) => agent !== undefined) as Agent[]);
@@ -54,43 +54,6 @@ export class Crew<P extends Process> {
     } else {
       return await this.runManaged({ promptInputs });
     }
-
-    // const USER_AGENT = this.agents.find((agent) => agent.type === "user");
-    // if (USER_AGENT === null || USER_AGENT === undefined) throw new Error("No UserAgent defined!");
-    // this._addMessageToHistory({ agentName: USER_AGENT.name, message: task });
-
-    // let numManagerRounds = 0;
-    // while (numManagerRounds < this.maxRounds) {
-    //   const startingAgentCompletion = await startingAgent.modelProvider.chatCompletion({
-    //     messages: [
-    //       {
-    //         role: "system",
-    //         content: startingAgent.instructions,
-    //       },
-    //       {
-    //         role: "user",
-    //         content: this._getManagerPrompt(
-    //           this.agents.filter((a) => a.name !== startingAgent.name),
-    //           this.globalChatHistory,
-    //         ),
-    //       },
-    //     ],
-    //   });
-    //   const agentNameToCall = startingAgentCompletion.content?.replace(/@/g, "");
-    //   if (!agentNameToCall || !this.agents.find((agent) => agent.name === agentNameToCall)) {
-    //     throw new Error("Invalid agent name: " + agentNameToCall);
-    //   }
-
-    //   console.log("messages: ", messages);
-    //   console.log("startingAgentCompletion: ", startingAgentCompletion);
-
-    //   // Find and interact with the selected agent
-    //   // Handle tool calls and their responses
-    //   // Generate summary and update chat history
-    //   numManagerRounds++;
-    // }
-
-    // Return final result after exiting the loop
   }
 
   private async runSequential({ promptInputs }: RunParams): Promise<RunResponse> {
@@ -100,6 +63,15 @@ export class Crew<P extends Process> {
     for (const task of this.tasks) {
       this.currentTaskName = task.getName();
       const log = await this.trace.log({ name: task.getName(), input: { ...promptInputs, context } });
+
+      if (task.allowDelegation) {
+        const agentsForDelegation = this.agents.filter((agent) => agent.id !== task.agent.id);
+
+        if (agentsForDelegation) {
+          const collaborationTools = this.getCollaborationTools(agentsForDelegation);
+          task.tools?.push(...collaborationTools);
+        }
+      }
 
       const output = await task.execute({ context, trace: this.trace, tools: this.tools });
 
@@ -114,16 +86,14 @@ export class Crew<P extends Process> {
   }
 
   private async runManaged({ promptInputs }: RunParams): Promise<RunResponse> {
-    const coworkers = (this.agents || [])
-      .map((agent) => `${agent.name.toLowerCase().trim()}: ${agent.role}`)
-      .join("\n");
+    const coworkers = this.agents.map((agent) => `${agent.name.toLowerCase().trim()}: ${agent.role}`).join("\n");
 
     const manager = new Agent({
       name: "Manager",
       role: ManagerRole,
       systemMessage: ManagerSystemPrompt(coworkers),
       model: this.managerModel!,
-      tools: this.getCollaborationTools(),
+      tools: this.getCollaborationTools(this.agents),
     });
 
     let context = "";
@@ -146,8 +116,8 @@ export class Crew<P extends Process> {
     this.tasks.forEach((task) => task.injectInputsIntoPrompt(promptInputs));
   }
 
-  private getCollaborationTools(): Tool[] {
-    const coworkers = (this.agents || []).map((agent) => agent.name.toLowerCase().trim()).join(", ");
+  private getCollaborationTools(agents: Agent[]): Tool[] {
+    const coworkers = agents.map((agent) => agent.name.toLowerCase().trim()).join(", ");
 
     const delegateWorkTool = new Tool({
       name: "DelegateWork",
@@ -175,7 +145,7 @@ export class Crew<P extends Process> {
   }
 
   private async executeTask(coworker: string, task: string, context: string): Promise<string> {
-    const agent = this.agents?.find((agent) => agent.name.toLowerCase().trim() === coworker.toLowerCase().trim());
+    const agent = this.agents.find((agent) => agent.name.toLowerCase().trim() === coworker.toLowerCase().trim());
     if (!agent) {
       throw new Error(`Agent with name ${coworker} not found.`);
     }
@@ -190,25 +160,4 @@ export class Crew<P extends Process> {
 
     return agent.executeTask({ task: taskObj, context, trace: this.trace });
   }
-
-  // private _getManagerPrompt(agents: AgentInterface[], chatHistory: ChatMessage[]): string {
-  //   const availableRoles = agents.map((agent) => `@${agent.name}: ${agent.instructions}`).join("\n");
-  //   const formattedChatHistory = chatHistory.map((c) => `@${c.agentName}: ${c.message}`).join("\n---\n");
-
-  //   return `
-  //     You are in a role play game. The following roles are available:
-  //     ${availableRoles}
-
-  //     Read the following conversation.
-
-  //     CHAT HISTORY
-  //     ${formattedChatHistory}
-
-  //     Then select the role that is going to speak next. Only return the role.
-  //     `;
-  // }
-
-  // private _addMessageToHistory(chatMessage: ChatMessage): void {
-  //   this.globalChatHistory.push(chatMessage);
-  // }
 }

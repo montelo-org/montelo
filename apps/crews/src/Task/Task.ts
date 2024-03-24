@@ -1,3 +1,4 @@
+import { Tool } from "../Tool";
 import { generateId, injectParameters } from "../utils";
 import type { TaskConstructor, TaskExecuteParams, TaskInterface } from "./Task.interface";
 import { ExpectedOutputPrompt, TaskWithContextPrompt } from "./Task.prompts";
@@ -8,15 +9,19 @@ export class Task implements TaskInterface {
   public readonly agent: TaskInterface["agent"];
   public description: TaskInterface["description"];
   public expectedOutput: TaskInterface["expectedOutput"];
-  public tools: TaskInterface["tools"];
+  public tools: Tool[];
+  // public callback?: TaskInterface["callback"];
+  public allowDelegation: TaskInterface["allowDelegation"];
 
-  constructor({ name, description, agent, expectedOutput, tools }: TaskConstructor) {
+  constructor({ name, description, agent, expectedOutput, tools, allowDelegation }: TaskConstructor) {
     this.id = generateId("task");
     this.name = name;
     this.description = description;
     this.agent = agent;
     this.expectedOutput = expectedOutput;
-    this.tools = tools;
+    this.tools = tools || [];
+    // this.callback = callback;
+    this.allowDelegation = allowDelegation || false;
   }
 
   public async injectInputsIntoPrompt(promptInputs: Record<string, any>): Promise<void> {
@@ -54,5 +59,9 @@ export class Task implements TaskInterface {
     if (!context) return taskPrompt;
 
     return TaskWithContextPrompt(taskPrompt, context);
+  }
+
+  public addTools(tools: Tool[]): void {
+    this.tools = this.tools.concat(tools);
   }
 }

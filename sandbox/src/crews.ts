@@ -28,26 +28,20 @@ const main = async () => {
     name: "Research Topic",
     description: "Identify the latest news and trends about {topic}.",
     expectedOutput: "A summary of all the findings about {topic}.",
-    agent: researcher,
-  });
-
-  const writeTask = new Task({
-    name: "Write Blog Post",
-    description: "Write an engaging and informative blog post about {topic}.",
-    expectedOutput: "A structured blog post with clear subheadings and optimized with keywords for SEO.",
     agent: writer,
+    allowDelegation: true,
   });
 
   const crew = new Crew({
-    tasks: [researchTask, writeTask],
+    agents: [researcher, writer],
+    tasks: [researchTask],
     process: "sequential",
   });
 
-  const output = await crew.start({
+  await crew.start({
     monteloClient,
     promptInputs: { topic: "LLMs" },
   });
-  console.log(output);
 };
 
 main();

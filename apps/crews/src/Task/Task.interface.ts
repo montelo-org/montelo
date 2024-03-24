@@ -15,6 +15,8 @@ export interface TaskInterface {
   agent: Agent;
   /** functions or capabilities the agent can utilize to perform the task */
   tools?: Tool[];
+  /** If true, the task can be delegated to other agents */
+  allowDelegation?: boolean;
 }
 
 export interface TaskConstructor extends Omit<TaskInterface, "id"> {}

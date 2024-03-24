@@ -6,12 +6,12 @@ import type { AgentConstructor, AgentExecuteTaskParams, AgentInterface } from ".
 import { AgentSystemPrompt, TaskPrompt } from "./Agent.prompts";
 
 export class Agent implements AgentInterface {
-  public id: AgentInterface["id"];
-  public name: AgentInterface["name"];
+  public readonly id: AgentInterface["id"];
+  public readonly name: AgentInterface["name"];
+  public readonly model: AgentInterface["model"];
   public role: AgentInterface["role"];
   public systemMessage: AgentInterface["systemMessage"];
-  public model: AgentInterface["model"];
-  public tools?: AgentInterface["tools"];
+  public tools: Tool[] = [];
 
   constructor({ name, role, systemMessage, tools, model }: AgentConstructor) {
     this.id = generateId("agent");
@@ -19,7 +19,7 @@ export class Agent implements AgentInterface {
     this.role = role;
     this.systemMessage = systemMessage;
     this.model = model;
-    this.tools = tools;
+    this.tools = tools || [];
   }
 
   public injectInputsIntoPrompt(promptInputs: Record<string, any>): void {
@@ -30,7 +30,7 @@ export class Agent implements AgentInterface {
   }
 
   public async executeTask({ task, context, trace, tools }: AgentExecuteTaskParams): Promise<string> {
-    tools = tools?.length ? tools : this.tools || [];
+    tools = this.combineTools(tools);
     const formattedTools = tools.map((tool) => tool.toJSON());
     const availableTools = tools.map((tool) => tool.name).join("\n");
 
@@ -77,6 +77,14 @@ export class Agent implements AgentInterface {
     const result = resultCompletion.choices[0].message.content || "";
 
     return result;
+  }
+
+  private combineTools(tools: Tool[] = []): Tool[] {
+    const toolsMap = new Map<string, Tool>();
+    for (const tool of [...this.tools, ...tools]) {
+      toolsMap.set(tool.id, tool);
+    }
+    return Array.from(toolsMap.values());
   }
 
   private getToolByName(name: string, tools?: Tool[]): Tool {
