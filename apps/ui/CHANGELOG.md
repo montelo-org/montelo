@@ -1,5 +1,13 @@
 # @montelo/ui
 
+## 1.1.70
+
+### Patch Changes
+
+- y
+- Updated dependencies
+  - @montelo/browser-client@1.1.70
+
 ## 1.1.69
 
 ### Patch Changes

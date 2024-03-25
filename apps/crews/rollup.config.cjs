@@ -35,7 +35,7 @@ module.exports = [
       typescript(),
       commonjs(),
       json(),
-      nodePolyfills(),
+      nodePolyfills()
     ],
   },
 ];

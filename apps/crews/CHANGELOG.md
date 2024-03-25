@@ -1,5 +1,13 @@
 # @montelo/crews
 
+## 1.1.70
+
+### Patch Changes
+
+- y
+- Updated dependencies
+  - @montelo/core@1.1.70
+
 ## 1.1.69
 
 ### Patch Changes

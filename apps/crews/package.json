@@ -1,11 +1,13 @@
 {
   "name": "@montelo/crews",
-  "version": "1.1.69",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "1.1.70",
+  "main": "dist/bundle-node/index.js",
+  "types": "dist/bundle-node/index.d.ts",
+  "module": "dist/bundle-node/index.js",
+  "browser": "dist/bundle-browser/index.js",
   "sideEffects": false,
   "scripts": {
-    "build": "tsc"
+    "build": "rollup -c"
   },
   "files": [
     "dist",
@@ -13,10 +15,13 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@montelo/core": "^1.1.69",
+    "@montelo/core": "^1.1.70",
     "serpapi": "^2.1.0",
     "ts-node": "^10.9.2",
     "zod": "^3.22.4",
     "zod-to-json-schema": "^3.22.4"
+  },
+  "devDependencies": {
+    "rollup-plugin-node-polyfills": "^0.2.1"
   }
 }

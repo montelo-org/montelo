@@ -1,12 +1,12 @@
 {
   "name": "@montelo/api-common",
-  "version": "1.1.69",
+  "version": "1.1.70",
   "main": "./dist/index.js",
   "scripts": {
     "build": "rm -rf dist && tsc"
   },
   "dependencies": {
-    "@montelo/db": "^1.1.69",
+    "@montelo/db": "^1.1.70",
     "@nestjs/common": "^10.3.3",
     "@nestjs/core": "^10.3.3",
     "bcrypt": "^5.1.1",
