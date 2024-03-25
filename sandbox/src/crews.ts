@@ -24,16 +24,24 @@ const main = async () => {
     name: "Research Topic",
     description: "Identify the latest news and trends about {topic}.",
     expectedOutput: "A summary of all the findings about {topic}.",
-    agent: writer,
+    agent: researcher,
     allowDelegation: true,
     callback: async () => {
       console.log("[ResearchTask] Task Done!");
     },
   });
 
+  const writeTask = new Task({
+    name: "Write Blog Post",
+    description: "Write an engaging and informative blog post about {topic}.",
+    expectedOutput: "A structured blog post with clear subheadings and optimized with keywords for SEO.",
+    agent: writer,
+  });
+
   const crew = new Crew({
+    name: "Blog Post Crew",
     agents: [researcher, writer],
-    tasks: [researchTask],
+    tasks: [researchTask, writeTask],
     process: "sequential",
     stepCallback: async (_, agentName) => {
       console.log(`[${agentName}] Agent Done!`);

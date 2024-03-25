@@ -7,7 +7,6 @@ import { EnvService } from "../../env";
 import { OrganizationService } from "../organization/organization.service";
 import { TraceService } from "../trace/trace.service";
 
-
 @Controller("webhook")
 export class WebhookController {
   private clerkClient: ReturnType<typeof Clerk>;
@@ -130,7 +129,7 @@ export class WebhookController {
 
       // new users channel
       const channel = await this.discordClient.channels.fetch("1221562587288965189" as Snowflake);
-      if (channel && channel.isTextBased()) {
+      if (channel && channel.isTextBased() && this.envService.get("NODE_ENV") === "production") {
         const formattedMessage = `🎉 **${firstName}** just signed up! 🎉\n\n**Org Name:** ${orgName}\n**Org Slug:** ${orgSlug}\n**User ID:** ${userId}\n**Org ID:** ${org.id}\n**Project ID:** ${project.id}\n**Development Env ID:** ${devEnv.id}`;
         await channel.send(formattedMessage);
       }
