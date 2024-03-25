@@ -74,6 +74,7 @@ const PATH_ACTIONS = {
 
 // external pages
 const PATH_EXTERNAL = {
+  landing: "https://montelo.ai",
   documentation: "https://docs.montelo.ai",
   docs: {
     traces: "https://docs.montelo.ai/traces/traces",
