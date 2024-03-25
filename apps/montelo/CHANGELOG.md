@@ -1,5 +1,14 @@
 # montelo
 
+## 1.1.72
+
+### Patch Changes
+
+- Crew logging
+- Updated dependencies
+  - @montelo/crews@1.1.72
+  - @montelo/core@1.1.72
+
 ## 1.1.71
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @montelo/db
 
+## 1.1.72
+
+### Patch Changes
+
+- Crew logging
+
 ## 1.1.71
 
 ### Patch Changes

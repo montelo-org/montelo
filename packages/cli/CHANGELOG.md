@@ -1,5 +1,15 @@
 # @montelo/cli
 
+## 1.1.72
+
+### Patch Changes
+
+- Crew logging
+- Updated dependencies
+  - @montelo/config@1.1.72
+  - @montelo/fizz@1.1.72
+  - @montelo/promptfile@1.1.72
+
 ## 1.1.71
 
 ### Patch Changes

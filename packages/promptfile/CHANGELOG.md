@@ -1,5 +1,13 @@
 # @montelo/promptfile
 
+## 1.1.72
+
+### Patch Changes
+
+- Crew logging
+- Updated dependencies
+  - @montelo/common@1.1.72
+
 ## 1.1.71
 
 ### Patch Changes
