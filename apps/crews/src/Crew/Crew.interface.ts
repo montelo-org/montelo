@@ -40,7 +40,7 @@ export type RunParams = {
 
 export type RunResponse = {
   /** The output of the crew's process. */
-  // result: string;
+  result: string;
   /** The chat history of the crew's process. */
   taskOutputs: string[];
 };

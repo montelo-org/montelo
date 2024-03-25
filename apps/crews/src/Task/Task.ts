@@ -1,4 +1,5 @@
 import { Tool } from "../Tool";
+import { logColors } from "../constants";
 import { generateId, injectParameters } from "../utils";
 import type { TaskConstructor, TaskExecuteParams, TaskInterface } from "./Task.interface";
 import { ExpectedOutputPrompt, TaskWithContextPrompt } from "./Task.prompts";
@@ -35,7 +36,8 @@ export class Task implements TaskInterface {
     if (!agent) {
       throw new Error("No agent assigned for this task: " + this.description);
     }
-    tools = tools?.length ? tools : this.tools;
+    tools = this.combineTools(tools);
+    console.log(logColors.RED, `\n[${this.name} Task] Starting...`);
 
     const agentResponse = await agent.executeTask({
       task: this,
@@ -69,5 +71,13 @@ export class Task implements TaskInterface {
 
   public addTools(tools: Tool[]): void {
     this.tools = this.tools.concat(tools);
+  }
+
+  private combineTools(tools: Tool[] = []): Tool[] {
+    const toolsMap = new Map<string, Tool>();
+    for (const tool of [...this.tools, ...tools]) {
+      toolsMap.set(tool.id, tool);
+    }
+    return Array.from(toolsMap.values());
   }
 }

@@ -1,6 +1,7 @@
 import { ChatCompletionMessageToolCall, ChatCompletionToolMessageParam } from "openai/resources";
 import { ChatMessage } from "../Model";
 import { Tool } from "../Tool";
+import { logColors } from "../constants";
 import { generateId, injectParameters } from "../utils";
 import type { AgentCallback, AgentConstructor, AgentExecuteTaskParams, AgentInterface } from "./Agent.interface";
 import { AgentSystemPrompt, TaskPrompt } from "./Agent.prompts";
@@ -40,6 +41,8 @@ export class Agent implements AgentInterface {
     const taskPrompt = task.getPrompt(context);
     const userPrompt = TaskPrompt(taskPrompt, availableTools);
 
+    console.log(logColors.YELLOW, `\n[${this.name} Agent] Executing task: ${taskPrompt}\n`);
+
     const messages: ChatMessage[] = [
       { role: "system", content: systemPrompt },
       { role: "user", content: userPrompt },
@@ -56,7 +59,9 @@ export class Agent implements AgentInterface {
 
     // If no tool calls, return the response
     if (!toolCalls || response.content) {
-      return response.content || "No response found.";
+      const output = response.content || "No response found.";
+      console.log(logColors.YELLOW, `[${this.name} Agent] Response: ${output}\n`);
+      return output;
     }
 
     // If there are tool calls, handle them
@@ -77,6 +82,7 @@ export class Agent implements AgentInterface {
       model: this.model.modelName,
     });
     const result = resultCompletion.choices[0].message.content || "";
+    console.log(logColors.YELLOW, `[${this.name} Agent] Response:\n${result}\n`);
 
     this.callbacks.forEach(async (callback) => await callback(result, this.name));
 
@@ -98,15 +104,24 @@ export class Agent implements AgentInterface {
   }
 
   private async handleToolCalls(toolCalls: ChatCompletionMessageToolCall[], tools?: Tool[]) {
+    if (toolCalls.length > 1) {
+      console.log(logColors.YELLOW, `[${this.name} Agent] Handling ${toolCalls.length} tool calls...`);
+    }
+
     const toolCallPromises = toolCalls.map(async (toolCall) => {
       const toolName = toolCall.function.name;
       const tool = this.getToolByName(toolName, tools);
 
       const handler = tool.function;
       const handlerArgs = JSON.parse(toolCall.function.arguments) as Record<string, any>;
+      console.log(
+        logColors.YELLOW,
+        `[${this.name} Agent] Calling tool: ${toolName}\nParams: ${JSON.stringify(handlerArgs, null, 2)}\n`,
+      );
 
       try {
         const functionResponse = await handler(handlerArgs);
+        console.log(logColors.YELLOW, `[${this.name} Agent] Tool response:\n${functionResponse}\n`);
         return {
           tool_call_id: toolCall.id,
           role: "tool",

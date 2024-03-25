@@ -4,6 +4,7 @@ import { ManagerRole, ManagerSystemPrompt } from "../Agent/Agent.prompts";
 import type { Model } from "../Model";
 import { Task } from "../Task";
 import { Tool } from "../Tool";
+import { logColors } from "../constants";
 import type { ChatMessage } from "../types";
 import type { CrewConstructor, Process, RunParams, RunResponse, StartParams } from "./Crew.interface";
 import {
@@ -43,6 +44,9 @@ export class Crew<P extends Process> {
   }
 
   public async start({ promptInputs, monteloClient }: StartParams): Promise<RunResponse> {
+    const crewName = this.name ? (this.name.toLowerCase().endsWith("crew") ? this.name : `${this.name} Crew`) : "Crew";
+    console.log(logColors.MAGENTA, `[${crewName}] Starting...`);
+
     this.trace = monteloClient.trace({ name: this.name });
 
     if (promptInputs && Object.keys(promptInputs).length > 0) {
@@ -56,9 +60,13 @@ export class Crew<P extends Process> {
     }
 
     if (this.process === "sequential") {
-      return await this.runSequential({ promptInputs });
+      const response = await this.runSequential({ promptInputs });
+      console.log(logColors.MAGENTA, `[${crewName}] Response:\n${response.result}`);
+      return response;
     } else {
-      return await this.runManaged({ promptInputs });
+      const response = await this.runManaged({ promptInputs });
+      console.log(logColors.MAGENTA, `[${crewName}] Response:\n${response.result}`);
+      return response;
     }
   }
 
@@ -87,7 +95,7 @@ export class Crew<P extends Process> {
       taskOutputs.push(output);
     }
 
-    return { taskOutputs };
+    return { taskOutputs, result: taskOutputs.pop() };
   }
 
   private async runManaged({ promptInputs }: RunParams): Promise<RunResponse> {
@@ -113,7 +121,7 @@ export class Crew<P extends Process> {
       taskOutputs.push(output);
     }
 
-    return { taskOutputs };
+    return { taskOutputs, result: taskOutputs.pop() };
   }
 
   private injectInputsIntoPrompt(promptInputs: Record<string, any>): void {
