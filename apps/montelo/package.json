@@ -1,6 +1,6 @@
 {
   "name": "montelo",
-  "version": "1.1.70",
+  "version": "1.1.71",
   "main": "dist/bundle-node/index.js",
   "types": "dist/bundle-node/index.d.ts",
   "module": "dist/bundle-node/index.js",
@@ -15,15 +15,15 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@montelo/core": "^1.1.70",
-    "@montelo/crews": "^1.1.70"
+    "@montelo/core": "^1.1.71",
+    "@montelo/crews": "^1.1.71"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "rollup": "^4.9.5",
-    "rollup-plugin-node-polyfills": "^0.2.1",
+    "rollup-plugin-ignore": "^1.0.10",
     "rollup-plugin-typescript2": "^0.36.0"
   }
 }

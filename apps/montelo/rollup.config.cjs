@@ -2,7 +2,7 @@ const nodeResolve = require("@rollup/plugin-node-resolve");
 const commonjs = require("@rollup/plugin-commonjs");
 const typescript = require("rollup-plugin-typescript2");
 const json = require("@rollup/plugin-json");
-const nodePolyfills = require('rollup-plugin-node-polyfills');
+const ignore = require("rollup-plugin-ignore");
 
 /**
  * @type {import("rollup").RollupOptions[]}
@@ -35,7 +35,7 @@ module.exports = [
       typescript(),
       commonjs(),
       json(),
-      nodePolyfills(),
+      ignore(["@montelo/crews"]),
     ],
   },
 ];
