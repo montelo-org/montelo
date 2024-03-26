@@ -1,6 +1,5 @@
 import { LogDto } from "@montelo/browser-client";
 import { Link, useParams } from "@remix-run/react";
-import dayjs from "dayjs";
 import { FC } from "react";
 import { Badge } from "~/components/ui/badge";
 import { TableCell, TableRow } from "~/components/ui/table";
@@ -14,7 +13,7 @@ export const RecentLog: FC<{ log: LogDto }> = ({ log }) => {
 
   return (
     <TableRow>
-      <TableCell>{dayjs(log.startTime || log.createdAt).format("h:mm:ssa")}</TableCell>
+      <TableCell>{log.startTime || log.createdAt}</TableCell>
       <TableCell>
         <Link
           to={Routes.app.project.env.traceId({

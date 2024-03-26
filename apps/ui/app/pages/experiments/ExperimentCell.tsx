@@ -34,7 +34,7 @@ export const ExperimentCell: FC<{ experiment: ExperimentDto }> = ({ experiment }
       <TableCell><Badge variant={variant}>{short}</Badge></TableCell>
       <TableCell>{experiment.name}</TableCell>
       <TableCell>{experiment.description}</TableCell>
-      <TableCell>{dayjs(experiment.createdAt).format("MMM D YY / h:mm:ss a")}</TableCell>
+      <TableCell>{experiment.createdAt}</TableCell>
     </TableRow>
   );
 };

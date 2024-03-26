@@ -2,12 +2,10 @@ import { LogDto } from "@montelo/browser-client";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Link, useFetcher, useParams } from "@remix-run/react";
 import { ColumnDef } from "@tanstack/react-table";
-import dayjs from "dayjs";
 import { Eye, Trash } from "lucide-react";
 import "react-json-view-lite/dist/index.css";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { Checkbox } from "~/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,7 +43,7 @@ export const COLUMNS: ColumnDef<LogDto>[] = [
     header: "Timestamp",
     cell: ({ row }) => {
       const date: string | undefined = row.getValue("startTime") || row.original.createdAt;
-      return <div>{date && dayjs(date).format("h:mm:ssa - D/M/YY")}</div>;
+      return <div>{date}</div>;
     },
   },
   {
@@ -203,7 +201,7 @@ export const COLUMNS: ColumnDef<LogDto>[] = [
               <Eye size={16} /> Quick View
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className={"gap-2 text-destructive"} onClick={handleDelete}>
+            <DropdownMenuItem className={"text-destructive gap-2"} onClick={handleDelete}>
               <Trash size={16} /> Delete Trace
             </DropdownMenuItem>
           </DropdownMenuContent>

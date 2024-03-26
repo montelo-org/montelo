@@ -1,6 +1,7 @@
 import { ExperimentDto } from "@montelo/browser-client";
 import { LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import dayjs from "dayjs";
 import { withAuth } from "~/auth/withAuth";
 import { ExperimentsPage } from "~/pages/experiments/ExperimentsPage";
 
@@ -32,5 +33,18 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
 
 export default function ExperimentsRoute() {
   const { experiments, totalCount, currentPage, totalPages } = useLoaderData<LoaderType>();
-  return <ExperimentsPage experiments={experiments} totalCount={totalCount} currentPage={currentPage} totalPages={totalPages} />;
+
+  const formattedExperiments = experiments.map((experiment) => ({
+    ...experiment,
+    createdAt: dayjs(experiment.createdAt).format("MMM D YY / h:mm:ss a"),
+  }));
+
+  return (
+    <ExperimentsPage
+      experiments={formattedExperiments}
+      totalCount={totalCount}
+      currentPage={currentPage}
+      totalPages={totalPages}
+    />
+  );
 }

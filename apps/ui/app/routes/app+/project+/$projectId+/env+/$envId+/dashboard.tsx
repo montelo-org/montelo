@@ -1,8 +1,10 @@
 import { AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum } from "@montelo/browser-client";
 import { defer } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import dayjs from "dayjs";
 import { withAuth } from "~/auth/withAuth";
 import { DashboardPage } from "~/pages/dashboard/DashboardPage";
-import { DeferredDashboardLoader } from "~/types/DashboardLoader.types";
+import { DashboardLoader, DeferredDashboardLoader } from "~/types/DashboardLoader.types";
 
 export const loader = withAuth(async ({ request, api, params }) => {
   const envId = params.envId!;
@@ -29,5 +31,15 @@ export const loader = withAuth(async ({ request, api, params }) => {
 });
 
 export default function DashboardRoute() {
-  return <DashboardPage />;
+  const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
+
+  const formattedLogs = logs.map((log) => {
+    return {
+      ...log,
+      createdAt: dayjs(log.createdAt).format("h:mm:ssa"),
+      startTime: dayjs(log.startTime).format("h:mm:ssa"),
+    };
+  });
+
+  return <DashboardPage analytics={analytics} logs={formattedLogs} costHistory={costHistory} />;
 }

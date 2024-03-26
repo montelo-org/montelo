@@ -1,8 +1,10 @@
 import { LogDto } from "@montelo/browser-client";
 import { LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import dayjs from "dayjs";
 import { withAuth } from "~/auth/withAuth";
 import { TracesPage } from "~/pages/traces";
+
 
 type LoaderType = {
   logs: LogDto[];
@@ -40,5 +42,14 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
 
 export default function TracesRoute() {
   const { logs, currentPage, totalPages } = useLoaderData<LoaderType>();
-  return <TracesPage logs={logs} currentPage={currentPage} totalPages={totalPages} />;
+
+  const formattedLogs = logs.map((log) => {
+    return {
+      ...log,
+      createdAt: dayjs(log.createdAt).format("h:mm:ssa - D/M/YY"),
+      startTime: dayjs(log.startTime).format("h:mm:ssa - D/M/YY"),
+    };
+  });
+  
+  return <TracesPage logs={formattedLogs} currentPage={currentPage} totalPages={totalPages} />;
 }

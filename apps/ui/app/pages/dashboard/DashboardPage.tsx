@@ -1,5 +1,5 @@
 import { AnalyticsControllerGetAnalyticsForEnvDateSelectionEnum } from "@montelo/browser-client";
-import { Await, useLoaderData, useSearchParams } from "@remix-run/react";
+import { Await, useSearchParams } from "@remix-run/react";
 import dayjs from "dayjs";
 import { DollarSign, FlaskConical, GanttChart, Timer } from "lucide-react";
 import numbro from "numbro";
@@ -11,15 +11,14 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "~/components
 import { DateSelector } from "~/pages/dashboard/DateSelector";
 import { PageLayout } from "~/pages/layouts/PageLayout";
 import { LayoutBreadcrumb } from "~/pages/layouts/types";
-import { DashboardLoader } from "~/types/DashboardLoader.types";
+import { DeferredDashboardLoader } from "~/types/DashboardLoader.types";
 import { PageSubtitle } from "../layouts/PageSubtitle";
 import { NoData } from "./NoData";
 import { RecentLog } from "./RecentLog";
 import { AnalyticsCard } from "./cards/AnalyticsCard";
 import { BaseContent, BaseContentSkeleton } from "./cards/BaseContent";
 
-export const DashboardPage: FC = () => {
-  const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
+export const DashboardPage: FC<DeferredDashboardLoader> = ({ analytics, logs, costHistory }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const selectedValue =

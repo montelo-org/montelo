@@ -1,6 +1,7 @@
 import { ExperimentDto, FullDatasetDto } from "@montelo/browser-client";
 import { LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import dayjs from "dayjs";
 import { withAuth } from "~/auth/withAuth";
 import { DatasetIdPage } from "~/pages/datasets/dataset/DatasetIdPage";
 
@@ -44,5 +45,19 @@ export const loader: LoaderFunction = withAuth(async ({ api, params, request }) 
 
 export default function DatasetIdRoute() {
   const { dataset, currentPage, totalPages, experiments, totalCount } = useLoaderData<LoaderType>();
-  return <DatasetIdPage dataset={dataset} currentPage={currentPage} totalPages={totalPages} experiments={experiments} totalCount={totalCount}/>;
+
+  const formattedExperiments = experiments.map((experiment) => ({
+    ...experiment,
+    createdAt: dayjs(experiment.createdAt).format("MMM D YY / h:mm:ss a"),
+  }));
+
+  return (
+    <DatasetIdPage
+      dataset={dataset}
+      currentPage={currentPage}
+      totalPages={totalPages}
+      experiments={formattedExperiments}
+      totalCount={totalCount}
+    />
+  );
 }
