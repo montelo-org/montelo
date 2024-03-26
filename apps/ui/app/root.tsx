@@ -14,7 +14,7 @@ import {
 } from "@remix-run/react";
 import clsx from "clsx";
 import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from "remix-themes";
-import { useRevalidateOnFocus, useRevalidateOnReconnect } from "./hooks";
+import { useRevalidateOnReconnect } from "./hooks";
 import { Routes } from "./routes";
 import { themeSessionResolver } from "./services/session.server";
 import styles from "./tailwind.css";
@@ -43,7 +43,7 @@ export function App() {
 
   // revalidation hooks
   useRevalidateOnReconnect();
-  useRevalidateOnFocus();
+  // useRevalidateOnFocus();
 
   return (
     <html lang="en" className={clsx(theme)}>

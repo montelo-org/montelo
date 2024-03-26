@@ -12,7 +12,7 @@ import { PageLayoutProps } from "./types";
 export const PageLayout: FC<PageLayoutProps> = ({ breadcrumbs, subtitle: Subtitle, action: Action, children }) => {
   return (
     <div className={"flex flex-col gap-4"}>
-      <div className={"flex flex-row items-center justify-between"}>
+      <div className={"flex flex-row items-center justify-between border-b-2 pb-4"}>
         <div className={"flex flex-col"}>
           <Breadcrumb>
             <BreadcrumbList className={"text-lg"}>
