@@ -5,10 +5,10 @@ export const AgentSystemPrompt = (name: string, role: string, systemPrompt?: str
   `You are: ${name}
 Your role is: ${role}
 ${systemPrompt ? `\n${systemPrompt}\n` : ""}
-Be brief and concise!`;
+`;
 
 export const TaskPrompt = (task: string, availableTools: string) =>
-  `# Your Task is:\n${task}\n\n# These are the tools available for you to use:\n${availableTools}\n\nBegin! This is VERY important to you, use any tools available and give your best final answer!`;
+  `# Your Task is:\n${task}\n\n${!!availableTools && `# These are the tools available for you to use:\n${availableTools}\n\n`}Begin! This is VERY important to you, use any tools available and give your best final answer!`;
 
 /**
  * Manager
