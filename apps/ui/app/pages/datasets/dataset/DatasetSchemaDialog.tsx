@@ -42,11 +42,11 @@ export const DatasetSchemaDialog: FC<{ slug: string; inputSchema: object; output
   };
 
   const sampleCode = `
-const localDataset: Array<{ input: DInput; expectedOutput: DOutput }> = [...];  
+const localDataset: Array<{ input: DatasetInput; expectedOutput: DatasetOutput }> = [...];  
 
-for (const { input, output } of localDataset) {
+for (const { input, expectedOutput } of localDataset) {
   await montelo.datapoints.create({
-    dataset: "${slug}", // the dataset slug
+    dataset: "${slug}",
     input,
     expectedOutput,
   });
@@ -55,8 +55,8 @@ for (const { input, output } of localDataset) {
 await montelo.experiments.createAndRun({
   name: "Experiment Name",
   description: "Experiment Description",
-  dataset: "${slug}", // the dataset slug
-  runner: (input: DatasetInput) => DatasetOutput, // the runner function
+  dataset: "${slug}",
+  runner: (input: DatasetInput) => DatasetOutput,
 });
   `;
 
