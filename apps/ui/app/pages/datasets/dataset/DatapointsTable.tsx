@@ -110,16 +110,11 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
         <CircleDotDashed size={20} />
         Datapoints
       </p>
-      <p className={"text-muted-foreground mb-4"}>
+      <p className={"text-muted-foreground"}>
         Each datapoint is a single input and expected output pair.{" "}
         <PageDocLink to={Routes.external.docs.datapoints}>Datapoints Docs.</PageDocLink>
       </p>
-
-      <div className="flex items-center justify-end mb-2">
-        <div className="space-x-2">
-          <Pagination currentPage={currentPage} totalPages={totalPages} />
-        </div>
-      </div>
+      <p className={"text-muted-foreground mb-4"}>{totalCount} datapoints.</p>
 
       <div className="mb-2 rounded-md border">
         <Table>
@@ -156,8 +151,10 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
         </Table>
       </div>
 
-      <div className="text-muted-foreground flex flex-1 justify-end text-sm">
-        {table.getFilteredRowModel().rows.length} datapoints.
+      <div className="flex items-center justify-end mb-2">
+        <div className="space-x-2">
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
       </div>
     </div>
   );
