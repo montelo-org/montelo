@@ -7,7 +7,6 @@ import { ProjectDto } from "../project/dto/project.dto";
 import { CreateProjectInput } from "./dto/create-project.input";
 import { OrganizationService } from "./organization.service";
 
-
 @ApiTags("Organization")
 @ApiBearerAuth()
 @UseGuards(ClerkAuthGuard)
@@ -17,16 +16,21 @@ export class OrganizationController {
 
   @Get()
   async getProjectsForOrg(@GetAuth() auth: GetAuthT): Promise<FullProjectDto[]> {
-    if (!auth.orgId) {
+    if (!auth.orgId && !auth.userId) {
       throw new UnauthorizedException();
     }
-    const fullProjects = await this.organizationService.findAllForOrg(auth.orgId);
+    const fullProjects = await this.organizationService.findAllForOrg(auth.orgId, auth.userId);
     return fullProjects.map(FullProjectDto.fromFullProject);
   }
 
   @Post()
   async createProject(@GetAuth() auth: GetAuthT, @Body() createProjectInput: CreateProjectInput): Promise<ProjectDto> {
-    const { project } = await this.organizationService.createProject(auth.orgId, createProjectInput);
+    const { userId, orgId } = auth;
+    const { project } = await this.organizationService.createProject({
+      orgId,
+      userId,
+      params: createProjectInput,
+    });
     return ProjectDto.fromProject(project);
   }
 }

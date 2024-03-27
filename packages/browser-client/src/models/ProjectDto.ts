@@ -36,7 +36,13 @@ export interface ProjectDto {
      * @type {string}
      * @memberof ProjectDto
      */
-    orgId: string;
+    orgId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectDto
+     */
+    userId?: string;
 }
 
 /**
@@ -46,7 +52,6 @@ export function instanceOfProjectDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "orgId" in value;
 
     return isInstance;
 }
@@ -63,7 +68,8 @@ export function ProjectDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         
         'id': json['id'],
         'name': json['name'],
-        'orgId': json['orgId'],
+        'orgId': !exists(json, 'orgId') ? undefined : json['orgId'],
+        'userId': !exists(json, 'userId') ? undefined : json['userId'],
     };
 }
 
@@ -79,6 +85,7 @@ export function ProjectDtoToJSON(value?: ProjectDto | null): any {
         'id': value.id,
         'name': value.name,
         'orgId': value.orgId,
+        'userId': value.userId,
     };
 }
 

@@ -8,7 +8,7 @@ import { Routes } from "~/routes";
 export type AuthenticatedFunctionParams = Parameters<LoaderFunction | ActionFunction>[0] & {
   api: Api;
   userId: string;
-  orgId: string;
+  orgId?: string;
 };
 
 export type AuthenticatedFunction = (
@@ -24,9 +24,9 @@ export const withAuth = (func: AuthenticatedFunction): LoaderFunction | ActionFu
       return redirect(Routes.auth.login);
     }
 
-    const orgId = auth.orgId;
-    if (!orgId) {
-      console.log("No orgId found in session.")
+    const { userId, orgId } = auth;
+    if (!orgId && !userId) {
+      console.warn("No orgId or userId found in session.");
       return redirect(Routes.app.root);
     }
 
