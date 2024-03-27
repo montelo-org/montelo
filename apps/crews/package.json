@@ -1,6 +1,6 @@
 {
   "name": "@montelo/crews",
-  "version": "1.1.74",
+  "version": "1.1.75",
   "main": "dist/bundle/index.js",
   "types": "dist/bundle/index.d.ts",
   "sideEffects": false,
@@ -13,7 +13,7 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@montelo/core": "^1.1.74",
+    "@montelo/core": "^1.1.75",
     "serpapi": "^2.1.0",
     "ts-node": "^10.9.2",
     "zod": "^3.22.4",
