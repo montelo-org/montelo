@@ -2,8 +2,8 @@ import { DatabaseService } from "@montelo/api-common";
 import { Prisma } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import { createId } from "@paralleldrive/cuid2";
+import * as dayjs from "dayjs";
 import { TraceWithLogs } from "./trace.types";
-
 
 @Injectable()
 export class TraceService {
@@ -36,14 +36,15 @@ export class TraceService {
 
   async createDefaultTrace(envId: string) {
     const firstLogId = createId();
+    const now = dayjs();
 
     const firstLog: Prisma.LogCreateManyTraceInput = {
       id: firstLogId,
       envId,
       name: "Sample Trace",
       source: "MANUAL",
-      startTime: "2024-03-24T20:31:31.062Z",
-      endTime: "2024-03-24T20:31:31.062Z",
+      startTime: now.subtract(60, "seconds").format(),
+      endTime: now.subtract(59, "seconds").format(),
     };
 
     const secondLog: Prisma.LogCreateManyTraceInput = {
@@ -72,9 +73,9 @@ export class TraceService {
         stop_sequence: null,
       },
       model: "claude-3-sonnet-20240229",
-      startTime: "2024-03-24T20:31:31.133Z",
-      endTime: "2024-03-24T20:31:32.894Z",
-      duration: 1.76,
+      startTime: now.subtract(59, "seconds").format(),
+      endTime: now.subtract(58, "seconds").format(),
+      duration: 1,
       inputTokens: 17,
       outputTokens: 53,
       totalTokens: 70,
@@ -112,9 +113,9 @@ export class TraceService {
         created: 1711312293,
       },
       model: "mistral-tiny",
-      startTime: "2024-03-24T20:31:32.894Z",
-      endTime: "2024-03-24T20:31:34.211Z",
-      duration: 1.32,
+      startTime: now.subtract(58, "seconds").format(),
+      endTime: now.subtract(57, "seconds").format(),
+      duration: 1,
       inputTokens: 18,
       outputTokens: 57,
       totalTokens: 75,
@@ -152,9 +153,9 @@ export class TraceService {
         system_fingerprint: "fp_3bc1b5746c",
       },
       model: "gpt-3.5-turbo-0125",
-      startTime: "2024-03-24T20:31:34.211Z",
-      endTime: "2024-03-24T20:31:35.060Z",
-      duration: 0.85,
+      startTime: now.subtract(57, "seconds").format(),
+      endTime: now.subtract(56, "seconds").format(),
+      duration: 1,
       inputTokens: 17,
       outputTokens: 21,
       totalTokens: 38,
@@ -173,8 +174,8 @@ export class TraceService {
         inputCost: 0.000064,
         outputCost: 0.000813,
         totalCost: 0.00083,
-        startTime: "2024-03-24T20:31:31.062Z",
-        endTime: "2024-03-24T20:31:35.060Z",
+        startTime: now.subtract(60, "seconds").format(),
+        endTime: now.subtract(56, "seconds").format(),
         duration: 4,
         extra: {
           some: "extra data",
