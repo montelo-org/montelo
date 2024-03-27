@@ -1,7 +1,5 @@
 <h3>MonteloAI</h3>
 
----
-
 <p>
   The open-source LLM developer platform.
   <br />
