@@ -6,6 +6,7 @@ import { withAuth } from "~/auth/withAuth";
 import { DashboardPage } from "~/pages/dashboard/DashboardPage";
 import { DashboardLoader, DeferredDashboardLoader } from "~/types/DashboardLoader.types";
 
+
 export const loader = withAuth(async ({ request, api, params }) => {
   const envId = params.envId!;
   const { searchParams } = new URL(request.url);
@@ -19,19 +20,10 @@ export const loader = withAuth(async ({ request, api, params }) => {
     envId,
     dateSelection: dateSelectionQuery,
   });
-  const logs = await api.log.logControllerGetLogsForEnvironment({
+  const { logs } = await api.log.logControllerGetLogsForEnvironment({
     envId,
     take: "25",
   });
-  return defer<DeferredDashboardLoader>({
-    analytics: analyticsPromise,
-    logs: logs.logs,
-    costHistory: costHistoryPromise,
-  });
-});
-
-export default function DashboardRoute() {
-  const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
 
   const formattedLogs = logs.map((log) => {
     return {
@@ -40,6 +32,15 @@ export default function DashboardRoute() {
       startTime: dayjs(log.startTime).format("h:mm:ssa"),
     };
   });
+  
+  return defer<DeferredDashboardLoader>({
+    analytics: analyticsPromise,
+    logs: formattedLogs,
+    costHistory: costHistoryPromise,
+  });
+});
 
-  return <DashboardPage analytics={analytics} logs={formattedLogs} costHistory={costHistory} />;
+export default function DashboardRoute() {
+  const { analytics, logs, costHistory } = useLoaderData<DashboardLoader>();
+  return <DashboardPage analytics={analytics} logs={logs} costHistory={costHistory} />;
 }
