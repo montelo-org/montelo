@@ -58,6 +58,7 @@
     "react-dom": "^18.2.0",
     "react-json-tree": "^0.18.0",
     "react-json-view-lite": "^1.2.1",
+    "react-syntax-highlighter": "^15.5.0",
     "recharts": "^2.11.0",
     "remix-auth-form": "^1.4.0",
     "remix-themes": "^1.2.2",

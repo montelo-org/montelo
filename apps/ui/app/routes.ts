@@ -12,6 +12,7 @@ const PATH_APP = {
   root: ROOT_APP,
   project: {
     env: {
+      onboarding: (params: EnvParams) => buildEnvPath(params)("onboarding"),
       dashboard: (params: EnvParams) => buildEnvPath(params)("dashboard"),
       traces: (params: EnvParams) => buildEnvPath(params)("traces"),
       traceId: (params: EnvParams & { traceId: string; logId?: string }) =>
@@ -75,6 +76,7 @@ const PATH_EXTERNAL = {
   landing: "https://montelo.ai",
   documentation: "https://docs.montelo.ai",
   docs: {
+    quickstart: "https://docs.montelo.ai/general/quickstart",
     traces: "https://docs.montelo.ai/traces/traces",
     datasets: "https://docs.montelo.ai/datasets/datasets",
     datapoints: "https://docs.montelo.ai/datapoints/datapoints",

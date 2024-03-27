@@ -1,8 +1,9 @@
 import { Clipboard, ClipboardCheck } from "lucide-react";
 import { FC } from "react";
-import { CodeBlock } from "~/components/traces/MessagesView/CodeBlock";
+import { PrismAsync as SyntaxHighlighter } from "react-syntax-highlighter";
 import { Button } from "~/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "~/components/ui/dialog";
+import { RSHTheme } from "~/constants/RSHThemes";
 import { useCopyToClipboard } from "~/hooks";
 
 export const DatasetSchemaDialog: FC<{ slug: string; inputSchema: object; outputSchema: object }> = ({
@@ -72,7 +73,7 @@ await montelo.experiments.createAndRun({
       <DialogTrigger asChild>
         <Button>View Code</Button>
       </DialogTrigger>
-      <DialogContent className={"max-h-[750px] max-w-[52rem] overflow-y-scroll"}>
+      <DialogContent className={"max-h-[750px] max-w-[56rem] overflow-y-scroll"}>
         <DialogHeader>
           <DialogTitle>Dataset Schemas</DialogTitle>
         </DialogHeader>
@@ -90,9 +91,11 @@ await montelo.experiments.createAndRun({
           <div className={"flex flex-col gap-2"}>
             <p className={"text-lg font-medium"}>TypeScript Code</p>
             <p>Copy the following TypeScript code to upload datapoints and run experiments against this dataset.</p>
-            <CodeBlock value={combinedTypeDefinition} />
+            <SyntaxHighlighter style={RSHTheme} language="typescript">
+              {combinedTypeDefinition}
+            </SyntaxHighlighter>
             <Icon
-              className={"text-muted-foreground hover:text-foreground fixed right-1 mr-10 mt-20 cursor-pointer"}
+              className={"text-muted-foreground hover:text-foreground fixed right-1 mr-7 mt-20 cursor-pointer"}
               onClick={() => {
                 copyToClipboard(combinedTypeDefinition);
               }}

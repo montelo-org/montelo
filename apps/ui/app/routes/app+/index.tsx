@@ -80,9 +80,12 @@ export default function RootRoute() {
 
         // Wait for 0.75 seconds before navigating
         setTimeout(() => {
+          const hasOnboarded = clerk.user?.publicMetadata?.hasOnboarded;
+          const redirectPath = hasOnboarded ? Routes.app.project.env.dashboard : Routes.app.project.env.onboarding;
+
           const beforeEmit = () =>
             navigate(
-              Routes.app.project.env.dashboard({
+              redirectPath({
                 projectId: navigationData.projectId,
                 envId: navigationData.envId,
               }),
