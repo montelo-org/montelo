@@ -2,6 +2,7 @@ import { ExperimentWithDatapointRunsDto } from "@montelo/browser-client";
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { Link, useParams } from "@remix-run/react";
 import dayjs from "dayjs";
+import { Play, Target } from "lucide-react";
 import { FC } from "react";
 import { Button } from "~/components/ui/button";
 import { DatapointRunsTable } from "~/pages/experiments/ExperimentId/DatapointRunsTable";
@@ -55,52 +56,61 @@ export const ExperimentIdPage: FC<ExperimentsPageProps> = ({
 
   return (
     <PageLayout breadcrumbs={breadcrumbs} subtitle={subtitle}>
-      <div className="grid grid-cols-3 gap-8">
-        <TopCard
-          title={"Experiment"}
-          content={() => (
-            <div>
-              <p>{experiment.description}</p>
-              <p>Started on {dayjs(experiment.createdAt).format("MMMM D, h:mm a")}</p>
-            </div>
-          )}
-        />
-        <TopCard
-          title={"Dataset"}
-          content={() => (
-            <div>
-              <p className={"flex items-center"}>
-                {experiment.dataset.name}
-                <Link
-                  className={"hover:text-accent-foreground pl-1"}
-                  to={Routes.app.project.env.datasetsId({
-                    projectId: params.projectId!,
-                    envId: params.envId!,
-                    datasetId: experiment.dataset.id,
-                  })}
-                  prefetch={"intent"}
-                >
-                  <ExternalLinkIcon />
-                </Link>
-              </p>
-              <p>{experiment.dataset.description}</p>
-            </div>
-          )}
-        />
-        <TopCard
-          title={"Analytics"}
-          content={() => (
-            <div>
-              <p>{totalDatapointRuns} runs</p>
-              <p>0 failures</p>
-            </div>
-          )}
-        />
+      <div className={"flex flex-col gap-2"}>
+        <div className={"flex flex-row items-center gap-1"}>
+          <Target size={20} />
+          <p className={"text-xl font-semibold"}>Overview</p>
+        </div>
+        <div className="mb-2 grid grid-cols-3 gap-8">
+          <TopCard
+            title={"Experiment"}
+            content={() => (
+              <div>
+                <p>{experiment.description}</p>
+                <p>Started on {dayjs(experiment.createdAt).format("MMMM D, h:mm a")}</p>
+              </div>
+            )}
+          />
+          <TopCard
+            title={"Dataset"}
+            content={() => (
+              <div>
+                <p className={"flex items-center"}>
+                  {experiment.dataset.name}
+                  <Link
+                    className={"hover:text-accent-foreground pl-1"}
+                    to={Routes.app.project.env.datasetsId({
+                      projectId: params.projectId!,
+                      envId: params.envId!,
+                      datasetId: experiment.dataset.id,
+                    })}
+                    prefetch={"intent"}
+                  >
+                    <ExternalLinkIcon />
+                  </Link>
+                </p>
+                <p>{experiment.dataset.description}</p>
+              </div>
+            )}
+          />
+          <TopCard
+            title={"Analytics"}
+            content={() => (
+              <div>
+                <p>{totalDatapointRuns} runs</p>
+                <p>0 failures</p>
+              </div>
+            )}
+          />
+        </div>
       </div>
 
       {/* datapoint runs*/}
       <div>
-        <p className={"text-xl font-semibold"}>Runs</p>
+        <div className={"flex flex-row items-center gap-1"}>
+          <Play size={20} />
+          <p className={"text-xl font-semibold"}>Runs</p>
+        </div>
         <p className={"text-muted-foreground mb-4"}>
           Each run is a datapoint from the dataset that was executed in this experiment.{" "}
           <PageDocLink to={Routes.external.docs.runs}>Run Docs.</PageDocLink>

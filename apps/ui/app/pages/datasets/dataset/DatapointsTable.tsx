@@ -1,19 +1,32 @@
 import type { DatapointDto } from "@montelo/browser-client";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useFetcher, useParams } from "@remix-run/react";
-import { ColumnDef, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { CircleDotDashed, Trash } from "lucide-react";
 import * as React from "react";
 import { FC } from "react";
+import { PrettyJson } from "~/components/PrettyJson";
 import Pagination from "~/components/pagination";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { PageDocLink } from "~/pages/layouts/PageDocLink";
 import { idShortener } from "~/pages/traces/utils";
 import { Routes } from "~/routes";
-
 
 export const columns: ColumnDef<DatapointDto>[] = [
   {
@@ -34,20 +47,16 @@ export const columns: ColumnDef<DatapointDto>[] = [
     accessorKey: "input",
     header: "Input",
     cell: ({ row }) => {
-      const val = row.getValue("input") as object;
-      const stringified = JSON.stringify(val);
-      const short = stringified.slice(0, 100);
-      return <div>{short.length === stringified.length ? short : `${short}...`}</div>;
+      const val = row.getValue("input");
+      return <PrettyJson data={val} />;
     },
   },
   {
     accessorKey: "expectedOutput",
     header: "Expected Output",
     cell: ({ row }) => {
-      const val = row.getValue("expectedOutput") as object;
-      const stringified = JSON.stringify(val);
-      const short = stringified.slice(0, 100);
-      return <div>{short.length === stringified.length ? short : `${short}...`}</div>;
+      const val = row.getValue("expectedOutput");
+      return <PrettyJson data={val} />;
     },
   },
   {
@@ -106,7 +115,7 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
 
   return (
     <div className="w-full">
-      <p className={"text-xl font-semibold flex gap-2 items-center"}>
+      <p className={"flex items-center gap-2 text-xl font-semibold"}>
         <CircleDotDashed size={20} />
         Datapoints
       </p>
@@ -151,7 +160,7 @@ export const DatapointsTable: FC<DatapointsTableProps> = ({ datapoints, currentP
         </Table>
       </div>
 
-      <div className="flex items-center justify-end mb-2">
+      <div className="mb-2 flex items-center justify-end">
         <div className="space-x-2">
           <Pagination currentPage={currentPage} totalPages={totalPages} />
         </div>

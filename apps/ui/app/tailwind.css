@@ -24,6 +24,11 @@
         --input: #e2e8f0;
         --ring: #020817;
         --radius: 0.5rem;
+        --json-string: #89231c;
+        --json-number: #367950;
+        --json-boolean: #0000f6;
+        --json-null: #0000f6;
+        --json-key: #204096;
     }
 
     .dark,
@@ -48,6 +53,11 @@
         --input: #17151B;
         --ring: #17151B;
         --radius: 0.5rem;
+        --json-string: #a77a64;
+        --json-number: #367950;
+        --json-boolean: #5c8dca;
+        --json-null: #5c8dca;
+        --json-key: #a0d4f9;
     }
 }
 
@@ -61,51 +71,25 @@
     }
 }
 
-/* For JSON in light mode */
+/* JSON styling */
 pre .string {
-    color: #89231c;
+    color: var(--json-string);
 }
 
 .number {
-    color: #367950;
+    color: var(--json-number);
 }
 
 .boolean {
-    color: #0000f6;
+    color: var(--json-boolean);
 }
 
 .null {
-    color: #0000f6;
+    color: var(--json-null);
 }
 
 .key {
-    color: #204096;
-}
-
-/* For JSON in dark mode */
-.dark pre .string,
-:root[class~="dark"] pre .string {
-    color: #a77a64;
-}
-
-.dark pre .number,
-:root[class~="dark"] pre .number {
-    color: #367950;
-}
-
-.dark pre .boolean,
-:root[class~="dark"] pre .boolean {
-    color: #5c8dca;
-}
-
-.dark pre .null,
-:root[class~="dark"] pre .null {
-    color: #5c8dca;
-}
-
-.dark pre .key,
-:root[class~="dark"] pre .key {
-    color: #a0d4f9;
+    color: var(--json-key);
 }
 
 /* hide scrollbar */
@@ -166,9 +150,11 @@ html {
 .cl-organizationSwitcher-root {
     height: 32px;
 }
+
 .cl-organizationSwitcherTrigger {
     width: 175px;
 }
+
 .cl-headerTitle {
     color: var(--muted-foreground);
 }

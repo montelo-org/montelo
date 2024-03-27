@@ -50,25 +50,24 @@ const main = async () => {
   //     article: "string",
   //   },
   // });
-  //
-  // for (const { input, output } of [...localDataset, ...localDataset, ...localDataset]) {
-  //   await montelo.datapoints.create({
-  //     dataset: dataset.slug,
-  //     input,
-  //     expectedOutput: output,
-  //   });
-  // }
+
+  for (const { input, output } of localDataset) {
+    await montelo.datapoints.create({
+      dataset: "topic-datasets",
+      input,
+      expectedOutput: output,
+    });
+  }
 
   await montelo.experiments.createAndRun({
     name: "AI Articles w/ OpenAI",
     description: "Find articles about AI",
-    dataset: "topic-datasets-v2",
+    dataset: "topic-datasets",
     runner: openaiChat,
   });
 };
 
 const openaiChat = async (input: DInput): Promise<DOutput> => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   const result = await montelo.openai.chat.completions.create({
     model: "gpt-3.5-turbo-1106",
     messages: [

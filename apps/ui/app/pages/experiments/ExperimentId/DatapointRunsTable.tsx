@@ -13,9 +13,6 @@ type DatapointRunsTableProps = {
 export const DatapointRunsTable: FC<DatapointRunsTableProps> = ({ datapointRuns, currentPage, totalPages }) => {
   return (
     <div>
-      <div className={"mb-4 flex justify-end"}>
-        <Pagination currentPage={currentPage} totalPages={totalPages} />
-      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -32,6 +29,9 @@ export const DatapointRunsTable: FC<DatapointRunsTableProps> = ({ datapointRuns,
           ))}
         </TableBody>
       </Table>
+      <div className={"mt-4 flex justify-end"}>
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
+      </div>
     </div>
   );
 };

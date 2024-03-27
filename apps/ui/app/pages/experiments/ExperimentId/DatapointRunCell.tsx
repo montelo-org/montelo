@@ -2,6 +2,7 @@ import { FullDatapointRunDto } from "@montelo/browser-client";
 import { useNavigate, useParams } from "@remix-run/react";
 import dayjs from "dayjs";
 import { FC } from "react";
+import { PrettyJson } from "~/components/PrettyJson";
 import { Badge } from "~/components/ui/badge";
 import { TableCell, TableRow } from "~/components/ui/table";
 import { idShortener } from "~/pages/traces/utils";
@@ -24,20 +25,38 @@ export const DatapointRunCell: FC<{ datapointRun: FullDatapointRunDto }> = ({ da
     );
   };
 
-  return (
-    <TableRow
-      key={datapointRun.id}
-      onClick={() => {
-        onCellClick(datapointRun);
+  const WrappedCell = ({ children }: { children: React.ReactNode }) => (
+    <TableCell
+      className={"w-2/8"}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
       }}
     >
-      <TableCell className={"w-1/12"}>
+      {children}
+    </TableCell>
+  );
+
+  return (
+    <TableRow key={datapointRun.id}>
+      <TableCell
+        className={"w-1/8 cursor-pointer"}
+        onClick={() => {
+          onCellClick(datapointRun);
+        }}
+      >
         <Badge variant={variant}>{short}</Badge>
       </TableCell>
-      <TableCell className={"w-1/12"}>{dayjs(datapointRun.createdAt).format("h:mm:ss a")}</TableCell>
-      <TableCell>{JSON.stringify(datapointRun.datapoint.input)}</TableCell>
-      <TableCell>{JSON.stringify(datapointRun.datapoint.expectedOutput)}</TableCell>
-      <TableCell>{JSON.stringify(datapointRun.output)}</TableCell>
+      <TableCell className={"w-1/8"}>{dayjs(datapointRun.createdAt).format("h:mm:ss a")}</TableCell>
+      <WrappedCell>
+        <PrettyJson data={datapointRun.datapoint.input} />
+      </WrappedCell>
+      <WrappedCell>
+        <PrettyJson data={datapointRun.datapoint.expectedOutput} />
+      </WrappedCell>
+      <WrappedCell>
+        <PrettyJson data={datapointRun.output} />
+      </WrappedCell>
     </TableRow>
   );
 };
