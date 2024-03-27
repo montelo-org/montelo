@@ -1,6 +1,6 @@
 {
   "name": "@montelo/api-sdk",
-  "version": "1.1.73",
+  "version": "1.1.74",
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
@@ -38,8 +38,8 @@
     "@anthropic-ai/sdk": "^0.17.1",
     "@logtail/pino": "^0.4.21",
     "@mistralai/mistralai": "^0.1.3",
-    "@montelo/api-common": "1.1.73",
-    "@montelo/db": "1.1.73",
+    "@montelo/api-common": "1.1.74",
+    "@montelo/db": "1.1.74",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/bull": "^10.0.1",
     "@nestjs/common": "^10.0.0",

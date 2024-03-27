@@ -1,5 +1,14 @@
 # montelo
 
+## 1.1.74
+
+### Patch Changes
+
+- default trace fixes
+- Updated dependencies
+  - @montelo/crews@1.1.74
+  - @montelo/core@1.1.74
+
 ## 1.1.73
 
 ### Patch Changes

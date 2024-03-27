@@ -1,5 +1,14 @@
 # @montelo/api-sdk
 
+## 1.1.74
+
+### Patch Changes
+
+- default trace fixes
+- Updated dependencies
+  - @montelo/api-common@1.1.74
+  - @montelo/db@1.1.74
+
 ## 1.1.73
 
 ### Patch Changes

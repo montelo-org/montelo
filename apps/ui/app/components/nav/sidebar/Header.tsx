@@ -2,7 +2,7 @@ import { CreateOrganization, OrganizationProfile, useOrganizationList } from "@c
 import { Organization, OrganizationMembership } from "@clerk/remix/api.server";
 import { dark } from "@clerk/themes";
 import * as Dialog from "@radix-ui/react-dialog";
-import { useNavigate } from "@remix-run/react";
+import { useNavigate, useRevalidator } from "@remix-run/react";
 import { ArrowRightLeft, Building, PanelLeftClose, Settings } from "lucide-react";
 import { FC, useState } from "react";
 import { Theme, useTheme } from "remix-themes";
@@ -29,6 +29,7 @@ export const Header: FC<HeaderProps> = ({ org, orgMemberships, closeSidebar }) =
   const navigate = useNavigate();
   const [theme] = useTheme();
   const isDarkMode = theme === Theme.DARK;
+  const revalidator = useRevalidator();
 
   const filteredMemberships = orgMemberships.filter((membership) => membership.organization.id !== org.id);
 
@@ -36,7 +37,10 @@ export const Header: FC<HeaderProps> = ({ org, orgMemberships, closeSidebar }) =
 
   const openCreateOrg = () => setDialogContent("create");
   const openOrgProfile = () => setDialogContent("profile");
-  const closeDialog = () => setDialogContent(null);
+  const closeDialog = () => {
+    setDialogContent(null);
+    revalidator.revalidate();
+  };
 
   return (
     <div className={"flex h-8 w-full items-center justify-between"}>
@@ -45,7 +49,7 @@ export const Header: FC<HeaderProps> = ({ org, orgMemberships, closeSidebar }) =
           <DropdownMenu>
             <DropdownMenuTrigger
               className={
-                "hover:bg-muted flex items-center rounded-xl px-3 py-2 focus:outline-none dark:hover:bg-[#151218]"
+                "hover:bg-muted flex max-w-44 items-center rounded-xl px-3 py-2 focus:outline-none dark:hover:bg-[#151218]"
               }
             >
               <Avatar className="ml-[2px] h-6 w-6">
@@ -53,7 +57,9 @@ export const Header: FC<HeaderProps> = ({ org, orgMemberships, closeSidebar }) =
                 <AvatarFallback>{org.name[0]}</AvatarFallback>
               </Avatar>
 
-              <span className="text-muted-foreground ml-2.5 text-sm">{org.name}</span>
+              <span className="text-muted-foreground ml-2.5 overflow-hidden text-ellipsis whitespace-nowrap text-sm">
+                {org.name}
+              </span>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent className="w-60">

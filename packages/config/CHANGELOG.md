@@ -1,5 +1,11 @@
 # @montelo/config
 
+## 1.1.74
+
+### Patch Changes
+
+- default trace fixes
+
 ## 1.1.73
 
 ### Patch Changes
