@@ -15,10 +15,11 @@ const betterstackConfig = !!betterstackSourceToken &&
 export const loggerConfig: Params = {
   pinoHttp: {
     customReceivedMessage: (req) => `Incoming Request: ${req.method} "${req.url}"`,
-    customSuccessMessage: (req, res) =>
-      res.statusCode === 404
-        ? `Resource Not Found: ${req.method} "${req.url}"`
-        : `Request Completed: ${req.method} "${req.url}"`,
+    customSuccessMessage: (req, res) => {
+      if (res.statusCode === 404) return `Resource Not Found: ${req.method} "${req.url}"`;
+      if (res.statusCode === 401) return `Unauthorized: ${req.method} "${req.url}"`;
+      return `Request Completed: ${req.method} "${req.url}"`;
+    },
     customErrorMessage: (req) => `Request Failed: ${req.method} "${req.url}"`,
     customLogLevel: function (req, res, err) {
       if (res?.statusCode >= 400 && res.statusCode < 500) {

@@ -1,5 +1,13 @@
 # @montelo/crews
 
+## 1.1.75
+
+### Patch Changes
+
+- personal org
+- Updated dependencies
+  - @montelo/core@1.1.75
+
 ## 1.1.74
 
 ### Patch Changes

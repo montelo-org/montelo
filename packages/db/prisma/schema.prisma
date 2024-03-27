@@ -25,8 +25,9 @@ model Project {
   id String @id @default(cuid())
 
   // properties
-  name  String
-  orgId String @map("org_id")
+  name   String
+  orgId  String? @map("org_id")
+  userId String? @map("user_id")
 
   environments Environment[]
 
@@ -36,6 +37,7 @@ model Project {
 
   // attributes
   @@unique([name, orgId])
+  @@unique([name, userId])
   // rename
   @@map("project")
 }

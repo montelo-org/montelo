@@ -43,7 +43,13 @@ export interface FullProjectDto {
      * @type {string}
      * @memberof FullProjectDto
      */
-    orgId: string;
+    orgId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FullProjectDto
+     */
+    userId?: string;
     /**
      * 
      * @type {Array<EnvironmentDto>}
@@ -59,7 +65,6 @@ export function instanceOfFullProjectDto(value: object): boolean {
     let isInstance = true;
     isInstance = isInstance && "id" in value;
     isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "orgId" in value;
     isInstance = isInstance && "environments" in value;
 
     return isInstance;
@@ -77,7 +82,8 @@ export function FullProjectDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'id': json['id'],
         'name': json['name'],
-        'orgId': json['orgId'],
+        'orgId': !exists(json, 'orgId') ? undefined : json['orgId'],
+        'userId': !exists(json, 'userId') ? undefined : json['userId'],
         'environments': ((json['environments'] as Array<any>).map(EnvironmentDtoFromJSON)),
     };
 }
@@ -94,6 +100,7 @@ export function FullProjectDtoToJSON(value?: FullProjectDto | null): any {
         'id': value.id,
         'name': value.name,
         'orgId': value.orgId,
+        'userId': value.userId,
         'environments': ((value.environments as Array<any>).map(EnvironmentDtoToJSON)),
     };
 }

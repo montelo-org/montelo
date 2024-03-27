@@ -98,41 +98,37 @@ export class WebhookController {
 
     if (eventType === "user.created") {
       const userId = evt.data.id;
-      const firstName = evt.data.first_name.split(" ")[0];
-      const orgName = `${firstName}'s Org`;
-      const orgSlug = `${firstName}-${userId.substring(userId.length - 6, userId.length)}`
-        .toLowerCase()
-        .replace(/[^a-zA-Z0-9]/g, "");
-
-      // createProject the org
-      const org = await this.clerkClient.organizations.createOrganization({
-        name: orgName,
-        slug: orgSlug,
-        createdBy: evt.data.id,
-      });
+      const firstName = evt.data.first_name;
+      const lastName = evt.data.last_name;
+      const email = evt.data.email_addresses[0].email_address;
 
       // then createProject them on our service
-      const { project, environments } = await this.organizationService.createProject(org.id, {
-        name: "Project X",
-        envNames: [],
+      const { project, environments } = await this.organizationService.createProject({
+        userId,
+        params: {
+          name: "Project X",
+          envNames: [],
+        },
       });
 
       const devEnv = environments.find((env) => env.name === "Development")!;
       await this.traceService.createDefaultTrace(devEnv.id);
 
-      await this.clerkClient.organizations.updateOrganizationMetadata(org.id, {
+      await this.clerkClient.users.updateUserMetadata(userId, {
         publicMetadata: {
-          defaultProjectId: project.id,
-          defaultEnvId: devEnv.id,
+          personalProjectId: project.id,
+          personalEnvId: devEnv.id,
         },
       });
 
       // new users channel
       const channel = await this.discordClient.channels.fetch("1221562587288965189" as Snowflake);
       if (channel && channel.isTextBased() && this.envService.get("NODE_ENV") === "production") {
-        const formattedMessage = `🎉 **${firstName}** just signed up! 🎉\n\n**Org Name:** ${orgName}\n**Org Slug:** ${orgSlug}\n**User ID:** ${userId}\n**Org ID:** ${org.id}\n**Project ID:** ${project.id}\n**Development Env ID:** ${devEnv.id}`;
+        const formattedMessage = `🎉 **${firstName} ${lastName}** just signed up! 🎉\n\n**Email:** ${email}\n**User ID:** ${userId}\n**Project ID:** ${project.id}\n**Development Env ID:** ${devEnv.id}`;
         await channel.send(formattedMessage);
       }
+    } else if (eventType === "user.deleted") {
+      // TODO: Delete the user's projects
     }
 
     return res.status(200).json({

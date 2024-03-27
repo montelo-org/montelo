@@ -156,13 +156,13 @@ html {
 }
 
 .cl-headerTitle {
-    color: var(--primary-foreground);
+    color: var(--primary-popover-foreground);
 }
 
 .cl-form p,
 .cl-form label,
 .cl-form svg {
-    color: var(--primary-foreground);
+    color: var(--primary-popover-foreground);
 }
 
 .cl-formFieldInput {

@@ -1,5 +1,14 @@
 # actions
 
+## 1.1.75
+
+### Patch Changes
+
+- personal org
+- Updated dependencies
+  - @montelo/api-common@1.1.75
+  - @montelo/db@1.1.75
+
 ## 1.1.74
 
 ### Patch Changes

@@ -17,8 +17,9 @@ import { AppLayoutLoader } from "~/types/AppLayoutLoader.types";
 export const loader: LoaderFunction = async (args) => {
   const auth = await getAuth(args);
   const token = await auth.getToken();
+  const { userId, orgId } = auth;
 
-  if (!token || !auth.userId) {
+  if (!token || !userId) {
     return redirect(Routes.auth.login);
   }
 
@@ -33,25 +34,20 @@ export const loader: LoaderFunction = async (args) => {
     },
   });
   const api = new Api(configuration);
-
-  const orgId = auth.orgId;
   const envId = args.params.envId!;
-
-  if (!orgId) {
-    throw new Error("Organization ID is missing");
-  }
 
   const environmentPromise = api.environment.environmentControllerGetEnv({
     envId,
   });
 
   const projectPromise = api.project.projectControllerGetProject();
-
   const allProjectsForOrgPromise = api.organization.organizationControllerGetProjectsForOrg();
 
-  const orgPromise = clerkClient.organizations.getOrganization({ organizationId: orgId, slug: auth.orgSlug! });
-  const userPromise = clerkClient.users.getUser(auth.userId);
-  const orgMembershipsPromise = clerkClient.users.getOrganizationMembershipList({ userId: auth.userId });
+  const orgPromise = orgId
+    ? clerkClient.organizations.getOrganization({ organizationId: orgId, slug: auth.orgSlug! })
+    : undefined;
+  const userPromise = clerkClient.users.getUser(userId);
+  const orgMembershipsPromise = clerkClient.users.getOrganizationMembershipList({ userId });
 
   const [environment, project, allProjects, org, user, orgMemberships] = await Promise.all([
     environmentPromise,

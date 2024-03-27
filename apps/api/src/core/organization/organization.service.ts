@@ -1,12 +1,10 @@
 import { DatabaseService } from "@montelo/api-common";
-import { Environment, Project } from "@montelo/db";
 import { Injectable } from "@nestjs/common";
 import { upperFirst } from "lodash";
 import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "../environment/environment.enums";
 import { FullProject } from "../project/project.types";
-import { CreateProjectInput } from "./organization.types";
-
+import { CreateProjectParams, CreateProjectResponse } from "./organization.types";
 
 @Injectable()
 export class OrganizationService {
@@ -15,18 +13,20 @@ export class OrganizationService {
     private apiKey: ApiKeyService,
   ) {}
 
-  async findAllForOrg(orgId: string): Promise<FullProject[]> {
+  async findAllForOrg(orgId?: string, userId?: string): Promise<FullProject[]> {
+    if (!orgId && !userId) throw new Error("OrgId or userId is required!");
+
     return this.db.project.findMany({
-      where: {
-        orgId,
-      },
+      where: orgId ? { orgId } : { userId },
       include: {
         environments: true,
       },
     });
   }
 
-  async createProject(orgId: string, params: CreateProjectInput): Promise<{ project: Project; environments: Environment[] }> {
+  async createProject({ orgId, userId, params }: CreateProjectParams): Promise<CreateProjectResponse> {
+    if (!orgId && !userId) throw new Error("OrgId or userId is required!");
+
     const EnvironmentNames: string[] = Object.values(Environments);
     const isRestrictedEnvironmentUsed = params.envNames.some((el) => EnvironmentNames.includes(el));
     if (isRestrictedEnvironmentUsed) {
@@ -47,7 +47,7 @@ export class OrganizationService {
     const createdProject = await this.db.project.create({
       data: {
         name: upperFirst(params.name),
-        orgId,
+        ...(orgId ? { orgId } : { userId }),
       },
     });
 

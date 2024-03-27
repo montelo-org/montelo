@@ -2,7 +2,6 @@ import { SignedInAuthObject } from "@clerk/clerk-sdk-node";
 import { DatabaseService } from "@montelo/api-common";
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 
-
 @Injectable()
 export class ProjectOrgGuard implements CanActivate {
   constructor(private readonly db: DatabaseService) {}
@@ -15,9 +14,10 @@ export class ProjectOrgGuard implements CanActivate {
     if (!projectId?.length) {
       throw new UnauthorizedException("Missing project identifier.");
     }
-    const orgId = (request.auth as SignedInAuthObject).orgId;
-    if (!orgId) {
-      throw new UnauthorizedException("Missing organization identifier.");
+
+    const { orgId, userId } = request.auth as SignedInAuthObject;
+    if (!orgId && !userId) {
+      throw new UnauthorizedException("Missing orgId or userId in the request.");
     }
 
     const project = await this.db.project.findUniqueOrThrow({
@@ -26,8 +26,8 @@ export class ProjectOrgGuard implements CanActivate {
       },
     });
 
-    const belongsToOrg = project.orgId === orgId;
-    if (!belongsToOrg) {
+    const hasAuthorization = project.orgId === orgId || project.userId === userId;
+    if (!hasAuthorization) {
       throw new UnauthorizedException("Access to the project is unauthorized.");
     }
 

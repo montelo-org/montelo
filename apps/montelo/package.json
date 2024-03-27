@@ -1,6 +1,6 @@
 {
   "name": "montelo",
-  "version": "1.1.74",
+  "version": "1.1.75",
   "main": "dist/bundle-node/index.js",
   "types": "dist/bundle-node/index.d.ts",
   "module": "dist/bundle-node/index.js",
@@ -15,8 +15,8 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@montelo/core": "^1.1.74",
-    "@montelo/crews": "^1.1.74"
+    "@montelo/core": "^1.1.75",
+    "@montelo/crews": "^1.1.75"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",

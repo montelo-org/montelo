@@ -12,11 +12,22 @@ export class ProjectDto {
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    required: false,
+  })
   @IsString()
-  orgId: string;
+  orgId?: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsString()
+  userId?: string;
 
   static fromProject(project: Project): ProjectDto {
-    return pick(project, ["id", "name", "orgId"]);
+    const dto = pick(project, ["id", "name", "orgId", "userId"]) as ProjectDto;
+    dto.orgId = dto.orgId ?? undefined;
+    dto.userId = dto.userId ?? undefined;
+    return dto;
   }
 }
