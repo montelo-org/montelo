@@ -1,5 +1,15 @@
 # @montelo/cli
 
+## 1.1.73
+
+### Patch Changes
+
+- update runner type to any
+- Updated dependencies
+  - @montelo/config@1.1.73
+  - @montelo/fizz@1.1.73
+  - @montelo/promptfile@1.1.73
+
 ## 1.1.72
 
 ### Patch Changes

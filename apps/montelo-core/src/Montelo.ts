@@ -1,4 +1,4 @@
-import * as cuid from "@paralleldrive/cuid2";
+import cuid from "@paralleldrive/cuid2";
 import { Log } from "./Log";
 import { MonteloClient } from "./MonteloClient";
 import { LogInput, LogInputSourceEnum } from "./client";
@@ -33,15 +33,14 @@ export class Montelo {
     this.experiments = new MonteloExperiments(this.monteloClient);
   }
 
-  public async log(log: LogParams) {
+  public async log(log: LogParams): Promise<Log> {
     const id = cuid.createId();
     const now = new Date().toISOString();
     const startTime = log.startTime || now;
     const endTime = log.endTime || now;
     await this.monteloClient.createLog({ ...log, id, startTime, endTime, source: LogInputSourceEnum.Manual });
 
-    const logInstance = new Log({ id, monteloClient: this.monteloClient });
-    return logInstance;
+    return new Log({ id, monteloClient: this.monteloClient });
   }
 
   public trace(trace: TraceParams): Trace {

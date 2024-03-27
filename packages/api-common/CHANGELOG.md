@@ -1,5 +1,13 @@
 # @montelo/cli
 
+## 1.1.73
+
+### Patch Changes
+
+- update runner type to any
+- Updated dependencies
+  - @montelo/db@1.1.73
+
 ## 1.1.72
 
 ### Patch Changes

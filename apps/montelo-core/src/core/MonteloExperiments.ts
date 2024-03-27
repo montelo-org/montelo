@@ -37,7 +37,9 @@ export class MonteloExperiments {
         for (const datapoint of datapoints) {
           try {
             const percent = Math.floor((datapointsProcessed / totalDatapoints) * 100);
-            console.log(`Running datapoint ${datapoint.id}\tProgress ${datapointsProcessed + 1}/${totalDatapoints}\t${percent}%`);
+            console.log(
+              `Running datapoint ${datapoint.id}\tProgress ${datapointsProcessed + 1}/${totalDatapoints}\t${percent}%`,
+            );
             const datapointRunObj = await this.monteloClient.createDatapointRun({
               datapointId: datapoint.id,
               experimentId,

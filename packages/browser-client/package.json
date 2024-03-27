@@ -1,6 +1,6 @@
 {
   "name": "@montelo/browser-client",
-  "version": "1.1.72",
+  "version": "1.1.73",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc"
