@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="90.732 195.234 233.3394 57.4075" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="251.165" y1="176.59" x2="251.165" y2="288.243" id="gradient-0" gradientTransform="matrix(-0.099605, -0.718971, 3.078781, -0.003962, -425.818065, 416.440021)">
+      <stop offset="0" style="stop-color: rgb(215, 184, 229);"/>
+      <stop offset="1" style="stop-color: rgb(113, 35, 149);"/>
+    </linearGradient>
+  </defs>
+  <g style="" transform="matrix(0.7220529317855834, 0, 0, 0.7220529317855834, 25.21868324279785, 54.26469421386718)">
+    <rect style="fill-rule: nonzero; fill: url('#gradient-0'); stroke: rgb(255, 255, 255); paint-order: stroke; stroke-width: 0px;" x="90.732" y="195.234" width="323.161" height="79.506" rx="12" ry="12"/>
+    <text style="fill: rgb(255, 255, 255); font-family: Arial, sans-serif; font-size: 26.2px; white-space: pre;"><tspan x="145.086" y="245.802">Book us with </tspan><tspan style="font-weight: 700;">Cal.com</tspan></text>
+    <path d="M 112.134 230.875 L 134.206 230.875 M 119.492 238.233 L 121.943 240.685 L 126.849 235.78 M 117.039 223.518 L 117.039 225.971 M 129.301 223.518 L 129.301 225.971 M 116.058 245.59 L 130.282 245.59 C 131.655 245.59 132.344 245.59 132.867 245.323 C 133.329 245.089 133.705 244.713 133.939 244.251 C 134.206 243.726 134.206 243.039 134.206 241.666 L 134.206 229.895 C 134.206 228.521 134.206 227.835 133.939 227.31 C 133.705 226.848 133.329 226.473 132.867 226.238 C 132.344 225.971 131.655 225.971 130.282 225.971 L 116.058 225.971 C 114.684 225.971 113.998 225.971 113.473 226.238 C 113.011 226.473 112.637 226.848 112.401 227.31 C 112.134 227.835 112.134 228.521 112.134 229.895 L 112.134 241.666 C 112.134 243.039 112.134 243.726 112.401 244.251 C 112.637 244.713 113.011 245.089 113.473 245.323 C 113.998 245.59 114.684 245.59 116.058 245.59 Z" stroke-linecap="round" stroke-linejoin="round" style="fill: rgb(255, 255, 255); fill-opacity: 0; fill-rule: nonzero; paint-order: fill; stroke: rgb(255, 255, 255);" stroke-width="2"/>
+  </g>
+</svg>
