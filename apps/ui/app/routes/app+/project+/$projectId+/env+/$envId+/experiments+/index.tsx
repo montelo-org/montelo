@@ -28,20 +28,19 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
 
   const totalPages = Math.ceil(totalCount / pageSize);
 
-  return json<LoaderType>({ experiments, totalCount, currentPage, totalPages });
-});
-
-export default function ExperimentsRoute() {
-  const { experiments, totalCount, currentPage, totalPages } = useLoaderData<LoaderType>();
-
   const formattedExperiments = experiments.map((experiment) => ({
     ...experiment,
     createdAt: dayjs(experiment.createdAt).format("MMM D YY / h:mm:ss a"),
   }));
 
+  return json<LoaderType>({ experiments: formattedExperiments, totalCount, currentPage, totalPages });
+});
+
+export default function ExperimentsRoute() {
+  const { experiments, totalCount, currentPage, totalPages } = useLoaderData<LoaderType>();
   return (
     <ExperimentsPage
-      experiments={formattedExperiments}
+      experiments={experiments}
       totalCount={totalCount}
       currentPage={currentPage}
       totalPages={totalPages}

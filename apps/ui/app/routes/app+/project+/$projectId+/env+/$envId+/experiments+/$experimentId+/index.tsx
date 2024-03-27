@@ -1,8 +1,10 @@
 import { ExperimentWithDatapointRunsDto } from "@montelo/browser-client";
 import { LoaderFunction, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import dayjs from "dayjs";
 import { withAuth } from "~/auth/withAuth";
 import { ExperimentIdPage } from "~/pages/experiments/ExperimentId/ExperimentIdPage";
+
 
 type LoaderType = {
   experiment: ExperimentWithDatapointRunsDto;
@@ -25,9 +27,18 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
       take: pageSize.toString(),
       skip: skipAmount.toString(),
     });
+  
+  const formattedRuns = experiment.datapointRuns.map((run) => ({
+    ...run,
+    createdAt: dayjs(run.createdAt).format("h:mm:ss a")
+  }));
+  const formattedExperiment = {
+    ...experiment,
+    datapointRuns: formattedRuns
+  };
 
   const totalPages = Math.ceil(totalDatapointRuns / pageSize);
-  return json<LoaderType>({ experiment, totalDatapointRuns, currentPage: page, totalPages });
+  return json<LoaderType>({ experiment: formattedExperiment, totalDatapointRuns, currentPage: page, totalPages });
 });
 
 export default function ExperimentIdRoute() {

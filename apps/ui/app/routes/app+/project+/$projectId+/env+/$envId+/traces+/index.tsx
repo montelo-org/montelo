@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import { withAuth } from "~/auth/withAuth";
 import { TracesPage } from "~/pages/traces";
 
-
 type LoaderType = {
   logs: LogDto[];
   currentPage: number;
@@ -33,16 +32,6 @@ export const loader: LoaderFunction = withAuth(async ({ request, api, params }) 
   });
   const { logs, totalCount } = response;
 
-  return json<LoaderType>({
-    logs,
-    currentPage: page,
-    totalPages: totalCount ? Math.ceil(totalCount / pageSize) : 0,
-  });
-});
-
-export default function TracesRoute() {
-  const { logs, currentPage, totalPages } = useLoaderData<LoaderType>();
-
   const formattedLogs = logs.map((log) => {
     return {
       ...log,
@@ -50,6 +39,15 @@ export default function TracesRoute() {
       startTime: dayjs(log.startTime).format("h:mm:ssa - D/M/YY"),
     };
   });
-  
-  return <TracesPage logs={formattedLogs} currentPage={currentPage} totalPages={totalPages} />;
+
+  return json<LoaderType>({
+    logs: formattedLogs,
+    currentPage: page,
+    totalPages: totalCount ? Math.ceil(totalCount / pageSize) : 0,
+  });
+});
+
+export default function TracesRoute() {
+  const { logs, currentPage, totalPages } = useLoaderData<LoaderType>();
+  return <TracesPage logs={logs} currentPage={currentPage} totalPages={totalPages} />;
 }
