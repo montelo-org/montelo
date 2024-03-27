@@ -10,8 +10,6 @@ const buildEnvPath = (params: EnvParams) => (sublink: string) =>
 // app pages
 const PATH_APP = {
   root: ROOT_APP,
-  org: path(ROOT_APP, "/org"),
-  account: path(ROOT_APP, "/account"),
   project: {
     env: {
       dashboard: (params: EnvParams) => buildEnvPath(params)("dashboard"),

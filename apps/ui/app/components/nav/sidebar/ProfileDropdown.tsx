@@ -1,9 +1,12 @@
-import { useClerk } from "@clerk/remix";
+import { UserProfile, useClerk } from "@clerk/remix";
 import { User } from "@clerk/remix/api.server";
-import { Link, useNavigate } from "@remix-run/react";
+import { dark } from "@clerk/themes";
+import * as Dialog from "@radix-ui/react-dialog";
+import { useNavigate } from "@remix-run/react";
 import { Check, LogOut, Palette, UserRound } from "lucide-react";
 import { FC } from "react";
 import { Theme, useTheme } from "remix-themes";
+import { ClerkDialogContent } from "~/components/ClerkDialogContent";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
   DropdownMenu,
@@ -35,66 +38,75 @@ export const ProfileDropdown: FC<{ user: User }> = ({ user }) => {
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        className={"hover:bg-muted flex items-center rounded-xl px-3 py-2 focus:outline-none dark:hover:bg-[#151218]"}
-      >
-        <Avatar className="ml-[2px] h-6 w-6">
-          {user.hasImage && <AvatarImage src={user.imageUrl} />}
-          <AvatarFallback>{userInitials}</AvatarFallback>
-        </Avatar>
+    <Dialog.Root>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          className={"hover:bg-muted flex items-center rounded-xl px-3 py-2 focus:outline-none dark:hover:bg-[#151218]"}
+        >
+          <Avatar className="ml-[2px] h-6 w-6">
+            {user.hasImage && <AvatarImage src={user.imageUrl} />}
+            <AvatarFallback>{userInitials}</AvatarFallback>
+          </Avatar>
 
-        <span className="text-muted-foreground ml-2.5 text-sm">{userFullName}</span>
-      </DropdownMenuTrigger>
+          <span className="text-muted-foreground ml-2.5 text-sm">{userFullName}</span>
+        </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel className={"pb-0"}>{userFullName}</DropdownMenuLabel>
-        <DropdownMenuLabel className={"text-muted-foreground pt-0 text-sm font-light"}>{userEmail}</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
-            <Link to={Routes.app.account}>
-              <UserRound size={20} />
-              &nbsp; Account
-            </Link>
-          </DropdownMenuItem>
+        <DropdownMenuContent className="w-56">
+          <DropdownMenuLabel className={"pb-0"}>{userFullName}</DropdownMenuLabel>
+          <DropdownMenuLabel className={"text-muted-foreground pt-0 text-sm font-light"}>{userEmail}</DropdownMenuLabel>
+          <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <Palette size={20} />
-                &nbsp; Theme
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent>
-                  <DropdownMenuItem onClick={() => setTheme(Theme.DARK)}>
-                    {isDarkMode && (
-                      <>
-                        <Check size={20} />
-                        &nbsp;
-                      </>
-                    )}
-                    Dark
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setTheme(Theme.LIGHT)}>
-                    {!isDarkMode && (
-                      <>
-                        <Check size={20} />
-                        &nbsp;
-                      </>
-                    )}
-                    Light
-                  </DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
+            <Dialog.Trigger asChild>
+              <DropdownMenuItem>
+                <UserRound size={20} />
+                &nbsp; Account
+              </DropdownMenuItem>
+            </Dialog.Trigger>
+            <DropdownMenuGroup>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Palette size={20} />
+                  &nbsp; Theme
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem onClick={() => setTheme(Theme.DARK)}>
+                      {isDarkMode && (
+                        <>
+                          <Check size={20} />
+                          &nbsp;
+                        </>
+                      )}
+                      Dark
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme(Theme.LIGHT)}>
+                      {!isDarkMode && (
+                        <>
+                          <Check size={20} />
+                          &nbsp;
+                        </>
+                      )}
+                      Light
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+            </DropdownMenuGroup>
           </DropdownMenuGroup>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
-          <LogOut size={20} />
-          &nbsp; Log out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleLogout}>
+            <LogOut size={20} />
+            &nbsp; Log out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <ClerkDialogContent>
+        <UserProfile
+          appearance={{
+            baseTheme: isDarkMode ? dark : undefined,
+          }}
+        />
+      </ClerkDialogContent>
+    </Dialog.Root>
   );
 };

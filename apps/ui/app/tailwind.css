@@ -156,13 +156,13 @@ html {
 }
 
 .cl-headerTitle {
-    color: var(--muted-foreground);
+    color: var(--primary-foreground);
 }
 
 .cl-form p,
 .cl-form label,
 .cl-form svg {
-    color: var(--muted-foreground);
+    color: var(--primary-foreground);
 }
 
 .cl-formFieldInput {
@@ -184,4 +184,9 @@ html {
 
 .cl-organizationPreviewMainIdentifier {
     color: var(--muted-foreground);
+}
+
+.cl-membersPageInviteButton {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
 }
