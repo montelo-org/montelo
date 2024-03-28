@@ -25,7 +25,7 @@ type SchemaFieldProps = {
 export const SchemaField: FC<SchemaFieldProps> = ({ control, name, label }) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "envNames" as never,
+    name: name as never,
   });
 
   return (
@@ -78,6 +78,7 @@ export const CreateDatasetForm: FC<{
     register,
     control,
     reset,
+    watch,
   } = useRemixForm<CreateDatasetSchemaType>({
     mode: "onSubmit",
     resolver: CreateDatasetResolver,
@@ -90,6 +91,8 @@ export const CreateDatasetForm: FC<{
       }),
     },
   });
+
+  console.log(watch());
 
   const checkIfSuccessful = () => {
     if (!fetcher.data) {
