@@ -1,22 +1,17 @@
-import { FC, useState } from "react";
-import { Button } from "~/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "~/components/ui/dialog";
+import { FC } from "react";
+import { DialogContent, DialogHeader, DialogTitle } from "~/components/ui/dialog";
 import { CreateDatasetForm } from "~/pages/datasets/forms/CreateDatasetForm";
 
-export const CreateDatasetDialog: FC = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+export const CreateDatasetDialog: FC<{ isDialogOpen: boolean; setIsDialogOpen: any }> = ({
+  isDialogOpen,
+  setIsDialogOpen,
+}) => {
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button>Create Dataset</Button>
-      </DialogTrigger>
-      <DialogContent className="min-w-[650px]">
-        <DialogHeader>
-          <DialogTitle>Create Dataset</DialogTitle>
-        </DialogHeader>
-        <CreateDatasetForm isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
-      </DialogContent>
-    </Dialog>
+    <DialogContent className="min-w-[650px]">
+      <DialogHeader>
+        <DialogTitle>Create Dataset</DialogTitle>
+      </DialogHeader>
+      <CreateDatasetForm isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
+    </DialogContent>
   );
 };

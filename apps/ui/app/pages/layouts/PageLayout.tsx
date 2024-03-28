@@ -9,7 +9,14 @@ import {
 } from "~/components/ui/breadcrumb";
 import { PageLayoutProps } from "./types";
 
-export const PageLayout: FC<PageLayoutProps> = ({ breadcrumbs, subtitle: Subtitle, action: Action, children }) => {
+const DefaultFC: FC = () => null;
+
+export const PageLayout: FC<PageLayoutProps> = ({
+  breadcrumbs,
+  subtitle = DefaultFC,
+  action = DefaultFC,
+  children,
+}) => {
   return (
     <div className={"flex flex-col gap-4 pb-8"}>
       <div className={"flex flex-row items-center justify-between border-b-2 pb-4"}>
@@ -30,9 +37,9 @@ export const PageLayout: FC<PageLayoutProps> = ({ breadcrumbs, subtitle: Subtitl
               ))}
             </BreadcrumbList>
           </Breadcrumb>
-          {Subtitle && <Subtitle />}
+          {subtitle({})}
         </div>
-        {Action && <Action />}
+        {action({})}
       </div>
       {children}
     </div>

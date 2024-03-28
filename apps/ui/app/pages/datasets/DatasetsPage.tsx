@@ -1,5 +1,7 @@
 import { DatasetDto } from "@montelo/browser-client";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { Button } from "~/components/ui/button";
+import { Dialog, DialogTrigger } from "~/components/ui/dialog";
 import { CreateDatasetDialog } from "~/pages/datasets/CreateDatasetDialog";
 import { PageDocLink } from "~/pages/layouts/PageDocLink";
 import { PageSubtitle } from "~/pages/layouts/PageSubtitle";
@@ -25,7 +27,16 @@ export const DatasetsPage: FC<{ datasets: DatasetDto[] }> = ({ datasets }) => {
   };
 
   const action = () => {
-    return <CreateDatasetDialog />;
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    return (
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button>Create Dataset</Button>
+        </DialogTrigger>
+        <CreateDatasetDialog isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
+      </Dialog>
+    );
   };
 
   return (
