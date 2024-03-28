@@ -1,6 +1,6 @@
 {
   "name": "montelo",
-  "version": "1.1.75",
+  "version": "1.1.76",
   "description": "MonteloAI is the LLM developer platform for TypeScript.",
   "author": "MonteloAI <founders@montelo.ai> (https://montelo.ai)",
   "homepage": "https://docs.montelo.ai",
@@ -13,7 +13,16 @@
   "browser": "dist/bundle-browser/index.js",
   "sideEffects": false,
   "license": "AGPL-3.0",
-  "keywords": ["llm", "ai", "prompt engineering", "chatgpt", "openai", "anthropic", "mistral", "agents"],
+  "keywords": [
+    "llm",
+    "ai",
+    "prompt engineering",
+    "chatgpt",
+    "openai",
+    "anthropic",
+    "mistral",
+    "agents"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/montelo-ai/montelo.git"
@@ -27,8 +36,8 @@
     "index.d.ts"
   ],
   "dependencies": {
-    "@montelo/core": "^1.1.75",
-    "@montelo/crews": "^1.1.75"
+    "@montelo/core": "^1.1.76",
+    "@montelo/crews": "^1.1.76"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",

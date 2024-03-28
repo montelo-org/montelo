@@ -1,5 +1,13 @@
 # @montelo/cli
 
+## 1.1.76
+
+### Patch Changes
+
+- optimistic ui where practical
+- Updated dependencies
+  - @montelo/db@1.1.76
+
 ## 1.1.75
 
 ### Patch Changes

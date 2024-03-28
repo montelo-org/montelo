@@ -1,5 +1,15 @@
 # @montelo/cli
 
+## 1.1.76
+
+### Patch Changes
+
+- optimistic ui where practical
+- Updated dependencies
+  - @montelo/config@1.1.76
+  - @montelo/fizz@1.1.76
+  - @montelo/promptfile@1.1.76
+
 ## 1.1.75
 
 ### Patch Changes

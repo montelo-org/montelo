@@ -52,7 +52,6 @@ export const CreateProjectDialog: FC<CreateProjectDialogProps> = ({ isOpen, onCl
       setError(null);
       reset();
       onClose();
-      console.log("CHECK THIS: ", fetcher.data)
       const envId = fetcher.data.project.environments.find((env) => env.name === "Development")!.id;
       navigate(
         Routes.app.project.env.dashboard({
