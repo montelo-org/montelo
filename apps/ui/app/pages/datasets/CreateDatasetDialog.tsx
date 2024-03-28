@@ -7,7 +7,7 @@ export const CreateDatasetDialog: FC<{ isDialogOpen: boolean; setIsDialogOpen: a
   setIsDialogOpen,
 }) => {
   return (
-    <DialogContent className="min-w-[650px]">
+    <DialogContent className="min-w-[600px]">
       <DialogHeader>
         <DialogTitle>Create Dataset</DialogTitle>
       </DialogHeader>

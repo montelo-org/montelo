@@ -2,7 +2,7 @@ import { PlusCircledIcon } from "@radix-ui/react-icons";
 import { Form, useFetcher, useParams } from "@remix-run/react";
 import { X } from "lucide-react";
 import { FC, useEffect, useState } from "react";
-import { Control, useFieldArray } from "react-hook-form";
+import { Control, Controller, useFieldArray } from "react-hook-form";
 import { useRemixForm } from "remix-hook-form";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -18,14 +18,14 @@ import { Routes } from "~/routes";
 
 type SchemaFieldProps = {
   control: Control<CreateDatasetSchemaType>;
-  name: string;
+  name: "inputSchema" | "outputSchema";
   label: string;
 };
 
 export const SchemaField: FC<SchemaFieldProps> = ({ control, name, label }) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: name as never,
+    name,
   });
 
   return (
@@ -33,22 +33,31 @@ export const SchemaField: FC<SchemaFieldProps> = ({ control, name, label }) => {
       <Label>{label}</Label>
       {fields.map((field, index) => (
         <div key={field.id} className="flex items-center gap-2">
-          <Input name={`${name}[${index}].key`} placeholder="Key" />
-          <Select name={`${name}[${index}].value`}>
-            <SelectTrigger>
-              <SelectValue placeholder="Type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {Object.values(SchemaValueTypes.enum).map((value) => (
-                  <SelectItem key={value} value={value}>
-                    {value}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
+          <Controller
+            name={`${name}.${index}.key`}
+            control={control}
+            render={({ field }) => <Input {...field} placeholder="Key" />}
+          />
+          <Controller
+            name={`${name}.${index}.value`}
+            control={control}
+            render={({ field }) => (
+              <Select {...field} onValueChange={field.onChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {Object.values(SchemaValueTypes.enum).map((value) => (
+                      <SelectItem key={value} value={value}>
+                        {value}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
           {index !== 0 && (
             <Button type="button" variant={"ghost"} onClick={() => remove(index)}>
               <X className="h-4 w-4" />
@@ -82,6 +91,12 @@ export const CreateDatasetForm: FC<{
   } = useRemixForm<CreateDatasetSchemaType>({
     mode: "onSubmit",
     resolver: CreateDatasetResolver,
+    defaultValues: {
+      name: "",
+      description: "",
+      inputSchema: [{ key: "", value: "string" }],
+      outputSchema: [{ key: "", value: "string" }],
+    },
     fetcher,
     submitConfig: {
       method: "post",

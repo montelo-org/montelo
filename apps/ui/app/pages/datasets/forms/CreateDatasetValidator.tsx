@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 export const SchemaValueTypes = z.enum(["string", "number", "boolean", "object", "array"]);
+export type SchemaValTypes = z.infer<typeof SchemaValueTypes>;
 
 const SchemaKeyValuePair = z.object({
   key: z.string().min(1, { message: "Key is required" }),
