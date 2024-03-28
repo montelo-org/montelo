@@ -66,7 +66,7 @@ export const SchemaField: FC<SchemaFieldProps> = ({ control, name, label }) => {
         </div>
       ))}
       <div className={"flex justify-end"}>
-        <Button type="button" variant="ghost" onClick={() => append({ key: "", value: "" })}>
+        <Button type="button" variant="ghost" onClick={() => append({ key: "", value: "string" })}>
           <PlusCircledIcon className="h-4 w-4" />
         </Button>
       </div>

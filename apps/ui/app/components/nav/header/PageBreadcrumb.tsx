@@ -97,7 +97,7 @@ export const PageBreadcrumb: FC<PageBreadcrumbProps> = ({ project, allProjects, 
   };
 
   return (
-    <div className={"text-muted-foreground flex h-8 items-center gap-2 text-sm font-semibold"}>
+    <div className={"text-muted-foreground flex h-4 items-center gap-2 text-xs font-semibold"}>
       <Dialog open={isCreateProjectDialogOpen} onOpenChange={setIsCreateProjectDialogOpen}>
         <ProjectBreadcrumb project={project} allProjects={allProjects} />
         <CreateProjectDialog isOpen={isCreateProjectDialogOpen} onClose={() => setIsCreateProjectDialogOpen(false)} />

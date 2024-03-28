@@ -75,13 +75,13 @@ export default function DashboardLayout() {
     <div className={`${isViewTransition ? "transition-opacity duration-1000 ease-in-out" : ""}`}>
       <div className="flex h-full gap-5">
         <div
-          className={`fixed bottom-0 overflow-hidden transition-all ${isSidebarOpen ? "left-0" : "left-[-220px]"} top-0 box-border flex w-[220px] flex-col gap-4 rounded border-r-2 px-2 pt-4`}
+          className={`fixed bottom-0 overflow-hidden transition-all ${isSidebarOpen ? "left-0" : "left-[-220px]"} top-0 box-border flex w-[220px] flex-col gap-4 rounded border-r-2 px-2 pt-2`}
         >
           <Header orgMemberships={orgMemberships} org={org} closeSidebar={() => setIsSidebarOpen(false)} />
           <Sidebar project={project} user={userAsUser} />
         </div>
 
-        <main className={`${isSidebarOpen ? "ml-[230px]" : ""} flex flex-1 flex-col gap-1 transition-all`}>
+        <main className={`${isSidebarOpen ? "ml-[230px]" : ""} flex flex-1 flex-col transition-all`}>
           <div className="flex gap-2">
             {!isSidebarOpen && (
               <button className="opacity-40 hover:opacity-70" onClick={() => setIsSidebarOpen(true)}>
