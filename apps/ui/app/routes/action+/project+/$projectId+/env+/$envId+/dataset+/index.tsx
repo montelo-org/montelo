@@ -1,40 +1,38 @@
-import { DatasetDto } from "@montelo/browser-client";
 import { ActionFunction, json, redirect } from "@remix-run/node";
-import { validationError } from "remix-validated-form";
+import { getValidatedFormData } from "remix-hook-form";
 import { withAuth } from "~/auth/withAuth";
-import { createDatasetValidator } from "~/pages/datasets/forms/createDatasetValidator";
+import { CreateDatasetResolver, CreateDatasetSchemaType } from "~/pages/datasets/forms/CreateDatasetValidator";
+import { CreateDatasetActionData } from "~/pages/datasets/forms/types";
 import { Routes } from "~/routes";
-
-type ActionOutput = {
-  dataset?: DatasetDto;
-  error?: string;
-};
 
 export const action: ActionFunction = withAuth(async ({ api, request, params }) => {
   const envId = params.envId!;
 
-  const formData = await request.formData();
-  const validated = await createDatasetValidator.validate(formData);
-  if (validated.error) {
-    return validationError(validated.error);
+  const {
+    errors,
+    data,
+    receivedValues: defaultValues,
+  } = await getValidatedFormData<CreateDatasetSchemaType>(request, CreateDatasetResolver);
+  if (errors) {
+    return json({ errors, defaultValues });
   }
 
   const formatter = (accum: Record<string, any>, curr: any) => ({ ...accum, [curr.key]: curr.value });
 
-  const formattedInputSchema = validated.data.inputSchema.reduce(formatter, {} as Record<string, any>);
-  const formattedOutputSchema = validated.data.outputSchema.reduce(formatter, {} as Record<string, any>);
+  const formattedInputSchema = data.inputSchema.reduce(formatter, {} as Record<string, any>);
+  const formattedOutputSchema = data.outputSchema.reduce(formatter, {} as Record<string, any>);
 
   try {
     const dataset = await api.dataset.datasetControllerCreateDataset({
       envId,
-      createDatasetInput: { ...validated.data, inputSchema: formattedInputSchema, outputSchema: formattedOutputSchema },
+      createDatasetInput: { ...data, inputSchema: formattedInputSchema, outputSchema: formattedOutputSchema },
     });
-    return json<ActionOutput>({ dataset });
+    return json<CreateDatasetActionData>({ dataset, error: null });
   } catch (e: any) {
     if (e.response.status === 409) {
-      return json<ActionOutput>({ error: "Dataset with this slug already exists" });
+      return json<CreateDatasetActionData>({ dataset: null, error: "Dataset with this slug already exists." });
     }
-    return json<ActionOutput>({ error: "Failed to createProject dataset" });
+    return json<CreateDatasetActionData>({ dataset: null, error: "Failed to create dataset." });
   }
 });
 

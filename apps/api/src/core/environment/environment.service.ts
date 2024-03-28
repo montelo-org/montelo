@@ -1,9 +1,10 @@
 import { DatabaseService } from "@montelo/api-common";
 import { Environment } from "@montelo/db";
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "./environment.enums";
 import { CreateEnvironmentParams } from "./environment.types";
+
 
 @Injectable()
 export class EnvironmentService {
@@ -22,7 +23,7 @@ export class EnvironmentService {
 
   async create({ name, projectId }: CreateEnvironmentParams): Promise<Environment> {
     if (name === Environments.PRODUCTION || name === Environments.DEVELOPMENT) {
-      throw new Error("Restricted environment name.");
+      throw new HttpException("Restricted environment name.", HttpStatus.CONFLICT);
     }
 
     // if changing this also change apiKey service

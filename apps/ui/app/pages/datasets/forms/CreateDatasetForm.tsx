@@ -1,60 +1,38 @@
-import { DatasetDto } from "@montelo/browser-client";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import { FetcherWithComponents, useParams } from "@remix-run/react";
+import { Form, useFetcher, useParams } from "@remix-run/react";
 import { X } from "lucide-react";
-import { FC, FormEvent, useEffect, useState } from "react";
-import { ValidatedForm, useField, useFieldArray, useFormContext, useIsSubmitting } from "remix-validated-form";
+import { FC, useEffect, useState } from "react";
+import { Control, useFieldArray } from "react-hook-form";
+import { useRemixForm } from "remix-hook-form";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
-import { SchemaValueTypes, createDatasetValidator } from "~/pages/datasets/forms/createDatasetValidator";
+import {
+  CreateDatasetResolver,
+  CreateDatasetSchemaType,
+  SchemaValueTypes,
+} from "~/pages/datasets/forms/CreateDatasetValidator";
+import { CreateDatasetActionData } from "~/pages/datasets/forms/types";
 import { Routes } from "~/routes";
 
-type FormInputProps = {
-  name: string;
-  label: string;
-  placeholder?: string;
-};
-
-export const FormInput: FC<FormInputProps> = ({ name, label, placeholder }) => {
-  const { error, getInputProps } = useField(name);
-  return (
-    <div>
-      <Label htmlFor={name}>{label}</Label>
-      <Input {...getInputProps({ id: name, placeholder })} />
-      {error && <span className="text-destructive">{error}</span>}
-    </div>
-  );
-};
-
-export const SubmitButton = () => {
-  const { isValid } = useFormContext();
-  const isSubmitting = useIsSubmitting();
-  const disabled = isValid ? isSubmitting : true;
-
-  return (
-    <div className={"mt-4 flex justify-end"}>
-      <Button type="submit" disabled={disabled}>
-        Create Dataset
-      </Button>
-    </div>
-  );
-};
-
 type SchemaFieldProps = {
+  control: Control<CreateDatasetSchemaType>;
   name: string;
   label: string;
 };
 
-export const SchemaField: React.FC<SchemaFieldProps> = ({ name, label }) => {
-  const [items, { push, remove }] = useFieldArray(name);
+export const SchemaField: FC<SchemaFieldProps> = ({ control, name, label }) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "envNames" as never,
+  });
 
   return (
     <div className={"flex flex-col gap-2"}>
       <Label>{label}</Label>
-      {items.map((field, index) => (
-        <div key={field.key} className="flex items-center gap-2">
+      {fields.map((field, index) => (
+        <div key={field.id} className="flex items-center gap-2">
           <Input name={`${name}[${index}].key`} placeholder="Key" />
           <Select name={`${name}[${index}].value`}>
             <SelectTrigger>
@@ -79,7 +57,7 @@ export const SchemaField: React.FC<SchemaFieldProps> = ({ name, label }) => {
         </div>
       ))}
       <div className={"flex justify-end"}>
-        <Button type="button" variant="ghost" onClick={() => push({ key: "", value: "" })}>
+        <Button type="button" variant="ghost" onClick={() => append({ key: "", value: "" })}>
           <PlusCircledIcon className="h-4 w-4" />
         </Button>
       </div>
@@ -87,40 +65,75 @@ export const SchemaField: React.FC<SchemaFieldProps> = ({ name, label }) => {
   );
 };
 
-export const CreateDatasetForm: FC = () => {
+export const CreateDatasetForm: FC<{
+  isOpen: boolean;
+  onClose: () => void;
+}> = ({ isOpen, onClose }) => {
+  const fetcher = useFetcher<CreateDatasetActionData>();
   const params = useParams();
-
-  return (
-    <ValidatedForm
-      validator={createDatasetValidator}
-      method={"post"}
-      action={Routes.actions.dataset.create({
+  const [error, setError] = useState<string | null>(null);
+  const {
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    register,
+    control,
+    reset,
+  } = useRemixForm<CreateDatasetSchemaType>({
+    mode: "onSubmit",
+    resolver: CreateDatasetResolver,
+    fetcher,
+    submitConfig: {
+      method: "post",
+      action: Routes.actions.dataset.create({
         projectId: params.projectId!,
         envId: params.envId!,
-      })}
-      className={"flex flex-col gap-2"}
-      defaultValues={{
-        name: "",
-        description: "",
-        inputSchema: [
-          {
-            key: "",
-          },
-        ],
-        outputSchema: [
-          {
-            key: "",
-          },
-        ],
-      }}
-    >
-      <FormInput name="name" label="Name" />
-      <FormInput name="description" label="Description" placeholder={"(Optional)"} />
-      <div className={"mt-4 grid grid-cols-2 gap-8"}>
-        <SchemaField name="inputSchema" label="Input Schema" />
-        <SchemaField name="outputSchema" label="Output Schema" />
-      </div>
-      <SubmitButton />
-    </ValidatedForm>
+      }),
+    },
+  });
+
+  const checkIfSuccessful = () => {
+    if (!fetcher.data) {
+      return;
+    } else if (fetcher.data.error) {
+      setError(fetcher.data.error);
+    } else if (fetcher.data.dataset) {
+      setError(null);
+      reset();
+      onClose();
+    }
+  };
+  useEffect(checkIfSuccessful, [fetcher.data]);
+
+  const resetOnClose = () => {
+    if (!isOpen) {
+      reset();
+      setError(null);
+    }
+  };
+  useEffect(resetOnClose, [isOpen]);
+
+  return (
+    <Form onSubmit={handleSubmit} className={"flex flex-col gap-2"}>
+      <fieldset disabled={isSubmitting}>
+        <div>
+          <Label htmlFor={"name"}>Name</Label>
+          <Input {...register("name")} />
+          {errors.name && <p className="text-destructive">{errors.name.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor={"description"}>Description</Label>
+          <Input {...register("description")} />
+          {errors.description && <p className="text-destructive">{errors.description.message}</p>}
+        </div>
+        <div className={"mt-4 grid grid-cols-2 gap-8"}>
+          <SchemaField control={control} name="inputSchema" label="Input Schema" />
+          <SchemaField control={control} name="outputSchema" label="Output Schema" />
+        </div>
+        <div className={"mt-4 flex justify-end"}>
+          {error && <p className="text-destructive">{error}</p>}
+          <Button type="submit">Create Dataset</Button>
+        </div>
+      </fieldset>
+    </Form>
   );
 };

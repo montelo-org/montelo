@@ -28,5 +28,4 @@ export * from './LogsDto';
 export * from './MaxDto';
 export * from './PaginatedExperimentWithDatapointRunsDto';
 export * from './PaginatedExperimentsDto';
-export * from './ProjectDto';
 export * from './TraceWithLogsDto';

@@ -3,8 +3,8 @@ import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "@remix-run/react";
 import { Check } from "lucide-react";
 import { FC, useState } from "react";
-import { CreateEnvDialog } from "~/components/dialogs/CreateEnvDialog";
-import { CreateProjectDialog } from "~/components/dialogs/CreateProjectDialog";
+import { CreateEnvDialog } from "~/components/dialogs/CreateEnvDialog/CreateEnvDialog";
+import { CreateProjectDialog } from "~/components/dialogs/CreateProjectDialog/CreateProjectDialog";
 import { Dialog, DialogTrigger } from "~/components/ui/dialog";
 import {
   DropdownMenu,
@@ -100,12 +100,16 @@ export const PageBreadcrumb: FC<PageBreadcrumbProps> = ({ project, allProjects, 
     <div className={"text-muted-foreground flex h-8 items-center gap-2 text-sm font-semibold"}>
       <Dialog open={isCreateProjectDialogOpen} onOpenChange={setIsCreateProjectDialogOpen}>
         <ProjectBreadcrumb project={project} allProjects={allProjects} />
-        <CreateProjectDialog onClose={() => setIsCreateEnvDialogOpen(false)} />
+        <CreateProjectDialog isOpen={isCreateProjectDialogOpen} onClose={() => setIsCreateProjectDialogOpen(false)} />
       </Dialog>
       <ChevronRightIcon />
       <Dialog open={isCreateEnvDialogOpen} onOpenChange={setIsCreateEnvDialogOpen}>
         <EnvironmentBreadcrumb environment={environment} project={project} />
-        <CreateEnvDialog projectId={project.id} onClose={() => setIsCreateEnvDialogOpen(false)} />
+        <CreateEnvDialog
+          projectId={project.id}
+          isOpen={isCreateEnvDialogOpen}
+          onClose={() => setIsCreateEnvDialogOpen(false)}
+        />
       </Dialog>
     </div>
   );

@@ -24,13 +24,13 @@ export class OrganizationController {
   }
 
   @Post()
-  async createProject(@GetAuth() auth: GetAuthT, @Body() createProjectInput: CreateProjectInput): Promise<ProjectDto> {
+  async createProject(@GetAuth() auth: GetAuthT, @Body() createProjectInput: CreateProjectInput): Promise<FullProjectDto> {
     const { userId, orgId } = auth;
-    const { project } = await this.organizationService.createProject({
+    const fullProject = await this.organizationService.createProject({
       orgId,
       userId,
       params: createProjectInput,
     });
-    return ProjectDto.fromProject(project);
+    return FullProjectDto.fromFullProject(fullProject);
   }
 }

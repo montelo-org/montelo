@@ -4,7 +4,8 @@ import { upperFirst } from "lodash";
 import { ApiKeyService } from "../apiKey/apiKey.service";
 import { Environments } from "../environment/environment.enums";
 import { FullProject } from "../project/project.types";
-import { CreateProjectParams, CreateProjectResponse } from "./organization.types";
+import { CreateProjectParams } from "./organization.types";
+
 
 @Injectable()
 export class OrganizationService {
@@ -24,7 +25,7 @@ export class OrganizationService {
     });
   }
 
-  async createProject({ orgId, userId, params }: CreateProjectParams): Promise<CreateProjectResponse> {
+  async createProject({ orgId, userId, params }: CreateProjectParams): Promise<FullProject> {
     if (!orgId && !userId) throw new Error("OrgId or userId is required!");
 
     const EnvironmentNames: string[] = Object.values(Environments);
@@ -74,7 +75,7 @@ export class OrganizationService {
     const envCreatePromises = allEnvs.map(createEnvironment);
     const dbEnvs = await Promise.all(envCreatePromises);
 
-    const updatedProject = await this.db.project.update({
+    return this.db.project.update({
       where: {
         id: createdProject.id,
       },
@@ -85,8 +86,9 @@ export class OrganizationService {
           })),
         },
       },
+      include: {
+        environments: true,
+      },
     });
-
-    return { project: updatedProject, environments: dbEnvs };
   }
 }

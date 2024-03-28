@@ -14,7 +14,7 @@ import { CircleDotDashed, Trash } from "lucide-react";
 import * as React from "react";
 import { FC } from "react";
 import { PrettyJson } from "~/components/PrettyJson";
-import Pagination from "~/components/pagination";
+import Pagination from "~/components/Pagination";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {

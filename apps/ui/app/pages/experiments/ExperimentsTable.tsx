@@ -1,6 +1,6 @@
 import { ExperimentDto } from "@montelo/browser-client";
 import { FC } from "react";
-import Pagination from "~/components/pagination";
+import Pagination from "~/components/Pagination";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { ExperimentCell } from "~/pages/experiments/ExperimentCell";
 

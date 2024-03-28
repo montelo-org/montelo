@@ -1,24 +1,35 @@
-import { ProjectDto } from "@montelo/browser-client";
 import { ActionFunction, json } from "@remix-run/node";
-import _ from "lodash";
+import { getValidatedFormData } from "remix-hook-form";
 import { withAuth } from "~/auth/withAuth";
+import {
+  CreateProjectResolver,
+  CreateProjectSchemaType,
+} from "~/components/dialogs/CreateProjectDialog/CreateProjectValidator";
+import { CreateProjectActionData } from "~/components/dialogs/CreateProjectDialog/types";
 
 export const action: ActionFunction = withAuth(async ({ api, request }) => {
-  // createProject project
+  // create project
   if (request.method === "POST") {
-    const formData = await request.formData();
-    const name = formData.get("name")!.toString();
+    const {
+      errors,
+      data,
+      receivedValues: defaultValues,
+    } = await getValidatedFormData<CreateProjectSchemaType>(request, CreateProjectResolver);
+    if (errors) {
+      return json({ errors, defaultValues });
+    }
 
-    const environments = formData.getAll("environments") as string[];
-    const formattedEnvs = environments.map((env) => _.capitalize(env.toString())).filter((env) => env.length);
-
-    const project = await api.organization.organizationControllerCreateProject({
-      createProjectInput: {
-        name,
-        envNames: formattedEnvs.length ? formattedEnvs : [],
-      },
-    });
-    return json<ProjectDto>(project);
+    try {
+      const project = await api.organization.organizationControllerCreateProject({
+        createProjectInput: data,
+      });
+      return json<CreateProjectActionData>({ project, error: null });
+    } catch (e: any) {
+      if (e.response.status === 409) {
+        return json<CreateProjectActionData>({ project: null, error: "Duplicate names found." });
+      }
+      return json<CreateProjectActionData>({ project: null, error: "Something went wrong. Try again later." });
+    }
   }
   return json({});
 });

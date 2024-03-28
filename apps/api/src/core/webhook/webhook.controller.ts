@@ -103,7 +103,7 @@ export class WebhookController {
       const email = evt.data.email_addresses[0].email_address;
 
       // then createProject them on our service
-      const { project, environments } = await this.organizationService.createProject({
+      const project = await this.organizationService.createProject({
         userId,
         params: {
           name: "Project X",
@@ -111,7 +111,7 @@ export class WebhookController {
         },
       });
 
-      const devEnv = environments.find((env) => env.name === "Development")!;
+      const devEnv = project.environments.find((env) => env.name === "Development")!;
       await this.traceService.createDefaultTrace(devEnv.id);
 
       await this.clerkClient.users.updateUserMetadata(userId, {

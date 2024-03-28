@@ -1,6 +1,6 @@
 import { FullDatapointRunDto } from "@montelo/browser-client";
 import { FC } from "react";
-import Pagination from "~/components/pagination";
+import Pagination from "~/components/Pagination";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "~/components/ui/table";
 import { DatapointRunCell } from "~/pages/experiments/ExperimentId/DatapointRunCell";
 

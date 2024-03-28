@@ -17,15 +17,12 @@ import * as runtime from '../runtime';
 import type {
   CreateProjectInput,
   FullProjectDto,
-  ProjectDto,
 } from '../models/index';
 import {
     CreateProjectInputFromJSON,
     CreateProjectInputToJSON,
     FullProjectDtoFromJSON,
     FullProjectDtoToJSON,
-    ProjectDtoFromJSON,
-    ProjectDtoToJSON,
 } from '../models/index';
 
 export interface OrganizationControllerCreateProjectRequest {
@@ -39,7 +36,7 @@ export class OrganizationApi extends runtime.BaseAPI {
 
     /**
      */
-    async organizationControllerCreateProjectRaw(requestParameters: OrganizationControllerCreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProjectDto>> {
+    async organizationControllerCreateProjectRaw(requestParameters: OrganizationControllerCreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<FullProjectDto>> {
         if (requestParameters.createProjectInput === null || requestParameters.createProjectInput === undefined) {
             throw new runtime.RequiredError('createProjectInput','Required parameter requestParameters.createProjectInput was null or undefined when calling organizationControllerCreateProject.');
         }
@@ -66,12 +63,12 @@ export class OrganizationApi extends runtime.BaseAPI {
             body: CreateProjectInputToJSON(requestParameters.createProjectInput),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ProjectDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FullProjectDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async organizationControllerCreateProject(requestParameters: OrganizationControllerCreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProjectDto> {
+    async organizationControllerCreateProject(requestParameters: OrganizationControllerCreateProjectRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<FullProjectDto> {
         const response = await this.organizationControllerCreateProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }

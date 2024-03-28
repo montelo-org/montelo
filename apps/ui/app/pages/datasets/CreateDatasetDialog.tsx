@@ -15,7 +15,7 @@ export const CreateDatasetDialog: FC = () => {
         <DialogHeader>
           <DialogTitle>Create Dataset</DialogTitle>
         </DialogHeader>
-        <CreateDatasetForm />
+        <CreateDatasetForm isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
       </DialogContent>
     </Dialog>
   );

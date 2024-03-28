@@ -1,7 +1,7 @@
 import { SearchIcon } from "lucide-react";
 import { FC } from "react";
 import "react-json-view-lite/dist/index.css";
-import Pagination from "~/components/pagination";
+import Pagination from "~/components/Pagination";
 import { Input } from "~/components/ui/input";
 
 type TracesTableHeaderProps = {
